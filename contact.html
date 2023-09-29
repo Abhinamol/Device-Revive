@@ -1,0 +1,306 @@
+{% load static%}
+<!doctype html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, shrink-to-fit=no, user-scalable=no">
+        <title>
+        </title>
+
+            <link rel="shortcut icon" href="{% static "images/fav.jpg" %}" rel="stylesheet"/>
+            <link rel="stylesheet" href="{% static "css/bootstrap.min.css" %}" rel="stylesheet"/>
+            <link rel="stylesheet" href="{% static "css/fontawsom-all.min.css" %}" rel="stylesheet"/>
+            <link rel="stylesheet" href="{% static "css/animate.css" %}" rel="stylesheet"/>
+            <link rel="stylesheet" type="text/css" href="{% static "/css/style.css"%}" rel="stylesheet"/>
+    </head>
+
+    <body>
+
+        <!--########################## Header CSS ####################-->
+        <div class="header-container">
+            <div class="header-top">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-7 col-md-12 left-item">
+                            <ul>
+                                <li>
+                                    <i class="fas fa-envelope-square"></i>
+                                    devicerevive@gmail.dcom</li>
+                                <li class="d-none d-sm-block">
+                                    <i class="fas fa-phone-square"></i>
+                                    9567854321</li>
+                            </ul>
+                        </div>
+                        <div class="col-lg-5 d-none d-lg-block right-item">
+                            <ul>
+                                <li>
+                                    <a>
+                                        <i class="fab fa-github" style="color: white;"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a>
+                                        <i class="fab fa-linkedin-in" style="color: white;"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a>
+                                        <i class="fab fa-pinterest-p" style="color: white;"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a>
+                                        <i class="fab fa-twitter" style="color: white;"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a>
+                                        <i class="fab fa-facebook-f" style="color: white;"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <nav id="menu-jk" class="container-fluid  no-padding">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-1 col-sm-1 logo">
+                            <img class="log" src="{% static '/images/mylogo.png' %}"  alt="">
+                            
+                            <a data-toggle="collapse" data-target="#nav-head" href="#nav-head">
+                                <i class="fas d-block d-md-none small-menu fa-bars"></i>
+                            </a>
+                        </div>
+                        <div id="nav-head" class="col-md-9 nav-div d-none d-md-block">
+                            <ul>
+                                <li>
+                                    <a class="js-scroll-trigger" href="index">HOME</a>
+                                </li>
+                                <li>
+                                    <a class="js-scroll-trigger" href="about">ABOUT COMPANY</a>
+                                </li>
+                                <li class="yc">
+                                    <a class="js-scroll-trigger" href="why">WHY CHOOSE US</a>
+                                </li>
+                                <li>
+                                    <a class="js-scroll-trigger" href="services">SERVICES</a>
+                                </li>
+                                <li>
+                                    {% if user.is_authenticated %}
+                                        <a href="logout" class="btn btn-primary ml-lg-3">Logout</a>
+                                    {% else %}
+                                        <a href="login" class="btn btn-primary ml-lg-3">Login/Signup</a>
+                                    {% endif %}
+                                </li>
+
+                                
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+
+
+        
+    <!--###################### Page Title Starts Here ############################-->
+
+        <div class="page-title titl-2">
+                <div class="container">
+                    <div class="row">
+                        <h2>Contact US</h2>
+                        <p> Home <i class="fas fa-angle-double-right"></i> Contact Us </p>
+                    </div>
+                </div>
+            </div>
+        
+        
+  <!--###################### Contact US Starts Here ############################-->
+        
+
+        
+           
+            
+                  <div class="row contact-rooo no-margin">
+                    <div class="container">
+                       <div class="row">
+                           
+                      
+                        <div style="padding:20px" class="col-sm-7">
+                        <h2 >Contact Form</h2> <br>
+                            <div class="row cont-row">
+                                <div  class="col-sm-3"><label>Enter Name </label><span>:</span></div>
+                                <div class="col-sm-8"><input type="text" placeholder="Enter Name" name="name" class="form-control input-sm"  ></div>
+                            </div>
+                            <div  class="row cont-row">
+                                <div  class="col-sm-3"><label>Email Address </label><span>:</span></div>
+                                <div class="col-sm-8"><input type="text" name="name" placeholder="Enter Email Address" class="form-control input-sm"  ></div>
+                            </div>
+                             <div  class="row cont-row">
+                                <div  class="col-sm-3"><label>Mobile Number</label><span>:</span></div>
+                                <div class="col-sm-8"><input type="text" name="name" placeholder="Enter Mobile Number" class="form-control input-sm"  ></div>
+                            </div>
+                             <div  class="row cont-row">
+                                <div  class="col-sm-3"><label>Enter Message</label><span>:</span></div>
+                                <div class="col-sm-8">
+                                  <textarea rows="5" placeholder="Enter Your Message" class="form-control input-sm"></textarea>
+                                </div>
+                            </div>
+                             <div style="margin-top:10px;" class="row">
+                                <div style="padding-top:10px;" class="col-sm-3"><label></label></div>
+                                <div class="col-sm-8">
+                                 <button class="btn btn-success btn-sm">Send Message</button>
+                                </div>
+                            </div>
+                        </div>
+                         <div class="col-sm-5">
+                                
+                              <div style="margin:50px" class="serv"> 
+                            
+                           
+                         
+                                          
+                          
+                      <h2 style="margin-top:10px;">Address</h2>
+            
+                Device Revive <br>
+                MC Road<br>
+                Kottayam<br>
+                Phone:9567854321<br>
+                Email:devicerevive@gmail.com<br>
+                Website:www.devicerevivecom<br>
+            
+             
+                   
+                        
+                            
+                            
+                          
+                       </div>    
+                            
+                         
+                     </div>
+            
+                        </div>
+                    </div>
+                    
+                  </div>
+            
+        <!--########################## Footer CSS ####################-->
+        <footer>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-3 about">
+                        <h2>About Us</h2>
+                        <p>Phasellus scelerisque ornare nisl sit amet pulvinar. Nunc non scelerisque
+                            augue. Proin et sollicitudin velit.
+                        </p>
+
+                        <div class="foot-address">
+                            <div class="icon">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div class="addet">
+                                Kottayam
+                            </div>
+                        </div>
+                        <div class="foot-address">
+                            <div class="icon">
+                                <i class="far fa-envelope-open"></i>
+                            </div>
+                            <div class="addet">
+                                devicerevive.com
+                                <br>
+                                devicerevive@gmail.com
+                            </div>
+                        </div>
+                        <div class="foot-address">
+                            <div class="icon">
+                                <i class="fas fa-mobile-alt"></i>
+                            </div>
+                            <div class="addet">
+                                9567854321
+                                <br>
+                                8078046110
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 fotblog">
+                        <h2>From latest Blog</h2>
+                        <div class="blohjb">
+                            <p>dignissim. Integer tempor facilisis malesuada. Proin ac varius velit,
+                                tincidunt condimentum</p>
+                            <span>22-1-2019</span>
+                        </div>
+                        <div class="blohjb">
+                            <p>dignissim. Integer tempor facilisis malesuada. Proin ac varius velit,
+                                tincidunt condimentum</p>
+                            <span>22-1-2019</span>
+                        </div>
+                        <div class="blohjb">
+                            <p>dignissim. Integer tempor facilisis malesuada. Proin ac varius velit,
+                                tincidunt condimentum</p>
+                            <span>22-1-2019</span>
+                        </div>
+                    </div>
+                    <div class="col-md-3 glink">
+                        <ul>
+                            <li>
+                                <a href="index.html">
+                                    <i class="fas fa-angle-double-right"></i>Home</a>
+                            </li>
+                            <li>
+                                <a href="about_us.html">
+                                    <i class="fas fa-angle-double-right"></i>About Us</a>
+                            </li>
+                            <li>
+                                <a href="services.html">
+                                    <i class="fas fa-angle-double-right"></i>Services</a>
+                            </li>
+                            <li>
+                                <a href="services.html">
+                                    <i class="fas fa-angle-double-right"></i>Contact</a>
+                            </li>
+                           
+                        </ul>
+                    </div>
+                   
+                </div>
+            </div>
+        </footer>
+        <div class="copy">
+            <div class="container">
+                
+
+                <span>
+                    <a>
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <a>
+                        <i class="fab fa-google-plus-g"></i>
+                    </a>
+                    <a>
+                        <i class="fab fa-pinterest-p"></i>
+                    </a>
+                    <a>
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a>
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                </span>
+            </div>
+
+        </div>
+    </body>
+    <script src="assets/js/jquery-3.2.1.min.js"></script>
+    <script src="assets/js/popper.min.js"></script>
+    <script src="assets/js/bootstrap.min.js"></script>
+    <script src="assets/plugins/scroll-fixed/jquery-scrolltofixed-min.js"></script>
+    <script src="assets/js/script.js"></script>
+
+</html>
