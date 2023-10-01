@@ -3,6 +3,7 @@ from django.contrib.auth import authenticate,login
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib import auth
+from django.http import JsonResponse
 #create your views here
 def index(request):
     return render(request,'index.html')
@@ -31,6 +32,19 @@ def signup(request):
        myuser.save()
        return redirect('login')
     return render(request,'reg.html')
+
+
+def check_username_availability(request):
+    username = request.GET.get("username")
+    try:
+        user = User.objects.get(username=username)
+        available = False
+    except User.DoesNotExist:
+        available = True
+    return JsonResponse({"available": available})
+
+
+
 def services(request):
     return render(request,'services.html')
 def about(request):

@@ -22,12 +22,12 @@
                         width: 300px;
                         margin: 0 auto;
                         padding: 10px;
-                        background-color: gray;
+                        background-color: black;
+                        background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent gray background color */
                         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
                         border-radius: 5px;
-                        
                     }
-            
+                    
                     .login-container h2 {
                         text-align: center;
                     }
@@ -68,11 +68,25 @@
                         padding: 10px;
                         margin-bottom: 10px;
                     }
-                    body {
-                        font-family: Arial, Helvetica, sans-serif;
-                        background-color: #f2f2f2;
-                        color: black; /* Set the font color to black */
+                    .banner-container {
+                        background-image: url('{% static '/images/head_bg.jpg' %}');
+                        background-size: cover;
+                        background-position: center center;
+                        background-repeat: no-repeat;
+                        min-height: 100vh;
+                       }
+                       
+                    
+
+                    .header-container {
+                        background-color: black; /* Set the background color to black */
                     }
+
+                    .header-container {
+                        background-color: rgba(0, 0, 0, 0.5); /* Set the background color to black with 80% opacity */
+                    }
+                    
+                    
                     
                 </style>
     
@@ -219,8 +233,7 @@
         <div class="row">
             <div class="col-md-3 about">
                 <h2>About Us</h2>
-                <p>Phasellus scelerisque ornare nisl sit amet pulvinar. Nunc non scelerisque
-                    augue. Proin et sollicitudin velit.
+                <p>At Device Revive, we are passionate about technology and dedicated to providing top-notch laptop and desktop services. With 20 years of experience in the industry, we have earned a reputation for excellence and reliability.
                 </p>
 
                 <div class="foot-address">
@@ -275,7 +288,18 @@
                     </li>
                 </ul>
             </div>
-            
+            <div class="col-md-3 tags">
+                <h2>Our Services</h2>
+                <ul>
+                    <li>Desktop Service</li>
+                    <li>Laptop Service</li>
+                    <li>Data Recovery</li>
+                    <li>Software Installation</li>
+                    <li>Motherboard Service</li>
+                    <li>Computer Networking</li>
+                    
+                </ul>
+            </div>
         </div>
     </div>
 </footer>

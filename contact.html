@@ -13,6 +13,17 @@
             <link rel="stylesheet" href="{% static "css/fontawsom-all.min.css" %}" rel="stylesheet"/>
             <link rel="stylesheet" href="{% static "css/animate.css" %}" rel="stylesheet"/>
             <link rel="stylesheet" type="text/css" href="{% static "/css/style.css"%}" rel="stylesheet"/>
+            <style>
+                /* Style for the login/signup button */
+           .nav-div ul li:last-child a {
+               background-color:#2a6b5f;
+               color: #FFFFFF;
+               font-size: 11px;
+                padding: 10px 20px; /* Adjust padding as needed */
+               border-radius: 5px; /* Add rounded corners */
+               text-decoration: none;
+            } 
+        </style>
     </head>
 
     <body>
@@ -81,13 +92,20 @@
                                     <a class="js-scroll-trigger" href="index">HOME</a>
                                 </li>
                                 <li>
-                                    <a class="js-scroll-trigger" href="about">ABOUT COMPANY</a>
+                                    <a class="js-scroll-trigger" href="services">SERVICES</a>
+                                </li>
+                               
+                                
+                                
+                                <li>
+                                    <a class="js-scroll-trigger" href="about">ABOUT</a>
                                 </li>
                                 <li class="yc">
-                                    <a class="js-scroll-trigger" href="why">WHY CHOOSE US</a>
+                                    <a class="js-scroll-trigger" href="why">EXPERIENCE</a>
                                 </li>
+
                                 <li>
-                                    <a class="js-scroll-trigger" href="services">SERVICES</a>
+                                    <a class="js-scroll-trigger" href="contact">CONTACT</a>
                                 </li>
                                 <li>
                                     {% if user.is_authenticated %}
@@ -96,8 +114,6 @@
                                         <a href="login" class="btn btn-primary ml-lg-3">Login/Signup</a>
                                     {% endif %}
                                 </li>
-
-                                
                             </ul>
                         </div>
                     </div>
@@ -196,10 +212,8 @@
                 <div class="row">
                     <div class="col-md-3 about">
                         <h2>About Us</h2>
-                        <p>Phasellus scelerisque ornare nisl sit amet pulvinar. Nunc non scelerisque
-                            augue. Proin et sollicitudin velit.
+                        <p>At Device Revive, we are passionate about technology and dedicated to providing top-notch laptop and desktop services. With 20 years of experience in the industry, we have earned a reputation for excellence and reliability.
                         </p>
-
                         <div class="foot-address">
                             <div class="icon">
                                 <i class="fas fa-map-marker-alt"></i>
@@ -268,7 +282,18 @@
                            
                         </ul>
                     </div>
-                   
+                    <div class="col-md-3 tags">
+                        <h2>Our Services</h2>
+                        <ul>
+                            <li>Desktop Service</li>
+                            <li>Laptop Service</li>
+                            <li>Data Recovery</li>
+                            <li>Software Installation</li>
+                            <li>Motherboard Service</li>
+                            <li>Computer Networking</li>
+                            
+                        </ul>
+                    </div>
                 </div>
             </div>
         </footer>

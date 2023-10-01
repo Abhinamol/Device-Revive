@@ -21,6 +21,38 @@
                 font-size: 25px;
                 /* Add any other styles you want here */
             }
+
+            /* Add this CSS to your existing styles */
+            .nav-div ul {
+              list-style: none;
+               padding: 0;
+              margin: 0;
+             display: flex; /* Make the list items display in a row */
+            align-items: center; /* Vertically center items */
+           }
+
+         .nav-div ul li {
+            margin-right: 10px; /* Add spacing between list items */
+          }
+
+          .nav-div ul li:last-child {
+          margin-right: 0; /* Remove margin from the last list item */
+          }
+
+         /* Style for the login/signup button */
+        .nav-div ul li:last-child a {
+       background-color: #2a5945;
+       color: #FFFFFF;
+       font-size: 15px;
+       padding: 10px 20px; /* Adjust padding as needed */
+       border-radius: 5px; /* Add rounded corners */
+       text-decoration: none;
+      }
+
+      .nav-div ul li:last-child a:hover {
+    background-color: #FF4500; /* Change color on hover */
+     }
+
         </style>
         
     </head>
@@ -96,14 +128,17 @@
                                     <a class="js-scroll-trigger" href="services">SERVICES</a>
                                 </li>
                                 <li>
-                                    <a class="js-scroll-trigger" href="about">ABOUT COMPANY</a>
+                                    <a class="js-scroll-trigger" href="about">BOOKING</a>
+                                </li>
+                                <li>
+                                    <a class="js-scroll-trigger" href="about">ABOUT</a>
                                 </li>
                                 <li class="yc">
-                                    <a class="js-scroll-trigger" href="why">WHY CHOOSE US</a>
+                                    <a class="js-scroll-trigger" href="why">EXPERIENCE</a>
                                 </li>
 
                                 <li>
-                                    <a class="js-scroll-trigger" href="contact">CONTACT US</a>
+                                    <a class="js-scroll-trigger" href="contact">CONTACT</a>
                                 </li>
                                 <li>
                                     {% if user.is_authenticated %}
@@ -174,23 +209,76 @@
                         <h2>20 Years Experiance</h2>
                         <p>At Device Revive, we take pride in our two decades of dedicated service in the world of laptop and desktop repairs. With 20 years of invaluable experience under our belt, we have established ourselves as a trusted and reliable name in the industry.
                         </p>
-                        <a href="">Read more</a>
+                        <a href=""></a>
                     </div>
                     <div class="col-md-4 key-col">
                         <h2>Advanced Technology</h2>
                         <p>At Device Revive, we are committed to staying at the forefront of technology to provide you with the most advanced and efficient laptop and desktop repair services. We believe that investing in cutting-edge technology is key to delivering superior results and exceeding your expectations.
                         </p>
-                        <a href="">Read more</a>
+                        <a href=""></a>
                     </div>
                     <div class="col-md-4 no-br key-col">
                         <h2>24 x 7 Support</h2>
                         <p>At Device Revive, our dedication to your satisfaction extends beyond regular business hours. We understand that laptop and desktop issues don't always conform to a 9-to-5 schedule, which is why we offer round-the-clock, 24/7 support to ensure you receive the assistance you need precisely when you need it.
                         </p>
-                        <a href="">Read more</a>
+                        <a href=""></a>
                     </div>
                 </div>
             </div>
         </div>
+
+         <!-- Testimonial Start -->
+    <div class="container-fluid p-0 py-5">
+        <div class="container p-0 pt-5">
+            <div class="d-flex flex-column text-center mb-5">
+                <h4 class="text-secondary mb-3">Testimonial</h4>
+                <h1 class="display-4 m-0">Our Client <span class="text-primary">Says</span></h1>
+            </div>
+            <div class="owl-carousel testimonial-carousel">
+                <div class="bg-light mx-3 p-4">
+                    <div class="d-flex align-items-end mb-3 mt-n4 ml-n4">
+                        <img class="img-fluid" src="{% static 'home/img/testimonial-4.jpg' %}" style="width: 80px; height: 80px;" alt="">
+                        <div class="ml-3">
+                            <h5>Client Name</h5>
+                            <i>Profession</i>
+                        </div>
+                    </div>
+                    <p class="m-0">Sed ea amet kasd elitr stet, stet rebum et ipsum est duo elitr eirmod clita lorem. Dolor tempor ipsum sanct clita</p>
+                </div>
+                <div class="bg-light mx-3 p-4">
+                    <div class="d-flex align-items-end mb-3 mt-n4 ml-n4">
+                        <img class="img-fluid" src="{% static 'home/img/testimonial-1.jpg' %}" style="width: 80px; height: 80px;" alt="">
+                        <div class="ml-3">
+                            <h5>Client Name</h5>
+                            <i>Profession</i>
+                        </div>
+                    </div>
+                    <p class="m-0">Sed ea amet kasd elitr stet, stet rebum et ipsum est duo elitr eirmod clita lorem. Dolor tempor ipsum sanct clita</p>
+                </div>
+                <div class="bg-light mx-3 p-4">
+                    <div class="d-flex align-items-end mb-3 mt-n4 ml-n4">
+                        <img class="img-fluid" src="{% static 'home/img/testimonial-2.jpg' %}" style="width: 80px; height: 80px;" alt="">
+                        <div class="ml-3">
+                            <h5>Client Name</h5>
+                            <i>Profession</i>
+                        </div>
+                    </div>
+                    <p class="m-0">Sed ea amet kasd elitr stet, stet rebum et ipsum est duo elitr eirmod clita lorem. Dolor tempor ipsum sanct clita</p>
+                </div>
+                <div class="bg-light mx-3 p-4">
+                    <div class="d-flex align-items-end mb-3 mt-n4 ml-n4">
+                        <img class="img-fluid" src="{% static 'home/img/testimonial-3.jpg' %}" style="width: 80px; height: 80px;" alt="">
+                        <div class="ml-3">
+                            <h5>Client Name</h5>
+                            <i>Profession</i>
+                        </div>
+                    </div>
+                    <p class="m-0">Sed ea amet kasd elitr stet, stet rebum et ipsum est duo elitr eirmod clita lorem. Dolor tempor ipsum sanct clita</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Testimonial End -->
 
         
 
@@ -202,8 +290,7 @@
                 <div class="row">
                     <div class="col-md-3 about">
                         <h2>About Us</h2>
-                        <p>Phasellus scelerisque ornare nisl sit amet pulvinar. Nunc non scelerisque
-                            augue. Proin et sollicitudin velit.
+                        <p>At Device Revive, we are passionate about technology and dedicated to providing top-notch laptop and desktop services. With 20 years of experience in the industry, we have earned a reputation for excellence and reliability.
                         </p>
 
                         <div class="foot-address">
@@ -258,7 +345,18 @@
                             </li>
                         </ul>
                     </div>
-                    
+                    <div class="col-md-3 tags">
+                        <h2>Our Services</h2>
+                        <ul>
+                            <li>Desktop Service</li>
+                            <li>Laptop Service</li>
+                            <li>Data Recovery</li>
+                            <li>Software Installation</li>
+                            <li>Motherboard Service</li>
+                            <li>Computer Networking</li>
+                            
+                        </ul>
+                    </div> 
                 </div>
             </div>
         </footer>

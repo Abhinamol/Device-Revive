@@ -22,12 +22,14 @@
                 width: 500px;
                 margin: 0 auto;
                 margin-top: 100px;
-                background: 	#808080;
+                background-color: black;
+                background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent gray background color */
                 border-radius: 5px;
                 padding: 20px;
                 box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
             }
             
+            /* Content inside the registration container */
             .registration-container h2 {
                 text-align: center;
             }
@@ -50,7 +52,7 @@
             
             .registration-button {
                 width: 100%;
-                padding: 10px
+                padding: 10px;
                 background-color: #d39647;
                 color: #151111;
                 border: none;
@@ -62,38 +64,29 @@
                 background-color: #0056b3;
             }
             
+            /* Add a transition for a smoother effect */
+            .registration-button {
+                transition: background-color 0.3s ease;
+            }
+            
            
            .banner-container {
-            background-image: url('{% static '/images/about.jpg' %}');
+            background-image: url('{% static '/images/head_bg.jpg' %}');
             background-size: cover;
             background-position: center center;
             background-repeat: no-repeat;
             min-height: 100vh;
            }
+           
+
            .header-container {
-           background-color:	#808080;
-           }
-           /* Add this CSS to change the text color of navigation links to white */
-          #menu-jk ul li a {
-          color: black;
-           }
+            background-color: black; /* Set the background color to black */
+        }
 
-
-        #menu-jk ul li a:hover {
-        color: #88b7cf;
+        .header-container {
+            background-color: rgba(0, 0, 0, 0.5); /* Set the background color to black with 80% opacity */
         }
-        .header-container .nav-div {
-            background: linear-gradient(to bottom, #f2f2f2, #ffffff); 
-        }
-    
-        .header-container #menu-jk ul li a {
-            color: black; 
-        }
-    
         
-        .header-container #menu-jk ul li a:hover {
-            color: #88b7cf; 
-        }
         .input-error {
             border: 1px solid red;
         }
@@ -102,10 +95,24 @@
         .input-success {
             border: 1px solid green;
         }
-        .input-filled {
-            background-color: #ECFFDC; /* Change this to your desired green background color */
-            border: 1px #ECFFDC;
-        }
+        
+        /* Apply a background color change effect on hover */
+        .header-top ul li:hover {
+          background-color: #0056b3; /* Change to the desired color on hover */
+         color: white; /* Change text color for better visibility */
+         transition: background-color 0.2s ease; /* Add a smooth transition effect */
+         }
+
+         /* Style for the login/signup button */
+           .nav-div ul li:last-child a {
+               background-color:#2a6b5f;
+               color: #FFFFFF;
+               font-size: 11px;
+                padding: 10px 20px; /* Adjust padding as needed */
+               border-radius: 5px; /* Add rounded corners */
+               text-decoration: none;
+            } 
+ 
 
 
 
@@ -179,16 +186,20 @@
                                     <a class="js-scroll-trigger" href="index">HOME</a>
                                 </li>
                                 <li>
-                                    <a class="js-scroll-trigger" href="about">ABOUT COMPANY</a>
-                                </li>
-                                <li class="yc">
-                                    <a class="js-scroll-trigger" href="why">WHY CHOOSE US</a>
+                                    <a class="js-scroll-trigger" href="services">SERVICES</a>
                                 </li>
                                 
-                            
-                               
+                                
+                                
                                 <li>
-                                    <a class="js-scroll-trigger" href="contact">CONTACT US</a>
+                                    <a class="js-scroll-trigger" href="about">ABOUT</a>
+                                </li>
+                                <li class="yc">
+                                    <a class="js-scroll-trigger" href="why">EXPERIENCE</a>
+                                </li>
+
+                                <li>
+                                    <a class="js-scroll-trigger" href="contact">CONTACT</a>
                                 </li>
                                 <li>
                                     {% if user.is_authenticated %}
@@ -238,29 +249,23 @@
                                     <div id="phone-warning" class="warning"></div>
                                 </div>
                                 
-                                <div class="form-group">
+                                <!--<div class="form-group">
                                     <label>Address:</label>
                                     <input type="text" id="street" name="street" class="form-control" placeholder="Street Address" required>
                                     <input type="text" id="city" name="city" class="form-control" placeholder="City" required>
                                     <input type="text" id="state" name="state" class="form-control" placeholder="State/Province" required>
                                     <input type="text" id="zip" name="zip" class="form-control" placeholder="Postal/ZIP Code" required>
                                     <input type="text" id="country" name="country" class="form-control" placeholder="Country" required>
-                                </div>
+                                </div>-->
                                 
                                 <!-- User Account -->
-                                <div class="form-group">
-                                    <label for="type">Role:</label>
-                                    <select id="type" name="type" class="form-control" required>
-                                        <option value="male">None</option>
-                                        <option value="male">Staff</option>
-                                        <option value="male">User</option>
-                                    </select>
-                                </div><br>
+                             
                                 <div class="form-group">
                                     <label for="username">Username:</label>
                                     <input type="text" id="username" name="username" class="form-control" required onblur="checkEmptyField(this)" oninput="checkEmptyField(this)">
                                     <span id="username-error" class="error"></span>
                                     <div id="username-warning" class="warning"></div>
+                                    <div id="username-availability" class="availability"></div> 
                                 </div>
                                 
                                 <div class="form-group">
@@ -303,8 +308,7 @@
         <div class="row">
             <div class="col-md-3 about">
                 <h2>About Us</h2>
-                <p>Phasellus scelerisque ornare nisl sit amet pulvinar. Nunc non scelerisque
-                    augue. Proin et sollicitudin velit.
+                <p>At Device Revive, we are passionate about technology and dedicated to providing top-notch laptop and desktop services. With 20 years of experience in the industry, we have earned a reputation for excellence and reliability.
                 </p>
 
                 <div class="foot-address">
@@ -351,6 +355,9 @@
                         <a href="services">
                             <i class="fas fa-angle-double-right"></i>Services</a>
                     </li>
+                    <li>
+                        <a class="js-scroll-trigger" href="about">BOOKING</a>
+                    </li>
                     
                     
                     <li>
@@ -359,7 +366,18 @@
                     </li>
                 </ul>
             </div>
-            
+            <div class="col-md-3 tags">
+                <h2>Our Services</h2>
+                <ul>
+                    <li>Desktop Service</li>
+                    <li>Laptop Service</li>
+                    <li>Data Recovery</li>
+                    <li>Software Installation</li>
+                    <li>Motherboard Service</li>
+                    <li>Computer Networking</li>
+                    
+                </ul>
+            </div> 
         </div>
     </div>
 </footer>
@@ -456,7 +474,7 @@
     });
 
     emailInput.addEventListener("input", function () {
-        validateEmail();
+        validateEmailRealTime();
     });
 
     passwordInput.addEventListener("input", function () {
@@ -495,32 +513,65 @@
         }
     }
     
-    
-    function validateEmail() {
-        const email = emailInput.value.trim();
-        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    
-        if (!emailRegex.test(email)) {
-            emailError.textContent = "Invalid email format. Please enter a valid email address.";
+
+    function validateUsername() {
+        const username = usernameInput.value.trim();
+        if (username.length < 3) {
+            usernameError.textContent = "Username must be at least 3 characters.";
+        } else if (!/^[a-zA-Z][a-zA-Z0-9]*$/.test(username)) {
+            usernameError.textContent = "Username must start with a letter and can only contain letters and numbers.";
         } else {
-            emailError.textContent = "";
+            // Send an AJAX request to check username availability
+            const xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4) {
+                    if (xhr.status === 200) {
+                        const response = JSON.parse(xhr.responseText);
+                        if (response.available) {
+                            usernameError.textContent = "";
+                        } else {
+                            usernameError.textContent = "This username already exists.";
+                        }
+                    } else {
+                        console.error("Error checking username availability");
+                    }
+                }
+            };
+    
+            xhr.open("GET", `/check_username_availability/?username=${username}`, true); // Replace with your actual URL
+            xhr.send();
         }
     }
     
+    
+    
+    function validateEmailRealTime() {
+            const email = emailInput.value.trim();
+            const errorElement = document.getElementById("email-error");
 
-    function validateEmailWithCapital() {
-        const email = emailInput.value.trim();
-        const hasCapitalLetter = /[A-Z]/.test(email);
-
-        // Check if the email contains a capital letter
-        if (hasCapitalLetter) {
-            emailError.textContent = "Invalid email (contains capital letter).";
-        } else if (!/^\S+@\S+\.\S+$/.test(email)) {
-            emailError.textContent = "Invalid email format.";
-        } else {
-            emailError.textContent = "";
-        }
+            // Check for the specific email address "a@a.com"
+            if (email === "a@a.com") {
+                errorElement.textContent = "Invalid email address.";
+                return;
+            }
+    
+            // Updated regular expression pattern to allow emails like "abhinamolv2024a@mca.ajce.in"
+            const emailPattern = /^[a-zA-Z][a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    
+            if (!emailPattern.test(email)) {
+                errorElement.textContent = "Invalid email format";
+            } else if (!/^[a-zA-Z0-9._%+-]+@(gmail|mca|ajce|yahoo)\.[a-z.]{2,}$/i.test(email)) {
+                errorElement.textContent = "Invalid email format";
+            } else if (email.length > 320) {
+                errorElement.textContent = "Invalid email format";
+            } else {
+                errorElement.textContent = "";
+            }
     }
+    
+     
+    
+
 
     function validatePassword() {
         const password = passwordInput.value.trim();
@@ -589,7 +640,7 @@
             field.classList.remove("input-success");
             field.classList.add("input-error");
             warningMessage.textContent = "This field is required."; // Set the warning message
-            warningMessage.style.color = "red"; 
+            warningMessage.style.color = "red"; // Set the warning text color to red
         } else {
             field.classList.remove("input-error");
             field.classList.add("input-filled"); // Add the filled class
