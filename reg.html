@@ -278,14 +278,14 @@
                                 <!-- Personal Information -->
                                 <div class="form-group">
                                     <label for="full-name">Full Name:</label>
-                                    <input type="text" id="full-name" name="full-name" class="form-control" required onblur="checkEmptyField(this)" oninput="checkEmptyField(this)">
+                                    <input type="text" id="full-name" name="full-name" class="form-control" required onblur="checkEmptyField(this)" oninput="checkEmptyField(this)" required autocomplete="off">
                                     <span id="full-name-error" class="error"></span>
                                     <div id="full-name-warning" class="warning"></div>
                                 </div>
                                 
                                 <div class="form-group">
                                     <label for="email">Email Address:</label>
-                                    <input type="email" id="email" name="email" class="form-control" required onblur="checkEmptyField(this)" oninput="checkEmptyField(this)">
+                                    <input type="email" id="email" name="email" class="form-control" required onblur="checkEmptyField(this)" oninput="checkEmptyField(this)" required autocomplete="off">
                                     <span id="email-error" class="error"></span>
                                     <div id="email-warning" class="warning"></div>
                                     <span id="email-availability" class="availability"></span>
@@ -293,7 +293,7 @@
                                 
                                 <div class="form-group">
                                     <label for="phone">Phone Number:</label>
-                                    <input type="tel" id="phone" name="phone" class="form-control" required onblur="checkEmptyField(this)" oninput="checkEmptyField(this)">
+                                    <input type="tel" id="phone" name="phone" class="form-control" required onblur="checkEmptyField(this)" oninput="checkEmptyField(this)" required autocomplete="off">
                                     <span id="phone-error" class="error"></span>
                                     <div id="phone-warning" class="warning"></div>
                                 </div>
@@ -311,7 +311,7 @@
                              
                                 <div class="form-group">
                                     <label for="username">Username:</label>
-                                    <input type="text" id="username" name="username" class="form-control" required onblur="checkEmptyField(this)" oninput="checkEmptyField(this)">
+                                    <input type="text" id="username" name="username" class="form-control" required onblur="checkEmptyField(this)" oninput="checkEmptyField(this)" required autocomplete="off">
                                     <span id="username-error" class="error"></span>
                                     <div id="username-warning" class="warning"></div>
                                     <div id="username-availability" class="availability"></div> 
@@ -319,7 +319,7 @@
                                 
                                 <div class="form-group">
                                     <label for="password">Password:</label>
-                                    <input type="password" id="password" name="password" class="form-control" required onblur="checkEmptyField(this)" oninput="checkEmptyField(this)">
+                                    <input type="password" id="password" name="password" class="form-control" required onblur="checkEmptyField(this)" oninput="checkEmptyField(this)" required autocomplete="off">
                                     <span id="password-error" class="error"></span>
                                     <span id="password-requirements" class="requirements"></span>
                                     <div id="password-warning" class="warning"></div>
@@ -328,8 +328,8 @@
                                 
                                 <div class="form-group">
                                     <label for="confirm-password">Confirm Password:</label>
-                                    <input type="password" id="confirm-password" name="confirm-password" class="form-control" required onblur="checkEmptyField(this)" oninput="checkEmptyField(this)">
-                                    <span id="confirm-password-error" class="error"></span>
+                                    <input type="password" id="confirm-password" name="confirm-password" class="form-control" required onblur="checkEmptyField(this)" oninput="checkEmptyField(this)" required autocomplete="off">
+                                    <span id="confirm-password-error" class="error"></span> 
                                     <div id="confirm-password-warning" class="warning"></div>
                                 </div>
                                 
@@ -616,28 +616,31 @@
     
     
     function validateEmailRealTime() {
-            const email = emailInput.value.trim();
-            const errorElement = document.getElementById("email-error");
-
-            // Check for the specific email address "a@a.com"
-            if (email === "a@a.com") {
-                errorElement.textContent = "Invalid email address.";
-                return;
-            }
+        const email = emailInput.value.trim();
+        const errorElement = document.getElementById("email-error");
     
-            // Updated regular expression pattern to allow emails like "abhinamolv2024a@mca.ajce.in"
-            const emailPattern = /^[a-zA-Z][a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        // Check for the specific email address "a@a.com"
+        if (email === "a@a.com") {
+            errorElement.textContent = "Invalid email address.";
+            return;
+        }
     
-            if (!emailPattern.test(email)) {
-                errorElement.textContent = "Invalid email format";
-            } else if (!/^[a-zA-Z0-9._%+-]+@(gmail|mca|ajce|yahoo)\.[a-z.]{2,}$/i.test(email)) {
-                errorElement.textContent = "Invalid email format";
-            } else if (email.length > 320) {
-                errorElement.textContent = "Invalid email format";
-            } else {
-                errorElement.textContent = "";
-            }
+        // Updated regular expression pattern to allow emails like "abhinamolv2024a@mca.ajce.in"
+        const emailPattern = /^[a-zA-Z][a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    
+        if (!emailPattern.test(email)) {
+            errorElement.textContent = "Invalid email format";
+        } else if (!/^[a-zA-Z0-9._%+-]+@(gmail|mca|ajce|yahoo|amaljyothi|ac)\.[a-z.]{2,}$/i.test(email)) {
+            errorElement.textContent = "Invalid email format";
+        } else if ((email.match(/\./g) || []).length > 3) {
+            errorElement.textContent = "Invalid email format";
+        } else if (email.length > 320) {
+            errorElement.textContent = "Invalid email format";
+        } else {
+            errorElement.textContent = "";
+        }
     }
+    
     
     
     // Function to check email availability in real-time
@@ -695,17 +698,20 @@
             fullNameError.textContent = "";
         }
     }
+  
+
+    function validatePhoneNumber() {
+        const phoneNumber = phoneInput.value.trim();
+    
+        if (/^[6-9]\d{9}$/.test(phoneNumber) && !/0{7,9}/.test(phoneNumber)) {
+            phoneError.textContent = "";
+        } else {
+            phoneError.textContent = "Invalid Phone number";
+        }
+    }
     
 
     
-    function validatePhoneNumber() {
-        const phoneNumber = phoneInput.value.trim();
-        if (!/^[6-9]\d{9}$/.test(phoneNumber)) {
-            phoneError.textContent = "Invalid Phone number";
-        } else {
-            phoneError.textContent = "";
-        }
-    }
     
 
     // Function to validate the password
@@ -743,6 +749,21 @@
         }
     }
 
+        // Function to reset the form fields
+function resetForm() {
+    const registrationForm = document.getElementById("registration-form");
+    const formInputs = registrationForm.querySelectorAll("input, textarea");
+  
+    // Clear input values
+    formInputs.forEach((input) => {
+      input.value = "";
+    });
+  
+    // Clear any error messages
+    const errorElements = document.querySelectorAll(".error");
+    errorElements.forEach((errorElement) => (errorElement.textContent = ""));
+  }
+
 </script>
 
 <script>
@@ -760,6 +781,9 @@
             loginRequiredMessage.style.display = "none"; // Hide the message when OK is clicked
         });
     });
+
+
+  
 </script>
 </body>
 <script src="{% static '/js/jquery-3.2.1.min.js' %}"></script>

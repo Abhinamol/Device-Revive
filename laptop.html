@@ -23,6 +23,44 @@
                border-radius: 5px; /* Add rounded corners */
                text-decoration: none;
             } 
+
+            .bg-primary {
+                background-color: #2a6b5f!important; /* Change to your desired color */
+            }
+
+             /* login required */
+
+            .login-required-message {
+               display: none;
+               justify-content: center;
+               align-items: center;
+               position: fixed;
+               top: 0;
+               left: 0;
+               width: 100%;
+               height: 100%;
+               background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
+               z-index: 9999; /* Ensure it's above other elements */
+           }
+       
+           .login-required-box {
+               background-color: #fff; /* White background for the box */
+               padding: 20px;
+               border-radius: 5px;
+               text-align: center;
+           }
+       
+           .login-required-message p {
+               margin: 0;
+           }
+       
+           .ok-button {
+               background-color: #2a5945;
+               color: #fff;
+               padding: 10px 20px;
+               border-radius: 5px;
+               cursor: pointer;
+           }
         </style>
         
     </head>
@@ -79,6 +117,14 @@
 
                 </div>
             </div>
+
+            <div class="login-required-message">
+                <div class="login-required-box">
+                    <p>Login Required</p>
+                    <button class="ok-button">OK</button>
+                </div>
+            </div>
+
             <nav id="menu-jk" class="container-fluid  no-padding">
                 <div class="container">
                     <div class="row">
@@ -98,7 +144,13 @@
                                     <a class="js-scroll-trigger" href="services">SERVICES</a>
                                 </li>
                                 <li>
-                                    <a class="js-scroll-trigger" href="userprofile">MY PROFILE</a>
+                                    <a class="js-scroll-trigger" href="{% if user.is_authenticated %}{% url 'booking' %}{% else %}#login-required{% endif %}">
+                                        BOOKING
+                                    </a>
+
+                                </li>
+                                <li>
+                                    <a class="js-scroll-trigger" href="userprofile"> PROFILE</a>
                                 </li>
                                 
                                 
@@ -409,7 +461,7 @@ Pricing Plan End -->
                            
                         </ul>
                     </div>
-                    </div>
+                    
                     <div class="col-md-3 tags">
                         <h2>Our Services</h2>
                         <ul>
@@ -455,5 +507,22 @@ Pricing Plan End -->
     <script src="{% static '/js/bootstrap.min.js' %}"></script>
     <script src="{% static '/plugins/scroll-fixed/jquery-scrolltofixed-min.js' %}"></script>
     <script src="{% static '/js/script.js' %}"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var bookingLink = document.querySelector('.js-scroll-trigger[href="#login-required"]');
+            var loginRequiredMessage = document.querySelector('.login-required-message');
+            var okButton = document.querySelector('.ok-button');
+        
+            bookingLink.addEventListener("click", function(event) {
+                event.preventDefault(); // Prevent the default link behavior
+                loginRequiredMessage.style.display = "flex"; // Show the message
+            });
+            
+            okButton.addEventListener("click", function() {
+                loginRequiredMessage.style.display = "none"; // Hide the message when OK is clicked
+            });
+        });
+    </script>
 
 </html>

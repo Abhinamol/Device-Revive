@@ -70,6 +70,8 @@
            border-radius: 5px;
            cursor: pointer;
        }
+
+       
    
     </style>
 
@@ -77,7 +79,7 @@
 {% include "messages.html" %}
 
 <body>
-
+   
 
     <!--########################## Header CSS ####################-->
     <div class="header-container">
@@ -192,7 +194,9 @@
                     <div class="row mx-auto"></div>
                     <div class="slider-det">
                         <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
-                            
+                            <div class="welcome-message">
+                                <b><h1 style="color:green">Welcome  {{ username }}!</h1></b>
+                            </div>
                             <div class="carousel-inner">
                                 <div class="carousel-item active">
                                     <h1>Device Revive</h1>
