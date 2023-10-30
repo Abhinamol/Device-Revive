@@ -11,12 +11,17 @@ urlpatterns = [
     path('about',views.about,name="about"),
     path('contact',views.contact,name="contact"),
     path('booking',views.booking,name="booking"),
+    path('bookingconfirmation',views.bookingconfirmation,name="bookingconfirmation"),
     path('why',views.why,name="why"),
     path('desktop',views.desktop,name="desktop"),
     path('laptop',views.laptop,name="laptop"),
     path('userprofile',views.userprofile,name="userprofile"),
+    path('myprofile',views.myprofile,name="myprofile"),
+    path('update',views.update,name="update"),
     path('after_login',views.after_login,name="after_login"),
     path('logout',views.logout,name="logout"),
+
+     
 
     path('check_username_availability/', views.check_username_availability, name='check_username_availability'),
     path('check_email_availability/', views.check_email_availability, name='check_email_availability'),
@@ -26,7 +31,18 @@ urlpatterns = [
     path('reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
     path('reset/done/', auth_views.PasswordResetCompleteView.as_view(), name='password_reset_complete'),
     
-    path('adminpage', views.adminpage, name='adminpage'),
+    path('userdetailss', views.userdetailss, name='userdetailss'),
+    path('dashboard', views.dashboard, name='dashboard'),
+    path('servicedetails', views.servicedetails, name='servicedetails'),
+    path('staffs', views.staffs, name='staffs'),
+
+    path('delete_user/<int:user_id>/', views.delete_user, name='delete_user'),
+
+]
+
+    
+
+    
     
      
-]
+

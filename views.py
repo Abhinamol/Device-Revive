@@ -8,6 +8,11 @@ from django.contrib.auth.decorators import login_required
 from.models import Userdetails
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.cache import never_cache
+from django.core.validators import validate_email
+from django.core.exceptions import ValidationError
+from django.core.mail import send_mail
+from django.utils.crypto import get_random_string
+from django.shortcuts import get_object_or_404
 
 #create your views here
 @never_cache
@@ -24,7 +29,7 @@ def loginn(request):
             request.session['username'] = user.username
             if username == 'admin' and password == 'admin':
                 
-                return redirect('adminpage')  # Redirect admin to the admin page
+                return redirect('dashboard')  # Redirect admin to the admin page
             else:
                 messages.success(request, 'Login successful!')
                 return redirect('userprofile') 
@@ -83,9 +88,49 @@ def check_email_availability(request):
     return JsonResponse(data)
 
     
+@never_cache 
+def dashboard(request):
+    return render(request, 'dashboard.html') 
 
-def adminpage(request):
-    return render(request, 'adminpage.html') 
+@never_cache 
+@login_required(login_url='login')
+def servicedetails(request):
+    return render(request, 'servicedetails.html') 
+
+@never_cache 
+@login_required(login_url='login')
+def staffs(request):
+    return render(request, 'staffs.html') 
+
+
+@never_cache 
+@login_required(login_url='login')
+def userdetailss(request):
+    if request.user.is_superuser:
+        users = Userdetails.objects.exclude(username='admin')  # Query the custom Userdetails model
+        return render(request, "userdetailss.html", {"users": users})
+    return redirect("index")
+
+
+@never_cache 
+@login_required(login_url='login')
+def dashboard(request):
+    if request.user.is_superuser:
+        users = Userdetails.objects.exclude(username='admin')  # Query the custom Userdetails model
+        return render(request, "dashboard.html", {"users": users})
+    return redirect("index")
+
+
+@never_cache 
+@login_required(login_url='login')
+def myprofile(request):
+    if request.user.is_superuser:
+        users = Userdetails.objects.exclude(username='admin')  # Query the custom Userdetails model
+        return render(request, "myprofile.html", {"users": users})
+    return redirect("index")
+
+
+
 
 @never_cache
 def services(request):
@@ -111,6 +156,17 @@ def contact(request):
 
 @never_cache
 @login_required(login_url='login')
+def myprofile(request):
+    return render(request,'myprofile.html')
+
+@never_cache
+@login_required(login_url='login')
+def update(request):
+    return render(request,'update.html')
+
+
+@never_cache
+@login_required(login_url='login')
 def booking(request):
     return render(request,'booking.html')
 
@@ -123,6 +179,13 @@ def desktop(request):
 @login_required(login_url='login')
 def laptop(request):
     return render(request,'laptop.html')
+
+
+@never_cache
+@login_required(login_url='login')
+def bookingconfirmation(request):
+    return render(request,'bookingconfirmation.html')
+
 
 @never_cache
 def why(request):
@@ -141,6 +204,7 @@ def handlelogout(request):
     return redirect('login')
 
 
+@never_cache
 @login_required
 def userprofile(request):
     # Get the user's name
@@ -148,5 +212,15 @@ def userprofile(request):
 
     # Pass the user's name to the template
     return render(request, 'userprofile.html', {'username': username})
+
+def delete_user(request, user_id):
+    user = get_object_or_404(Userdetails, pk=user_id)
+    user.delete()
+    return HttpResponse('User deleted successfully')
+
+
+
+
+
 
 
