@@ -1,0 +1,229 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Laptop/Desktop Service</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #eaf7e3;
+            color: #333;
+        }
+
+        header {
+            background-color: #25554e;
+            color: #fff;
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        h1 {
+            margin: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .service {
+            margin: 20px 0;
+            border: 1px solid #ccc;
+            padding: 10px;
+        }
+
+        .service h2 {
+            color: #0b834b;
+        }
+
+        .service p {
+            margin: 10px 0;
+        }
+
+        .service .price {
+            font-weight: bold;
+            color: #0b834b;
+        }
+
+        .add-service-button {
+            background-color: #25554e; /* Green background color */
+            color: #fff; /* White text color */
+            border: none;
+            padding: 10px 20px;
+            margin-top: 20px;
+            cursor: pointer;
+            font-size: 16px; /* Increase the font size */
+            border-radius: 5px; /* Rounded corners */
+            transition: background-color 0.3s; /* Smooth background color transition */
+        }
+        
+        .add-service-button:hover {
+            background-color: #25554e; /* Darker green on hover */
+        }
+        
+
+        
+        /* Style for user icon */
+        .user-icon {
+            width: 45px;
+            height: 45px;
+            margin-right: 10px;
+            border-radius: 50%;
+        }
+
+        /* Style for the user profile dropdown menu */
+        .dropdown-menu {
+            background-color: #333;
+            color: #fff;
+        }
+
+        .dropdown-item {
+            color: #fff;
+        }
+        .dropdown .btn-secondary {
+        background-color: #25554e; /* Blue background color */
+        color: #fff; /* Text color */
+    }
+   
+    /* Style for the delete button */
+    .delete-service-button {
+        background-color: #ff5757; /* Red background color */
+        color: #fff; /* White text color */
+        border: none;
+        padding: 5px 10px;
+        cursor: pointer;
+        font-size: 14px;
+        border-radius: 5px;
+        transition: background-color 0.3s;
+        margin-left: 10px; /* Add some space between the delete button and service details */
+    }
+
+    .delete-service-button:hover {
+        background-color: #ff0000; /* Darker red on hover */
+    }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Laptop/Desktop Service</h1>
+       
+          
+        
+      
+    </header>
+    <div class="container">
+        <div class="service">
+            <h2>Hardware Repair</h2>
+            <p>We offer comprehensive hardware repair services for laptops and desktops.</p>
+            <p class="price">$99.99</p>
+            <button class="delete-service-button" onclick="deleteService(this)">Delete</button>
+        </div>
+
+        <div class="service">
+            <h2>Software Troubleshooting</h2>
+            <p>Is your laptop or desktop facing software issues? We can help!</p>
+            <p class="price">$49.99</p>
+            <button class="delete-service-button" onclick="deleteService(this)">Delete</button>
+        </div>
+
+        <div class="service">
+            <h2>Virus Removal</h2>
+            <p>We'll remove viruses and malware to make your system secure again.</p>
+            <p class="price">$79.99</p>
+            <button class="delete-service-button" onclick="deleteService(this)">Delete</button>
+        </div>
+
+        <div class="service">
+            <h2>Data Recovery</h2>
+            <p>Accidentally deleted important files? We can recover them for you.</p>
+            <p class="price">$69.99</p>
+            <button class="delete-service-button" onclick="deleteService(this)">Delete</button>
+        </div>
+        <div class="service">
+            <h2>Screen Replacement</h2>
+            <p>Cracked or malfunctioning screen? We provide professional screen replacement services.</p>
+            <p class="price">$129.99</p>
+            <button class="delete-service-button" onclick="deleteService(this)">Delete</button>
+        </div>
+        
+        <div class="service">
+            <h2>Upgrades and Customization</h2>
+            <p>Want to enhance your laptop or desktop's performance? We offer upgrades and customization options.</p>
+            <p class="price">$79.99 and up</p>
+            <button class="delete-service-button" onclick="deleteService(this)">Delete</button>
+        </div>
+        
+        <div class="service">
+            <h2>Network Setup</h2>
+            <p>We can set up your home or office network for seamless connectivity.</p>
+            <p class="price">$59.99</p>
+            <button class="delete-service-button" onclick="deleteService(this)">Delete</button>
+        </div>
+        
+        <div class="service">
+            <h2>Operating System Installation</h2>
+            <p>Need to install a new operating system? We've got you covered.</p>
+            <p class="price">$49.99</p>
+            <button class="delete-service-button" onclick="deleteService(this)">Delete</button>
+        </div>
+        
+        <div class="service">
+            <h2>Backup Solutions</h2>
+            <p>Protect your important data with our backup solutions and data recovery services.</p>
+            <p class="price">$79.99 and up</p>
+            <button class="delete-service-button" onclick="deleteService(this)">Delete</button>
+        </div>
+        <!-- Add More Service Button -->
+<button class="add-service-button" onclick="addService()">Add More Service</button>
+
+    </div>
+
+    <script>
+        // JavaScript function to add more service sections
+        function addService() {
+            const container = document.querySelector(".container");
+
+            const newService = document.createElement("div");
+            newService.className = "service";
+
+            const serviceTitle = document.createElement("h2");
+            serviceTitle.textContent = "New Service Title";
+
+            const serviceDescription = document.createElement("p");
+            serviceDescription.textContent = "Description of the new service.";
+
+            const servicePrice = document.createElement("p");
+            servicePrice.className = "price";
+            servicePrice.textContent = "$XX.XX"; // Replace with the desired price.
+
+            newService.appendChild(serviceTitle);
+            newService.appendChild(serviceDescription);
+            newService.appendChild(servicePrice);
+
+            container.insertBefore(newService, document.querySelector(".add-service-button"));
+        }
+    </script>
+    <script>
+        // JavaScript function to delete a service section
+        function deleteService(button) {
+            const service = button.parentElement; // Get the parent service section
+            const container = service.parentElement; // Get the container div
+    
+            // Confirm deletion with a confirmation dialog
+            const confirmDelete = confirm("Are you sure you want to delete this service?");
+            
+            if (confirmDelete) {
+                container.removeChild(service); // Remove the service section from the container
+            }
+        }
+    </script>
+    
+</body>
+</html>
+    
+</body>
+</html>

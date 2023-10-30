@@ -86,6 +86,28 @@
         cursor: pointer;
     }
 
+    /* Style for user icon */
+    .user-icon {
+        width: 45px;
+        height: 45px;
+        margin-right: 10px;
+        border-radius: 50%;
+    }
+
+    /* Style for the user profile dropdown menu */
+    .dropdown-menu {
+        background-color: #333;
+        color: #fff;
+    }
+
+    .dropdown-item {
+        color: #fff;
+    }
+    .dropdown .btn-secondary {
+    background-color: #25554e; /* Blue background color */
+    color: #fff; /* Text color */
+}
+
     
 
         </style>
@@ -165,7 +187,7 @@
                         <div id="nav-head" class="col-md-9 nav-div d-none d-md-block">
                             <ul>
                                 <li>
-                                    <a class="js-scroll-trigger" href="">HOME</a>
+                                    <a class="js-scroll-trigger" href="index">HOME</a>
                                 </li>
                                 <li>
                                     <a class="js-scroll-trigger" href="services">SERVICES</a>
@@ -174,9 +196,10 @@
                                     <a class="js-scroll-trigger" href="{% if user.is_authenticated %}{% url 'booking' %}{% else %}#login-required{% endif %}">
                                         BOOKING
                                     </a>
-                                    
 
                                 </li>
+                                
+                                
                                 <li>
                                     <a class="js-scroll-trigger" href="about">ABOUT</a>
                                 </li>
@@ -187,13 +210,27 @@
                                 <li>
                                     <a class="js-scroll-trigger" href="contact">CONTACT</a>
                                 </li>
-                                <li>
-                                    {% if user.is_authenticated %}
-                                        <a href="logout" class="btn btn-primary ml-lg-3">Logout</a>
-                                    {% else %}
-                                        <a href="login" class="btn btn-primary ml-lg-3">Login/Signup</a>
-                                    {% endif %}
-                                </li>
+                                <div class="dropdown">
+                                    <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="adminDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        {% if user.is_authenticated %}
+                                            <img src="{% static '/images/admin.jpg' %}" alt="Admin Icon" class="user-icon">
+                                            {{ user.username }}
+                                        {% else %}
+                                            Login/Sign Up
+                                        {% endif %}
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="adminDropdown">
+                                        {% if user.is_authenticated %}
+                                            <a class="dropdown-item" href="myprofile">Profile</a>
+                                            <a class="dropdown-item" href="logout">Logout</a>
+                                        {% else %}
+                                            <a class="dropdown-item" href="login">Login</a>
+                                            <a class="dropdown-item" href="signup">Sign Up</a>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                
+                                
                             </ul>
                         </div>
                     </div>
@@ -255,7 +292,7 @@
             <div class="container">
                 <div class="row key-row">
                     <div class="col-md-4 key-col">
-                        <h2>20 Years Experiance</h2>
+                        <h2>20 Years Experience</h2>
                         <p>At Device Revive, we take pride in our two decades of dedicated service in the world of laptop and desktop repairs. With 20 years of invaluable experience under our belt, we have established ourselves as a trusted and reliable name in the industry.
                         </p>
                         <a href=""></a>

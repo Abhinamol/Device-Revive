@@ -61,6 +61,28 @@
                cursor: pointer;
            }
 
+           /* Style for user icon */
+           .user-icon {
+               width: 45px;
+               height: 45px;
+               margin-right: 10px;
+               border-radius: 50%;
+           }
+       
+           /* Style for the user profile dropdown menu */
+           .dropdown-menu {
+               background-color: #333;
+               color: #fff;
+           }
+       
+           .dropdown-item {
+               color: #fff;
+           }
+           .dropdown .btn-secondary {
+           background-color: #25554e; /* Blue background color */
+           color: #fff; /* Text color */
+       }
+
             
         </style>
         
@@ -151,9 +173,7 @@
                                     </a>
 
                                 </li>
-                                <li>
-                                    <a class="js-scroll-trigger" href="userprofile"> PROFILE</a>
-                                </li>
+                               
                                 
                                 <li>
                                     <a class="js-scroll-trigger" href="about">ABOUT</a>
@@ -166,11 +186,26 @@
                                     <a class="js-scroll-trigger" href="contact">CONTACT</a>
                                 </li>
                                 <li>
-                                    {% if user.is_authenticated %}
-                                        <a href="logout" class="btn btn-primary ml-lg-3">Logout</a>
-                                    {% else %}
-                                        <a href="login" class="btn btn-primary ml-lg-3">Login/Signup</a>
-                                    {% endif %}
+                                    <div class="dropdown">
+                                        <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="adminDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            {% if user.is_authenticated %}
+                                                <img src="{% static '/images/admin.jpg' %}" alt="Admin Icon" class="user-icon">
+                                                {{ user.username }}
+                                            {% else %}
+                                                Login/Sign Up
+                                            {% endif %}
+                                        </a>
+                                        <div class="dropdown-menu" aria-labelledby="adminDropdown">
+                                            {% if user.is_authenticated %}
+                                                <a class="dropdown-item" href="myprofile">Profile</a>
+                                                <a class="dropdown-item" href="logout">Logout</a>
+                                            {% else %}
+                                                <a class="dropdown-item" href="login">Login</a>
+                                                <a class="dropdown-item" href="signup">Sign Up</a>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                    
                                 </li>
                             </ul>
                         </div>
@@ -265,34 +300,38 @@
                         <div class="d-flex flex-column">
                             <div class="d-flex align-items-center mb-2">
                                 <h1 class="flaticon-laptop font-weight-normal text-secondary m-0 mr-3"></h1>
-                                <h5 class="text-truncate m-0">Laptop Repair</h5>
+                                <b><h5 class="text-truncate m-0">Laptop Repair</h5></b>
                             </div>
                             <p>We specialize in diagnosing and fixing laptop issues of all kinds.</p>
+                            <br><br>
                         </div>
                     </div>
+                    
                     <div class="col-sm-6">
                         <div class="d-flex flex-column">
                             <div class="d-flex align-items-center mb-2">
                                 <h1 class="flaticon-desktop font-weight-normal text-secondary m-0 mr-3"></h1>
-                                <h5 class="text-truncate m-0">Desktop Repair</h5>
+                                <b><h5 class="text-truncate m-0">Desktop Repair</h5></b>
                             </div>
                             <p>Need help with your desktop PC? Our experts are here to assist you.</p>
+                            <br><br>
                         </div>
                     </div>
                     <div class="col-sm-6">
                         <div class="d-flex flex-column">
                             <div class="d-flex align-items-center mb-2">
                                 <h1 class="flaticon-tools font-weight-normal text-secondary m-0 mr-3"></h1>
-                                <h5 class="text-truncate m-0">Hardware Upgrades</h5>
+                                <b><h5 class="text-truncate m-0">Hardware Upgrades</h5></b>
                             </div>
                             <p>Upgrade your laptop or desktop for improved performance and capabilities.</p>
                         </div>
                     </div>
+
                     <div class="col-sm-6">
                         <div class="d-flex flex-column">
                             <div class="d-flex align-items-center mb-2">
                                 <h1 class="flaticon-software font-weight-normal text-secondary m-0 mr-3"></h1>
-                                <h5 class="text-truncate m-0">Software Troubleshooting</h5>
+                                <b><h5 class="text-truncate m-0">Software Troubleshooting</h5></b>
                             </div>
                             <p>We can resolve software issues and install the latest software updates.</p>
                         </div>

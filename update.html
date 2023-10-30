@@ -308,7 +308,7 @@
                                         BOOKING
                                     </a>
                                     <li>
-                                        <<div class="dropdown">
+                                        <div class="dropdown">
                                             <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="adminDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                 {% if user.is_authenticated %}
                                                     <img src="{% static '/images/admin.jpg' %}" alt="Admin Icon" class="user-icon">
@@ -344,7 +344,7 @@
                 <div class="slider-det">
                     <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
                         <div class="registration-container">
-                            <h2>SIGNUP</h2>
+                            <h2>UPDATE PROFILE</h2>
                             <form id="signup-form" method="POST">
                                 {% csrf_token %}
                                 
@@ -391,7 +391,8 @@
                                 </div>
                                 
                                 <div class="form-group">
-                                    <label for="password">Password:</label>
+                                    <label for="password">Reset Password</label><br>
+                                    <label for="password">New Password:</label>
                                     <input type="password" id="password" name="password" class="form-control" required onblur="checkEmptyField(this)" oninput="checkEmptyField(this)" required autocomplete="off">
                                     <span id="password-error" class="error"></span>
                                     <span id="password-requirements" class="requirements"></span>
@@ -400,17 +401,14 @@
                                 
                                 
                                 <div class="form-group">
-                                    <label for="confirm-password">Confirm Password:</label>
+                                    <label for="confirm-password">Confirm New Password:</label>
                                     <input type="password" id="confirm-password" name="confirm-password" class="form-control" required onblur="checkEmptyField(this)" oninput="checkEmptyField(this)" required autocomplete="off">
                                     <span id="confirm-password-error" class="error"></span> 
                                     <div id="confirm-password-warning" class="warning"></div>
                                 </div>
                                 
                                 <!-- Consent -->
-                                <div class="form-group">
-                                    <input type="checkbox" id="consent" name="consent" required>
-                                    <label for="consent">I have read and agree to the terms and conditions.</label>
-                                </div>
+                               
                                 
                                 <!-- Submit Button -->
                                 <div class="form-group">

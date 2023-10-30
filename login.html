@@ -205,6 +205,12 @@
                                     <a class="js-scroll-trigger" href="index">HOME</a>
                                 </li>
                                 <li>
+                                    <a class="js-scroll-trigger" href="{% if user.is_authenticated %}{% url 'userprofile' %}{% else %}#login-required{% endif %}">
+                                        MY PROFILE
+                                    </a>
+                                </li>
+                                
+                                <li>
                                     <a class="js-scroll-trigger" href="about">ABOUT COMPANY</a>
                                 </li>
                                 <li class="yc">
@@ -261,11 +267,11 @@
 
                             </form>
                         </div>
-                           <center> <p>Don't have an account..?<a href="signup" style="color: red;">Sign Up</a></p></center>
+                           <center> <p>Don't have an account..?<a href="signup" style="color: blue;">Sign Up</a></p></center>
                           
                         </div> 
                         <div>
-                            <p><a href="{% url 'password_reset' %}" class="link" style="color: red;" >Forgot Password</a></p>
+                            <p><a href="{% url 'password_reset' %}" class="link" style="color: white;" >Forgot Password</a></p>
                             </div>
                         
                        

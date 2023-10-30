@@ -1,0 +1,435 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+
+
+<title>account setting or edit profile - Bootdey.com</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<link rel="shortcut icon" href="{% static "images/fav.jpg" %}" rel="stylesheet"/>
+<link rel="stylesheet" href="{% static "css/bootstrap.min.css" %}" rel="stylesheet"/>
+<link rel="stylesheet" href="{% static "css/fontawsom-all.min.css" %}" rel="stylesheet"/>
+<link rel="stylesheet" href="{% static "css/animate.css" %}" rel="stylesheet"/>
+<link rel="stylesheet" type="text/css" href="{% static "/css/style.css"%}" rel="stylesheet"/>
+<style type="text/css">
+    	body {
+    margin: 0;
+    padding-top: 40px;
+    color: #2e323c;
+    background: #f5f6fa;
+    position: relative;
+    height: 100%;
+}
+.account-settings .user-profile {
+    margin: 0 0 1rem 0;
+    padding-bottom: 1rem;
+    text-align: center;
+}
+.account-settings .user-profile .user-avatar {
+    margin: 0 0 1rem 0;
+}
+.account-settings .user-profile .user-avatar img {
+    width: 90px;
+    height: 90px;
+    -webkit-border-radius: 100px;
+    -moz-border-radius: 100px;
+    border-radius: 100px;
+}
+.account-settings .user-profile h5.user-name {
+    margin: 0 0 0.5rem 0;
+}
+.account-settings .user-profile h6.user-email {
+    margin: 0;
+    font-size: 0.8rem;
+    font-weight: 400;
+    color: #9fa8b9;
+}
+.account-settings .about {
+    margin: 2rem 0 0 0;
+    text-align: center;
+}
+.account-settings .about h5 {
+    margin: 0 0 15px 0;
+    color: #007ae1;
+}
+.account-settings .about p {
+    font-size: 0.825rem;
+}
+.form-control {
+    border: 1px solid #cfd1d8;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
+    font-size: .825rem;
+    background: #ffffff;
+    color: #2e323c;
+}
+
+.card {
+    background: #ffffff;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    border: 0;
+    margin-bottom: 1rem;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #f2f2f2;
+}
+
+.login-container {
+    width: 500px;
+    margin: 0 auto;
+    padding: 10px;
+    background-color: black;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent gray background color */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+}
+
+.login-container h2 {
+    text-align: center;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    font-weight: bold;
+}
+
+.form-group input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    font-size: 16px;
+}
+
+.form-group input[type="submit"] {
+    background-color: black;
+    color: #fff;
+    cursor: pointer;
+}
+
+.form-group input[type="submit"]:hover {
+    background-color: #0056b3;
+}
+.error-box {
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    color: #721c24;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+.banner-container {
+    background-image: url('{% static '/images/head_bg.jpg' %}');
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    min-height: 100vh;
+   }
+   
+
+
+.header-container {
+    background-color: black; /* Set the background color to black */
+}
+
+.header-container {
+    background-color: rgba(0, 0, 0, 0.5); /* Set the background color to black with 80% opacity */
+}
+
+
+/* login required */
+
+.login-required-message {
+   display: none;
+   justify-content: center;
+   align-items: center;
+   position: fixed;
+   top: 0;
+   left: 0;
+   width: 100%;
+   height: 100%;
+   background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
+   z-index: 9999; /* Ensure it's above other elements */
+}
+
+.login-required-box {
+   background-color: #fff; /* White background for the box */
+   padding: 20px;
+   border-radius: 5px;
+   text-align: center;
+}
+
+.login-required-message p {
+   margin: 0;
+}
+
+.ok-button {
+   background-color: #2a5945;
+   color: #fff;
+   padding: 10px 20px;
+   border-radius: 5px;
+   cursor: pointer;
+}
+
+/* Style for user icon */
+    .user-icon {
+        width: 45px;
+        height: 45px;
+        margin-right: 10px;
+        border-radius: 50%;
+    }
+
+    /* Style for the user profile dropdown menu */
+    .dropdown-menu {
+        background-color: #333;
+        color: #fff;
+    }
+
+    .dropdown-item {
+        color: #fff;
+    }
+    .dropdown .btn-secondary {
+    background-color: #25554e; /* Blue background color */
+    color: #fff; /* Text color */
+}
+  </style>
+</head>
+<body>
+
+    <div class="header-container">
+        <div class="header-top">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-7 col-md-12 left-item">
+                        <ul>
+                            <li>
+                                <i class="fas fa-envelope-square"></i>
+                                devicerevive@gmail.com
+                                </li>
+                            <li class="d-none d-sm-block">
+                                <i class="fas fa-phone-square"></i>
+                                9567854321
+                                </li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-5 d-none d-lg-block right-item">
+                        <ul>
+                            <li>
+                                <a>
+                                    <i class="fab fa-github" style="color: white;"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="">
+                                    <i class="fab fa-linkedin-in" style="color: white;"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="">
+                                    <i class="fab fa-pinterest-p" style="color: white;"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="">
+                                    <i class="fab fa-twitter" style="color: white;"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="">
+                                    <i class="fab fa-facebook-f" style="color: white;"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="login-required-message">
+            <div class="login-required-box">
+                <p>Login Required</p>
+                <button class="ok-button">OK</button>
+            </div>
+        </div>
+
+
+        <nav id="menu-jk" class="container-fluid  no-padding">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-1 col-sm-1 logo">
+                        <img class="log" src="{% static '/images/mylogo.png' %}"  alt="">
+                        <img class="log-gray" src="" alt="">
+                        <a data-toggle="collapse" data-target="#nav-head" href="#nav-head">
+                            <i class="fas d-block d-md-none small-menu fa-bars"></i>
+                        </a>
+                    </div>
+                    <div id="nav-head" class="col-md-9 nav-div d-none d-md-block">
+                        <ul>
+                            <li>
+                                <a class="js-scroll-trigger" href="index">HOME</a>
+                            </li>
+                            
+                          
+                            
+                            <li>
+                                <a class="js-scroll-trigger" href="about">ABOUT COMPANY</a>
+                            </li>
+                            <li class="yc">
+                                <a class="js-scroll-trigger" href="why">WHY CHOOSE US</a>
+                            </li>
+                            <li>
+                                <a class="js-scroll-trigger" href="{% if user.is_authenticated %}{% url 'booking' %}{% else %}#login-required{% endif %}">
+                                    BOOKING
+                                </a>
+                            
+
+                            <li>
+                                <a class="js-scroll-trigger" href="contact">CONTACT US</a>
+                            </li>
+                            <li>
+                                <div class="dropdown">
+                                    <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="adminDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        {% if user.is_authenticated %}
+                                            <img src="{% static '/images/admin.jpg' %}" alt="Admin Icon" class="user-icon">
+                                            {{ user.username }}
+                                        {% else %}
+                                            Login/Sign Up
+                                        {% endif %}
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="adminDropdown">
+                                        {% if user.is_authenticated %}
+                                            <a class="dropdown-item" href="myprofile">Profile</a>
+                                            <a class="dropdown-item" href="logout">Logout</a>
+                                        {% else %}
+                                            <a class="dropdown-item" href="login">Login</a>
+                                            <a class="dropdown-item" href="signup">Sign Up</a>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </div>
+
+    
+
+ <div id="home" class="banner-container no-padding">
+        <div class="container">
+            <div class="row mx-auto"></div>
+            <div class="slider-det">
+                <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+                    <div class="login-container">
+                        
+    
+
+
+    <div class="container confirmation-box">
+    
+        <h1>Booking Confirmation</h1>
+        
+        <!-- Display the selected services -->
+        <h3>Selected Services:</h3>
+        <ul id="selected-services">
+            <!-- JavaScript will insert the selected services here -->
+        </ul>
+
+        <!-- Display the total cost -->
+        <div class="total-cost-box">
+        <h3>Total Cost:</h3>
+       
+        <p id="total-cost">
+            <!-- JavaScript will insert the total cost here -->
+        </p>
+    </div>
+
+        <!-- Payment options can be added here -->
+        <h3>Payment Options:</h3>
+        <p>Choose a payment option and proceed with the payment:</p>
+
+        <!-- Placeholder payment options (replace with actual payment buttons/forms) -->
+        <div class="payment-options">
+            <button id="paypal-button">Pay with PayPal</button>
+            <button id="stripe-button">Pay with Stripe</button>
+        </div>
+
+        <!-- You can add payment buttons or forms here as needed -->
+    </div>
+</div>
+</div>
+
+
+    
+    
+</body>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.bundle.min.js"></script>
+<script type="text/javascript">
+	
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Get the selected services and total cost from URL parameters
+        const selectedServices = decodeURIComponent(getUrlParameter('services'));
+        const totalCost = decodeURIComponent(getUrlParameter('total'));
+
+        // Display the selected services on the page
+        const selectedServicesList = document.getElementById('selected-services');
+        const servicesArray = selectedServices.split(',');
+        servicesArray.forEach(service => {
+            const listItem = document.createElement('li');
+            listItem.textContent = service;
+            selectedServicesList.appendChild(listItem);
+        });
+
+        // Display the total cost on the page
+        const totalCostElement = document.getElementById('total-cost');
+        totalCostElement.textContent = '$' + parseFloat(totalCost).toFixed(2);
+    });
+
+    // Function to get URL parameters by name
+    function getUrlParameter(name) {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get(name);
+    }
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        var bookingLink = document.querySelector('.js-scroll-trigger[href="#login-required"]');
+        var loginRequiredMessage = document.querySelector('.login-required-message');
+        var okButton = document.querySelector('.ok-button');
+    
+        bookingLink.addEventListener("click", function(event) {
+            event.preventDefault(); // Prevent the default link behavior
+            loginRequiredMessage.style.display = "flex"; // Show the message
+        });
+        
+        okButton.addEventListener("click", function() {
+            loginRequiredMessage.style.display = "none"; // Hide the message when OK is clicked
+        });
+    });
+</script>
+
+
+</html>

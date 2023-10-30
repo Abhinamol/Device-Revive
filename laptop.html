@@ -61,6 +61,44 @@
                border-radius: 5px;
                cursor: pointer;
            }
+
+           /* Style for user icon */
+           .user-icon {
+               width: 45px;
+               height: 45px;
+               margin-right: 10px;
+               border-radius: 50%;
+           }
+       
+           /* Style for the user profile dropdown menu */
+           .dropdown-menu {
+               background-color: #333;
+               color: #fff;
+           }
+       
+           .dropdown-item {
+               color: #fff;
+           }
+           .dropdown .btn-secondary {
+           background-color: #25554e; /* Blue background color */
+           color: #fff; /* Text color */
+       }
+
+       .hidden {
+        display: none;
+    }
+
+    .service-list-box {
+        background-color: white;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        padding: 20px;
+        margin: 20px 0;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    
+
+    
         </style>
         
     </head>
@@ -149,9 +187,7 @@
                                     </a>
 
                                 </li>
-                                <li>
-                                    <a class="js-scroll-trigger" href="userprofile"> PROFILE</a>
-                                </li>
+                               
                                 
                                 
                                 <li>
@@ -165,11 +201,26 @@
                                     <a class="js-scroll-trigger" href="contact">CONTACT</a>
                                 </li>
                                 <li>
-                                    {% if user.is_authenticated %}
-                                        <a href="logout" class="btn btn-primary ml-lg-3">Logout</a>
-                                    {% else %}
-                                        <a href="login" class="btn btn-primary ml-lg-3">Login/Signup</a>
-                                    {% endif %}
+                                    <div class="dropdown">
+                                        <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="adminDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            {% if user.is_authenticated %}
+                                                <img src="{% static '/images/admin.jpg' %}" alt="Admin Icon" class="user-icon">
+                                                {{ user.username }}
+                                            {% else %}
+                                                Login/Sign Up
+                                            {% endif %}
+                                        </a>
+                                        <div class="dropdown-menu" aria-labelledby="adminDropdown">
+                                            {% if user.is_authenticated %}
+                                                <a class="dropdown-item" href="myprofile">Profile</a>
+                                                <a class="dropdown-item" href="logout">Logout</a>
+                                            {% else %}
+                                                <a class="dropdown-item" href="login">Login</a>
+                                                <a class="dropdown-item" href="signup">Sign Up</a>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                    
                                 </li>
                             </ul>
                         </div>
@@ -185,7 +236,7 @@
                 <div class="row mx-auto"></div>
                 <div class="slider-det">
                     <h1>DEVICE REVIVE</h1>
-                    <h3>LAPTOP SERVICE BOOKING</h3>
+                    <h3>SERVICE BOOKING</h3>
                         
                         
                 </div>
@@ -211,14 +262,22 @@
                             <input type="text" class="form-control border-0 p-4" placeholder="Name" required="required" />
                         </div>
                         <div class="form-group">
-                            <input type="email" class="form-control border-0 p-4" placeholder="email" required="required" />
+                            <input type="email" class="form-control border-0 p-4" placeholder="Email" required="required" />
                         </div>
                         <div class="form-group">
                             <input type="text" class="form-control border-0 p-4" placeholder="Phone No." required="required" />
                         </div>
                         <div class="form-group">
+                            <label for="service_type" style="color: white;">Select Service Type:</label>
+                            <select id="service_type" name="service_type" class="form-control" required onchange="showLaptopBrandField()">
+                                <option value="Laptop"> Select</option>
+                                <option value="Laptop">Laptop Service</option>
+                                <option value="Desktop">Desktop Service</option>
+                            </select>
+                        </div>
+                        <div class="form-group" id="laptop_brand_field" style="display: none;">
                             <label for="laptop_brand" style="color: white;">Laptop Brand:</label>
-                            <select id="laptop_brand" name="laptop_brand" class="form-control" required>
+                            <select id="laptop_brand" name="laptop_brand" class="form-control">
                                 <option value="Acer">Acer</option>
                                 <option value="Asus">Asus</option>
                                 <option value="Dell">Dell</option>
@@ -227,13 +286,63 @@
                                 <option value="Other">Other</option>
                             </select>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" id="laptop-model-field" style="display: none;">
                             <label for="laptop_model" style="color: white;">Laptop Model:</label>
                             <input type="text" id="laptop_model" name="laptop_model" class="form-control" required>
                         </div>
+
+                        
+                               
                         <div class="form-group">
-                            
-                            <textarea  rows="4" class="form-control"   placeholder="Issue Description"required="required" /></textarea>
+                            <label for="service" style="color: white;">Select Service(s):</label>
+                            <div class="service-list-box">
+                            <div>
+                                <input type="checkbox" id="hardwareRepair" name="service" value="Hardware Repair" class="service-checkbox">
+                                <label for="hardwareRepair"  style="color: black;">Hardware Repair - $99.99</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" id="softwareTroubleshooting" name="service" value="Software Troubleshooting" class="service-checkbox">
+                                <label for="softwareTroubleshooting"  style="color: black;">Software Troubleshooting - $49.99</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" id="virusRemoval" name="service" value="Virus Removal" class="service-checkbox">
+                                <label for="virusRemoval"  style="color:  black;">Virus Removal - $79.99</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" id="dataRecovery" name="service" value="Data Recovery" class="service-checkbox">
+                                <label for="dataRecovery"  style="color:  black;">Data Recovery - $69.99</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" id="screenReplacement" name="service" value="Screen Replacement" class="service-checkbox">
+                                <label for="screenReplacement"  style="color: black;">Screen Replacement - $129.99</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" id="upgradesCustomization" name="service" value="Upgrades and Customization" class="service-checkbox">
+                                <label for="upgradesCustomization"  style="color:  black;">Upgrades/Customization - $79.99 </label>
+                            </div>
+                            <div>
+                                <input type="checkbox" id="networkSetup" name="service" value="Network Setup" class="service-checkbox">
+                                <label for="networkSetup"  style="color: black;">Network Setup - $59.99</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" id="osInstallation" name="service" value="Operating System Installation" class="service-checkbox">
+                                <label for="osInstallation"  style="color: black;">OS Installation - $49.99</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" id="backupSolutions" name="service" value="Backup Solutions" class="service-checkbox">
+                                <label for="backupSolutions"  style="color:  black;">Backup Solutions - $79.99 and up</label>
+                            </div>
+                        </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="selected-service-price" style="color: white;">Total Service Cost:</label>
+                            <input type="text" id="total-service-cost" class="form-control" disabled>
+                        </div>
+                        
+                        
+                        <div class="form-group">
+                            <textarea rows="4" class="form-control" placeholder="Issue Description" required="required"></textarea>
                         </div>
                         <div class="form-group">
                             <input type="date" class="form-control" name="fdate" placeholder="From Date" required>
@@ -251,7 +360,7 @@
                                 <option  value="{{ id.ampm }}" >10 AM TO 5 PM</option>
                                 <option  value="{{ id.pmpm }}" >5 PM TO 10 PM</option>
                                 <option  value="{{ id.apm }}" >AFTER 10 PM</option>
-                                <option  value="{{ id.price }}" >FULL DAY</option>
+                               
                             </select>
 </div>
 <div class="form-group">
@@ -261,7 +370,8 @@
 <input type="number" id="totals" class="form-control" name="total" placeholder="Booking Amount/day: {{ id.price }}" required readonly>
 </div>
                         <div>
-                            <button class="btn btn-dark btn-block border-0 py-3" type="submit">Book Now</button>
+                            <button class="btn btn-dark btn-block border-0 py-3" type="button" onclick="redirectToBookingConfirmation()">Book Now</button>
+
                         </div>
                     </form>
                 </div>
@@ -278,6 +388,7 @@
                                 <h5 class="text-truncate m-0">Laptop Repair</h5>
                             </div>
                             <p>We specialize in diagnosing and fixing laptop issues of all kinds.</p>
+                            <br><br>
                         </div>
                     </div>
                     <div class="col-sm-6">
@@ -287,6 +398,8 @@
                                 <h5 class="text-truncate m-0">Desktop Repair</h5>
                             </div>
                             <p>Need help with your desktop PC? Our experts are here to assist you.</p>
+                            <br>
+                            <br>
                         </div>
                     </div>
                     <div class="col-sm-6">
@@ -315,90 +428,7 @@
 </div>
 <!-- Booking Start -->
 
-<!-- Pricing Plan Start -
-<div class="container-fluid bg-light pt-5 pb-4">
-    <div class="container py-5">
-        <div class="d-flex flex-column text-center mb-5">
-            <h4 class="text-secondary mb-3">Pricing Plan</h4>
-            <h1 class="display-4 m-0">Choose the <span class="text-primary">Best Price</span></h1>
-        </div>
-        <div class="row">
-            <div class="col-lg-4 mb-4">
-                <div class="card border-0">
-                    <div class="card-header position-relative border-0 p-0 mb-4">
-                        <img class="card-img-top" src="img/price-1.jpg" alt="">
-                        <div class="position-absolute d-flex flex-column align-items-center justify-content-center w-100 h-100" style="top: 0; left: 0; z-index: 1; background: rgba(0, 0, 0, .5);">
-                            <h3 class="text-primary mb-3">Basic</h3>
-                            <h1 class="display-4 text-white mb-0">
-                                <small class="align-top" style="font-size: 22px; line-height: 45px;">$</small>49<small class="align-bottom" style="font-size: 16px; line-height: 40px;">/ Mo</small>
-                            </h1>
-                        </div>
-                    </div>
-                    <div class="card-body text-center p-0">
-                        <ul class="list-group list-group-flush mb-4">
-                            <li class="list-group-item p-2"><i class="fa fa-check text-secondary mr-2"></i>Feeding</li>
-                            <li class="list-group-item p-2"><i class="fa fa-check text-secondary mr-2"></i>Boarding</li>
-                            <li class="list-group-item p-2"><i class="fa fa-times text-danger mr-2"></i>Spa & Grooming</li>
-                            <li class="list-group-item p-2"><i class="fa fa-times text-danger mr-2"></i>Veterinary Medicine</li>
-                        </ul>
-                    </div>
-                    <div class="card-footer border-0 p-0">
-                        <a href="" class="btn btn-primary btn-block p-3" style="border-radius: 0;">Signup Now</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 mb-4">
-                <div class="card border-0">
-                    <div class="card-header position-relative border-0 p-0 mb-4">
-                        <img class="card-img-top" src="img/price-2.jpg" alt="">
-                        <div class="position-absolute d-flex flex-column align-items-center justify-content-center w-100 h-100" style="top: 0; left: 0; z-index: 1; background: rgba(0, 0, 0, .5);">
-                            <h3 class="text-secondary mb-3">Standard</h3>
-                            <h1 class="display-4 text-white mb-0">
-                                <small class="align-top" style="font-size: 22px; line-height: 45px;">$</small>99<small class="align-bottom" style="font-size: 16px; line-height: 40px;">/ Mo</small>
-                            </h1>
-                        </div>
-                    </div>
-                    <div class="card-body text-center p-0">
-                        <ul class="list-group list-group-flush mb-4">
-                            <li class="list-group-item p-2"><i class="fa fa-check text-secondary mr-2"></i>Feeding</li>
-                            <li class="list-group-item p-2"><i class="fa fa-check text-secondary mr-2"></i>Boarding</li>
-                            <li class="list-group-item p-2"><i class="fa fa-check text-secondary mr-2"></i>Spa & Grooming</li>
-                            <li class="list-group-item p-2"><i class="fa fa-times text-danger mr-2"></i>Veterinary Medicine</li>
-                        </ul>
-                    </div>
-                    <div class="card-footer border-0 p-0">
-                        <a href="" class="btn btn-secondary btn-block p-3" style="border-radius: 0;">Signup Now</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 mb-4">
-                <div class="card border-0">
-                    <div class="card-header position-relative border-0 p-0 mb-4">
-                        <img class="card-img-top" src="img/price-3.jpg" alt="">
-                        <div class="position-absolute d-flex flex-column align-items-center justify-content-center w-100 h-100" style="top: 0; left: 0; z-index: 1; background: rgba(0, 0, 0, .5);">
-                            <h3 class="text-primary mb-3">Premium</h3>
-                            <h1 class="display-4 text-white mb-0">
-                                <small class="align-top" style="font-size: 22px; line-height: 45px;">$</small>149<small class="align-bottom" style="font-size: 16px; line-height: 40px;">/ Mo</small>
-                            </h1>
-                        </div>
-                    </div>
-                    <div class="card-body text-center p-0">
-                        <ul class="list-group list-group-flush mb-4">
-                            <li class="list-group-item p-2"><i class="fa fa-check text-secondary mr-2"></i>Feeding</li>
-                            <li class="list-group-item p-2"><i class="fa fa-check text-secondary mr-2"></i>Boarding</li>
-                            <li class="list-group-item p-2"><i class="fa fa-check text-secondary mr-2"></i>Spa & Grooming</li>
-                            <li class="list-group-item p-2"><i class="fa fa-check text-secondary mr-2"></i>Veterinary Medicine</li>
-                        </ul>
-                    </div>
-                    <div class="card-footer border-0 p-0">
-                        <a href="" class="btn btn-primary btn-block p-3" style="border-radius: 0;">Signup Now</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-Pricing Plan End -->
+
 <br><br>
 
         <!--########################## Footer CSS ####################-->
@@ -524,5 +554,132 @@ Pricing Plan End -->
             });
         });
     </script>
+
+    <script>
+        function showLaptopBrandField() {
+            const serviceType = document.getElementById("service_type");
+            const laptopBrandField = document.getElementById("laptop_brand_field");
+    
+            if (serviceType.value === "Laptop") {
+                laptopBrandField.style.display = "block";
+            } else {
+                laptopBrandField.style.display = "none";
+            }
+        }
+
+    </script>
+
+    <script>
+    function showLaptopBrandField() {
+        const serviceType = document.getElementById("service_type");
+        const laptopBrandField = document.getElementById("laptop_brand_field");
+
+        if (serviceType.value === "Laptop") {
+            laptopBrandField.style.display = "block";
+        } else {
+            laptopBrandField.style.display = "none";
+        }
+    }
+</script>
+
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    // Listen for changes in the checkboxes
+    $('.service-checkbox').on('change', function() {
+        updateTotalCost();
+    });
+
+    function updateTotalCost() {
+        let totalCost = 0;
+        $('.service-checkbox:checked').each(function() {
+            const serviceText = $(this).next().text();
+            const servicePrice = parseFloat(serviceText.match(/\d+\.\d+/)[0]);
+            totalCost += servicePrice;
+        });
+
+        $('#total-service-cost').val('$' + totalCost.toFixed(2));
+    }
+</script>
+
+<script>
+    function redirectToBookingConfirmation() {
+        // Construct the URL for the booking confirmation page
+        const selectedServices = getSelectedServices(); // Implement a function to get selected services
+        const totalCost = calculateTotalCost(); // Implement a function to calculate the total cost
+        const bookingConfirmationURL = `/bookingconfirmation.html?services=${encodeURIComponent(selectedServices)}&total=${totalCost}`;
+        
+        // Redirect to the booking confirmation page
+        window.location.href = bookingConfirmationURL;
+    }
+    
+    // Implement functions to get selected services and calculate the total cost
+    // Example:
+    function getSelectedServices() {
+        const selectedServices = [];
+        $('.service-checkbox:checked').each(function() {
+            selectedServices.push($(this).next().text());
+        });
+        return selectedServices.join(', ');
+    }
+
+    function calculateTotalCost() {
+        let totalCost = 0;
+        $('.service-checkbox:checked').each(function() {
+            const serviceText = $(this).next().text();
+            const servicePrice = parseFloat(serviceText.match(/\d+\.\d+/)[0]);
+            totalCost += servicePrice;
+        });
+        return totalCost.toFixed(2);
+    }
+</script>
+<script>
+    function redirectToBookingConfirmation() {
+        // ...
+        console.log('Redirecting to booking confirmation');
+        // ...
+    }
+</script>
+
+<script>
+    function redirectToBookingConfirmation() {
+        // Construct the URL for the booking confirmation page
+        const selectedServices = getSelectedServices(); // Implement a function to get selected services
+        const totalCost = calculateTotalCost(); // Implement a function to calculate the total cost
+        const bookingConfirmationURL = `/bookingconfirmation?services=${encodeURIComponent(selectedServices)}&total=${totalCost}`;
+        
+        // Redirect to the booking confirmation page
+        window.location.href = bookingConfirmationURL;
+    }
+    
+    // Implement functions to get selected services and calculate the total cost
+    // Example:
+    function getSelectedServices() {
+        const selectedServices = [];
+        $('.service-checkbox:checked').each(function() {
+            selectedServices.push($(this).next().text());
+        });
+        return selectedServices.join(', ');
+    }
+
+    function calculateTotalCost() {
+        let totalCost = 0;
+        $('.service-checkbox:checked').each(function() {
+            const serviceText = $(this).next().text();
+            const servicePrice = parseFloat(serviceText.match(/\d+\.\d+/)[0]);
+            totalCost += servicePrice;
+        });
+        return totalCost.toFixed(2);
+    }
+</script>
+
+
+
+
+
+    
 
 </html>

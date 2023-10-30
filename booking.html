@@ -35,6 +35,54 @@
                 transform: translateX(-50%);
                 padding: 30px 0;
             }
+
+            /* Style for user icon */
+            .user-icon {
+                width: 45px;
+                height: 45px;
+                margin-right: 10px;
+                border-radius: 50%;
+            }
+        
+            /* Style for the user profile dropdown menu */
+            .dropdown-menu {
+                background-color: #333;
+                color: #fff;
+            }
+        
+            .dropdown-item {
+                color: #fff;
+            }
+            .dropdown .btn-secondary {
+            background-color: #25554e; /* Blue background color */
+            color: #fff; /* Text color */
+        }
+        
+
+        /* Your existing styles */
+
+        .service {
+            margin: 20px 0;
+            border: 1px solid #ccc;
+            padding: 10px;
+        }
+
+        .book-now-button {
+            background-color: #0b834b; /* Green background color */
+            color: #fff; /* White text color */
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            font-size: 14px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+            display: block; /* Display the button as a block element to make it a new line */
+        }
+
+        .book-now-button:hover {
+            background-color: #0a723c; /* Darker green on hover */
+        }
+        
         
         </style>
         
@@ -127,11 +175,26 @@
                                     <a class="js-scroll-trigger" href="contact">CONTACT</a>
                                 </li>
                                 <li>
-                                    {% if user.is_authenticated %}
-                                        <a href="logout" class="btn btn-primary ml-lg-3">Logout</a>
-                                    {% else %}
-                                        <a href="login" class="btn btn-primary ml-lg-3">Login/Signup</a>
-                                    {% endif %}
+                                    <div class="dropdown">
+                                        <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="adminDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            {% if user.is_authenticated %}
+                                                <img src="{% static '/images/admin.jpg' %}" alt="Admin Icon" class="user-icon">
+                                                {{ user.username }}
+                                            {% else %}
+                                                Login/Sign Up
+                                            {% endif %}
+                                        </a>
+                                        <div class="dropdown-menu" aria-labelledby="adminDropdown">
+                                            {% if user.is_authenticated %}
+                                                <a class="dropdown-item" href="myprofile">Profile</a>
+                                                <a class="dropdown-item" href="logout">Logout</a>
+                                            {% else %}
+                                                <a class="dropdown-item" href="login">Login</a>
+                                                <a class="dropdown-item" href="signup">Sign Up</a>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                    
                                 </li>
                             </ul>
                         </div>
@@ -156,28 +219,69 @@
         </div>
         <br><br><br>
 
-<div class="container">
-    <div class="col-lg-7 py-5 py-lg-0 px-3 px-lg-5">
-        <h4 class="text-secondary mb-3">Facing Desktop Issues?</h4>
-        <h1 class="display-4 mb-4">Desktop Troubles? We've Got You Covered!</h1>
-        <p>Welcome to Device Revive, your trusted tech partner for all your desktop needs. Whether you're facing sluggish performance, software hiccups, or hardware glitches, we specialize in diagnosing and fixing desktop issues of all kinds. With two decades of experience and a commitment to cutting-edge technology, we're here to empower your digital world. Let's revive your desktop and get it thriving again!</p>
-        <br><a href="desktop" class="btn btn-primary btn-lg">Book Now</a>
-        <!-- Additional content or features related to desktop repair can be added here -->
-    </div>
-</div>
-
-<!-- Add this code within the appropriate section of your webpage, e.g., under a "Laptop Repair" section -->
-<br><br>
-<div class="container">
-    <div class="row">
-        <div class="col-lg-7 py-5 py-lg-0 px-3 px-lg-5">
-            <h4 class="text-secondary mb-3">Facing Laptop Issues?</h4>
-            <h1 class="display-4 mb-4">Laptop Troubles? We're Here to Help!</h1>
-            <p>Experiencing problems with your laptop? Don't worry; we've got you covered. At Device Revive, we specialize in diagnosing and fixing laptop issues of all kinds. Our team of experts is dedicated to providing top-notch laptop repair services, ensuring your device runs smoothly. With over two decades of experience, we have the knowledge and technology to get your laptop back in optimal condition. Let's revive your laptop and keep you productive!</p>
-            <br><a href="laptop" class="btn btn-primary btn-lg">Book Now</a>
-        </div>
-    </div>
-</div>
+        <div class="container">
+            <div class="service">
+                <h2>Hardware Repair</h2>
+                <p>We offer comprehensive hardware repair services for laptops and desktops.</p>
+                <p class="price">$99.99</p>
+                <button class="book-now-button" onclick="bookNow(this)">Book Now</button>
+            </div>
+    
+            <div class="service">
+                <h2>Software Troubleshooting</h2>
+                <p>Is your laptop or desktop facing software issues? We can help!</p>
+                <p class="price">$49.99</p>
+                <button class="book-now-button" onclick="bookNow(this)">Book Now</button>
+            </div>
+            <div class="service">
+                <h2>Virus Removal</h2>
+                <p>We'll remove viruses and malware to make your system secure again.</p>
+                <p class="price">$79.99</p>
+                <button class="book-now-button" onclick="bookNow(this)">Book Now</button>
+            </div>
+            
+            <div class="service">
+                <h2>Data Recovery</h2>
+                <p>Accidentally deleted important files? We can recover them for you.</p>
+                <p class="price">$69.99</p>
+                <button class="book-now-button" onclick="bookNow(this)">Book Now</button>
+            </div>
+            
+            <div class="service">
+                <h2>Screen Replacement</h2>
+                <p>Cracked or malfunctioning screen? We provide professional screen replacement services.</p>
+                <p class="price">$129.99</p>
+                <button class="book-now-button" onclick="bookNow(this)">Book Now</button>
+            </div>
+            
+            <div class="service">
+                <h2>Upgrades and Customization</h2>
+                <p>Want to enhance your laptop or desktop's performance? We offer upgrades and customization options.</p>
+                <p class="price">$79.99 and up</p>
+                <button class="book-now-button" onclick="bookNow(this)">Book Now</button>
+            </div>
+            
+            <div class="service">
+                <h2>Network Setup</h2>
+                <p>We can set up your home or office network for seamless connectivity.</p>
+                <p class="price">$59.99</p>
+                <button class="book-now-button" onclick="bookNow(this)">Book Now</button>
+            </div>
+            
+            <div class="service">
+                <h2>Operating System Installation</h2>
+                <p>Need to install a new operating system? We've got you covered.</p>
+                <p class "price">$49.99</p>
+                <button class="book-now-button" onclick="bookNow(this)">Book Now</button>
+            </div>
+            
+            <div class="service">
+                <h2>Backup Solutions</h2>
+                <p>Protect your important data with our backup solutions and data recovery services.</p>
+                <p class="price">$79.99 and up</p>
+                <button class="book-now-button" onclick="bookNow(this)">Book Now</button>
+            </div>
+            
 </div>
 </div>
 <br><br>
@@ -284,9 +388,50 @@
 
         </div>
     </body>
+
+    <script>
+        function addService() {
+            const container = document.querySelector(".container");
+
+            const newService = document.createElement("div");
+            newService.className = "service";
+
+            const serviceTitle = document.createElement("h2");
+            serviceTitle.textContent = "New Service Title";
+
+            const serviceDescription = document.createElement("p");
+            serviceDescription.textContent = "Description of the new service.";
+
+            const servicePrice = document.createElement("p");
+            servicePrice.className = "price";
+            servicePrice.textContent = "$XX.XX"; // Replace with the desired price.
+
+            const bookNowButton = document.createElement("button");
+            bookNowButton.className = "book-now-button";
+            bookNowButton.textContent = "Book Now";
+            bookNowButton.onclick = function () {
+                bookNow(bookNowButton);
+            };
+
+            newService.appendChild(serviceTitle);
+            newService.appendChild(serviceDescription);
+            newService.appendChild(servicePrice);
+            newService.appendChild(bookNowButton);
+
+            container.insertBefore(newService, document.querySelector(".add-service-button"));
+        }
+
+        // JavaScript function to book a service
+        function bookNow() {
+            // Redirect to the "laptop.html" page
+            window.location.href = "laptop";
+        }
+    </script>
+    
     <script src="{% static '/js/jquery-3.2.1.min.js' %}"></script>
     <script src="{% static '/js/popper.min.js' %}"></script>
     <script src="{% static '/js/bootstrap.min.js' %}"></script>
     <script src="{% static '/plugins/scroll-fixed/jquery-scrolltofixed-min.js' %}"></script>
     <script src="{% static '/js/script.js' %}"></script>
+
 </html>
