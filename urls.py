@@ -1,48 +1,23 @@
-from django.urls import path
-from.import views
-from django.contrib.auth import views as auth_views
+"""
+URL configuration for laptop project.
+
+The `urlpatterns` list routes URLs to views. For more information please see:
+    https://docs.djangoproject.com/en/4.2/topics/http/urls/
+Examples:
+Function views
+    1. Add an import:  from my_app import views
+    2. Add a URL to urlpatterns:  path('', views.home, name='home')
+Class-based views
+    1. Add an import:  from other_app.views import Home
+    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
+Including another URLconf
+    1. Import the include() function: from django.urls import include, path
+    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
+"""
+from django.contrib import admin
+from django.urls import path,include
 
 urlpatterns = [
-    path('',views.index,name="index"),
-    path('index',views.index,name="index"),
-    path('login',views.loginn,name="login"),
-    path('signup',views.signup,name="signup"),
-    path('services',views.services,name="services"),
-    path('about',views.about,name="about"),
-    path('contact',views.contact,name="contact"),
-    path('booking',views.booking,name="booking"),
-    path('bookingconfirmation',views.bookingconfirmation,name="bookingconfirmation"),
-    path('why',views.why,name="why"),
-    path('desktop',views.desktop,name="desktop"),
-    path('laptop',views.laptop,name="laptop"),
-    path('userprofile',views.userprofile,name="userprofile"),
-    path('myprofile',views.myprofile,name="myprofile"),
-    path('update',views.update,name="update"),
-    path('after_login',views.after_login,name="after_login"),
-    path('logout',views.logout,name="logout"),
-
-     
-
-    path('check_username_availability/', views.check_username_availability, name='check_username_availability'),
-    path('check_email_availability/', views.check_email_availability, name='check_email_availability'),
-   
-    path('password_reset/', auth_views.PasswordResetView.as_view(), name='password_reset'),
-    path('password_reset/done/', auth_views.PasswordResetDoneView.as_view(), name='password_reset_done'),
-    path('reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
-    path('reset/done/', auth_views.PasswordResetCompleteView.as_view(), name='password_reset_complete'),
-    
-    path('userdetailss', views.userdetailss, name='userdetailss'),
-    path('dashboard', views.dashboard, name='dashboard'),
-    path('servicedetails', views.servicedetails, name='servicedetails'),
-    path('staffs', views.staffs, name='staffs'),
-
-    path('delete_user/<int:user_id>/', views.delete_user, name='delete_user'),
-
+    path('admin/', admin.site.urls),
+     path('', include('root.urls')),
 ]
-
-    
-
-    
-    
-     
-
