@@ -13,6 +13,11 @@ from django.core.exceptions import ValidationError
 from django.core.mail import send_mail
 from django.utils.crypto import get_random_string
 from django.shortcuts import get_object_or_404
+from .forms import ServiceForm
+from .models import Service
+
+
+
 
 #create your views here
 @never_cache
@@ -32,7 +37,7 @@ def loginn(request):
                 return redirect('dashboard')  # Redirect admin to the admin page
             else:
                 messages.success(request, 'Login successful!')
-                return redirect('userprofile') 
+                return redirect('myprofile') 
                
            
         else:
@@ -219,8 +224,62 @@ def delete_user(request, user_id):
     return HttpResponse('User deleted successfully')
 
 
+def servicedetails(request):
+    services = Service.objects.all()
+    return render(request, 'servicedetails.html', {'services': services})
 
 
 
+
+
+def add_service(request):
+    if request.method == 'POST':
+        form = ServiceForm(request.POST)
+        if form.is_valid():
+            form.save()  # Save the new service to the database
+            return redirect('servicedetails')  # Redirect to a service list page
+
+    # If the form is not valid or it's a GET request, render the form page
+    else:
+        form = ServiceForm()
+
+    return render(request, 'add_service.html', {'form': form})
+
+
+def delete_service(request, service_id):
+    # Get the service instance to delete
+    service = get_object_or_404(Service, pk=service_id)
+
+    # Delete the service
+    service.delete()
+
+    return redirect('servicedetails') 
+
+
+def edit_service(request, service_id):
+    service = Service.objects.get(id=service_id)
+
+    if request.method == 'POST':
+        form = ServiceForm(request.POST, instance=service)
+        if form.is_valid():
+            form.save()
+            return redirect('servicedetails')
+
+    else:
+        form = ServiceForm(instance=service)
+
+    return render(request, 'edit_service.html', {'form': form, 'service': service})
+
+def update_service(request, service_id):
+    # Your view logic here
+    service = Service.objects.get(pk=service_id)
+
+    if request.method == "POST":
+        # Process and update the service data here
+        # ...
+
+        return redirect('edit_service')  # Redirect to the edit service page
+
+    return render(request, 'update_service.html', {'service': service})
 
 
