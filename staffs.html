@@ -117,6 +117,23 @@
     .delete-staff-button:hover {
         background-color: #ff0000; /* Darker red on hover */
     }
+
+    /* Style for the "Add More Staffs" button */
+.add-service-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #25554e;
+    color: #fff;
+    text-decoration: none; /* Remove underline for the link */
+    border-radius: 5px;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+.add-service-button:hover {
+    background-color: #325a9a; /* Darker green on hover */
+}
+
    
     </style>
 </head>
@@ -129,6 +146,27 @@
         
     </header>
     <div class="container">
+        <h1>Staff Details</h1>
+        
+    
+        {% for staff in staff_data %}
+        <div class="staff-card">
+            <h2 class="staff-name">{{ staff.full_name }}</h2>
+            <p class="staff-details">
+                <strong>Username:</strong> {{ staff.username }}<br>
+                <strong>Password:</strong> {{ staff.password }}<br><br>
+                <form method="post" action="{% url 'delete_staff' staff.id %}">
+                    {% csrf_token %}
+                <button class="edit-staff-button" onclick="editStaff(this)">Edit</button>
+                <button type="submit" class="delete-staff-button">Delete</button>
+
+            </p>
+        </div>
+        
+        {% endfor %}
+    </div>
+    <center><a class="add-service-button" href="{% url 'add_staff' %}">Add More Staffs</a></center>
+    <!--<div class="container">
         <div class="staff-card">
             <h2 class="staff-name">John Doe</h2>
             <p class="staff-details">
@@ -184,7 +222,9 @@
             </p>
         </div>
         
-<button class="add-service-button" onclick="addService()">Add More Staffs</button>
+        <a class="add-service-button" href="{% url 'add_staff' %}">Add More Staffs</a>
+
+
 
     </div>
     <script>
@@ -212,6 +252,15 @@
             if (confirmDelete) {
                 container.removeChild(staffCard);
             }
+        }
+    </script>-->
+    
+    <script>
+       
+    
+        function deleteService(serviceId) {
+            // Implement your logic for deleting the service with the given ID.
+            // You can show a confirmation dialog and make an AJAX request to delete the service.
         }
     </script>
     

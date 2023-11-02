@@ -16,15 +16,17 @@
         <link rel="stylesheet" type="text/css" href="{% static "/css/style.css"%}" rel="stylesheet"/>
         <style>
             /* Style for the login/signup button */
-           .nav-div ul li:last-child a {
-               background-color:#2a6b5f;
-               color: #FFFFFF;
-               font-size: 11px;
-                padding: 10px 20px; /* Adjust padding as needed */
-               border-radius: 5px; /* Add rounded corners */
-               text-decoration: none;
-            } 
-
+            .nav-div ul li:last-child a {
+                background-color: #2a6b5f;
+                color: #FFFFFF;
+                font-size: 11px;
+                padding: 10px 20px;
+                /* Adjust padding as needed */
+                border-radius: 5px;
+                /* Add rounded corners */
+                text-decoration: none;
+            }
+    
             /* Custom CSS for the message toaster */
             .message-toaster {
                 position: fixed;
@@ -35,7 +37,7 @@
                 transform: translateX(-50%);
                 padding: 30px 0;
             }
-
+    
             /* Style for user icon */
             .user-icon {
                 width: 45px;
@@ -43,47 +45,57 @@
                 margin-right: 10px;
                 border-radius: 50%;
             }
-        
+    
             /* Style for the user profile dropdown menu */
             .dropdown-menu {
                 background-color: #333;
                 color: #fff;
             }
-        
+    
             .dropdown-item {
                 color: #fff;
             }
+    
             .dropdown .btn-secondary {
-            background-color: #25554e; /* Blue background color */
-            color: #fff; /* Text color */
-        }
-        
-
-        /* Your existing styles */
-
-        .service {
-            margin: 20px 0;
-            border: 1px solid #ccc;
-            padding: 10px;
-        }
-
-        .book-now-button {
-            background-color: #0b834b; /* Green background color */
-            color: #fff; /* White text color */
-            border: none;
-            padding: 5px 10px;
-            cursor: pointer;
-            font-size: 14px;
-            border-radius: 5px;
-            transition: background-color 0.3s;
-            display: block; /* Display the button as a block element to make it a new line */
-        }
-
-        .book-now-button:hover {
-            background-color: #0a723c; /* Darker green on hover */
-        }
-        
-        
+                background-color: #25554e;
+                /* Blue background color */
+                color: #fff;
+                /* Text color */
+            }
+    
+            .service-container {
+                border: 1px solid #ccc; /* Add a border around the container */
+                padding: 20px; /* Add padding inside the container */
+                margin: 20px; /* Add margin to separate it from other content */
+            }
+    
+            .service {
+                border: 1px solid #ccc;
+                padding: 10px;
+                margin: 10px 0;
+            }
+    
+            .book-now-button {
+                background-color: #0b834b;
+                /* Green background color */
+                color: #fff;
+                /* White text color */
+                border: none;
+                padding: 5px 10px;
+                cursor: pointer;
+                font-size: 14px;
+                border-radius: 5px;
+                transition: background-color 0.3s;
+                display: inline-block;
+                /* Display the button as an inline element */
+                text-decoration: none;
+                /* Remove underlines for links */
+            }
+    
+            .book-now-button:hover {
+                background-color: #0a723c;
+                /* Darker green on hover */
+            }
         </style>
         
     </head>
@@ -154,25 +166,25 @@
                         <div id="nav-head" class="col-md-9 nav-div d-none d-md-block">
                             <ul>
                                 <li>
-                                    <a class="js-scroll-trigger" href="index">HOME</a>
+                                    <a class="js-scroll-trigger" href="{% url 'index' %}">HOME</a>
                                 </li>
                                 <li>
-                                    <a class="js-scroll-trigger" href="services">SERVICES</a>
+                                    <a class="js-scroll-trigger" href="{% url 'services' %}">SERVICES</a>
                                 </li>
                                 <li>
-                                    <a class="js-scroll-trigger" href="userprofile">MY PROFILE</a>
+                                    <a class="js-scroll-trigger" href="{% url 'myprofile' %}">MY PROFILE</a>
                                 </li>
                                 
                                 
                                 <li>
-                                    <a class="js-scroll-trigger" href="about">ABOUT</a>
+                                    <a class="js-scroll-trigger" href="{% url 'about' %}">ABOUT</a>
                                 </li>
                                 <li class="yc">
-                                    <a class="js-scroll-trigger" href="why">EXPERIENCE</a>
+                                    <a class="js-scroll-trigger" href="{% url 'why' %}">EXPERIENCE</a>
                                 </li>
 
                                 <li>
-                                    <a class="js-scroll-trigger" href="contact">CONTACT</a>
+                                    <a class="js-scroll-trigger" href="{% url 'contact' %}">CONTACT</a>
                                 </li>
                                 <li>
                                     <div class="dropdown">
@@ -186,11 +198,11 @@
                                         </a>
                                         <div class="dropdown-menu" aria-labelledby="adminDropdown">
                                             {% if user.is_authenticated %}
-                                                <a class="dropdown-item" href="myprofile">Profile</a>
-                                                <a class="dropdown-item" href="logout">Logout</a>
+                                                <a class="dropdown-item" href="{% url 'myprofile' %}">Profile</a>
+                                                <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
                                             {% else %}
-                                                <a class="dropdown-item" href="login">Login</a>
-                                                <a class="dropdown-item" href="signup">Sign Up</a>
+                                                <a class="dropdown-item" href="{% url 'login' %}">Login</a>
+                                                <a class="dropdown-item" href="{% url 'reg' %}">Sign Up</a>
                                             {% endif %}
                                         </div>
                                     </div>
@@ -210,16 +222,37 @@
                 <div class="row mx-auto"></div>
                 <div class="slider-det">
                     <h1>DEVICE REVIVE</h1>
-                    <h2>BOOKING</h2>
+                    
                     <p>Service Booking Made Simple - Get Started Today!!!</p>
                         
                         
                 </div>
             </div>
         </div>
-        <br><br><br>
+        <br><br>
+        <center>
+            <h2 class="bold-heading">AVAILABLE SERVICES</h2>
 
-        <div class="container">
+<div class="service-container">
+        <div class="report-body">
+            {% for service in services %}
+                <div class="service">
+                    <h2>{{ service.name }}</h2>
+                    <p>{{ service.description }}</p>
+                    <p class="price">${{ service.price }}</p>
+                    <form method="post" action="{% url 'delete_service' service.id %}">
+                        {% csrf_token %}
+                        
+                        <a href="{% url 'book_now' service.id %}" class="book-now-button">Book Now</a>
+                    </form>
+                    
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    </center>
+
+       <!--<div class="container">
             <div class="service">
                 <h2>Hardware Repair</h2>
                 <p>We offer comprehensive hardware repair services for laptops and desktops.</p>
@@ -389,44 +422,7 @@
         </div>
     </body>
 
-    <script>
-        function addService() {
-            const container = document.querySelector(".container");
 
-            const newService = document.createElement("div");
-            newService.className = "service";
-
-            const serviceTitle = document.createElement("h2");
-            serviceTitle.textContent = "New Service Title";
-
-            const serviceDescription = document.createElement("p");
-            serviceDescription.textContent = "Description of the new service.";
-
-            const servicePrice = document.createElement("p");
-            servicePrice.className = "price";
-            servicePrice.textContent = "$XX.XX"; // Replace with the desired price.
-
-            const bookNowButton = document.createElement("button");
-            bookNowButton.className = "book-now-button";
-            bookNowButton.textContent = "Book Now";
-            bookNowButton.onclick = function () {
-                bookNow(bookNowButton);
-            };
-
-            newService.appendChild(serviceTitle);
-            newService.appendChild(serviceDescription);
-            newService.appendChild(servicePrice);
-            newService.appendChild(bookNowButton);
-
-            container.insertBefore(newService, document.querySelector(".add-service-button"));
-        }
-
-        // JavaScript function to book a service
-        function bookNow() {
-            // Redirect to the "laptop.html" page
-            window.location.href = "laptop";
-        }
-    </script>
     
     <script src="{% static '/js/jquery-3.2.1.min.js' %}"></script>
     <script src="{% static '/js/popper.min.js' %}"></script>
