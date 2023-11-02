@@ -15,6 +15,9 @@ from django.utils.crypto import get_random_string
 from django.shortcuts import get_object_or_404
 from .forms import ServiceForm
 from .models import Service
+from .models import Technician
+
+
 
 
 
@@ -169,11 +172,13 @@ def myprofile(request):
 def update(request):
     return render(request,'update.html')
 
-
 @never_cache
 @login_required(login_url='login')
 def booking(request):
-    return render(request,'booking.html')
+    services = Service.objects.all()
+    return render(request, 'booking.html', {'services': services})
+
+
 
 @never_cache
 @login_required(login_url='login')
@@ -282,4 +287,92 @@ def update_service(request, service_id):
 
     return render(request, 'update_service.html', {'service': service})
 
+def updateuser(request):
+    if request.method == 'POST':
+        full_name = request.POST.get('full_name')
+        email = request.POST.get('email')
+        phone = request.POST.get('phone')
+        username = request.POST.get('username')
+        # Get other fields if needed
 
+        # Update the user's profile
+        user = request.user
+        user.full_name = full_name
+        user.email = email
+        user.phone = phone
+        user.username = email
+        # Update other fields
+
+        user.save()
+        messages.success(request, 'Profile updated successfully')
+        return redirect('myprofile')
+
+    return render(request,"updateuser.html")
+
+def book_now(request, service_id):
+    # Your booking logic here
+
+    # After handling the booking logic, redirect to the "laptop.html" page or any other relevant page
+    return redirect('laptop')
+
+def add_staff(request):
+    if request.method == "POST":
+        # Get the form data
+        full_name = request.POST.get('full_name')
+        
+        
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+       
+
+        # Perform validation checks here (e.g., checking for required fields, unique usernames, etc.)
+        errors = {}
+        if not full_name:
+            errors['full_name'] = 'Full Name is required'
+        if not username:
+            errors['username'] = 'Username is required'
+        # Add more validation checks as needed
+
+        if errors:
+            return render(request, 'add_staff.html', {'errors': errors})
+
+        # Create a new Technician object and save it to the database
+        technician = Technician(
+            full_name=full_name,
+            
+            
+            username=username,
+            password=password,
+           
+        )
+        technician.save()
+
+        # Redirect to a different page after adding the technician
+        return redirect('staffs')  # Redirect to the technician list view
+
+    return render(request, 'add_staff.html')
+
+def staffs(request):
+    staff_data = Technician.objects.all()  # Fetch all staff data from the database
+
+    context = {
+        'staff_data': staff_data,
+    }
+
+    return render(request, 'staffs.html', context)
+
+def delete_staff(request, staff_id):
+    if request.method == 'POST':
+        try:
+            # Retrieve the technician from the database
+            technician = get_object_or_404(Technician, pk=staff_id)
+
+            # Delete the technician
+            technician.delete()
+
+            # Return a success response
+            return redirect('staffs')
+        except Technician.DoesNotExist:
+            return JsonResponse({'error': 'Technician not found'}, status=404)
+
+    return JsonResponse({'error': 'Invalid request method'}, status=405)
