@@ -22,8 +22,12 @@ class Service(models.Model):
 
 class Technician(models.Model):
     full_name = models.CharField(max_length=255)
-    phone_number = models.CharField(max_length=15)  # You can adjust the max length as needed
+    phone_number = models.CharField(max_length=15)
     email = models.EmailField()
-    username = models.CharField(max_length=50, unique=True)  # Assuming you want usernames to be unique
+    username = models.CharField(max_length=50, unique=True)
     password = models.CharField(max_length=100)
     specialization = models.CharField(max_length=255)
+    is_staff = models.BooleanField(default=True)  # Add the is_staff field
+
+    def __str__(self):
+        return self.username

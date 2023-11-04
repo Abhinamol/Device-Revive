@@ -16,6 +16,7 @@ from django.shortcuts import get_object_or_404
 from .forms import ServiceForm
 from .models import Service
 from .models import Technician
+from django.contrib.auth.hashers import check_password 
 
 
 
@@ -27,30 +28,40 @@ from .models import Technician
 def index(request):
     return render(request,'index.html')
 
+
+
+
 def loginn(request):
     if request.method == "POST":
-        username = request.POST['username']
+        username = request.POST['username'].lower()
         password = request.POST['password']
+
         user = authenticate(request, username=username, password=password)
+
         if user is not None:
             login(request, user)
             request.session['username'] = user.username
+
             if username == 'admin' and password == 'admin':
-                
                 return redirect('dashboard')  # Redirect admin to the admin page
-            else:
-                messages.success(request, 'Login successful!')
-                return redirect('myprofile') 
-               
-           
+
+            # Check if the user is a Technician
+            try:
+                technician = Technician.objects.get(username=username)
+                if technician.password == password:
+                    return redirect("staff_profile")  # Redirect to staff_profile for Technicians
+            except Technician.DoesNotExist:
+                pass  # No Technician with this username
+
+            messages.success(request, 'Login successful!')
+            return redirect('myprofile')
         else:
-            messages.error(request,'Invalid username or password')  # Add an error message
-            return redirect('login')  # Redirect back to the login page
+            messages.error(request, 'Invalid username or password')
+            return redirect('login')
 
-    response = render(request,"login.html")
-    response['Cache-Control'] = 'no-store,must-revalidate'
+    response = render(request, "login.html")
+    response['Cache-Control'] = 'no-store, must-revalidate'
     return response
-
 
     
 @never_cache    
@@ -169,6 +180,12 @@ def myprofile(request):
 
 @never_cache
 @login_required(login_url='login')
+def staff_profile(request):
+    return render(request,'staff_profile.html')
+
+
+@never_cache
+@login_required(login_url='login')
 def update(request):
     return render(request,'update.html')
 
@@ -187,8 +204,8 @@ def desktop(request):
 
 @never_cache
 @login_required(login_url='login')
-def laptop(request):
-    return render(request,'laptop.html')
+def booknow(request):
+    return render(request,'booknow.html')
 
 
 @never_cache
@@ -312,8 +329,8 @@ def updateuser(request):
 def book_now(request, service_id):
     # Your booking logic here
 
-    # After handling the booking logic, redirect to the "laptop.html" page or any other relevant page
-    return redirect('laptop')
+    # After handling the booking logic, redirect to the "booknow.html" page or any other relevant page
+    return redirect('booknow')
 
 def add_staff(request):
     if request.method == "POST":
