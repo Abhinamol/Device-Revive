@@ -1,0 +1,717 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, shrink-to-fit=no, user-scalable=no">
+        <title>
+            </title>
+
+        <link rel="shortcut icon" href="{% static "images/fav.jpg" %}" rel="stylesheet"/>
+        <link rel="stylesheet" href="{% static "css/bootstrap.min.css" %}" rel="stylesheet"/>
+        <link rel="stylesheet" href="{% static "css/fontawsom-all.min.css" %}" rel="stylesheet"/>
+        <link rel="stylesheet" href="{% static "css/animate.css" %}" rel="stylesheet"/>
+        <link rel="stylesheet" type="text/css" href="{% static "/css/style.css"%}" rel="stylesheet"/>
+        <style>
+            /* Style for the login/signup button */
+           .nav-div ul li:last-child a {
+               background-color:#2a6b5f;
+               color: #FFFFFF;
+               font-size: 11px;
+                padding: 10px 20px; /* Adjust padding as needed */
+               border-radius: 5px; /* Add rounded corners */
+               text-decoration: none;
+            } 
+
+            .bg-primary {
+                background-color: #2a6b5f!important; /* Change to your desired color */
+            }
+
+             /* login required */
+
+            .login-required-message {
+               display: none;
+               justify-content: center;
+               align-items: center;
+               position: fixed;
+               top: 0;
+               left: 0;
+               width: 100%;
+               height: 100%;
+               background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
+               z-index: 9999; /* Ensure it's above other elements */
+           }
+       
+           .login-required-box {
+               background-color: #fff; /* White background for the box */
+               padding: 20px;
+               border-radius: 5px;
+               text-align: center;
+           }
+       
+           .login-required-message p {
+               margin: 0;
+           }
+       
+           .ok-button {
+               background-color: #2a5945;
+               color: #fff;
+               padding: 10px 20px;
+               border-radius: 5px;
+               cursor: pointer;
+           }
+
+           /* Style for user icon */
+           .user-icon {
+               width: 45px;
+               height: 45px;
+               margin-right: 10px;
+               border-radius: 50%;
+           }
+       
+           /* Style for the user profile dropdown menu */
+           .dropdown-menu {
+               background-color: #333;
+               color: #fff;
+           }
+       
+           .dropdown-item {
+               color: #fff;
+           }
+           .dropdown .btn-secondary {
+           background-color: #25554e; /* Blue background color */
+           color: #fff; /* Text color */
+       }
+
+       .hidden {
+        display: none;
+    }
+
+    .service-list-box {
+        background-color: white;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        padding: 20px;
+        margin: 20px 0;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    
+
+    .error-message {
+        color: red; /* Set error message color to red */
+    }
+        </style>
+        
+    </head>
+    
+    <body>
+
+        <!--########################## Header CSS ####################-->
+        <div class="header-container">
+            <div class="header-top">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-7 col-md-12 left-item">
+                            <ul>
+                                <li>
+                                    <i class="fas fa-envelope-square"></i>
+                                    devicerevive@gmail.com
+                                    </li>
+                                <li class="d-none d-sm-block">
+                                    <i class="fas fa-phone-square"></i>
+                                    9567854321
+                                    </li>
+                            </ul>
+                        </div>
+                        <div class="col-lg-5 d-none d-lg-block right-item">
+                            <ul>
+                                <li>
+                                    <a>
+                                        <i class="fab fa-github" style="color: white;" ></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="">
+                                        <i class="fab fa-linkedin-in" style="color: white;"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="">
+                                        <i class="fab fa-pinterest-p" style="color: white;"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="">
+                                        <i class="fab fa-twitter" style="color: white;"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="">
+                                        <i class="fab fa-facebook-f" style="color: white;"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="login-required-message">
+                <div class="login-required-box">
+                    <p>Login Required</p>
+                    <button class="ok-button">OK</button>
+                </div>
+            </div>
+
+            <nav id="menu-jk" class="container-fluid  no-padding">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-1 col-sm-1 logo">
+                            <img class="log" src="{% static '/images/mylogo.png' %}"  alt="">
+                            <img class="log-gray" src="" alt="">
+                            <a data-toggle="collapse" data-target="#nav-head" href="#nav-head">
+                                <i class="fas d-block d-md-none small-menu fa-bars"></i>
+                            </a>
+                        </div>
+                        <div id="nav-head" class="col-md-9 nav-div d-none d-md-block">
+                            <ul>
+                                <li>
+                                    <a class="js-scroll-trigger" href="index">HOME</a>
+                                </li>
+                                <li>
+                                    <a class="js-scroll-trigger" href="services">SERVICES</a>
+                                </li>
+                                <li>
+                                    <a class="js-scroll-trigger" href="{% if user.is_authenticated %}{% url 'booking' %}{% else %}#login-required{% endif %}">
+                                        BOOKING
+                                    </a>
+
+                                </li>
+                               
+                                
+                                
+                                <li>
+                                    <a class="js-scroll-trigger" href="about">ABOUT</a>
+                                </li>
+                                <li class="yc">
+                                    <a class="js-scroll-trigger" href="why">EXPERIENCE</a>
+                                </li>
+
+                                <li>
+                                    <a class="js-scroll-trigger" href="contact">CONTACT</a>
+                                </li>
+                                <li>
+                                    <div class="dropdown">
+                                        <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="adminDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            {% if user.is_authenticated %}
+                                                <img src="{% static '/images/admin.jpg' %}" alt="Admin Icon" class="user-icon">
+                                                {{ user.username }}
+                                            {% else %}
+                                                Login/Sign Up
+                                            {% endif %}
+                                        </a>
+                                        <div class="dropdown-menu" aria-labelledby="adminDropdown">
+                                            {% if user.is_authenticated %}
+                                                <a class="dropdown-item" href="myprofile">Profile</a>
+                                                <a class="dropdown-item" href="logout">Logout</a>
+                                            {% else %}
+                                                <a class="dropdown-item" href="login">Login</a>
+                                                <a class="dropdown-item" href="signup">Sign Up</a>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                    
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+
+        <!--########################## Slider CSS ####################-->
+
+        <div id="home" class="banner-container no-padding">
+            <div class="container">
+                <div class="row mx-auto"></div>
+                <div class="slider-det">
+                    <h1>DEVICE REVIVE</h1>
+                    <h3>SERVICE BOOKING</h3>
+                        
+                        
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+<!-- Booking Start -->
+<br><br>
+<div >
+       
+    <div class="container" style="max-width: 1500px;"> <!-- Adjust the max-width to your desired width -->
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="bg-primary py-3 px-4 px-sm-5">
+                    <center><label style="font-size: xx-large;color: white">&nbsp &nbsp&nbsp&nbsp Booking Details</label></center>
+                    <form class="py-3">
+                        <div class="form-group">
+                            <input type="text" class="form-control border-0 p-4" placeholder="Name" required="required" oninput="validateName(this)"/>
+                            <span id="name-error" class="error-message"></span>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" class="form-control border-0 p-4" placeholder="Email" required="required" oninput="validateEmail(this)"/>
+                            <span id="email-error" class="error-message"></span>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control border-0 p-4" placeholder="Phone No." required="required" oninput="validatePhoneNumber(this)" />
+                            <span id="phone-error" class="error-message"></span>
+                        </div>
+                        <div class="form-group">
+                            <label for="service_type" style="color: white;">Select Service Type:</label>
+                            <select id="service_type" name="service_type" class="form-control" required onchange="showLaptopBrandField()">
+                                <option value="Laptop"> Select</option>
+                                <option value="Laptop">Laptop Service</option>
+                                <option value="Desktop">Desktop Service</option>
+                            </select>
+                        </div>
+                        <div class="form-group" id="laptop_brand_field" style="display: none;">
+                            <label for="laptop_brand" style="color: white;">Laptop Brand:</label>
+                            <select id="laptop_brand" name="laptop_brand" class="form-control">
+                                <option value="Acer">Acer</option>
+                                <option value="Asus">Asus</option>
+                                <option value="Dell">Dell</option>
+                                <option value="HP">HP</option>
+                                <option value="Lenovo">Lenovo</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group" id="laptop-model-field" style="display: none;">
+                            <label for="laptop_model" style="color: white;">Laptop Model:</label>
+                            <input type="text" id="laptop_model" name="laptop_model" class="form-control" required>
+                        </div>
+
+                        
+                               
+                        <div class="form-group">
+                            <label for="service" style="color: white;">Select Service(s):</label>
+                            <div class="service-list-box">
+                            <div>
+                                <input type="checkbox" id="hardwareRepair" name="service" value="Hardware Repair" class="service-checkbox">
+                                <label for="hardwareRepair"  style="color: black;">Hardware Repair - $99.99</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" id="softwareTroubleshooting" name="service" value="Software Troubleshooting" class="service-checkbox">
+                                <label for="softwareTroubleshooting"  style="color: black;">Software Troubleshooting - $49.99</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" id="virusRemoval" name="service" value="Virus Removal" class="service-checkbox">
+                                <label for="virusRemoval"  style="color:  black;">Virus Removal - $79.99</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" id="dataRecovery" name="service" value="Data Recovery" class="service-checkbox">
+                                <label for="dataRecovery"  style="color:  black;">Data Recovery - $69.99</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" id="screenReplacement" name="service" value="Screen Replacement" class="service-checkbox">
+                                <label for="screenReplacement"  style="color: black;">Screen Replacement - $129.99</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" id="upgradesCustomization" name="service" value="Upgrades and Customization" class="service-checkbox">
+                                <label for="upgradesCustomization"  style="color:  black;">Upgrades/Customization - $79.99 </label>
+                            </div>
+                            <div>
+                                <input type="checkbox" id="networkSetup" name="service" value="Network Setup" class="service-checkbox">
+                                <label for="networkSetup"  style="color: black;">Network Setup - $59.99</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" id="osInstallation" name="service" value="Operating System Installation" class="service-checkbox">
+                                <label for="osInstallation"  style="color: black;">OS Installation - $49.99</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" id="backupSolutions" name="service" value="Backup Solutions" class="service-checkbox">
+                                <label for="backupSolutions"  style="color:  black;">Backup Solutions - $79.99 and up</label>
+                            </div>
+                        </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="selected-service-price" style="color: white;">Total Service Cost:</label>
+                            <input type="text" id="total-service-cost" class="form-control" disabled>
+                        </div>
+                        
+                        
+                        <div class="form-group">
+                            <textarea rows="4" class="form-control" placeholder="Issue Description" required="required"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <input type="date" class="form-control" name="fdate" placeholder="From Date" required id="from-date">
+                          </div>
+                        
+                          
+                        <div class="form-group">
+                            <select class="form-control" id="type" name="slot" onchange="amount();" required>
+                                <option value="{{ id.amam }}">7 AM TO 10 AM</option>
+                                <option value="{{ id.ampm }}">10 AM TO 5 PM</option>
+                                <option value="{{ id.pmpm }}">5 PM TO 12 PM</option>
+                            </select>
+                            
+</div>
+<div class="form-group">
+    <textarea class="form-control border-0 p-4" rows="4" placeholder="Additional Comments"></textarea>
+</div>
+<div class="form-group">
+<input type="number" id="totals" class="form-control" name="total" placeholder="Booking Amount/day: {{ id.price }}" required readonly>
+</div>
+<!-- In the booknow page -->
+<button class="btn btn-dark btn-block border-0 py-3" type="button" onclick="redirectToBookingConfirmation()">Book Now</button>
+
+
+
+
+                    </form>
+                </div>
+            </div>
+    
+            
+        </div>
+    </div>
+</div>
+<!-- Booking Start -->
+
+
+<br><br>
+
+        <!--########################## Footer CSS ####################-->
+        <footer>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-3 about">
+                        <h2>About Us</h2>
+                        <p>At Device Revive, we are passionate about technology and dedicated to providing top-notch laptop and desktop services. With 20 years of experience in the industry, we have earned a reputation for excellence and reliability.
+                        </p>
+
+                        <div class="foot-address">
+                            <div class="icon">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div class="addet">
+                                Kottayam
+                            </div>
+                        </div>
+                        <div class="foot-address">
+                            <div class="icon">
+                                <i class="far fa-envelope-open"></i>
+                            </div>
+                            <div class="addet">
+                                devicerevive.com
+                                <br>
+                                devicerevive@gmail.com
+                            </div>
+                        </div>
+                        <div class="foot-address">
+                            <div class="icon">
+                                <i class="fas fa-mobile-alt"></i>
+                            </div>
+                            <div class="addet">
+                                9567854321
+                                <br>
+                                8078046110
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-3 glink">
+                        <ul>
+                            <li>
+                                <a href="index">
+                                    <i class="fas fa-angle-double-right"></i>Home</a>
+                            </li>
+                            <li>
+                                <a href="about">
+                                    <i class="fas fa-angle-double-right"></i>About Us</a>
+                            </li>
+                            <li>
+                                <a href="services">
+                                    <i class="fas fa-angle-double-right"></i>Services</a>
+                            </li>
+                            <li>
+                                <a href="contact">
+                                    <i class="fas fa-angle-double-right"></i>Contact</a>
+                            </li>
+                           
+                        </ul>
+                    </div>
+                    
+                    <div class="col-md-3 tags">
+                        <h2>Our Services</h2>
+                        <ul>
+                            <li>Desktop Service</li>
+                            <li>Laptop Service</li>
+                            <li>Data Recovery</li>
+                            <li>Software Installation</li>
+                            <li>Motherboard Service</li>
+                            <li>Computer Networking</li>
+                            
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </footer>
+        <div class="copy">
+            <div class="container">
+                <a href=></a>
+
+                <span>
+                    <a>
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <a >
+                        <i class="fab fa-google-plus-g"></i>
+                    </a>
+                    <a href="">
+                        <i class="fab fa-pinterest-p"></i>
+                    </a>
+                    <a href="">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                </span>
+            </div>
+
+        </div>
+    
+    <script src="{% static '/js/jquery-3.2.1.min.js' %}"></script>
+    <script src="{% static '/js/popper.min.js' %}"></script>
+    <script src="{% static '/js/bootstrap.min.js' %}"></script>
+    <script src="{% static '/plugins/scroll-fixed/jquery-scrolltofixed-min.js' %}"></script>
+    <script src="{% static '/js/script.js' %}"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var bookingLink = document.querySelector('.js-scroll-trigger[href="#login-required"]');
+            var loginRequiredMessage = document.querySelector('.login-required-message');
+            var okButton = document.querySelector('.ok-button');
+        
+            bookingLink.addEventListener("click", function(event) {
+                event.preventDefault(); // Prevent the default link behavior
+                loginRequiredMessage.style.display = "flex"; // Show the message
+            });
+            
+            okButton.addEventListener("click", function() {
+                loginRequiredMessage.style.display = "none"; // Hide the message when OK is clicked
+            });
+        });
+    </script>
+
+    <script>
+        function showLaptopBrandField() {
+            const serviceType = document.getElementById("service_type");
+            const laptopBrandField = document.getElementById("laptop_brand_field");
+    
+            if (serviceType.value === "Laptop") {
+                laptopBrandField.style.display = "block";
+            } else {
+                laptopBrandField.style.display = "none";
+            }
+        }
+
+    </script>
+
+    <script>
+    function showLaptopBrandField() {
+        const serviceType = document.getElementById("service_type");
+        const laptopBrandField = document.getElementById("laptop_brand_field");
+
+        if (serviceType.value === "Laptop") {
+            laptopBrandField.style.display = "block";
+        } else {
+            laptopBrandField.style.display = "none";
+        }
+    }
+</script>
+
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    // Listen for changes in the checkboxes
+    $('.service-checkbox').on('change', function() {
+        updateTotalCost();
+    });
+
+    function updateTotalCost() {
+        let totalCost = 0;
+        $('.service-checkbox:checked').each(function() {
+            const serviceText = $(this).next().text();
+            const servicePrice = parseFloat(serviceText.match(/\d+\.\d+/)[0]);
+            totalCost += servicePrice;
+        });
+
+        $('#total-service-cost').val('$' + totalCost.toFixed(2));
+    }
+</script>
+
+<script>
+    <div>
+        <button class="btn btn-dark btn-block border-0 py-3" type="button" onclick="redirectToBookingConfirmation()">Book Now</button>
+
+
+
+    </div>
+    
+    
+    // Implement functions to get selected services and calculate the total cost
+    // Example:
+    function getSelectedServices() {
+        const selectedServices = [];
+        $('.service-checkbox:checked').each(function() {
+            selectedServices.push($(this).next().text());
+        });
+        return selectedServices.join(', ');
+    }
+
+    function calculateTotalCost() {
+        let totalCost = 0;
+        $('.service-checkbox:checked').each(function() {
+            const serviceText = $(this).next().text();
+            const servicePrice = parseFloat(serviceText.match(/\d+\.\d+/)[0]);
+            totalCost += servicePrice;
+        });
+        return totalCost.toFixed(2);
+    }
+</script>
+<script>
+    function redirectToBookingConfirmation() {
+        // ...
+        console.log('Redirecting to booking confirmation');
+        // ...
+    }
+</script>
+<!-- Include this script in the head section of your HTML -->
+
+<script>
+    function redirectToBookingConfirmation() {
+        // Retrieve and validate form data here
+        const selectedDate = document.getElementById('from-date').value;
+        const selectedTime = document.getElementById('type').value;
+        const selectedServices = getSelectedServices();
+        const totalCost = calculateTotalCost();
+        
+        // Include the selected time slot in the URL
+        const bookingConfirmationURL = `/bookingconfirmation?services=${encodeURIComponent(selectedServices)}&total=${totalCost}&date=${selectedDate}&time=${selectedTime}`;
+        
+        // Redirect to the booking confirmation page
+        window.location.href = bookingConfirmationURL;
+    }
+
+    // Function to get selected services (keep this function as it is)
+    function getSelectedServices() {
+        const selectedServices = [];
+        $('.service-checkbox:checked').each(function() {
+            selectedServices.push($(this).next().text());
+        });
+        return selectedServices.join(', ');
+    }
+
+    // Function to calculate total cost (keep this function as it is)
+    function calculateTotalCost() {
+        let totalCost = 0;
+        $('.service-checkbox:checked').each(function() {
+            const serviceText = $(this).next().text();
+            const servicePrice = parseFloat(serviceText.match(/\d+\.\d+/)[0]);
+            totalCost += servicePrice;
+        });
+        return totalCost.toFixed(2);
+    }
+
+    // Attach a click event listener to the "Book Now" button
+    document.getElementById('bookNowButton').addEventListener('click', redirectToBookingConfirmation);
+</script>
+
+<!-- Place this script within the <head> section of your HTML document -->
+ 
+        
+<script>
+function validateName(input) {
+    const name = input.value;
+    const nameError = document.getElementById("name-error");
+    const namePattern = /^[A-Za-z\s]+$/; // Allow letters and spaces
+
+    if (!namePattern.test(name)) {
+        nameError.textContent = "Invalid name format";
+        input.setCustomValidity("Invalid name format");
+    } else {
+        nameError.textContent = "";
+        input.setCustomValidity("");
+    }
+}
+
+function validateEmail(input) {
+    const email = input.value;
+    const emailError = document.getElementById("email-error");
+
+    // Define a regular expression for a valid email address with at least 3 letters before "@".
+    const emailPattern = /^[A-Za-z]{3,}[A-Za-z0-9._%+-]*@[A-Za-z0-9.-]*[A-Za-z][A-Za-z0-9.-]*\.[A-Za-z]{2,}$/;
+
+    if (!emailPattern.test(email)) {
+        emailError.textContent = "Invalid email format";
+        input.setCustomValidity("Invalid email format");
+    } else {
+        emailError.textContent = "";
+        input.setCustomValidity("");
+    }
+}
+
+
+
+
+
+
+    function validatePhoneNumber(input) {
+        const phoneNumber = input.value;
+        const phoneError = document.getElementById("phone-error");
+    
+        // Define the regular expression for a valid phone number.
+        const phonePattern = /^(6|7|8|9)(?:(?!\1{4})\d){9}$/;
+    
+        if (!phonePattern.test(phoneNumber)) {
+            phoneError.textContent = "Invalid phone number format";
+            input.setCustomValidity("Invalid phone number format");
+        } else {
+            phoneError.textContent = "";
+            input.setCustomValidity("");
+        }
+    }
+    
+    
+</script>
+
+<script>
+    // Get the current date in the format 'YYYY-MM-DD'
+    const today = new Date();
+    const yyyy = today.getFullYear();
+    const mm = String(today.getMonth() + 1).padStart(2, '0');
+    const dd = String(today.getDate()).padStart(2, '0');
+    const currentDate = `${yyyy}-${mm}-${dd}`;
+  
+    // Set the 'min' attribute to the current date
+    document.getElementById('from-date').min = currentDate;
+  </script>
+
+
+  
+
+</body>
+
+</html>

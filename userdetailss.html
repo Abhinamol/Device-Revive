@@ -1,101 +1,442 @@
 {% load static %}
 <!DOCTYPE html>
+
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    
-
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-
-    <meta name="copyright" content="MACode ID, https://macodeid.com/">
-
-    <title>admin</title>
-
-   
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible"
+		content="IE=edge">
+	<meta name="viewport"
+		content="width=device-width, 
+				initial-scale=2.0">
+	<title>Add_service</title>
+	<link rel="stylesheet"
+		href="style.css">
+	<link rel="stylesheet"
+		href="responsive.css">
     <link rel="shortcut icon" href="{% static "images/fav.jpg" %}" rel="stylesheet"/>
     <link rel="stylesheet" href="{% static "css/bootstrap.min.css" %}" rel="stylesheet"/>
     <link rel="stylesheet" href="{% static "css/fontawsom-all.min.css" %}" rel="stylesheet"/>
     <link rel="stylesheet" href="{% static "css/animate.css" %}" rel="stylesheet"/>
     <link rel="stylesheet" type="text/css" href="{% static "/css/style.css"%}" rel="stylesheet"/>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 0;
-        }
+<style>
+            /* Main CSS Here */
 
-        header {
-            background-color:  #2a5945;
-            color: #fff;
-            padding: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+@import url(
+"https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 
-        .container {
-            max-width: 1000px;
-            margin: 20px auto;
-            padding: 20px;
-            background-color: #fff;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(65, 117, 109, 0.1);
-        }
+<style>
+    /* Main CSS Here */
 
-        h1 {
-            font-size: 24px;
-        }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
+* {
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+font-family: "Poppins", sans-serif;
+}
+:root {
+--background-color1: #fafaff;
+--background-color2: #ffffff;
+--background-color3: #ededed;
+--background-color4: #cad7fda4;
+--primary-color: #3cdbd1;
+--secondary-color: #289a8b;
+--Border-color: #0e927c;
+--one-use-color: #0e9684;
+--two-use-color: #1dbda2;
+}
+body {
+background-color: #eaf7e3;
+max-width: 100%;
+overflow-x: hidden;
+}
 
-        th, td {
-            padding: 10px;
-            border-bottom: 1px solid #ddd;
-            text-align: left;
-        }
+header {
+height: 70px;
+width: 100vw;
+padding: 0 30px;
+background-color: var(--background-color1);
+position: fixed;
+z-index: 100;
+box-shadow: 1px 1px 15px rgba(161, 182, 253, 0.825);
+display: flex;
+justify-content: space-between;
+align-items: center;
+}
 
-        th {
-            background-color: #2a5945;
-            color: #fff;
-        }
+.logo {
+font-size: 27px;
+font-weight: 600;
+color: rgb(47, 141, 70);
+}
 
-        /* Extend the Action header cell */
-        th.action-header {
-            width: 100px; /* Adjust the width as needed */
-        }
+.icn {
+height: 30px;
+}
+.menuicn {
+cursor: pointer;
+}
 
-        tr:nth-child(even) {
-            background-color: #f2f2f2;
-        }
+.searchbar,
+.message,
+.logosec {
+display: flex;
+align-items: center;
+justify-content: center;
+}
 
-        .btn-edit, .btn-delete {
-            padding: 5px 10px;
-            margin-right: 5px;
-            border: none;
-            border-radius: 3px;
-            cursor: pointer;
-            font-size: 14px;
-        }
+.searchbar2 {
+display: none;
+}
 
-        .btn-edit {
-            background-color: #4caf50;
-            color: #fff;
-        }
+.logosec {
+gap: 60px;
+}
 
-        .btn-delete {
-            background-color: #f44336;
-            color: #fff;
-        }
+.searchbar input {
+width: 250px;
+height: 42px;
+border-radius: 50px 0 0 50px;
+background-color: var(--background-color3);
+padding: 0 20px;
+font-size: 15px;
+outline: none;
+border: none;
+}
+.searchbtn {
+width: 50px;
+height: 42px;
+display: flex;
+align-items: center;
+justify-content: center;
+border-radius: 0px 50px 50px 0px;
+background-color: var(--secondary-color);
+cursor: pointer;
+}
 
-        /* Style for user icon */
+.message {
+gap: 40px;
+position: relative;
+cursor: pointer;
+}
+.circle {
+height: 7px;
+width: 7px;
+position: absolute;
+background-color: #fa7bb4;
+border-radius: 50%;
+left: 19px;
+top: 8px;
+}
+.dp {
+height: 40px;
+width: 40px;
+background-color: #626262;
+border-radius: 50%;
+display: flex;
+align-items: center;
+justify-content: center;
+overflow: hidden;
+}
+.main-container {
+display: flex;
+width: 100vw;
+position: relative;
+top: 70px;
+z-index: 1;
+}
+.dpicn {
+height: 42px;
+}
+
+.main {
+height: calc(100vh - 70px);
+width: 100%;
+overflow-y: scroll;
+overflow-x: hidden;
+padding: 40px 30px 30px 30px;
+}
+
+.main::-webkit-scrollbar-thumb {
+background-image: 
+    linear-gradient(to bottom, rgb(49, 133, 126), rgb(9, 68, 54));
+}
+.main::-webkit-scrollbar {
+width: 5px;
+}
+.main::-webkit-scrollbar-track {
+background-color: #9e9e9eb2;
+}
+
+.box-container {
+display: flex;
+justify-content: space-evenly;
+align-items: center;
+flex-wrap: wrap;
+gap: 50px;
+}
+.nav {
+min-height: 91vh;
+width: 250px;
+background-color: var(--background-color2);
+position: absolute;
+top: 0px;
+left: 00;
+box-shadow: 1px 1px 10px rgba(198, 189, 248, 0.825);
+display: flex;
+flex-direction: column;
+justify-content: space-between;
+overflow: hidden;
+padding: 30px 0 20px 10px;
+}
+.navcontainer {
+height: calc(100vh - 70px);
+width: 350px;
+position: relative;
+overflow-y: scroll;
+overflow-x: hidden;
+transition: all 0.5s ease-in-out;
+}
+.navcontainer::-webkit-scrollbar {
+display: none;
+}
+.navclose {
+width: 80px;
+}
+.nav-option {
+width: 250px;
+height: 60px;
+display: flex;
+align-items: center;
+padding: 0 30px 0 20px;
+gap: 20px;
+transition: all 0.1s ease-in-out;
+}
+.nav-option:hover {
+border-left: 5px solid #a2a2a2;
+background-color: #dadada;
+cursor: pointer;
+}
+.nav-img {
+height: 30px;
+}
+
+.nav-upper-options {
+display: flex;
+flex-direction: column;
+align-items: center;
+gap: 30px;
+}
+
+.option1 {
+border-left: 5px solid #4fd5c8af;
+background-color: var(--Border-color);
+color: white;
+cursor: pointer;
+}
+.option1:hover {
+border-left: 5px solid #40d0a0af;
+background-color: var(--Border-color);
+}
+.box {
+height: 130px;
+width: 230px;
+border-radius: 20px;
+box-shadow: 3px 3px 10px rgba(90, 238, 194, 0.751);
+padding: 20px;
+display: flex;
+align-items: center;
+justify-content: space-around;
+cursor: pointer;
+transition: transform 0.3s ease-in-out;
+}
+.box:hover {
+transform: scale(1.08);
+}
+
+.box:nth-child(1) {
+background-color: var(--one-use-color);
+}
+.box:nth-child(2) {
+background-color: var(--two-use-color);
+}
+.box:nth-child(3) {
+background-color: var(--one-use-color);
+}
+.box:nth-child(4) {
+background-color: var(--two-use-color);
+}
+
+.box img {
+height: 50px;
+}
+.box .text {
+color: white;
+}
+.topic {
+font-size: 13px;
+font-weight: 400;
+letter-spacing: 1px;
+}
+
+.topic-heading {
+font-size: 30px;
+letter-spacing: 3px;
+}
+
+.report-container {
+min-height: 300px;
+max-width: 1200px;
+margin: 70px auto 0px auto;
+background-color: #ffffff;
+border-radius: 30px;
+box-shadow: 3px 3px 10px rgb(188, 188, 188);
+padding: 0px 20px 20px 20px;
+}
+.report-header {
+height: 80px;
+width: 100%;
+display: flex;
+align-items: center;
+justify-content: space-between;
+padding: 20px 20px 10px 20px;
+border-bottom: 2px solid rgba(86, 220, 202, 0.59);
+}
+
+.recent-Articles {
+font-size: 30px;
+font-weight: 600;
+color: #197b72;
+}
+
+.view {
+height: 35px;
+width: 90px;
+border-radius: 8px;
+background-color: #268d81;
+color: white;
+font-size: 15px;
+border: none;
+cursor: pointer;
+}
+
+.report-body {
+max-width: 1160px;
+overflow-x: auto;
+padding: 20px;
+}
+.report-topic-heading,
+.item1 {
+width: 1120px;
+display: flex;
+justify-content: space-between;
+align-items: center;
+}
+.t-op {
+font-size: 18px;
+letter-spacing: 0px;
+}
+
+.items {
+width: 1120px;
+margin-top: 15px;
+}
+
+.item1 {
+margin-top: 20px;
+}
+.t-op-nextlvl {
+font-size: 14px;
+letter-spacing: 0px;
+font-weight: 600;
+}
+
+.label-tag {
+width: 100px;
+text-align: center;
+background-color: rgb(0, 177, 0);
+color: white;
+border-radius: 4px;
+}
+.container {
+max-width: 1000px;
+margin: 20px auto;
+padding: 20px;
+background-color: #fff;
+border-radius: 5px;
+box-shadow: 0 0 10px rgba(65, 117, 109, 0.1);
+}
+
+table {
+width: 100%;
+border-collapse: collapse;
+margin-top: 20px;
+background-color: #fff;
+border-radius: 10px;
+box-shadow: 0 0 10px rgba(65, 117, 109, 0.1);
+}
+
+/* Style the table header */
+th {
+background-color: #0c3e3e;
+color: #fff;
+font-weight: bold;
+padding: 10px;
+text-align: left;
+}
+
+/* Style the table rows */
+tr {
+transition: background-color 0.3s;
+}
+
+tr:nth-child(even) {
+background-color: #f2f2f2;
+}
+
+/* Style the table cells (columns) */
+th, td {
+padding: 10px;
+border-bottom: 1px solid #ddd;
+text-align: left;
+}
+
+/* Extend the Action header cell */
+th.action-header {
+width: 100px;
+}
+
+/* Style the action buttons in the table */
+.btn-edit, .btn-delete {
+padding: 5px 9px;
+margin-right: 5px;
+border: none;
+border-radius: 3px;
+cursor: pointer;
+font-size: 12px;
+color: #fff;
+transition: background-color 0.3s;
+}
+
+.btn-edit {
+background-color: #76c676;
+}
+
+.btn-delete {
+background-color: #f44336;
+}
+
+.btn-edit:hover {
+background-color: #5aaf5a;
+}
+
+.btn-delete:hover {
+background-color: #d63737;
+}
+
+    /* Style for user icon */
         .user-icon {
             width: 45px;
             height: 45px;
@@ -118,48 +459,241 @@
     }
 
     /* Style for the "Active" button */
-.btn-delete {
-    padding: 5px 10px;
-    margin-right: 5px;
-    border: none;
-    border-radius: 3px;
-    cursor: pointer;
-    font-size: 14px;
-    background-color: #4caf50; /* Green color */
-    color: #fff; /* Text color */
-}
-
-/* Style for the "Inactive" button */
-.btn-inactive {
-    padding: 5px 10px;
-    margin-right: 5px;
-    border: none;
-    border-radius: 3px;
-    cursor: pointer;
-    font-size: 14px;
-    background-color: #f44336; /* Red color */
-    color: #fff; /* Text color */
-}
-
-   
-    </style>
-</head>
-<body>
-    <header>
-        <h1>Registered Users</h1>
-        <div class="dropdown">
-
-            <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="userProfileDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <img src="{% static '/images/admin.jpg' %}" alt="User Icon" class="user-icon">
-                {{ user.username }}
-            </a>
-            <div class="dropdown-menu" aria-labelledby="userProfileDropdown">
-                <a class="dropdown-item" href="dashboard">Profile</a>
-                <a class="dropdown-item" href="logout">Logout</a>
-            </div>
-        </div>
+    .btn-delete {
+        padding: 5px 10px;
+        margin-right: 5px;
+        border: none;
+        border-radius: 3px;
+        cursor: pointer;
+        font-size: 14px;
+        background-color: #4caf50; /* Green color */
+        color: #fff; /* Text color */
+    }
     
-    </header>
+    /* Style for the "Inactive" button */
+    .btn-inactive {
+        padding: 5px 10px;
+        margin-right: 5px;
+        border: none;
+        border-radius: 3px;
+        cursor: pointer;
+        font-size: 14px;
+        background-color: #f44336; /* Red color */
+        color: #fff; /* Text color */
+    }
+    <style>
+        .form-container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+    
+        .form-group {
+            margin-bottom: 20px;
+        }
+    
+        label {
+            display: block;
+            font-weight: bold;
+        }
+    
+        input[type="text"],
+        input[type="number"],
+        input[type="checkbox"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            font-size: 16px;
+        }
+    
+        input[type="checkbox"] {
+            width: auto;
+        }
+    
+        .availability-checkbox label {
+            display: inline;
+        }
+    
+        .form-submit-button {
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            border-radius: 3px;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 18px;
+            transition: background-color 0.3s;
+        }
+    
+        .form-submit-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+    
+    </style>
+    </head>
+    
+    <body>
+    
+        <!-- for header part -->
+        <header>
+    
+            <div class="logosec">
+                <div class="logo">DEVICE REVIVE</div>
+                <img src=
+    "https://media.geeksforgeeks.org/wp-content/uploads/20221210182541/Untitled-design-(30).png"
+                    class="icn menuicn"
+                    id="menuicn"
+                    alt="menu-icon">
+            </div>
+    
+            <div class="searchbar">
+                <input type="text"
+                    placeholder="Search">
+                <div class="searchbtn">
+                <img src="{% static '/images/search.jpg' %}" 
+    
+                        class="icn srchicn"
+                        alt="search-icon">
+                </div>
+            </div>
+    
+            <div class="message">
+                <div class="circle"></div>
+                <img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210183322/8.png" class="icn" alt="">
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="userProfileDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <img src="{% static '/images/admin.jpg' %}" alt="User Icon" class="user-icon">
+                        {{ user.username }}
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="userProfileDropdown">
+                        <a class="dropdown-item" href="{% url 'dashboard' %}">Profile</a>
+                        <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
+                    </div>
+                </div>
+            </div>
+    
+        </header>
+    
+        <div class="main-container">
+            <div class="navcontainer">
+                <nav class="nav">
+                    <div class="nav-upper-options">
+                        <div class="nav-option option1">
+                            <img src=
+    >
+                            <h3> Dashboard</h3>
+                        </div>
+    
+                        <a href="{% url 'userdetailss' %}">
+                            <div class="option2 nav-option">
+                                <img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210183322/9.png"
+                                    class="nav-img"
+                                    alt="">
+                                <h3> Registered Users</h3>
+                            </div>
+                        </a>
+                        
+                        
+                        <a href="{% url 'staffs' %}">
+                        <div class="nav-option option4">
+                            <img src=
+    "https://media.geeksforgeeks.org/wp-content/uploads/20221210183321/6.png"
+                                class="nav-img"
+                                alt="institution">
+                            <h3> Staffs</h3>
+                        </div>
+                        <div>
+                        </a>
+
+                        <a href="{% url 'servicedetails' %}">
+                        <div class="nav-option option5">
+                            <img src=
+    "https://media.geeksforgeeks.org/wp-content/uploads/20221210183323/10.png"
+                                class="nav-img"
+                                alt="blog">
+                            <h3> Services</h3>
+                        </div>
+                    </div>
+                </a>
+
+                    <div class="nav-option option3">
+                        <img src=
+"https://media.geeksforgeeks.org/wp-content/uploads/20221210183320/5.png"
+                            class="nav-img"
+                            alt="report">
+                        <h3> Appointment requests</h3>
+                    </div>
+    <br><br>
+                        <div class="nav-option option6">
+                            <img src=
+    "https://media.geeksforgeeks.org/wp-content/uploads/20221210183320/4.png"
+                                class="nav-img"
+                                alt="settings">
+                            <h3> Settings</h3>
+                        </div>
+    
+                        
+    
+                    </div>
+                </nav>
+            </div>
+            <div class="main">
+    
+                <div class="searchbar2">
+                    <input type="text"
+                        name=""
+                        id=""
+                        placeholder="Search">
+                    <div class="searchbtn">
+                    <img src=
+    "https://media.geeksforgeeks.org/wp-content/uploads/20221210180758/Untitled-design-(28).png"
+                            class="icn srchicn"
+                            alt="search-button">
+                    </div>
+                </div>
+    
+                <div class="box-container">
+    
+                    <div class="box box1">
+                        <div class="text">
+                            <h2 class="topic-heading">450</h2>
+                            <h2 class="topic">Registered Users</h2>
+                        </div>
+    
+                        <img src="">
+                    </div>
+    
+                    <div class="box box2">
+                        <div class="text">
+                            <h2 class="topic-heading">150</h2>
+                            <h2 class="topic">Reviews</h2>
+                        </div>
+    
+                        <img src=
+    >
+                    </div>
+    
+                    <div class="box box3">
+                        <div class="text">
+                            <h2 class="topic-heading">4.9</h2>
+                            <h2 class="topic">Ratings</h2>
+                        </div>
+    
+                        <img src=
+    >
+                    </div>
+    
+                    <div class="box box4">
+                        <div class="text">
+                            <h2 class="topic-heading">14</h2>
+                            <h2 class="topic">Certified Technicians</h2>
+                        </div>
+    
+                        <img src=
+    >
+                    </div>
+                </div>
     <div class="container">
         <h2>Registered Users</h2>
         <table>

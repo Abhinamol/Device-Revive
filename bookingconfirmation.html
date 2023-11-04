@@ -14,6 +14,11 @@
 <link rel="stylesheet" href="{% static "css/fontawsom-all.min.css" %}" rel="stylesheet"/>
 <link rel="stylesheet" href="{% static "css/animate.css" %}" rel="stylesheet"/>
 <link rel="stylesheet" type="text/css" href="{% static "/css/style.css"%}" rel="stylesheet"/>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+
+
+
 <style type="text/css">
     	body {
     margin: 0;
@@ -79,7 +84,7 @@
 
 body {
     font-family: Arial, Helvetica, sans-serif;
-    background-color: #f2f2f2;
+    background-color: black;
 }
 
 .login-container {
@@ -351,6 +356,13 @@ body {
         <ul id="selected-services">
             <!-- JavaScript will insert the selected services here -->
         </ul>
+        <div id="selected-date-time">
+            <p id="selected-date">Date: </p>
+            <p>Selected Time Slot: <span id="selected-time-slot"></span></p>
+          
+
+
+        </div>
 
         <!-- Display the total cost -->
         <div class="total-cost-box">
@@ -360,11 +372,16 @@ body {
             <!-- JavaScript will insert the total cost here -->
         </p>
     </div>
+  
+    <button id="generate-pdf-button">Generate PDF</button>
+
+
+<br>
 
         <!-- Payment options can be added here -->
         <h3>Payment Options:</h3>
         <p>Choose a payment option and proceed with the payment:</p>
-
+<br>
         <!-- Placeholder payment options (replace with actual payment buttons/forms) -->
         <div class="payment-options">
             <button id="paypal-button">Pay with PayPal</button>
@@ -383,15 +400,20 @@ body {
 
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.bundle.min.js"></script>
-<script type="text/javascript">
+<script type="text/javascript"></script>
+<script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
 	
-</script>
+    
+
 
 <script>
     document.addEventListener("DOMContentLoaded", function() {
-        // Get the selected services and total cost from URL parameters
+        // Get the selected services, total cost, date, and time from URL parameters
         const selectedServices = decodeURIComponent(getUrlParameter('services'));
         const totalCost = decodeURIComponent(getUrlParameter('total'));
+        
 
         // Display the selected services on the page
         const selectedServicesList = document.getElementById('selected-services');
@@ -405,6 +427,9 @@ body {
         // Display the total cost on the page
         const totalCostElement = document.getElementById('total-cost');
         totalCostElement.textContent = '$' + parseFloat(totalCost).toFixed(2);
+
+        // Display the date and time on the page
+        
     });
 
     // Function to get URL parameters by name
@@ -413,23 +438,82 @@ body {
         return urlParams.get(name);
     }
 </script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Function to get URL parameters by name
+        function getUrlParameter(name) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(name);
+        }
+
+        // Get the selected date and time from URL parameters
+        const selectedDate = getUrlParameter('date');
+        const selectedTime = getUrlParameter('time');
+
+        // Display the date and time on the page
+        const dateElement = document.getElementById('selected-date');
+        dateElement.textContent = 'Date: ' + selectedDate;
+
+        const timeElement = document.getElementById('selected-time');
+        timeElement.textContent = 'Time: ' + selectedTime;
+    });
+</script>
+
 
 <script>
     document.addEventListener("DOMContentLoaded", function() {
-        var bookingLink = document.querySelector('.js-scroll-trigger[href="#login-required"]');
-        var loginRequiredMessage = document.querySelector('.login-required-message');
-        var okButton = document.querySelector('.ok-button');
-    
-        bookingLink.addEventListener("click", function(event) {
-            event.preventDefault(); // Prevent the default link behavior
-            loginRequiredMessage.style.display = "flex"; // Show the message
-        });
-        
-        okButton.addEventListener("click", function() {
-            loginRequiredMessage.style.display = "none"; // Hide the message when OK is clicked
-        });
+        // Function to get URL parameters by name
+        function getUrlParameter(name) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(name);
+        }
+
+        // Get the selected date and time from URL parameters
+        const selectedDate = getUrlParameter('date');
+        const selectedTime = getUrlParameter('time');
+
+        // Display the date and time on the page
+        const dateElement = document.getElementById('selected-date');
+        dateElement.textContent = 'Date: ' + selectedDate;
+
+        const timeElement = document.getElementById('selected-time');
+        timeElement.textContent = 'Time: ' + selectedTime;
     });
 </script>
+
+<script>
+    // Function to get URL query parameters
+    function getQueryParam(name) {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get(name);
+    }
+
+    // Get the selected time slot from the URL
+    const selectedTimeSlot = getQueryParam('time');
+
+    // Display the selected time slot
+    const timeSlotElement = document.getElementById('time-slot');  // Use an appropriate element ID
+    timeSlotElement.textContent = selectedTimeSlot;
+</script>
+
+ 
+<script>
+    document.getElementById('generate-pdf-button').addEventListener('click', function() {
+        // Create a new jsPDF instance
+        const doc = new jsPDF();
+
+        // Add content to the PDF
+        doc.text('Booking Confirmation', 10, 10);
+        doc.text('Selected Services:', 10, 20);
+        // Add more content to the PDF as needed, using doc.text and other jsPDF methods.
+
+        // Save the PDF as a file and allow the user to download it
+        doc.save('booking-confirmation.pdf');
+    });
+</script>
+
+
+    
 
 
 </html>
