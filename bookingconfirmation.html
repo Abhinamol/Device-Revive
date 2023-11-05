@@ -350,15 +350,15 @@ body {
     <div class="container confirmation-box">
     
         <h1>Booking Confirmation</h1>
-        
+        <form id="booking-form">
         <!-- Display the selected services -->
         <h3>Selected Services:</h3>
         <ul id="selected-services">
             <!-- JavaScript will insert the selected services here -->
         </ul>
         <div id="selected-date-time">
-            <p id="selected-date">Date: </p>
-            <p>Selected Time Slot: <span id="selected-time-slot"></span></p>
+            <h3 id="selected-date">Date: </h3>
+            
           
 
 
@@ -373,7 +373,7 @@ body {
         </p>
     </div>
   
-    <button id="generate-pdf-button">Generate PDF</button>
+    
 
 
 <br>
@@ -387,7 +387,8 @@ body {
             <button id="paypal-button">Pay with PayPal</button>
             <button id="stripe-button">Pay with Stripe</button>
         </div>
-
+        <button id="save-pdf-button">Save PDF</button>
+    </form>
         <!-- You can add payment buttons or forms here as needed -->
     </div>
 </div>
@@ -481,36 +482,9 @@ body {
     });
 </script>
 
-<script>
-    // Function to get URL query parameters
-    function getQueryParam(name) {
-        const urlParams = new URLSearchParams(window.location.search);
-        return urlParams.get(name);
-    }
 
-    // Get the selected time slot from the URL
-    const selectedTimeSlot = getQueryParam('time');
-
-    // Display the selected time slot
-    const timeSlotElement = document.getElementById('time-slot');  // Use an appropriate element ID
-    timeSlotElement.textContent = selectedTimeSlot;
-</script>
 
  
-<script>
-    document.getElementById('generate-pdf-button').addEventListener('click', function() {
-        // Create a new jsPDF instance
-        const doc = new jsPDF();
-
-        // Add content to the PDF
-        doc.text('Booking Confirmation', 10, 10);
-        doc.text('Selected Services:', 10, 20);
-        // Add more content to the PDF as needed, using doc.text and other jsPDF methods.
-
-        // Save the PDF as a file and allow the user to download it
-        doc.save('booking-confirmation.pdf');
-    });
-</script>
 
 
     
