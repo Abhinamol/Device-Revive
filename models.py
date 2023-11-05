@@ -4,13 +4,18 @@ from django.db import models
 
 # Create your models here.
 
+class Address(models.Model):
+    home_address = models.CharField(max_length=255)
+    city = models.CharField(max_length=100)
+    pincode = models.CharField(max_length=10)
+
 class Userdetails(models.Model):
     full_name = models.CharField(max_length=50)
     email = models.EmailField()
     phone = models.CharField(max_length=50)
     username = models.CharField(max_length=10)
     password = models.CharField(max_length=6)
-
+    address = models.OneToOneField(Address, on_delete=models.CASCADE, null=True, blank=True)
 
 
 
@@ -31,3 +36,4 @@ class Technician(models.Model):
 
     def __str__(self):
         return self.username
+

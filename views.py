@@ -245,7 +245,8 @@ def delete_user(request, user_id):
     user.delete()
     return HttpResponse('User deleted successfully')
 
-
+@never_cache
+@login_required
 def servicedetails(request):
     services = Service.objects.all()
     return render(request, 'servicedetails.html', {'services': services})
@@ -253,7 +254,8 @@ def servicedetails(request):
 
 
 
-
+@never_cache
+@login_required
 def add_service(request):
     if request.method == 'POST':
         form = ServiceForm(request.POST)
@@ -277,7 +279,8 @@ def delete_service(request, service_id):
 
     return redirect('servicedetails') 
 
-
+@never_cache
+@login_required
 def edit_service(request, service_id):
     service = Service.objects.get(id=service_id)
 
@@ -292,6 +295,9 @@ def edit_service(request, service_id):
 
     return render(request, 'edit_service.html', {'form': form, 'service': service})
 
+
+@never_cache
+@login_required
 def update_service(request, service_id):
     # Your view logic here
     service = Service.objects.get(pk=service_id)
@@ -304,6 +310,9 @@ def update_service(request, service_id):
 
     return render(request, 'update_service.html', {'service': service})
 
+
+@never_cache
+@login_required
 def updateuser(request):
     if request.method == 'POST':
         full_name = request.POST.get('full_name')
@@ -326,12 +335,18 @@ def updateuser(request):
 
     return render(request,"updateuser.html")
 
+
+@never_cache
+@login_required
 def book_now(request, service_id):
     # Your booking logic here
 
     # After handling the booking logic, redirect to the "booknow.html" page or any other relevant page
     return redirect('booknow')
 
+
+@never_cache
+@login_required
 def add_staff(request):
     if request.method == "POST":
         # Get the form data
@@ -369,6 +384,9 @@ def add_staff(request):
 
     return render(request, 'add_staff.html')
 
+
+@never_cache
+@login_required
 def staffs(request):
     staff_data = Technician.objects.all()  # Fetch all staff data from the database
 
@@ -377,6 +395,7 @@ def staffs(request):
     }
 
     return render(request, 'staffs.html', context)
+
 
 def delete_staff(request, staff_id):
     if request.method == 'POST':
