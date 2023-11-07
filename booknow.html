@@ -101,6 +101,25 @@
     .error-message {
         color: red; /* Set error message color to red */
     }
+
+    /* Center the button horizontally and vertically */
+button {
+    display: block;
+    margin: 0 auto;
+    text-align: center;
+    padding: 10px 20px; /* Adjust the padding as needed */
+    background-color: #007ae1; /* Change the background color */
+    color: #fff; /* Text color */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* Style the button on hover */
+button:hover {
+    background-color: #0056b3; /* Change the background color on hover */
+}
+
         </style>
         
     </head>
@@ -301,56 +320,59 @@
                             <label for="service" style="color: white;">Select Service(s):</label>
                             <div class="service-list-box">
                             <div>
-                                <input type="checkbox" id="hardwareRepair" name="service" value="Hardware Repair" class="service-checkbox">
+                                <input type="checkbox" id="hardwareRepair" name="service" value="Hardware Repair" class="service-checkbox" data-cost="100">
+
                                 <label for="hardwareRepair"  style="color: black;">Hardware Repair - $100</label>
                             </div>
                             <div>
-                                <input type="checkbox" id="softwareTroubleshooting" name="service" value="Software Troubleshooting" class="service-checkbox">
+                                <input type="checkbox" id="softwareTroubleshooting" name="service" value="Software Troubleshooting" class="service-checkbox" data-cost="49">
                                 <label for="softwareTroubleshooting"  style="color: black;">Software Troubleshooting - $49</label>
                             </div>
                             <div>
-                                <input type="checkbox" id="virusRemoval" name="service" value="Virus Removal" class="service-checkbox">
+                                <input type="checkbox" id="virusRemoval" name="service" value="Virus Removal" class="service-checkbox" data-cost="79">
                                 <label for="virusRemoval"  style="color:  black;">Virus Removal - $79</label>
                             </div>
                             <div>
-                                <input type="checkbox" id="dataRecovery" name="service" value="Data Recovery" class="service-checkbox">
+                                <input type="checkbox" id="dataRecovery" name="service" value="Data Recovery" class="service-checkbox" data-cost="69">
                                 <label for="dataRecovery"  style="color:  black;">Data Recovery - $69</label>
                             </div>
                             <div>
-                                <input type="checkbox" id="screenReplacement" name="service" value="Screen Replacement" class="service-checkbox">
+                                <input type="checkbox" id="screenReplacement" name="service" value="Screen Replacement" class="service-checkbox" data-cost="129">
                                 <label for="screenReplacement"  style="color: black;">Screen Replacement - $129</label>
                             </div>
                             <div>
-                                <input type="checkbox" id="upgradesCustomization" name="service" value="Upgrades and Customization" class="service-checkbox">
+                                <input type="checkbox" id="upgradesCustomization" name="service" value="Upgrades and Customization" class="service-checkbox" data-cost="79"> 
                                 <label for="upgradesCustomization"  style="color:  black;">Upgrades/Customization - $79 </label>
                             </div>
                             <div>
-                                <input type="checkbox" id="networkSetup" name="service" value="Network Setup" class="service-checkbox">
+                                <input type="checkbox" id="networkSetup" name="service" value="Network Setup" class="service-checkbox" data-cost="59">
                                 <label for="networkSetup"  style="color: black;">Network Setup - $59</label>
                             </div>
                             <div>
-                                <input type="checkbox" id="osInstallation" name="service" value="Operating System Installation" class="service-checkbox">
+                                <input type="checkbox" id="osInstallation" name="service" value="Operating System Installation" class="service-checkbox" data-cost="69">
                                 <label for="osInstallation"  style="color: black;">OS Installation - $49</label>
                             </div>
                             <div>
-                                <input type="checkbox" id="backupSolutions" name="service" value="Backup Solutions" class="service-checkbox">
+                                <input type="checkbox" id="backupSolutions" name="service" value="Backup Solutions" class="service-checkbox" data-cost="79">
                                 <label for="backupSolutions"  style="color:  black;">Backup Solutions - $79</label>
                             </div>
                         </div>
                         </div>
-                        
+                    
                         <div class="form-group">
-                            <label for="selected-service-price" style="color: white;">Total Service Cost:</label>
+                            <label for="total-service-cost" style="color: white;">Total Service Cost:</label>
                             <input type="text" id="total-service-cost" class="form-control" disabled>
                         </div>
+                        
                         
                         
                         <div class="form-group">
                             <textarea rows="4" class="form-control" placeholder="Issue Description" required="required"></textarea>
                         </div>
                         <div class="form-group">
-                            <input type="date" class="form-control" name="fdate" placeholder="From Date" required id="from-date">
-                          </div>
+                            <input type="date" class="form-control" name="fdate" placeholder="From Date" required id="from-date" min="{{ today }}">
+                        </div>
+                        
                         
                           
                         <div class="form-group">
@@ -367,8 +389,9 @@
 <div class="form-group">
 <input type="number" id="totals" class="form-control" name="total" placeholder="Booking Amount/day: {{ id.price }}" required readonly>
 </div>
-<!-- In the booknow page -->
-<button class="btn btn-dark btn-block border-0 py-3" type="button" onclick="redirectToBookingConfirmation()">Book Now</button>
+<center> <button onclick="redirectToBookingConfirmation()">Proceed to Confirmation</button> </center>
+
+
 
 
 
@@ -538,179 +561,81 @@
         }
     }
 </script>
-
-
-
-
-
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-    // Listen for changes in the checkboxes
-    $('.service-checkbox').on('change', function() {
-        updateTotalCost();
-    });
-
-    function updateTotalCost() {
-        let totalCost = 0;
-        $('.service-checkbox:checked').each(function() {
-            const serviceText = $(this).next().text();
-            const servicePrice = parseFloat(serviceText.match(/\d+\.\d+/)[0]);
-            totalCost += servicePrice;
-        });
-
-        $('#total-service-cost').val('$' + totalCost.toFixed(2));
-    }
-</script>
-
-<script>
-    <div>
-        <button class="btn btn-dark btn-block border-0 py-3" type="button" onclick="redirectToBookingConfirmation()">Book Now</button>
-
-
-
-    </div>
-    
-    
-    // Implement functions to get selected services and calculate the total cost
-    // Example:
-    function getSelectedServices() {
-        const selectedServices = [];
-        $('.service-checkbox:checked').each(function() {
-            selectedServices.push($(this).next().text());
-        });
-        return selectedServices.join(', ');
-    }
-
+    // Function to calculate the total service cost
     function calculateTotalCost() {
+        const serviceCheckboxes = document.querySelectorAll('.service-checkbox');
         let totalCost = 0;
-        $('.service-checkbox:checked').each(function() {
-            const serviceText = $(this).next().text();
-            const servicePrice = parseFloat(serviceText.match(/\d+\.\d+/)[0]);
-            totalCost += servicePrice;
+
+        serviceCheckboxes.forEach(function (checkbox) {
+            if (checkbox.checked) {
+                totalCost += parseInt(checkbox.getAttribute('data-cost'));
+            }
         });
-        return totalCost.toFixed(2);
+
+        // Update the Total Service Cost field
+        const totalServiceCostField = document.getElementById('total-service-cost');
+        totalServiceCostField.value = totalCost;
     }
+
+    // Add event listeners to the checkboxes
+    const serviceCheckboxes = document.querySelectorAll('.service-checkbox');
+    serviceCheckboxes.forEach(function (checkbox) {
+        checkbox.addEventListener('change', calculateTotalCost);
+    });
 </script>
+
+
+
 <script>
-    function redirectToBookingConfirmation() {
-        // ...
-        console.log('Redirecting to booking confirmation');
-        // ...
-    }
+    document.addEventListener("DOMContentLoaded", function () {
+        // Find the date input element by its ID
+        const fromDateInput = document.getElementById("from-date");
+
+        // Get the current date in the required format (YYYY-MM-DD)
+        const today = new Date().toISOString().split("T")[0];
+        
+        // Set the minimum date for the input field
+        fromDateInput.setAttribute("min", today);
+    });
 </script>
-<!-- Include this script in the head section of your HTML -->
 
 <script>
     function redirectToBookingConfirmation() {
-        // Retrieve and validate form data here
-        const selectedDate = document.getElementById('from-date').value;
-        const selectedTime = document.getElementById('type').value;
-        const selectedServices = getSelectedServices();
-        const totalCost = calculateTotalCost();
-        
-        // Include the selected time slot in the URL
-        const bookingConfirmationURL = `/bookingconfirmation?services=${encodeURIComponent(selectedServices)}&total=${totalCost}&date=${selectedDate}&time=${selectedTime}`;
-        
-        // Redirect to the booking confirmation page
+        // Get the user's selected services
+        const selectedServices = [];
+        const serviceCheckboxes = document.querySelectorAll('input[type="checkbox"][name="service"]');
+        serviceCheckboxes.forEach(checkbox => {
+            if (checkbox.checked) {
+                selectedServices.push(checkbox.value);
+            }
+        });
+    
+        // Calculate the total cost based on selected services
+        const totalCost = calculateTotalCost(selectedServices);
+    
+        // Get the selected date
+        const selectedDate = document.getElementById("from-date").value;
+    
+        // Construct the URL with query parameters
+        const bookingConfirmationURL = `/bookingconfirmation?services=${selectedServices.join(',')}&cost=${totalCost}&date=${selectedDate}`;
+    
+        // Redirect to the Booking Confirmation page
         window.location.href = bookingConfirmationURL;
     }
-
-    // Function to get selected services (keep this function as it is)
-    function getSelectedServices() {
-        const selectedServices = [];
-        $('.service-checkbox:checked').each(function() {
-            selectedServices.push($(this).next().text());
-        });
-        return selectedServices.join(', ');
-    }
-
-    // Function to calculate total cost (keep this function as it is)
-    function calculateTotalCost() {
+    
+    function calculateTotalCost(selectedServices) {
         let totalCost = 0;
-        $('.service-checkbox:checked').each(function() {
-            const serviceText = $(this).next().text();
-            const servicePrice = parseFloat(serviceText.match(/\d+\.\d+/)[0]);
-            totalCost += servicePrice;
+        selectedServices.forEach(service => {
+            const cost = parseInt(document.querySelector(`input[value="${service}"]`).getAttribute('data-cost'));
+            totalCost += cost;
         });
-        return totalCost.toFixed(2);
+        return totalCost;
     }
-
-    // Attach a click event listener to the "Book Now" button
-    document.getElementById('bookNowButton').addEventListener('click', redirectToBookingConfirmation);
 </script>
 
-<!-- Place this script within the <head> section of your HTML document -->
  
-        
-<script>
-function validateName(input) {
-    const name = input.value;
-    const nameError = document.getElementById("name-error");
-    const namePattern = /^[A-Za-z\s]+$/; // Allow letters and spaces
-
-    if (!namePattern.test(name)) {
-        nameError.textContent = "Invalid name format";
-        input.setCustomValidity("Invalid name format");
-    } else {
-        nameError.textContent = "";
-        input.setCustomValidity("");
-    }
-}
-
-function validateEmail(input) {
-    const email = input.value;
-    const emailError = document.getElementById("email-error");
-
-    // Define a regular expression for a valid email address with at least 3 letters before "@".
-    const emailPattern = /^[A-Za-z]{3,}[A-Za-z0-9._%+-]*@[A-Za-z0-9.-]*[A-Za-z][A-Za-z0-9.-]*\.[A-Za-z]{2,}$/;
-
-    if (!emailPattern.test(email)) {
-        emailError.textContent = "Invalid email format";
-        input.setCustomValidity("Invalid email format");
-    } else {
-        emailError.textContent = "";
-        input.setCustomValidity("");
-    }
-}
-
-
-
-
-
-
-    function validatePhoneNumber(input) {
-        const phoneNumber = input.value;
-        const phoneError = document.getElementById("phone-error");
-    
-        // Define the regular expression for a valid phone number.
-        const phonePattern = /^(6|7|8|9)(?:(?!\1{4})\d){9}$/;
-    
-        if (!phonePattern.test(phoneNumber)) {
-            phoneError.textContent = "Invalid phone number format";
-            input.setCustomValidity("Invalid phone number format");
-        } else {
-            phoneError.textContent = "";
-            input.setCustomValidity("");
-        }
-    }
-    
-    
-</script>
-
-<script>
-    // Get the current date in the format 'YYYY-MM-DD'
-    const today = new Date();
-    const yyyy = today.getFullYear();
-    const mm = String(today.getMonth() + 1).padStart(2, '0');
-    const dd = String(today.getDate()).padStart(2, '0');
-    const currentDate = `${yyyy}-${mm}-${dd}`;
-  
-    // Set the 'min' attribute to the current date
-    document.getElementById('from-date').min = currentDate;
-  </script>
-
-
-  
+ 
 
 </body>
 

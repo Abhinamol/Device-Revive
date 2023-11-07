@@ -211,6 +211,22 @@ body {
     background-color: #25554e; /* Blue background color */
     color: #fff; /* Text color */
 }
+
+#confirmBookingButton {
+    background-color: #007bff; /* Blue background color */
+    color: #fff; /* Text color */
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 20px; /* Adjust the margin as needed */
+}
+
+#confirmBookingButton:hover {
+    background-color: #0056b3; /* Darker blue color on hover */
+}
+
   </style>
 </head>
 <body>
@@ -342,152 +358,72 @@ body {
             <div class="row mx-auto"></div>
             <div class="slider-det">
                 <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+                    <h1>Booking Confirmation</h1><br>
                     <div class="login-container">
-                        
+                       
+                        <div class="container confirmation-box">
+                          
+                            
+                            <h4><strong>SELECTED SERVICES:</strong></h4><br><p> <span id="selectedServices"></span></p><br>
+                            <h4><strong>TOTAL COST:</strong></h4> $<span id="totalCost"></span></p><br>
+                            <h4><strong>SELECTED DATE:</strong></h4> <span id="selectedDate"></span></p>
+                            <h4><strong>PAYMENT METHOD</strong></h4>
+                            <form>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="paymentMethod" id="creditCard" value="creditCard">
+                                    <label class="form-check-label" for="creditCard">
+                                        Credit Card
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="paymentMethod" id="paypal" value="paypal">
+                                    <label class="form-check-label" for="paypal">
+                                        PayPal
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="paymentMethod" id="bankTransfer" value="bankTransfer">
+                                    <label class="form-check-label" for="bankTransfer">
+                                        Bank Transfer
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="paymentMethod" id="onlineWallet" value="onlineWallet">
+                                    <label class="form-check-label" for="onlineWallet">
+                                        Online Wallet
+                                    </label>
+                                </div>
+                            </form>
+                            <br>
+                            <button id="confirmBookingButton" onclick="confirmBooking()">Confirm Booking</button>
+                        </div>
+                    </div><br>
+
+                            <a href="booknow" style="color: white;">Back to Booking</a>
+                     
     
-
-
-    <div class="container confirmation-box">
-    
-        <h1>Booking Confirmation</h1>
-        <form id="booking-form">
-        <!-- Display the selected services -->
-        <h3>Selected Services:</h3>
-        <ul id="selected-services">
-            <!-- JavaScript will insert the selected services here -->
-        </ul>
-        <div id="selected-date-time">
-            <h3 id="selected-date">Date: </h3>
-            
-          
-
-
-        </div>
-
-        <!-- Display the total cost -->
-        <div class="total-cost-box">
-        <h3>Total Cost:</h3>
-       
-        <p id="total-cost">
-            <!-- JavaScript will insert the total cost here -->
-        </p>
-    </div>
-  
-    
-
-
-<br>
-
-        <!-- Payment options can be added here -->
-        <h3>Payment Options:</h3>
-        <p>Choose a payment option and proceed with the payment:</p>
-<br>
-        <!-- Placeholder payment options (replace with actual payment buttons/forms) -->
-        <div class="payment-options">
-            <button id="paypal-button">Pay with PayPal</button>
-            <button id="stripe-button">Pay with Stripe</button>
-        </div>
-        <button id="save-pdf-button">Save PDF</button>
-    </form>
-        <!-- You can add payment buttons or forms here as needed -->
-    </div>
-</div>
-</div>
-
-
-    
-    
-</body>
-
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.bundle.min.js"></script>
-<script type="text/javascript"></script>
-<script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
-	
-    
-
-
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        // Get the selected services, total cost, date, and time from URL parameters
-        const selectedServices = decodeURIComponent(getUrlParameter('services'));
-        const totalCost = decodeURIComponent(getUrlParameter('total'));
-        
-
-        // Display the selected services on the page
-        const selectedServicesList = document.getElementById('selected-services');
-        const servicesArray = selectedServices.split(',');
-        servicesArray.forEach(service => {
-            const listItem = document.createElement('li');
-            listItem.textContent = service;
-            selectedServicesList.appendChild(listItem);
-        });
-
-        // Display the total cost on the page
-        const totalCostElement = document.getElementById('total-cost');
-        totalCostElement.textContent = '$' + parseFloat(totalCost).toFixed(2);
-
-        // Display the date and time on the page
-        
-    });
-
-    // Function to get URL parameters by name
-    function getUrlParameter(name) {
+    <script>
+        // Get query parameters from the URL
         const urlParams = new URLSearchParams(window.location.search);
-        return urlParams.get(name);
+
+        // Retrieve and display the selected services
+        const selectedServices = urlParams.get("services");
+        document.getElementById("selectedServices").textContent = selectedServices;
+
+        // Retrieve and display the total cost
+        const totalCost = urlParams.get("cost");
+        document.getElementById("totalCost").textContent = `${totalCost}`;
+
+        // Retrieve and display the selected date
+        const selectedDate = urlParams.get("date");
+        document.getElementById("selectedDate").textContent = selectedDate;
+    </script>
+<script>
+    function confirmBooking() {
+        // Add your confirmation logic here
+        // For example, you can send a request to your server to save the booking and handle the payment method
+        alert("Booking confirmed!"); // Replace this with your actual confirmation process
     }
-</script>
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        // Function to get URL parameters by name
-        function getUrlParameter(name) {
-            const urlParams = new URLSearchParams(window.location.search);
-            return urlParams.get(name);
-        }
-
-        // Get the selected date and time from URL parameters
-        const selectedDate = getUrlParameter('date');
-        const selectedTime = getUrlParameter('time');
-
-        // Display the date and time on the page
-        const dateElement = document.getElementById('selected-date');
-        dateElement.textContent = 'Date: ' + selectedDate;
-
-        const timeElement = document.getElementById('selected-time');
-        timeElement.textContent = 'Time: ' + selectedTime;
-    });
-</script>
-
-
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        // Function to get URL parameters by name
-        function getUrlParameter(name) {
-            const urlParams = new URLSearchParams(window.location.search);
-            return urlParams.get(name);
-        }
-
-        // Get the selected date and time from URL parameters
-        const selectedDate = getUrlParameter('date');
-        const selectedTime = getUrlParameter('time');
-
-        // Display the date and time on the page
-        const dateElement = document.getElementById('selected-date');
-        dateElement.textContent = 'Date: ' + selectedDate;
-
-        const timeElement = document.getElementById('selected-time');
-        timeElement.textContent = 'Time: ' + selectedTime;
-    });
-</script>
-
-
-
- 
-
-
-    
-
-
+</script> 
+</body>
 </html>
