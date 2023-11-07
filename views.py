@@ -5,7 +5,7 @@ from django.contrib import messages
 from django.contrib import auth
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
-from.models import Userdetails
+from.models import Userdetails, Address 
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.cache import never_cache
 from django.core.validators import validate_email
@@ -140,16 +140,6 @@ def dashboard(request):
     return redirect("index")
 
 
-@never_cache 
-@login_required(login_url='login')
-def myprofile(request):
-    if request.user.is_superuser:
-        users = Userdetails.objects.exclude(username='admin')  # Query the custom Userdetails model
-        return render(request, "myprofile.html", {"users": users})
-    return redirect("index")
-
-
-
 
 @never_cache
 def services(request):
@@ -176,7 +166,13 @@ def contact(request):
 @never_cache
 @login_required(login_url='login')
 def myprofile(request):
-    return render(request,'myprofile.html')
+    # Assuming you have a Userdetails object associated with the user
+    user_details = Userdetails.objects.get(username=request.user.username)
+
+    context = {
+        'user_details': user_details,
+    }
+    return render(request, 'myprofile.html', context)
 
 @never_cache
 @login_required(login_url='login')
@@ -312,28 +308,37 @@ def update_service(request, service_id):
 
 
 @never_cache
-@login_required
+@login_required(login_url='login')
 def updateuser(request):
     if request.method == 'POST':
-        full_name = request.POST.get('full_name')
-        email = request.POST.get('email')
-        phone = request.POST.get('phone')
-        username = request.POST.get('username')
-        # Get other fields if needed
+        # Update user details and address based on form data
+        user_details = Userdetails.objects.get(username=request.user.username)
+        user_details.full_name = request.POST.get('full-name')
+        user_details.email = request.POST.get('eMail')
+        user_details.phone = request.POST.get('phone')
+        user_details.username = request.POST.get('username')
+        user_details.save()
 
-        # Update the user's profile
-        user = request.user
-        user.full_name = full_name
-        user.email = email
-        user.phone = phone
-        user.username = email
-        # Update other fields
+        if user_details.address:
+            address = user_details.address
+        else:
+            address = Address()
 
-        user.save()
-        messages.success(request, 'Profile updated successfully')
-        return redirect('myprofile')
+        address.home_address = request.POST.get('home')
+        address.city = request.POST.get('city')
+        address.pincode = request.POST.get('zip')
+        address.save()
+        
+        # Redirect to the profile page
+        return redirect('profile')
 
-    return render(request,"updateuser.html")
+    # Assuming you have a Userdetails object associated with the user
+    user_details = Userdetails.objects.get(username=request.user.username)
+
+    context = {
+        'user_details': user_details,
+    }
+    return render(request, 'updateuser.html', context)
 
 
 @never_cache
