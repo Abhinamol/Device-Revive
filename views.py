@@ -197,11 +197,17 @@ def booking(request):
 @login_required(login_url='login')
 def desktop(request):
     return render(request,'desktop.html')
-
+    
 @never_cache
 @login_required(login_url='login')
 def booknow(request):
-    return render(request,'booknow.html')
+    # Assuming you have a Userdetails object associated with the user
+    user_details = Userdetails.objects.get(username=request.user.username)
+
+    context = {
+        'user_details': user_details,
+    }
+    return render(request, 'book.html', context)
 
 
 @never_cache
@@ -330,7 +336,7 @@ def updateuser(request):
         address.save()
         
         # Redirect to the profile page
-        return redirect('profile')
+        return redirect('myprofile')
 
     # Assuming you have a Userdetails object associated with the user
     user_details = Userdetails.objects.get(username=request.user.username)
@@ -344,9 +350,7 @@ def updateuser(request):
 @never_cache
 @login_required
 def book_now(request, service_id):
-    # Your booking logic here
-
-    # After handling the booking logic, redirect to the "booknow.html" page or any other relevant page
+    
     return redirect('booknow')
 
 

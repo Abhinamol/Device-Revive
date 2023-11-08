@@ -10,9 +10,9 @@ class Address(models.Model):
     pincode = models.CharField(max_length=10)
 
 class Userdetails(models.Model):
-    full_name = models.CharField(max_length=50)
-    email = models.EmailField()
-    phone = models.CharField(max_length=50)
+    full_name = models.CharField(max_length=50 , null=True)
+    email = models.EmailField(max_length=50 , null=True)
+    phone = models.CharField(max_length=50 , null=True)
     username = models.CharField(max_length=10)
     password = models.CharField(max_length=6)
     address = models.OneToOneField(Address, on_delete=models.CASCADE, null=True, blank=True)
@@ -36,6 +36,24 @@ class Technician(models.Model):
 
     def __str__(self):
         return self.username
+
+
+
+class Booking(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    full_name = models.CharField(max_length=100)
+    email = models.EmailField()
+    phone = models.CharField(max_length=20)
+    service_type = models.CharField(max_length=100)
+    laptop_brand = models.CharField(max_length=100, blank=True, null=True)
+    laptop_model = models.CharField(max_length=100, blank=True, null=True)
+    service_description = models.TextField()
+    service_cost = models.DecimalField(max_digits=10, decimal_places=2)
+    booking_date = models.DateField()
+    booking_time = models.CharField(max_length=20)
+
+    def __str__(self):
+        return f'Booking for {self.full_name}'
 
 
 
