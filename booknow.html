@@ -277,17 +277,18 @@ button:hover {
             <div class="col-lg-8">
                 <div class="bg-primary py-3 px-4 px-sm-5">
                     <center><label style="font-size: xx-large;color: white">&nbsp &nbsp&nbsp&nbsp Booking Details</label></center>
-                    <form class="py-3">
+                    <form class="py-3" method="post">
+                        {% csrf_token %}
                         <div class="form-group">
-                            <input type="text" class="form-control border-0 p-4" placeholder="Name" required="required" oninput="validateName(this)"/>
+                            <input type="text" class="form-control border-0 p-4" placeholder="Name"   value="{{ user_details.full_name }}" required="required" oninput="validateName(this)"/>
                             <span id="name-error" class="error-message"></span>
                         </div>
                         <div class="form-group">
-                            <input type="email" class="form-control border-0 p-4" placeholder="Email" required="required" oninput="validateEmail(this)"/>
+                            <input type="email" class="form-control border-0 p-4" placeholder="Email"  value="{{ user.email }}" required="required" oninput="validateEmail(this)"/>
                             <span id="email-error" class="error-message"></span>
                         </div>
                         <div class="form-group">
-                            <input type="text" class="form-control border-0 p-4" placeholder="Phone No." required="required" oninput="validatePhoneNumber(this)" />
+                            <input type="text" class="form-control border-0 p-4" placeholder="Phone No." value="{{ user_details.phone }}" required="required" oninput="validatePhoneNumber(this)" />
                             <span id="phone-error" class="error-message"></span>
                         </div>
                         <div class="form-group">
@@ -349,7 +350,7 @@ button:hover {
                                 <label for="networkSetup"  style="color: black;">Network Setup - $59</label>
                             </div>
                             <div>
-                                <input type="checkbox" id="osInstallation" name="service" value="Operating System Installation" class="service-checkbox" data-cost="69">
+                                <input type="checkbox" id="osInstallation" name="service" value="Operating System Installation" class="service-checkbox" data-cost="49">
                                 <label for="osInstallation"  style="color: black;">OS Installation - $49</label>
                             </div>
                             <div>
@@ -377,18 +378,30 @@ button:hover {
                           
                         <div class="form-group">
                             <select class="form-control" id="type" name="slot" onchange="amount();" required>
-                                <option value="{{ id.amam }}">7 AM TO 10 AM</option>
-                                <option value="{{ id.ampm }}">10 AM TO 5 PM</option>
-                                <option value="{{ id.pmpm }}">5 PM TO 12 PM</option>
+                                <option value="{{ id.amam }}">7 AM TO 8 AM</option>
+                                <option value="{{ id.ampm }}">8 AM TO 9 PM</option>
+                                <option value="{{ id.pmpm }}">9 AM TO 10 AM</option>
+                                <option value="{{ id.pmpm }}">10 AM TO 11 AM</option>
+                                <option value="{{ id.pmpm }}">11 AM TO 12 PM</option>
+                                <option value="{{ id.pmpm }}">12 PM TO 1 PM</option>
+                                <option value="{{ id.pmpm }}">1 PM TO 2 PM</option>
+                                <option value="{{ id.pmpm }}">2 PM TO 3 PM</option>
+                                <option value="{{ id.pmpm }}">3 PM TO 4 PM</option>
+                                <option value="{{ id.pmpm }}">4 PM TO 5 PM</option>
+                                <option value="{{ id.pmpm }}">5 PM TO 6 PM</option>
+                                <option value="{{ id.pmpm }}">6 PM TO 7 PM</option>
+                                <option value="{{ id.pmpm }}">7 PM TO 8 PM</option>
+                                <option value="{{ id.pmpm }}">8 PM TO 9 PM</option>
+                                <option value="{{ id.pmpm }}">9 PM TO 10 PM</option>
+                                <option value="{{ id.pmpm }}">10 PM TO 11 PM</option>
+                                <option value="{{ id.pmpm }}">11 PM TO 12 PM</option>
                             </select>
                             
 </div>
 <div class="form-group">
     <textarea class="form-control border-0 p-4" rows="4" placeholder="Additional Comments"></textarea>
 </div>
-<div class="form-group">
-<input type="number" id="totals" class="form-control" name="total" placeholder="Booking Amount/day: {{ id.price }}" required readonly>
-</div>
+
 <center> <button onclick="redirectToBookingConfirmation()">Proceed to Confirmation</button> </center>
 
 
