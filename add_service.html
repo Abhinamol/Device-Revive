@@ -529,8 +529,74 @@ background-color: #d63737;
             background-color: #0056b3;
         }
     </style>
-    
-    </style>
+    <script>
+        // JavaScript for real-time validation
+        document.addEventListener("DOMContentLoaded", function () {
+            const nameInput = document.getElementById("name");
+            const descriptionInput = document.getElementById("description");
+            const priceInput = document.getElementById("price");
+            const form = document.querySelector("form");
+
+            nameInput.addEventListener("input", function () {
+                validateName(nameInput.value);
+            });
+
+            descriptionInput.addEventListener("input", function () {
+                validateDescription(descriptionInput.value);
+            });
+
+            priceInput.addEventListener("input", function () {
+                validatePrice(priceInput.value);
+            });
+
+            function validateName(name) {
+                // Add your validation logic for the name field here
+                const errorDiv = document.getElementById("name-error");
+                if (name.trim() === "") {
+                    errorDiv.textContent = "Please enter a service name.";
+                } else {
+                    errorDiv.textContent = "";
+                }
+            }
+
+            function validateDescription(description) {
+                // Add your validation logic for the description field here
+                const errorDiv = document.getElementById("description-error");
+                if (description.trim() === "") {
+                    errorDiv.textContent = "Please enter a description.";
+                } else {
+                    errorDiv.textContent = "";
+                }
+            }
+
+            function validatePrice(price) {
+                // Add your validation logic for the price field here
+                const parsedPrice = parseFloat(price);
+                const errorDiv = document.getElementById("price-error");
+
+                if (isNaN(parsedPrice) || parsedPrice < 0) {
+                    errorDiv.textContent = "Please enter a valid positive price.";
+                } else {
+                    errorDiv.textContent = "";
+                }
+            }
+
+            form.addEventListener("submit", function (event) {
+                validateName(nameInput.value);
+                validateDescription(descriptionInput.value);
+                validatePrice(priceInput.value);
+
+                const errorDivs = document.querySelectorAll(".error-message");
+                for (const errorDiv of errorDivs) {
+                    if (errorDiv.textContent !== "") {
+                        event.preventDefault();
+                        break;
+                    }
+                }
+            });
+        });
+    </script>
+
     </head>
     
     <body>
@@ -657,7 +723,7 @@ background-color: #d63737;
     
                     <div class="box box1">
                         <div class="text">
-                            <h2 class="topic-heading">10</h2>
+                            <h2 class="topic-heading">450</h2>
                             <h2 class="topic">Registered Users</h2>
                         </div>
     
@@ -698,42 +764,42 @@ background-color: #d63737;
               
             <!-- Your existing content here -->
 
-            <!-- Add this form within the "main" div -->
             <div class="report-container form-container">
                 <div class="report-header">
                     <h3>Add New Services</h3>
                 </div>
                 <div class="report-body">
                     <form method="post" action="{% url 'add_service' %}">
-
                         {% csrf_token %}
                         <div class="form-group">
                             <label for="name">Service Name:</label>
                             <input type="text" id="name" name="name" required>
+                            <div id="name-error" class="error-message"></div>
                         </div>
-            
+        
                         <div class="form-group">
                             <label for="description">Description:</label>
                             <input type="text" id="description" name="description" required>
+                            <div id="description-error" class="error-message"></div>
                         </div>
-            
+        
                         <div class="form-group">
                             <label for="price">Price:</label>
                             <input type="number" id="price" name="price" required>
+                            <div id="price-error" class="error-message"></div>
                         </div>
-            
+        
                         <div class="form-group availability-checkbox">
                             <input type="checkbox" id="checkbox-availability" name="is_available">
                             <label for="is_available">Available</label>
                         </div>
-            
+        
                         <div class="form-group">
                             <input type="submit" class="form-submit-button" value="Add Service">
                         </div>
                     </form>
                 </div>
             </div>
-            
             
         <script src="{% static '/assets/js/jquery-3.5.1.min.js'%}"></script>
 

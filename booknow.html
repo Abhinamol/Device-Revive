@@ -277,14 +277,13 @@ button:hover {
             <div class="col-lg-8">
                 <div class="bg-primary py-3 px-4 px-sm-5">
                     <center><label style="font-size: xx-large;color: white">&nbsp &nbsp&nbsp&nbsp Booking Details</label></center>
-                    <form class="py-3" method="post">
-                        {% csrf_token %}
+                    <form class="py-3">
                         <div class="form-group">
-                            <input type="text" class="form-control border-0 p-4" placeholder="Name"   value="{{ user_details.full_name }}" required="required" oninput="validateName(this)"/>
+                            <input type="text" class="form-control border-0 p-4" placeholder="Name" value="{{ user_details.full_name }}"  required="required" oninput="validateName(this)"/>
                             <span id="name-error" class="error-message"></span>
                         </div>
                         <div class="form-group">
-                            <input type="email" class="form-control border-0 p-4" placeholder="Email"  value="{{ user.email }}" required="required" oninput="validateEmail(this)"/>
+                            <input type="email" class="form-control border-0 p-4" placeholder="Email" value="{{ user.email }}" required="required" oninput="validateEmail(this)"/>
                             <span id="email-error" class="error-message"></span>
                         </div>
                         <div class="form-group">
@@ -350,7 +349,7 @@ button:hover {
                                 <label for="networkSetup"  style="color: black;">Network Setup - $59</label>
                             </div>
                             <div>
-                                <input type="checkbox" id="osInstallation" name="service" value="Operating System Installation" class="service-checkbox" data-cost="49">
+                                <input type="checkbox" id="osInstallation" name="service" value="Operating System Installation" class="service-checkbox" data-cost="69">
                                 <label for="osInstallation"  style="color: black;">OS Installation - $49</label>
                             </div>
                             <div>
@@ -397,9 +396,6 @@ button:hover {
                                 <option value="{{ id.pmpm }}">11 PM TO 12 PM</option>
                             </select>
                             
-</div>
-<div class="form-group">
-    <textarea class="form-control border-0 p-4" rows="4" placeholder="Additional Comments"></textarea>
 </div>
 
 <center> <button onclick="redirectToBookingConfirmation()">Proceed to Confirmation</button> </center>
