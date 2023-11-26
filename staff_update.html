@@ -1,0 +1,732 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+
+
+<title>account setting or edit profile - Bootdey.com</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<link rel="shortcut icon" href="{% static "images/fav.jpg" %}">
+<link rel="stylesheet" href="{% static "css/bootstrap.min.css" %}">
+<link rel="stylesheet" href="{% static "css/fontawsom-all.min.css" %}">
+<link rel="stylesheet" href="{% static "css/animate.css" %}">
+<link rel="stylesheet" type="text/css" href="{% static "/css/style.css"%}">
+
+<style type="text/css">
+    	body {
+    margin: 0;
+    padding-top: 40px;
+    color: #2e323c;
+    background: #f5f6fa;
+    position: relative;
+    height: 100%;
+}
+.account-settings .user-profile {
+    margin: 0 0 1rem 0;
+    padding-bottom: 1rem;
+    text-align: center;
+}
+.account-settings .user-profile .user-avatar {
+    margin: 0 0 1rem 0;
+}
+.account-settings .user-profile .user-avatar img {
+    width: 90px;
+    height: 90px;
+    -webkit-border-radius: 100px;
+    -moz-border-radius: 100px;
+    border-radius: 100px;
+}
+.account-settings .user-profile h5.user-name {
+    margin: 0 0 0.5rem 0;
+}
+.account-settings .user-profile h6.user-email {
+    margin: 0;
+    font-size: 0.8rem;
+    font-weight: 400;
+    color: #9fa8b9;
+}
+.account-settings .about {
+    margin: 2rem 0 0 0;
+    text-align: center;
+}
+.account-settings .about h5 {
+    margin: 0 0 15px 0;
+    color: #007ae1;
+}
+.account-settings .about p {
+    font-size: 0.825rem;
+}
+.form-control {
+    border: 1px solid #cfd1d8;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
+    font-size: .825rem;
+    background: #ffffff;
+    color: #2e323c;
+}
+
+.card {
+    background: #ffffff;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    border: 0;
+    margin-bottom: 1rem;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #f2f2f2;
+}
+
+.login-container {
+    width: 300px;
+    margin: 0 auto;
+    padding: 10px;
+    background-color: black;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent gray background color */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+}
+
+.login-container h2 {
+    text-align: center;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    font-weight: bold;
+}
+
+.form-group input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    font-size: 16px;
+}
+
+.form-group input[type="submit"] {
+    background-color: black;
+    color: #fff;
+    cursor: pointer;
+}
+
+.form-group input[type="submit"]:hover {
+    background-color: #0056b3;
+}
+.error-box {
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    color: #721c24;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+.banner-container {
+    background-image: url('{% static '/images/head_bg.jpg' %}');
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    min-height: 100vh;
+   }
+   
+
+
+.header-container {
+    background-color: black; /* Set the background color to black */
+}
+
+.header-container {
+    background-color: rgba(0, 0, 0, 0.5); /* Set the background color to black with 80% opacity */
+}
+
+
+/* login required */
+
+.login-required-message {
+   display: none;
+   justify-content: center;
+   align-items: center;
+   position: fixed;
+   top: 0;
+   left: 0;
+   width: 100%;
+   height: 100%;
+   background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
+   z-index: 9999; /* Ensure it's above other elements */
+}
+
+.login-required-box {
+   background-color: #fff; /* White background for the box */
+   padding: 20px;
+   border-radius: 5px;
+   text-align: center;
+}
+
+.login-required-message p {
+   margin: 0;
+}
+
+.ok-button {
+   background-color: #2a5945;
+   color: #fff;
+   padding: 10px 20px;
+   border-radius: 5px;
+   cursor: pointer;
+}
+
+/* Style for user icon */
+    .user-icon {
+        width: 45px;
+        height: 45px;
+        margin-right: 10px;
+        border-radius: 50%;
+    }
+
+    /* Style for the user profile dropdown menu */
+    .dropdown-menu {
+        background-color: #333;
+        color: #fff;
+    }
+
+    .dropdown-item {
+        color: #fff;
+    }
+    .dropdown .btn-secondary {
+    background-color: #25554e; /* Blue background color */
+    color: #fff; /* Text color */
+}
+  </style>
+</head>
+<body>
+
+    <div class="header-container">
+        <div class="header-top">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-7 col-md-12 left-item">
+                        <ul>
+                            <li>
+                                <i class="fas fa-envelope-square"></i>
+                                devicerevive@gmail.com
+                                </li>
+                            <li class="d-none d-sm-block">
+                                <i class="fas fa-phone-square"></i>
+                                9567854321
+                                </li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-5 d-none d-lg-block right-item">
+                        <ul>
+                            <li>
+                                <a>
+                                    <i class="fab fa-github" style="color: white;"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="">
+                                    <i class="fab fa-linkedin-in" style="color: white;"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="">
+                                    <i class="fab fa-pinterest-p" style="color: white;"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="">
+                                    <i class="fab fa-twitter" style="color: white;"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="">
+                                    <i class="fab fa-facebook-f" style="color: white;"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="login-required-message">
+            <div class="login-required-box">
+                <p>Login Required</p>
+                <button class="ok-button">OK</button>
+            </div>
+        </div>
+
+
+        <nav id="menu-jk" class="container-fluid  no-padding">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-1 col-sm-1 logo">
+                        <img class="log" src="{% static '/images/mylogo.png' %}"  alt="">
+                        <img class="log-gray" src="" alt="">
+                        <a data-toggle="collapse" data-target="#nav-head" href="#nav-head">
+                            <i class="fas d-block d-md-none small-menu fa-bars"></i>
+                        </a>
+                    </div>
+                    <div id="nav-head" class="col-md-9 nav-div d-none d-md-block">
+                        <ul>
+                            <li>
+                                <a class="js-scroll-trigger" href="index">HOME</a>
+                            </li>
+                            
+                          
+                            
+                            <li>
+                                <a class="js-scroll-trigger" href="about">ABOUT COMPANY</a>
+                            </li>
+                            <li class="yc">
+                                <a class="js-scroll-trigger" href="why">WHY CHOOSE US</a>
+                            </li>
+                            <li>
+                                <a class="js-scroll-trigger" href="{% if user.is_authenticated %}{% url 'booking' %}{% else %}#login-required{% endif %}">
+                                    BOOKING
+                                </a>
+                            
+
+                            <li>
+                                <a class="js-scroll-trigger" href="contact">CONTACT US</a>
+                            </li>
+                            <li>
+                                <div class="dropdown">
+                                    <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="adminDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        {% if user.is_authenticated %}
+                                            <img src="{% static '/images/admin.jpg' %}" alt="Admin Icon" class="user-icon">
+                                            {{ user.username }}
+                                        {% else %}
+                                            Login/Sign Up
+                                        {% endif %}
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="adminDropdown">
+                                        {% if user.is_authenticated %}
+                                            <a class="dropdown-item" href="{% url 'staff_profile' %}">Profile</a>
+                                            <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
+                                        {% else %}
+                                            <a class="dropdown-item" href="{% url 'login' %}">Login</a>
+                                            <a class="dropdown-item" href="{% url 'reg' %}">Sign Up</a>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </div>
+    <br><br><br><br><br><br>
+
+<div class="container">
+    <div class="row gutters">
+        <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12">
+            <div class="card h-100">
+                <div class="card-body">
+                    <div class="row gutters">
+                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                            <h6 class="mb-2 text-primary">Personal Details</h6>
+                        </div>
+                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                            <form method="post">
+                                {% csrf_token %}
+                                
+                                <label for="full-name">Full Name</label>
+                                <input type="text" class="form-control" id="full-name" name="full_name" value="{{ technician_details.full_name }}" required>
+                                <div id="full-name-error" class="invalid-feedback"></div>
+                                
+                                <label for="eMail">Email</label>
+                                <input type="email" class="form-control" id="eMail" name="email" value="{{ technician_details.email }}" required>
+                                <div id="email-error" class="invalid-feedback"></div>
+                                
+                                <label for="phone">Phone</label>
+                                <input type="text" class="form-control" id="phone" name="phone" value="{{ phone }}" required>
+                                <div id="phone-error" class="invalid-feedback"></div>
+
+                                
+                                <label for="username">Username</label>
+                                <input type="text" class="form-control" id="username" name="username" value="{{ technician_details.username }}" required>
+                                <div id="username-error" class="invalid-feedback"></div>
+
+                                <!-- ... Your existing HTML code ... -->
+
+<label for="home">Home Address</label>
+<input type="text" class="form-control" id="home" name="home" value="{% if user_details.address %}{{ user_details.address.home_address }}{% endif %}">
+<div id="home-address-error" class="invalid-feedback"></div>
+
+<label for="city">City</label>
+<input type="text" class="form-control" id="city" name="city" value="{% if user_details.address %}{{ user_details.address.city }}{% endif %}">
+<div id="city-error" class="invalid-feedback"></div>
+
+<label for="zip">Zip Code</label>
+<input type="text" class="form-control" id="zip" name="zip" value="{% if user_details.address %}{{ user_details.address.pincode }}{% endif %}">
+<div id="zip-code-error" class="invalid-feedback"></div>
+
+<!-- ... Your existing HTML code ... -->
+
+                                
+                                <button type="submit" class="btn btn-primary" id="updateButton">Update</button>
+                            </form>
+                        </div> 
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<br><br>
+<!--########################## Footer CSS ####################-->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3 about">
+                <h2>About Us</h2>
+                <p>At Device Revive, we are passionate about technology and dedicated to providing top-notch laptop and desktop services. With 20 years of experience in the industry, we have earned a reputation for excellence and reliability.
+                </p>
+
+                <div class="foot-address">
+                    <div class="icon">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <div class="addet">
+                        Kottayam
+                    </div>
+                </div>
+                <div class="foot-address">
+                    <div class="icon">
+                        <i class="far fa-envelope-open"></i>
+                    </div>
+                    <div class="addet">
+                        devicerevive.com
+                        <br>
+                        devicerevive@gmail.com
+                    </div>
+                </div>
+                <div class="foot-address">
+                    <div class="icon">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <div class="addet">
+                        9567854321
+                        <br>
+                        8078046110
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-3 glink">
+                <ul>
+                    <li>
+                        <a href="index">
+                            <i class="fas fa-angle-double-right"></i>Home</a>
+                    </li>
+                    <li>
+                        <a href="about">
+                            <i class="fas fa-angle-double-right"></i>About Us</a>
+                    </li>
+                    <li>
+                        <a href="services">
+                            <i class="fas fa-angle-double-right"></i>Services</a>
+                    </li>
+                    
+                    
+                    <li>
+                        <a href="contact">
+                            <i class="fas fa-angle-double-right"></i>Contact Us</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-3 tags">
+                <h2>Our Services</h2>
+                <ul>
+                    <li>Desktop Service</li>
+                    <li>Laptop Service</li>
+                    <li>Data Recovery</li>
+                    <li>Software Installation</li>
+                    <li>Motherboard Service</li>
+                    <li>Computer Networking</li>
+                    
+                </ul>
+            </div>
+        </div>
+    </div>
+</footer>
+<div class="copy">
+    <div class="container">
+        <a href=""></a>
+
+        <span>
+            <a>
+                <i class="fab fa-github"></i>
+            </a>
+            <a >
+                <i class="fab fa-google-plus-g"></i>
+            </a>
+            <a href="">
+                <i class="fab fa-pinterest-p"></i>
+            </a>
+            <a href="">
+                <i class="fab fa-twitter"></i>
+            </a>
+            <a href="">
+                <i class="fab fa-facebook-f"></i>
+            </a>
+        </span>
+    </div>
+
+</div>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+<script type="text/javascript">
+<script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const fullNameInput = document.getElementById("full-name");
+
+        fullNameInput.addEventListener("input", function () {
+            validateFullName();
+        });
+
+        const updateButton = document.getElementById("updateButton");
+        updateButton.addEventListener("click", function (event) {
+            if (!validateForm()) {
+                event.preventDefault();  // Prevent form submission if validation fails
+            }
+        });
+
+        function validateFullName() {
+            const fullNameInput = document.getElementById("full-name");
+            const fullNameError = document.getElementById("full-name-error");
+
+            const fullNameValue = fullNameInput.value.trim();
+            const fullNameRegex = /^[A-Za-z][A-Za-z\s]*$/;
+
+            if (fullNameRegex.test(fullNameValue)) {
+                fullNameError.textContent = "";
+                fullNameInput.classList.remove("is-invalid");
+                return true;  // Validation passed
+            } else {
+                fullNameError.textContent = "Invalid full name";
+                fullNameInput.classList.add("is-invalid");
+                return false;  // Validation failed
+            }
+        }
+
+        function validateForm() {
+            // Add other field validations as needed
+            return validateFullName();
+        }
+    });
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const emailInput = document.getElementById("eMail");  // Change to match the actual ID of your email input
+        const emailError = document.getElementById("email-error");
+        const emailAvailability = document.getElementById("email-availability");
+
+        emailInput.addEventListener("input", function () {
+            validateEmailRealTime(emailInput.value.trim());
+            checkEmailAvailability(emailInput.value.trim());
+        });
+
+        function validateEmailRealTime(email) {
+            const emailError = document.getElementById("email-error");
+
+            // Check if the email input is not empty
+            if (email.trim() === "") {
+                emailError.textContent = "Email is required";
+                return;
+            }
+
+            // Updated regular expression pattern to allow emails like "abhinamolv2024a@mca.ajce.in"
+            const emailPattern = /^[a-zA-Z][a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+            if (!emailPattern.test(email)) {
+                emailError.textContent = "Invalid email format";
+            } else if (!/^[a-zA-Z0-9._%+-]+@(gmail|mca|ajce|yahoo|amaljyothi|ac)\.[a-z.]{2,}$/i.test(email)) {
+                emailError.textContent = "Email domain not supported";
+            } else if ((email.match(/\./g) || []).length > 3) {
+                emailError.textContent = "Invalid email format";
+            } else if (email.length > 320) {
+                emailError.textContent = "Email is too long";
+            } else {
+                emailError.textContent = "";
+            }
+        }
+
+    });
+</script>
+
+<!-- ... Your existing HTML code ... -->
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const phoneInput = document.getElementById("phone");  // Change to match the actual ID of your phone input
+        const phoneError = document.getElementById("phone-error");
+
+        phoneInput.addEventListener("input", function () {
+            validatePhoneNumber();
+        });
+
+        function validatePhoneNumber() {
+            const phoneNumber = phoneInput.value.trim();
+
+            if (/^[6-9]\d{9}$/.test(phoneNumber) && !/0{7,9}/.test(phoneNumber)) {
+                phoneError.textContent = "";
+            } else {
+                phoneError.textContent = "Invalid Phone number";
+            }
+        }
+    });
+</script>
+
+<!-- ... Your existing HTML code ... -->
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const usernameInput = document.getElementById("username");
+        const usernameError = document.getElementById("username-error");
+
+        usernameInput.addEventListener("input", function () {
+            const usernameValue = usernameInput.value.trim();
+            const usernameRegex = /^[a-zA-Z0-9]+$/;
+
+            if (usernameRegex.test(usernameValue)) {
+                // Perform AJAX request to check if username already exists on the server
+                checkUsernameAvailability(usernameValue);
+            } else {
+                usernameError.textContent = "Invalid characters in username";
+            }
+        });
+
+        function checkUsernameAvailability(username) {
+            // AJAX request to check if the username already exists
+            fetch("/check_username_availability/", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRFToken": "{% csrf_token %}",  // Add the CSRF token, replace with the actual template tag if using Django
+                },
+                body: JSON.stringify({ username: username }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.username_exists) {
+                    usernameError.textContent = "This username already exists";
+                } else {
+                    usernameError.textContent = "";
+                }
+            })
+            .catch(error => {
+                console.error("Error checking username availability:", error);
+            });
+        }
+    });
+</script>
+<!-- ... Your existing HTML code ... -->
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const homeAddressInput = document.getElementById("home");
+        const cityInput = document.getElementById("city");
+        const zipCodeInput = document.getElementById("zip");
+
+        homeAddressInput.addEventListener("input", function () {
+            validateHomeAddress();
+        });
+
+        cityInput.addEventListener("input", function () {
+            validateCity();
+        });
+
+        zipCodeInput.addEventListener("input", function () {
+            validateZipCode();
+        });
+
+        const updateButton = document.getElementById("updateButton");
+        updateButton.addEventListener("click", function (event) {
+            if (!validateForm()) {
+                event.preventDefault();  // Prevent form submission if validation fails
+            }
+        });
+
+        function validateHomeAddress() {
+            const homeAddressValue = homeAddressInput.value.trim();
+            const homeAddressError = document.getElementById("home-address-error");
+
+            if (homeAddressValue === "") {
+                homeAddressError.textContent = "Home address is required";
+            } else {
+                homeAddressError.textContent = "";
+            }
+        }
+
+        function validateCity() {
+            const cityValue = cityInput.value.trim();
+            const cityError = document.getElementById("city-error");
+            const cityRegex = /^[A-Za-z\s]+$/;
+
+            if (cityValue === "") {
+                cityError.textContent = "City is required";
+            } else if (!cityRegex.test(cityValue)) {
+                cityError.textContent = "Invalid city format (letters only)";
+            } else {
+                cityError.textContent = "";
+            }
+        }
+
+        function validateZipCode() {
+            const zipCodeValue = zipCodeInput.value.trim();
+            const zipCodeError = document.getElementById("zip-code-error");
+            const zipCodeRegex = /^\d+$/;
+
+            if (zipCodeValue === "") {
+                zipCodeError.textContent = "Zip code is required";
+            } else if (!zipCodeRegex.test(zipCodeValue)) {
+                zipCodeError.textContent = "Invalid zip code format (numbers only)";
+            } else {
+                zipCodeError.textContent = "";
+            }
+        }
+
+        function validateForm() {
+            validateHomeAddress();
+            validateCity();
+            validateZipCode();
+
+            // Add other field validations as needed
+
+            // Return true if all validations pass, otherwise return false
+            return (
+                document.getElementById("home-address-error").textContent === "" &&
+                document.getElementById("city-error").textContent === "" &&
+                document.getElementById("zip-code-error").textContent === ""
+                // Add conditions for other fields if needed
+            );
+        }
+    });
+</script>
+
+<!-- ... Your existing HTML code ... -->
+
+
+
+</body>
+</html>

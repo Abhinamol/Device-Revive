@@ -84,12 +84,11 @@
 <div class="user-avatar">
 <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Maxwell Admin">
 </div>
-<h5 class="user-name">Yuki Hayashi</h5>
-<h6 class="user-email"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="473e322c2e070a263f30222b2b6924282a">[email&#160;protected]</a></h6>
+<h5 class="user-name">{{ technician_details.full_name }}</h5>
+<h6 class="user-email"><a href="mailto:{{ technician_details.email }}">{{ technician_details.email }}</a></h6>
 </div>
 <div class="about">
-<h5>About</h5>
-<p>I'm Yuki. Full Stack Designer I enjoy creating user-centric, delightful and human experiences.</p>
+
 </div>
 </div>
 </div>
@@ -103,28 +102,28 @@
 <h6 class="mb-2 text-primary">Personal Details</h6>
 </div>
 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-<div class="form-group">
-<label for="fullName">Full Name</label>
-<input type="text" class="form-control" id="fullName" placeholder="Enter full name">
-</div>
+    <div class="form-group">
+        <label for="fullName">Full Name</label>
+        <input type="text" class="form-control" id="fullName" name="fullName" value="{{ technician_details.full_name }}"disabled>
+    </div>
 </div>
 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
 <div class="form-group">
 <label for="eMail">Email</label>
-<input type="email" class="form-control" id="eMail" placeholder="Enter email ID">
+<input type="email" class="form-control" id="eMail"  disabled>
 </div>
 </div>
 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
 <div class="form-group">
 <label for="phone">Phone</label>
-<input type="text" class="form-control" id="phone" placeholder="Enter phone number">
+<input type="text" class="form-control" id="phone"  disabled>
 </div>
 </div>
 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-<div class="form-group">
-<label for="website">Website URL</label>
-<input type="url" class="form-control" id="website" placeholder="Website url">
-</div>
+    <div class="form-group">
+        <label for="fullName">Username</label>
+        <input type="text" class="form-control" id="userName" name="userName" value="{{ technician_details.username }}" disabled>
+    </div>
 </div>
 </div>
 <div class="row gutters">
@@ -134,25 +133,25 @@
 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
 <div class="form-group">
 <label for="Street">Street</label>
-<input type="name" class="form-control" id="Street" placeholder="Enter Street">
+<input type="name" class="form-control" id="Street" disabled>
 </div>
 </div>
 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
 <div class="form-group">
 <label for="ciTy">City</label>
-<input type="name" class="form-control" id="ciTy" placeholder="Enter City">
+<input type="name" class="form-control" id="ciTy" disabled>
 </div>
 </div>
 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
 <div class="form-group">
 <label for="sTate">State</label>
-<input type="text" class="form-control" id="sTate" placeholder="Enter State">
+<input type="text" class="form-control" id="sTate" disabled>
 </div>
 </div>
 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
 <div class="form-group">
 <label for="zIp">Zip Code</label>
-<input type="text" class="form-control" id="zIp" placeholder="Zip Code">
+<input type="text" class="form-control" id="zIp" disabled>
 </div>
 </div>
 </div>
@@ -160,7 +159,7 @@
 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
 <div class="text-right">
 <button type="button" id="submit" name="submit" class="btn btn-secondary">Cancel</button>
-<button type="button" id="submit" name="submit" class="btn btn-primary">Update</button>
+<a href="{% url 'staff_update' %}" class="btn btn-primary" id="updateButton">Update</a>
 </div>
 </div>
 </div>
