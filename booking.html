@@ -6,7 +6,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, shrink-to-fit=no, user-scalable=no">
         
-        <title>login
+        <title>
             </title>
 
         <link rel="shortcut icon" href="{% static "images/fav.jpg" %}" rel="stylesheet"/>
@@ -14,94 +14,11 @@
         <link rel="stylesheet" href="{% static "css/fontawsom-all.min.css" %}" rel="stylesheet"/>
         <link rel="stylesheet" href="{% static "css/animate.css" %}" rel="stylesheet"/>
         <link rel="stylesheet" type="text/css" href="{% static "/css/style.css"%}" rel="stylesheet"/>
-        <style>
-            /* Style for the login/signup button */
-            .nav-div ul li:last-child a {
-                background-color: #2a6b5f;
-                color: #FFFFFF;
-                font-size: 11px;
-                padding: 10px 20px;
-                /* Adjust padding as needed */
-                border-radius: 5px;
-                /* Add rounded corners */
-                text-decoration: none;
-            }
-    
-            /* Custom CSS for the message toaster */
-            .message-toaster {
-                position: fixed;
-                top: 0;
-                left: 50%;
-                text-align: center;
-                z-index: 9999;
-                transform: translateX(-50%);
-                padding: 30px 0;
-            }
-    
-            /* Style for user icon */
-            .user-icon {
-                width: 45px;
-                height: 45px;
-                margin-right: 10px;
-                border-radius: 50%;
-            }
-    
-            /* Style for the user profile dropdown menu */
-            .dropdown-menu {
-                background-color: #333;
-                color: #fff;
-            }
-    
-            .dropdown-item {
-                color: #fff;
-            }
-    
-            .dropdown .btn-secondary {
-                background-color: #25554e;
-                /* Blue background color */
-                color: #fff;
-                /* Text color */
-            }
-    
-            .service-container {
-                border: 1px solid #ccc; /* Add a border around the container */
-                padding: 20px; /* Add padding inside the container */
-                margin: 20px; /* Add margin to separate it from other content */
-            }
-    
-            .service {
-                border: 1px solid #ccc;
-                padding: 10px;
-                margin: 10px 0;
-            }
-    
-            .book-now-button {
-                background-color: #0b834b;
-                /* Green background color */
-                color: #fff;
-                /* White text color */
-                border: none;
-                padding: 5px 10px;
-                cursor: pointer;
-                font-size: 14px;
-                border-radius: 5px;
-                transition: background-color 0.3s;
-                display: inline-block;
-                /* Display the button as an inline element */
-                text-decoration: none;
-                /* Remove underlines for links */
-            }
-    
-            .book-now-button:hover {
-                background-color: #0a723c;
-                /* Darker green on hover */
-            }
-        </style>
+        
         
     </head>
-    {% include "messages.html" %}
+    
     <body>
-       
 
         <!--########################## Header CSS ####################-->
         <div class="header-container">
@@ -166,47 +83,22 @@
                         <div id="nav-head" class="col-md-9 nav-div d-none d-md-block">
                             <ul>
                                 <li>
-                                    <a class="js-scroll-trigger" href="{% url 'index' %}">HOME</a>
-                                </li>
-                                <li>
-                                    <a class="js-scroll-trigger" href="{% url 'services' %}">SERVICES</a>
-                                </li>
-                                <li>
-                                    <a class="js-scroll-trigger" href="{% url 'myprofile' %}">MY PROFILE</a>
+                                    <a class="js-scroll-trigger" href="index">HOME</a>
                                 </li>
                                 
-                                
-                                <li>
-                                    <a class="js-scroll-trigger" href="{% url 'about' %}">ABOUT</a>
-                                </li>
                                 <li class="yc">
-                                    <a class="js-scroll-trigger" href="{% url 'why' %}">EXPERIENCE</a>
+                                    <a class="js-scroll-trigger" href="why">WHY CHOOSE US</a>
+                                </li>
+                                <li>
+                                    <a class="js-scroll-trigger" href="services">SERVICES</a>
+                                </li>
+                               
+                                <li>
+                                    <a class="js-scroll-trigger" href="logout">LOGOUT</a>
                                 </li>
 
                                 <li>
-                                    <a class="js-scroll-trigger" href="{% url 'contact' %}">CONTACT</a>
-                                </li>
-                                <li>
-                                    <div class="dropdown">
-                                        <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="adminDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            {% if user.is_authenticated %}
-                                                <img src="{% static '/images/admin.jpg' %}" alt="Admin Icon" class="user-icon">
-                                                {{ user.username }}
-                                            {% else %}
-                                                Login/Sign Up
-                                            {% endif %}
-                                        </a>
-                                        <div class="dropdown-menu" aria-labelledby="adminDropdown">
-                                            {% if user.is_authenticated %}
-                                                <a class="dropdown-item" href="{% url 'myprofile' %}">Profile</a>
-                                                <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
-                                            {% else %}
-                                                <a class="dropdown-item" href="{% url 'login' %}">Login</a>
-                                                <a class="dropdown-item" href="{% url 'reg' %}">Sign Up</a>
-                                            {% endif %}
-                                        </div>
-                                    </div>
-                                    
+                                    <a class="js-scroll-trigger" href="contact">CONTACT US</a>
                                 </li>
                             </ul>
                         </div>
@@ -214,107 +106,44 @@
                 </div>
             </nav>
         </div>
-        
+
         <!--########################## Slider CSS ####################-->
-         
+
         <div id="home" class="banner-container no-padding">
             <div class="container">
                 <div class="row mx-auto"></div>
                 <div class="slider-det">
                     <h1>DEVICE REVIVE</h1>
-                    
-                    <p>Service Booking Made Simple - Get Started Today!!!</p>
+                    <h2>BOOKING</h2>
                         
                         
                 </div>
             </div>
         </div>
         <br><br>
-        <center>
-            <h2 class="bold-heading">AVAILABLE SERVICES</h2>
 
-<div class="service-container">
-        <div class="report-body">
-            {% for service in services %}
-                <div class="service">
-                    <h2>{{ service.name }}</h2>
-                    <p>{{ service.description }}</p>
-                    <p class="price">${{ service.price }}</p>
-                    <form method="post" action="{% url 'delete_service' service.id %}">
-                        {% csrf_token %}
-                        
-                        <a href="{% url 'book_now' service.id %}" class="book-now-button">Book Now</a>
-                    </form>
-                    
-                </div>
-            {% endfor %}
+<div class="container">
+    <div class="col-lg-7 py-5 py-lg-0 px-3 px-lg-5">
+        <h4 class="text-secondary mb-3">Facing Desktop Issues?</h4>
+        <h1 class="display-4 mb-4">Desktop Troubles? We've Got You Covered!</h1>
+        <p>Welcome to Device Revive, your trusted tech partner for all your desktop needs. Whether you're facing sluggish performance, software hiccups, or hardware glitches, we specialize in diagnosing and fixing desktop issues of all kinds. With two decades of experience and a commitment to cutting-edge technology, we're here to empower your digital world. Let's revive your desktop and get it thriving again!</p>
+        <br><a href="desktop" class="btn btn-primary btn-lg">Book Now</a>
+        <!-- Additional content or features related to desktop repair can be added here -->
+    </div>
+</div>
+
+<!-- Add this code within the appropriate section of your webpage, e.g., under a "Laptop Repair" section -->
+<br><br>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-7 py-5 py-lg-0 px-3 px-lg-5">
+            <h4 class="text-secondary mb-3">Facing Laptop Issues?</h4>
+            <h1 class="display-4 mb-4">Laptop Troubles? We're Here to Help!</h1>
+            <p>Experiencing problems with your laptop? Don't worry; we've got you covered. At Device Revive, we specialize in diagnosing and fixing laptop issues of all kinds. Our team of experts is dedicated to providing top-notch laptop repair services, ensuring your device runs smoothly. With over two decades of experience, we have the knowledge and technology to get your laptop back in optimal condition. Let's revive your laptop and keep you productive!</p>
+            <br><a href="laptop" class="btn btn-primary btn-lg">Book Now</a>
         </div>
     </div>
-    </center>
-
-       <!--<div class="container">
-            <div class="service">
-                <h2>Hardware Repair</h2>
-                <p>We offer comprehensive hardware repair services for laptops and desktops.</p>
-                <p class="price">$99.99</p>
-                <button class="book-now-button" onclick="bookNow(this)">Book Now</button>
-            </div>
-    
-            <div class="service">
-                <h2>Software Troubleshooting</h2>
-                <p>Is your laptop or desktop facing software issues? We can help!</p>
-                <p class="price">$49.99</p>
-                <button class="book-now-button" onclick="bookNow(this)">Book Now</button>
-            </div>
-            <div class="service">
-                <h2>Virus Removal</h2>
-                <p>We'll remove viruses and malware to make your system secure again.</p>
-                <p class="price">$79.99</p>
-                <button class="book-now-button" onclick="bookNow(this)">Book Now</button>
-            </div>
-            
-            <div class="service">
-                <h2>Data Recovery</h2>
-                <p>Accidentally deleted important files? We can recover them for you.</p>
-                <p class="price">$69.99</p>
-                <button class="book-now-button" onclick="bookNow(this)">Book Now</button>
-            </div>
-            
-            <div class="service">
-                <h2>Screen Replacement</h2>
-                <p>Cracked or malfunctioning screen? We provide professional screen replacement services.</p>
-                <p class="price">$129.99</p>
-                <button class="book-now-button" onclick="bookNow(this)">Book Now</button>
-            </div>
-            
-            <div class="service">
-                <h2>Upgrades and Customization</h2>
-                <p>Want to enhance your laptop or desktop's performance? We offer upgrades and customization options.</p>
-                <p class="price">$79.99 and up</p>
-                <button class="book-now-button" onclick="bookNow(this)">Book Now</button>
-            </div>
-            
-            <div class="service">
-                <h2>Network Setup</h2>
-                <p>We can set up your home or office network for seamless connectivity.</p>
-                <p class="price">$59.99</p>
-                <button class="book-now-button" onclick="bookNow(this)">Book Now</button>
-            </div>
-            
-            <div class="service">
-                <h2>Operating System Installation</h2>
-                <p>Need to install a new operating system? We've got you covered.</p>
-                <p class "price">$49.99</p>
-                <button class="book-now-button" onclick="bookNow(this)">Book Now</button>
-            </div>
-            
-            <div class="service">
-                <h2>Backup Solutions</h2>
-                <p>Protect your important data with our backup solutions and data recovery services.</p>
-                <p class="price">$79.99 and up</p>
-                <button class="book-now-button" onclick="bookNow(this)">Book Now</button>
-            </div>
-            
+</div>
 </div>
 </div>
 <br><br>
@@ -326,7 +155,8 @@
                 <div class="row">
                     <div class="col-md-3 about">
                         <h2>About Us</h2>
-                        <p>At Device Revive, we are passionate about technology and dedicated to providing top-notch laptop and desktop services. With 20 years of experience in the industry, we have earned a reputation for excellence and reliability.
+                        <p>Phasellus scelerisque ornare nisl sit amet pulvinar. Nunc non scelerisque
+                            augue. Proin et sollicitudin velit.
                         </p>
 
                         <div class="foot-address">
@@ -334,7 +164,7 @@
                                 <i class="fas fa-map-marker-alt"></i>
                             </div>
                             <div class="addet">
-                                Kottayam
+                                BlueDart Marthandam (K.K District) Tamil Nadu, IND
                             </div>
                         </div>
                         <div class="foot-address">
@@ -342,9 +172,9 @@
                                 <i class="far fa-envelope-open"></i>
                             </div>
                             <div class="addet">
-                                devicerevive.com
+                                info@smarteyeapps.com
                                 <br>
-                                devicerevive@gmail.com
+                                sales@smarteyeapps.com
                             </div>
                         </div>
                         <div class="foot-address">
@@ -362,37 +192,26 @@
                     <div class="col-md-3 glink">
                         <ul>
                             <li>
-                                <a href="index">
+                                <a href="index.html">
                                     <i class="fas fa-angle-double-right"></i>Home</a>
                             </li>
                             <li>
-                                <a href="about">
+                                <a href="about_us.html">
                                     <i class="fas fa-angle-double-right"></i>About Us</a>
                             </li>
                             <li>
-                                <a href="services">
+                                <a href="services.html">
                                     <i class="fas fa-angle-double-right"></i>Services</a>
                             </li>
                            
                             
                             <li>
-                                <a href="contact">
+                                <a href="contact_us.html">
                                     <i class="fas fa-angle-double-right"></i>Contact Us</a>
                             </li>
                         </ul>
                     </div>
-                    <div class="col-md-3 tags">
-                        <h2>Our Services</h2>
-                        <ul>
-                            <li>Desktop Service</li>
-                            <li>Laptop Service</li>
-                            <li>Data Recovery</li>
-                            <li>Software Installation</li>
-                            <li>Motherboard Service</li>
-                            <li>Computer Networking</li>
-                            
-                        </ul>
-                    </div> 
+                    
                 </div>
             </div>
         </footer>
@@ -407,13 +226,13 @@
                     <a >
                         <i class="fab fa-google-plus-g"></i>
                     </a>
-                    <a href="">
+                    <a href="https://in.pinterest.com/prabnr/pins/">
                         <i class="fab fa-pinterest-p"></i>
                     </a>
-                    <a href="">
+                    <a href="https://twitter.com/prabinraja89">
                         <i class="fab fa-twitter"></i>
                     </a>
-                    <a href="">
+                    <a href="https://www.facebook.com/freewebtemplatesbysmarteye">
                         <i class="fab fa-facebook-f"></i>
                     </a>
                 </span>
@@ -421,13 +240,10 @@
 
         </div>
     </body>
-
-
-    
-    <script src="{% static '/js/jquery-3.2.1.min.js' %}"></script>
-    <script src="{% static '/js/popper.min.js' %}"></script>
-    <script src="{% static '/js/bootstrap.min.js' %}"></script>
-    <script src="{% static '/plugins/scroll-fixed/jquery-scrolltofixed-min.js' %}"></script>
-    <script src="{% static '/js/script.js' %}"></script>
+    <script src="assets/js/jquery-3.2.1.min.js"></script>
+    <script src="assets/js/popper.min.js"></script>
+    <script src="assets/js/bootstrap.min.js"></script>
+    <script src="assets/plugins/scroll-fixed/jquery-scrolltofixed-min.js"></script>
+    <script src="assets/js/script.js"></script>
 
 </html>

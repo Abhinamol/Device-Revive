@@ -22,12 +22,12 @@
                         width: 300px;
                         margin: 0 auto;
                         padding: 10px;
-                        background-color: black;
-                        background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent gray background color */
+                        background-color: gray;
                         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
                         border-radius: 5px;
+                        
                     }
-                    
+            
                     .login-container h2 {
                         text-align: center;
                     }
@@ -68,63 +68,15 @@
                         padding: 10px;
                         margin-bottom: 10px;
                     }
-                    .banner-container {
-                        background-image: url('{% static '/images/head_bg.jpg' %}');
-                        background-size: cover;
-                        background-position: center center;
-                        background-repeat: no-repeat;
-                        min-height: 100vh;
-                       }
-                       
-                    
-
-                    .header-container {
-                        background-color: black; /* Set the background color to black */
-                    }
-
-                    .header-container {
-                        background-color: rgba(0, 0, 0, 0.5); /* Set the background color to black with 80% opacity */
+                    body {
+                        font-family: Arial, Helvetica, sans-serif;
+                        background-color: #f2f2f2;
+                        color: black; /* Set the font color to black */
                     }
                     
-
-                    /* login required */
-
-                    .login-required-message {
-                       display: none;
-                       justify-content: center;
-                       align-items: center;
-                       position: fixed;
-                       top: 0;
-                       left: 0;
-                       width: 100%;
-                       height: 100%;
-                       background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
-                       z-index: 9999; /* Ensure it's above other elements */
-                   }
-               
-                   .login-required-box {
-                       background-color: #fff; /* White background for the box */
-                       padding: 20px;
-                       border-radius: 5px;
-                       text-align: center;
-                   }
-               
-                   .login-required-message p {
-                       margin: 0;
-                   }
-               
-                   .ok-button {
-                       background-color: #2a5945;
-                       color: #fff;
-                       padding: 10px 20px;
-                       border-radius: 5px;
-                       cursor: pointer;
-                   }
-               
-                
-                  
-                      
-                
+                </style>
+    
+    
         </style>
     </head>
          <body>
@@ -180,15 +132,6 @@
 
                 </div>
             </div>
-
-            <div class="login-required-message">
-                <div class="login-required-box">
-                    <p>Login Required</p>
-                    <button class="ok-button">OK</button>
-                </div>
-            </div>
-
-
             <nav id="menu-jk" class="container-fluid  no-padding">
                 <div class="container">
                     <div class="row">
@@ -205,22 +148,14 @@
                                     <a class="js-scroll-trigger" href="index">HOME</a>
                                 </li>
                                 <li>
-                                    <a class="js-scroll-trigger" href="{% if user.is_authenticated %}{% url 'userprofile' %}{% else %}#login-required{% endif %}">
-                                        MY PROFILE
-                                    </a>
-                                </li>
-                                
-                                <li>
                                     <a class="js-scroll-trigger" href="about">ABOUT COMPANY</a>
                                 </li>
                                 <li class="yc">
                                     <a class="js-scroll-trigger" href="why">WHY CHOOSE US</a>
                                 </li>
-                                <li>
-                                    <a class="js-scroll-trigger" href="{% if user.is_authenticated %}{% url 'booking' %}{% else %}#login-required{% endif %}">
-                                        BOOKING
-                                    </a>
                                 
+                            
+                               
 
                                 <li>
                                     <a class="js-scroll-trigger" href="contact">CONTACT US</a>
@@ -267,13 +202,8 @@
 
                             </form>
                         </div>
-                           <center> <p>Don't have an account..?<a href="signup" style="color: blue;">Sign Up</a></p></center>
-                          
+                           <center> <p>Don't have an account..?<a href="signup" style="color: red;">Sign Up</a></p></center>
                         </div> 
-                        <div>
-                            <p><a href="{% url 'password_reset' %}" class="link" style="color: white;" >Forgot Password</a></p>
-                            </div>
-                        
                        
                     </div>
                 </div>
@@ -289,7 +219,8 @@
         <div class="row">
             <div class="col-md-3 about">
                 <h2>About Us</h2>
-                <p>At Device Revive, we are passionate about technology and dedicated to providing top-notch laptop and desktop services. With 20 years of experience in the industry, we have earned a reputation for excellence and reliability.
+                <p>Phasellus scelerisque ornare nisl sit amet pulvinar. Nunc non scelerisque
+                    augue. Proin et sollicitudin velit.
                 </p>
 
                 <div class="foot-address">
@@ -344,18 +275,7 @@
                     </li>
                 </ul>
             </div>
-            <div class="col-md-3 tags">
-                <h2>Our Services</h2>
-                <ul>
-                    <li>Desktop Service</li>
-                    <li>Laptop Service</li>
-                    <li>Data Recovery</li>
-                    <li>Software Installation</li>
-                    <li>Motherboard Service</li>
-                    <li>Computer Networking</li>
-                    
-                </ul>
-            </div>
+            
         </div>
     </div>
 </footer>
@@ -442,24 +362,6 @@
         }
     });
 </script>
-
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        var bookingLink = document.querySelector('.js-scroll-trigger[href="#login-required"]');
-        var loginRequiredMessage = document.querySelector('.login-required-message');
-        var okButton = document.querySelector('.ok-button');
-    
-        bookingLink.addEventListener("click", function(event) {
-            event.preventDefault(); // Prevent the default link behavior
-            loginRequiredMessage.style.display = "flex"; // Show the message
-        });
-
-        okButton.addEventListener("click", function() {
-            loginRequiredMessage.style.display = "none"; // Hide the message when OK is clicked
-        });
-    });
-</script>
-
 
 </body>
 <script src="{% static '/js/jquery-3.2.1.min.js' %}"></script>
