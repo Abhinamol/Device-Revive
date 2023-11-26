@@ -10,9 +10,9 @@ class Address(models.Model):
     pincode = models.CharField(max_length=10)
 
 class Userdetails(models.Model):
-    full_name = models.CharField(max_length=50 , null=True)
-    email = models.EmailField(max_length=50 , null=True)
-    phone = models.CharField(max_length=50 , null=True)
+    full_name = models.CharField(max_length=50)
+    email = models.EmailField()
+    phone = models.CharField(max_length=50)
     username = models.CharField(max_length=10)
     password = models.CharField(max_length=6)
     address = models.OneToOneField(Address, on_delete=models.CASCADE, null=True, blank=True)
@@ -38,22 +38,32 @@ class Technician(models.Model):
         return self.username
 
 
-
 class Booking(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    full_name = models.CharField(max_length=100)
+    full_name = models.CharField(max_length=255)
     email = models.EmailField()
-    phone = models.CharField(max_length=20)
-    service_type = models.CharField(max_length=100)
-    laptop_brand = models.CharField(max_length=100, blank=True, null=True)
-    laptop_model = models.CharField(max_length=100, blank=True, null=True)
-    service_description = models.TextField()
-    service_cost = models.DecimalField(max_digits=10, decimal_places=2)
-    booking_date = models.DateField()
-    booking_time = models.CharField(max_length=20)
+    phone_number = models.CharField(max_length=15)
+    address_choice = models.CharField(max_length=20)
+    address = models.ForeignKey(
+        Address,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+    ) 
+    new_home_address = models.TextField(blank=False, null=False)
+    new_city = models.CharField(max_length=100, blank=False, null=False)
+    new_pincode = models.CharField(max_length=10,blank=False, null=False)
+    service_type = models.CharField(max_length=20)
+    laptop_brand = models.CharField(max_length=20, blank=False, null=False)
+    laptop_model = models.CharField(max_length=50, blank=False, null=False)
+    selected_services = models.TextField()
+    service_mode = models.CharField(max_length=20)
+    onsite_service_charge = models.DecimalField(max_digits=10, decimal_places=2, default=0.0)
+    total_service_cost = models.DecimalField(max_digits=10, decimal_places=2)
+    from_date = models.DateField()
+    selected_slot = models.CharField(max_length=20)
 
     def __str__(self):
-        return f'Booking for {self.full_name}'
+        return f"{self.full_name} - {self.from_date}"
 
 
 

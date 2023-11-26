@@ -17,8 +17,11 @@ from .forms import ServiceForm
 from .models import Service
 from .models import Technician
 from django.contrib.auth.hashers import check_password 
-
-
+from django.views.decorators.csrf import csrf_exempt
+from django.core.mail import send_mail
+from django.urls import reverse
+from .models import Booking
+import datetime
 
 
 
@@ -53,7 +56,7 @@ def loginn(request):
             except Technician.DoesNotExist:
                 pass  # No Technician with this username
 
-            messages.success(request, 'Login successful!')
+            
             return redirect('myprofile')
         else:
             messages.error(request, 'Invalid username or password')
@@ -175,9 +178,31 @@ def myprofile(request):
     return render(request, 'myprofile.html', context)
 
 @never_cache
-@login_required(login_url='login')
+@login_required(login_url='/login/')
 def staff_profile(request):
-    return render(request,'staff_profile.html')
+    # Get the current user
+    user = request.user
+
+    if request.method == 'POST':
+        # Update the Technician model details
+        technician = Technician.objects.get(username=user.username)
+        technician.full_name = request.POST.get('fullName')
+        technician.email = request.POST.get('eMail')
+        technician.phone_number = request.POST.get('phone')
+        technician.website = request.POST.get('website')
+        technician.street = request.POST.get('Street')
+        technician.city = request.POST.get('ciTy')
+        technician.state = request.POST.get('sTate')
+        technician.zip_code = request.POST.get('zIp')
+        technician.save()
+
+        # Redirect to the profile page after updating
+        return render(request, 'staff_profile.html', {'technician_details': technician})
+
+    # Retrieve the technician details
+    technician_details = Technician.objects.get(username=user.username)
+
+    return render(request, 'staff_profile.html', {'technician_details': technician_details})
 
 
 @never_cache
@@ -197,20 +222,81 @@ def booking(request):
 @login_required(login_url='login')
 def desktop(request):
     return render(request,'desktop.html')
-    
+
 @never_cache
 @login_required(login_url='login')
 def booknow(request):
-    # Assuming you have a Userdetails object associated with the user
     user_details = Userdetails.objects.get(username=request.user.username)
-
     context = {
         'user_details': user_details,
+        "services": Service.objects.filter(is_available=True),
+        "addresses": Address.objects.all(),
     }
-    return render(request, 'book.html', context)
 
+    if request.method == "POST":
+        full_name = request.POST["full_name"]
+        email = request.POST["email"]
+        phone_number = request.POST["phone_number"]
+        address_choice = request.POST["address_choice"]
+        
+        # If 'address_choice' is 'new-address', create a new Address instance
+        if address_choice == "new-address":
+            new_home_address = request.POST["new_home_address"]
+            new_city = request.POST["new_city"]
+            new_pincode = request.POST["new_pincode"]
+            address = Address.objects.create(
+                street_address=new_home_address,
+                city=new_city,
+                pincode=new_pincode,
+            )
+        else:
+            # If 'address_choice' is 'current-address', use the user's existing address
+            address = request.user.address
+            # Save the existing address explicitly (if not auto-saved)
+            address.save()
 
-@never_cache
+        service_type = request.POST["service_type"]
+        laptop_brand = request.POST["laptop_brand"]
+        laptop_model = request.POST["laptop_model"]
+        selected_services = request.POST.getlist("selected_services")  # Assuming it's a multi-select field
+        service_mode = request.POST["service_mode"]
+        onsite_service_charge = request.POST["onsite_service_charge"]
+        total_service_cost = request.POST["total_service_cost"]
+        from_date = request.POST["from_date"]
+        selected_slot = request.POST["selected_slot"]
+
+        try:
+            # Create a Booking instance
+            booking = Booking.objects.create(
+                full_name=full_name,
+                email=email,
+                phone_number=phone_number,
+                address_choice=address_choice,
+                address=address,
+                new_home_address=new_home_address if address_choice == "new-address" else None,
+                new_city=new_city if address_choice == "new-address" else None,
+                new_pincode=new_pincode if address_choice == "new-address" else None,
+                service_type=service_type,
+                laptop_brand=laptop_brand,
+                laptop_model=laptop_model,
+                selected_services=selected_services,
+                service_mode=service_mode,
+                onsite_service_charge=onsite_service_charge,
+                total_service_cost=total_service_cost,
+                from_date=from_date,
+                selected_slot=selected_slot,
+            )
+            booking.save()
+            # Add any additional logic or messages as needed
+            messages.success(request, "Booking created successfully.")
+            return redirect("bookingconfirmation", booking_id=booking.id)
+        except Exception as e:
+            # Print or log the error message
+            print(f"Error saving booking: {e}")
+            messages.error(request, "An error occurred while creating the booking. Please try again.")
+
+    return render(request, "booknow.html", context)
+   
 @login_required(login_url='login')
 def bookingconfirmation(request):
     return render(request,'bookingconfirmation.html')
@@ -336,7 +422,7 @@ def updateuser(request):
         address.save()
         
         # Redirect to the profile page
-        return redirect('myprofile')
+        return redirect('profile')
 
     # Assuming you have a Userdetails object associated with the user
     user_details = Userdetails.objects.get(username=request.user.username)
@@ -350,7 +436,9 @@ def updateuser(request):
 @never_cache
 @login_required
 def book_now(request, service_id):
-    
+    # Your booking logic here
+
+    # After handling the booking logic, redirect to the "booknow.html" page or any other relevant page
     return redirect('booknow')
 
 
@@ -360,11 +448,9 @@ def add_staff(request):
     if request.method == "POST":
         # Get the form data
         full_name = request.POST.get('full_name')
-        
-        
         username = request.POST.get('username')
         password = request.POST.get('password')
-       
+        email = request.POST.get('email')  # Add this line to get the email field
 
         # Perform validation checks here (e.g., checking for required fields, unique usernames, etc.)
         errors = {}
@@ -380,24 +466,41 @@ def add_staff(request):
         # Create a new Technician object and save it to the database
         technician = Technician(
             full_name=full_name,
-            
-            
             username=username,
             password=password,
-           
+            email=email,
         )
         technician.save()
+
+        # Create a new User object and save it to the database for authentication
+        user = User.objects.create_user(username=username, password=password, email=email)  # Add email field
+        user.is_staff = True
+        user.save()
+
+        send_mail(
+            'Welcome to Your Site',
+            f'Dear {full_name},\n\nYou have been added as a staff member. Your username is {username} and password is {password}. '
+             f'Please log in with these credentials..'
+              f'Remember to update your profile and change the temporary password provided.\n\n' \
+              f'Thank you!\nDevice Revive',
+            'your_email@example.com',  # Replace with your email address
+            [email],  # Use the staff member's email address
+            fail_silently=False,
+        )
 
         # Redirect to a different page after adding the technician
         return redirect('staffs')  # Redirect to the technician list view
 
     return render(request, 'add_staff.html')
 
-
 @never_cache
 @login_required
 def staffs(request):
     staff_data = Technician.objects.all()  # Fetch all staff data from the database
+
+    # Print staff details for debugging
+    for staff in staff_data:
+        print(staff.id, staff.full_name, staff.email, staff.phone_number, staff.username)
 
     context = {
         'staff_data': staff_data,
@@ -406,18 +509,86 @@ def staffs(request):
     return render(request, 'staffs.html', context)
 
 
+
 def delete_staff(request, staff_id):
+    staff = get_object_or_404(Technician, id=staff_id)
+    staff.delete()
+    return redirect('staffs')
+
+
+@never_cache
+@login_required(login_url='login')  # Use the appropriate login URL
+def staff_update(request):
+    user = request.user
+
     if request.method == 'POST':
-        try:
-            # Retrieve the technician from the database
-            technician = get_object_or_404(Technician, pk=staff_id)
+        # Update the Technician model details
+        technician = Technician.objects.get(username=user.username)
+        technician.full_name = request.POST.get('fullName')
+        technician.email = request.POST.get('eMail')
+        technician.phone_number = request.POST.get('phone')
+        technician.website = request.POST.get('website')
+        technician.street = request.POST.get('Street')
+        technician.city = request.POST.get('ciTy')
+        technician.state = request.POST.get('sTate')
+        technician.zip_code = request.POST.get('zIp')
+        technician.save()
 
-            # Delete the technician
-            technician.delete()
+        # Redirect to the profile page after updating
+        return render(request, 'staff_update.html', {'technician_details': technician})
 
-            # Return a success response
-            return redirect('staffs')
-        except Technician.DoesNotExist:
-            return JsonResponse({'error': 'Technician not found'}, status=404)
+    # Retrieve the technician details
+    technician_details = Technician.objects.get(username=user.username)
 
-    return JsonResponse({'error': 'Invalid request method'}, status=405)
+    return render(request, 'staff_update.html', {'technician_details': technician_details})
+
+
+@csrf_exempt
+def check_username_availability(request):
+    if request.method == 'POST':
+        username = request.POST.get('username', '')
+        
+        # Check if the username already exists
+        user_exists = User.objects.filter(username=username).exists()
+        
+        return JsonResponse({'usernameExists': user_exists})
+    
+    return JsonResponse({'error': 'Invalid request method'})
+
+
+def update_technician(request):
+    if request.method == 'POST':
+        # Assuming your form fields correspond to model fields
+        full_name = request.POST.get('full_name')
+        email = request.POST.get('email')
+        phone = request.POST.get('phone')
+        username = request.POST.get('username')
+        home_address = request.POST.get('home')
+        city = request.POST.get('city')
+        zip_code = request.POST.get('zip')
+
+        # Get the current user's Technician and Address instances
+        technician = Technician.objects.get(user=request.user)
+        address = Address.objects.get(user=request.user)
+
+        # Update the fields
+        technician.full_name = full_name
+        technician.email = email
+        technician.phone = phone
+        technician.username = username
+
+        address.home_address = home_address
+        address.city = city
+        address.pincode = zip_code
+
+        # Save the changes
+        technician.save()
+        address.save()
+
+        messages.success(request, 'Profile updated successfully.')
+        return redirect('staff_profile')  # Redirect to a success page after updating
+
+    return render(request, 'index.html')
+
+
+
