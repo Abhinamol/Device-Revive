@@ -560,8 +560,44 @@ background-color: #d63737;
             cursor: pointer;
         }
         
-        /* Add more CSS styles as needed for styling and layout adjustments */
-        /* CSS to make the description input field same size as the service name input field */
+        /* Add this style in the existing CSS */
+        .form-field label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px; /* Add margin-bottom for spacing between label and input */
+        }
+        
+        .form-field input[type="text"],
+        .form-field input[type="email"],
+        .form-field input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            margin-bottom: 10px; /* Add margin-bottom for spacing between input fields */
+        }
+        
+        .form-field button {
+            background-color: #007BFF;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 18px;
+            transition: background-color 0.3s;
+            display: inline-block; /* Ensure the button doesn't take full width */
+        }
+        
+        .form-field button:hover {
+            background-color: #0056b3;
+        }
+        .error-message {
+            color: red; /* Set the color for error messages to red */
+            font-size: 14px; /* You can adjust the font size as needed */
+            margin-top: 5px; /* Add some space above the error message */
+        }
 
     </style>
     
@@ -740,32 +776,39 @@ background-color: #d63737;
                 </div>
                 <div class="report-body">
                     <!-- Your existing HTML code -->
-<form method="post">
-    {% csrf_token %}
-    <div class="form-field">
-        <label for="full_name">Full Name:</label>
-        <input type="text" name="full_name" value="{{ technician.full_name }}">
-    </div>
-
-    
-
-    
-
-    <div class="form-field">
-        <label for="username">Username:</label>
-        <input type="text" name="username" value="{{ technician.username }}">
-    </div>
-
-    <div class="form-field">
-        <label for="password">Password:</label>
-        <input type="text" name="password" value="{{ technician.password }}">
-    </div>
-
-    
-    <div class="form-field">
-        <button type="submit">Add</button>
-    </div>
-</form>
+                    <form method="post" id="technicianForm">
+                        {% csrf_token %}
+                        <div class="form-field">
+                            <label for="full_name">Full Name:</label>
+                            <input type="text" name="full_name" id="full_name" value="{{ technician.full_name }}">
+                            <span id="full_name_error" class="error-message"></span>
+                            
+                        </div>
+                    
+                        <div class="form-field">
+                            <label for="email">Email:</label>
+                            <input type="email" name="email" id="email" value="{{ technician.email }}">
+                            <span id="email_error" class="error-message"></span>
+                        </div>
+                        
+                        <div class="form-field">
+                            <label for="username">Username:</label>
+                            <input type="text" name="username" id="username" value="{{ technician.username }}">
+                            <span id="username_error" class="error-message"></span>
+                        </div>
+                    
+                        <div class="form-field">
+                            <label for="password">Password:</label>
+                            <input type="password" name="password" id="password" value="{{ technician.password }}" oninput="validatePasswordRealTime(this.value)">
+                            <span id="password_error" class="error-message"></span>
+                        </div>
+                        
+                    
+                        <div class="form-field">
+                            <button type="submit">Add</button>
+                        </div>
+                    </form>
+                    
 <!-- Your existing HTML code -->
 </div></div>
 
@@ -801,6 +844,147 @@ background-color: #d63737;
                 }
             }
         </script>
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                const fullNameInput = document.getElementById("full_name");
+            
+                fullNameInput.addEventListener("input", function () {
+                    const fullNameValue = fullNameInput.value.trim();
+                    const fullNameRegex = /^[A-Za-z][A-Za-z\s]*$/;
+            
+                    if (fullNameRegex.test(fullNameValue)) {
+                        document.getElementById("full_name_error").textContent = "";
+                    } else {
+                        document.getElementById("full_name_error").textContent = "Invalid full name";
+                    }
+                });
+            });
+
+            document.addEventListener("DOMContentLoaded", function () {
+                const usernameInput = document.getElementById("username");
+                const usernameError = document.getElementById("username_error");
+        
+                usernameInput.addEventListener("input", function () {
+                    const usernameValue = usernameInput.value.trim();
+                    const usernameRegex = /^[a-zA-Z0-9]+$/;
+        
+                    if (usernameRegex.test(usernameValue)) {
+                        // Perform AJAX request to check if username already exists on the server
+                        checkUsernameAvailability(usernameValue);
+                    } else {
+                        usernameError.textContent = "Invalid characters in username";
+                    }
+                });
+        
+                function checkUsernameAvailability(username) {
+                    // AJAX request to check if the username already exists
+                    fetch("/check_username_availability/", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/x-www-form-urlencoded",
+                            "X-CSRFToken": "{{ csrf_token }}",  // Add the CSRF token
+                        },
+                        body: `username=${username}`,
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.usernameExists) {
+                            usernameError.textContent = "This username already exists";
+                        } else {
+                            usernameError.textContent = "";
+                        }
+                    })
+                    .catch(error => {
+                        console.error("Error checking username availability:", error);
+                    });
+                }
+            });
+
+
+            
+            
+        </script>
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                const emailInput = document.getElementById("email");
+                const emailError = document.getElementById("email_error");
+                const emailAvailability = document.getElementById("email-availability");
+    
+                emailInput.addEventListener("input", function () {
+                    validateEmailRealTime(emailInput.value.trim());
+                    checkEmailAvailability(emailInput.value.trim());
+                });
+                function validateEmailRealTime(email) {
+                    const emailError = document.getElementById("email_error");
+                
+                    // Check if the email input is not empty
+                    if (email.trim() === "") {
+                        emailError.textContent = "Email is required";
+                        return;
+                    }
+                
+                    // Updated regular expression pattern to allow emails like "abhinamolv2024a@mca.ajce.in"
+                    const emailPattern = /^[a-zA-Z][a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+                
+                    if (!emailPattern.test(email)) {
+                        emailError.textContent = "Invalid email format";
+                    } else if (!/^[a-zA-Z0-9._%+-]+@(gmail|mca|ajce|yahoo|amaljyothi|ac)\.[a-z.]{2,}$/i.test(email)) {
+                        emailError.textContent = "Email domain not supported";
+                    } else if ((email.match(/\./g) || []).length > 3) {
+                        emailError.textContent = "Invalid email format";
+                    } else if (email.length > 320) {
+                        emailError.textContent = "Email is too long";
+                    } else {
+                        emailError.textContent = "";
+                    }
+                }
+                
+    
+                function checkEmailAvailability(email) {
+                    // Check if the email input is not empty
+                    if (email.trim() === "") {
+                        emailAvailability.textContent = ""; // Clear the message if the email is empty
+                        return;
+                    }
+    
+                    // Send an AJAX request to check email availability
+                    fetch(`/check_email_availability/?email=${encodeURIComponent(email)}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.available) {
+                                emailAvailability.textContent = ""; // Email is available
+                            } else {
+                                emailAvailability.textContent = "This email already exists."; // Email is not available
+                            }
+                        })
+                        .catch(error => {
+                            console.error("Error checking email availability:", error);
+                        });
+                }
+            });
+        </script>
+        <script>
+            function validatePasswordRealTime(password) {
+                const passwordError = document.getElementById("password_error");
+            
+                // Check if the password input is not empty
+                if (password.trim() === "") {
+                    passwordError.textContent = "Password is required";
+                    return;
+                }
+            
+                // Strong password pattern: At least one uppercase letter, one lowercase letter, one digit, one special character, no spaces
+                const strongPasswordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/;
+            
+                if (!strongPasswordPattern.test(password)) {
+                    passwordError.textContent = "Use a strong password with at least one uppercase letter, one lowercase letter, one digit, and one special character. No spaces allowed.";
+                } else {
+                    passwordError.textContent = "";
+                }
+            }
+            </script>
+    
+        
         
     </body>
     </html>

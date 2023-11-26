@@ -528,75 +528,15 @@ background-color: #d63737;
         .form-submit-button:hover {
             background-color: #0056b3;
         }
+
+        .error-message {
+            color: red;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
     </style>
-    <script>
-        // JavaScript for real-time validation
-        document.addEventListener("DOMContentLoaded", function () {
-            const nameInput = document.getElementById("name");
-            const descriptionInput = document.getElementById("description");
-            const priceInput = document.getElementById("price");
-            const form = document.querySelector("form");
-
-            nameInput.addEventListener("input", function () {
-                validateName(nameInput.value);
-            });
-
-            descriptionInput.addEventListener("input", function () {
-                validateDescription(descriptionInput.value);
-            });
-
-            priceInput.addEventListener("input", function () {
-                validatePrice(priceInput.value);
-            });
-
-            function validateName(name) {
-                // Add your validation logic for the name field here
-                const errorDiv = document.getElementById("name-error");
-                if (name.trim() === "") {
-                    errorDiv.textContent = "Please enter a service name.";
-                } else {
-                    errorDiv.textContent = "";
-                }
-            }
-
-            function validateDescription(description) {
-                // Add your validation logic for the description field here
-                const errorDiv = document.getElementById("description-error");
-                if (description.trim() === "") {
-                    errorDiv.textContent = "Please enter a description.";
-                } else {
-                    errorDiv.textContent = "";
-                }
-            }
-
-            function validatePrice(price) {
-                // Add your validation logic for the price field here
-                const parsedPrice = parseFloat(price);
-                const errorDiv = document.getElementById("price-error");
-
-                if (isNaN(parsedPrice) || parsedPrice < 0) {
-                    errorDiv.textContent = "Please enter a valid positive price.";
-                } else {
-                    errorDiv.textContent = "";
-                }
-            }
-
-            form.addEventListener("submit", function (event) {
-                validateName(nameInput.value);
-                validateDescription(descriptionInput.value);
-                validatePrice(priceInput.value);
-
-                const errorDivs = document.querySelectorAll(".error-message");
-                for (const errorDiv of errorDivs) {
-                    if (errorDiv.textContent !== "") {
-                        event.preventDefault();
-                        break;
-                    }
-                }
-            });
-        });
-    </script>
-
+   
     </head>
     
     <body>
@@ -690,7 +630,7 @@ background-color: #d63737;
                             alt="report">
                         <h3> Appointment requests</h3>
                     </div>
-    <br><br>
+   
                         <div class="nav-option option6">
                             <img src=
     "https://media.geeksforgeeks.org/wp-content/uploads/20221210183320/4.png"
@@ -773,7 +713,7 @@ background-color: #d63737;
                         {% csrf_token %}
                         <div class="form-group">
                             <label for="name">Service Name:</label>
-                            <input type="text" id="name" name="name" required>
+                            <input type="text" id="name" name="name"  required>
                             <div id="name-error" class="error-message"></div>
                         </div>
         
@@ -827,6 +767,84 @@ background-color: #d63737;
                 }
             }
         </script>
+
+        <!-- Add this JavaScript section at the end of your file, just before the closing </body> tag -->
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const nameInput = document.getElementById("name");
+        const descriptionInput = document.getElementById("description");
+        const priceInput = document.getElementById("price");
+        const form = document.querySelector("form");
+
+        nameInput.addEventListener("input", function () {
+            validateName(nameInput.value);
+        });
+
+        descriptionInput.addEventListener("input", function () {
+            validateDescription(descriptionInput.value);
+        });
+
+        priceInput.addEventListener("input", function () {
+            validatePrice(priceInput.value);
+        });
+
+        function validateName(name) {
+            const errorDiv = document.getElementById("name-error");
+            const regex = /^[a-zA-Z\s]+$/; // Regular expression to match only letters and spaces
+        
+            if (name.trim().length < 5) {
+                errorDiv.textContent = "Service name must contain at least 5 characters.";
+            } else if (!regex.test(name)) {
+                errorDiv.textContent = "Service name must contain only letters and spaces.";
+            } else {
+                errorDiv.textContent = "";
+            }
+        }
+        
+
+        function validateDescription(description) {
+            const errorDiv = document.getElementById("description-error");
+            const words = description.trim().split(/\s+/);
+            
+            // Regular expression to check if the first word starts with a letter
+            const startsWithLetterRegex = /^[a-zA-Z]/;
+        
+            if (words.length < 5 || !startsWithLetterRegex.test(words[0])) {
+                errorDiv.textContent = "Description must contain at least 5 words, and it should start with a letter.";
+            } else {
+                errorDiv.textContent = "";
+            }
+        }
+        
+
+        function validatePrice(price) {
+            const parsedPrice = parseFloat(price);
+            const errorDiv = document.getElementById("price-error");
+
+            if (isNaN(parsedPrice) || parsedPrice < 0) {
+                errorDiv.textContent = "Please enter a valid positive price.";
+            } else {
+                errorDiv.textContent = "";
+            }
+        }
+
+        form.addEventListener("submit", function (event) {
+            validateName(nameInput.value);
+            validateDescription(descriptionInput.value);
+            validatePrice(priceInput.value);
+
+            const errorDivs = document.querySelectorAll(".error-message");
+            for (const errorDiv of errorDivs) {
+                if (errorDiv.textContent !== "") {
+                    event.preventDefault();
+                    break;
+                }
+            }
+        });
+    });
+</script>
+
         
     </body>
     </html>
