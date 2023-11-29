@@ -844,7 +844,42 @@ background-color: #d63737;
         });
     });
 </script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const nameInput = document.getElementById("name");
+        const nameErrorDiv = document.getElementById("name-error");
 
+        nameInput.addEventListener("input", function () {
+            const serviceName = nameInput.value.trim();
+            if (serviceName.length >= 5) {
+                // Send an AJAX request to check if the service name exists
+                checkServiceName(serviceName);
+            } else {
+                nameErrorDiv.textContent = "Service name must contain at least 5 characters.";
+            }
+        });
+
+        function checkServiceName(serviceName) {
+            // Make an AJAX request to your Django view to check if the service name exists
+            const xhr = new XMLHttpRequest();
+            xhr.open("GET", `/check_service_name/?name=${encodeURIComponent(serviceName)}`, true);
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    const response = JSON.parse(xhr.responseText);
+
+                    if (response.exists) {
+                        nameErrorDiv.textContent = "This service name already exists.";
+                    } else {
+                        nameErrorDiv.textContent = "";
+                    }
+                }
+            };
+
+            xhr.send();
+        }
+    });
+</script>
         
     </body>
     </html>

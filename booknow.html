@@ -272,37 +272,31 @@ button:hover {
 
 <br><br>
 <div>
-    <div class="container" style="max-width: 1500px;"> <!-- Adjust the max-width to your desired width -->
+    <div class="container" style="max-width: 1500px;">
         <div class="row justify-content-center">
             <div class="col-lg-8">
                 <div class="bg-primary py-3 px-4 px-sm-5">
                     <center><label style="font-size: xx-large;color: white">&nbsp &nbsp&nbsp&nbsp Booking Details</label></center>
                     <form id="booking-form" class="py-3" method="post" action="{% url 'booknow' %}">
                         {% csrf_token %}
-                    
-                        <!-- Fields related to the user -->
-                     
-                    
-                        <!-- Fields from the Booking model -->
+            
                         <div class="form-group">
-                            <input type="text" name="full_name" class="form-control border-0 p-4" placeholder="Name" value="{{ user_details.full_name }}" required="required" oninput="validateName(this)" />
+                            <input type="text" name="full_name" class="form-control border-0 p-4" placeholder="Name" value="{{ user_details.full_name }}" required="required" oninput="validateName(this)" disabled/>
                             <span id="name-error" class="error-message"></span>
                         </div>
                     
                         <div class="form-group">
-                            <input type="email" name="email" class="form-control border-0 p-4" placeholder="Email" value="{{ user.email }}" required="required" oninput="validateEmail(this)" />
+                            <input type="email" name="email" class="form-control border-0 p-4" placeholder="Email" value="{{ user.email }}" required="required" oninput="validateEmail(this)" disabled />
                             <span id="email-error" class="error-message"></span>
                         </div>
                     
                         <div class="form-group">
-                            <input type="text" name="phone_number" class="form-control border-0 p-4" placeholder="Phone No." value="{{ user_details.phone }}" required="required" oninput="validatePhoneNumber(this)" />
+                            <input type="text" name="phone_number" class="form-control border-0 p-4" placeholder="Phone No." value="{{ user_details.phone }}" required="required" oninput="validatePhoneNumber(this)"disabled />
                             <span id="phone-error" class="error-message"></span>
                         </div>
 
-                        <span style="color: white;">Adress:</span><br><br>
+                        <span style="color: white;">Address:</span><br><br>
                         <div class="radio-box">
-                            <!-- Radio buttons for address choice -->
-                            <!-- Make sure the values match the model's choices -->
                             <label class="radio-label" style="color: white;">
                                 <input type="radio" id="current-address-choice" name="address_choice" value="current-address" checked onchange="toggleAddressFields()">
                                 Use Current Address
@@ -312,90 +306,61 @@ button:hover {
                                 Enter New Address
                             </label>
                         </div>
-                    
+                        
                         <div id="current-address-fields">
-                            <!-- Fields for the current address -->
-                            <!-- Make sure the names match the model fields -->
-                            <input type="text" id="current-home-address" name="address.home_address" placeholder="Current Home Address" readonly value="{{ user_details.address.home_address }}" style="width: 100%;">
-                            <input type="text" id="current-city" name="address.city" placeholder="Current City" readonly value="{{ user_details.address.city }}" style="width: 100%;">
-                            <input type="text" id="current-pincode" name="address.pincode" placeholder="Current Pincode" readonly value="{{ user_details.address.pincode }}" style="width: 100%;">
+                            <input type="text" id="current-home-address" name="address.home_address" placeholder="Current Home Address" readonly value="{{ user_details.address.home_address }}" style="width: 100%;" disabled>
+                            <input type="text" id="current-city" name="address.city" placeholder="Current City" readonly value="{{ user_details.address.city }}" style="width: 100%;" disabled>
+                            <input type="text" id="current-pincode" name="address.pincode" placeholder="Current Pincode" readonly value="{{ user_details.address.pincode }}" style="width: 100%;" disabled>
                         </div>
-                    
+                        
                         <div id="new-address-fields" class="new-address-fields" style="display: none;">
-                            <!-- Fields for the new address -->
-                            <!-- Make sure the names match the model fields -->
                             <input type="text" id="new-home-address" name="new_home_address" placeholder="New Home Address" style="width: 100%;">
+                            <div id="home-address-error" style="color: red;"></div>
+                        
                             <input type="text" id="new-city" name="new_city" placeholder="New City" style="width: 100%;">
+                            <div id="city-error" style="color: red;"></div>
+                        
                             <input type="text" id="new-pincode" name="new_pincode" placeholder="New Pincode" style="width: 100%;">
+                            <div id="pincode-error" style="color: red;"></div>
                         </div>
+                        
                         
                         <div class="form-group">
                             <label for="service_type" style="color: white;">Select Service Type:</label>
                             <select id="service_type" name="service_type" class="form-control" required onchange="showLaptopBrandField()">
-                                <option value="Laptop"> Select</option>
+                                <option value="Select">Select</option>
                                 <option value="Laptop">Laptop Service</option>
                                 <option value="Desktop">Desktop Service</option>
                             </select>
                         </div>
+                        
                         <div class="form-group" id="laptop_brand_field" style="display: none;">
                             <label for="laptop_brand" style="color: white;">Laptop Brand:</label>
                             <select id="laptop_brand" name="laptop_brand" class="form-control">
-                                <option value="Acer">Acer</option>
-                                <option value="Asus">Asus</option>
-                                <option value="Dell">Dell</option>
-                                <option value="HP">HP</option>
-                                <option value="Lenovo">Lenovo</option>
+                                {% for brand_value, brand_label in laptop_brand_choices %}
+                                    <option value="{{ brand_value }}">{{ brand_label }}</option>
+                                {% endfor %}
                                 <option value="Other">Other</option>
                             </select>
                         </div>
+                    
                         <div class="form-group" id="laptop-model-field" style="display: none;">
                             <label for="laptop_model" style="color: white;">Laptop Model:</label>
                             <input type="text" id="laptop_model" name="laptop_model" class="form-control" required>
                         </div>
                         
 
-                        <div class="form-group">
+                      <div class="form-group">
                             <label for="service" style="color: white;">Select Service(s):</label>
                             <div class="service-list-box">
-                                <div>
-                                    <input type="checkbox" id="hardwareRepair" name="selected_services" value="Hardware Repair" class="service-checkbox" data-cost="100">
-    
-                                    <label for="hardwareRepair"  style="color: black;">Hardware Repair - $100</label>
-                                </div>
-                                <div>
-                                    <input type="checkbox" id="softwareTroubleshooting" name="selected_services" value="Software Troubleshooting" class="service-checkbox" data-cost="49">
-                                    <label for="softwareTroubleshooting"  style="color: black;">Software Troubleshooting - $49</label>
-                                </div>
-                                <div>
-                                    <input type="checkbox" id="virusRemoval" name="selected_services" value="Virus Removal" class="service-checkbox" data-cost="79">
-                                    <label for="virusRemoval"  style="color:  black;">Virus Removal - $79</label>
-                                </div>
-                                <div>
-                                    <input type="checkbox" id="dataRecovery" name="selected_services" value="Data Recovery" class="service-checkbox" data-cost="69">
-                                    <label for="dataRecovery"  style="color:  black;">Data Recovery - $69</label>
-                                </div>
-                                <div>
-                                    <input type="checkbox" id="screenReplacement" name="selected_services" value="Screen Replacement" class="service-checkbox" data-cost="129">
-                                    <label for="screenReplacement"  style="color: black;">Screen Replacement - $129</label>
-                                </div>
-                                <div>
-                                    <input type="checkbox" id="upgradesCustomization" name="selected_services" value="Upgrades and Customization" class="service-checkbox" data-cost="79"> 
-                                    <label for="upgradesCustomization"  style="color:  black;">Upgrades/Customization - $79 </label>
-                                </div>
-                                <div>
-                                    <input type="checkbox" id="networkSetup" name="selected_services" value="Network Setup" class="service-checkbox" data-cost="59">
-                                    <label for="networkSetup"  style="color: black;">Network Setup - $59</label>
-                                </div>
-                                <div>
-                                    <input type="checkbox" id="osInstallation" name="selected_services" value="Operating System Installation" class="service-checkbox" data-cost="69">
-                                    <label for="osInstallation"  style="color: black;">OS Installation - $49</label>
-                                </div>
-                                <div>
-                                    <input type="checkbox" id="backupSolutions" name="selected_services" value="Backup Solutions" class="service-checkbox" data-cost="79">
-                                    <label for="backupSolutions"  style="color:  black;">Backup Solutions - $79</label>
-                                </div>
+                                {% for service in services %}
+                                    <div>
+                                        <input type="checkbox" id="{{ service.name }}" name="selected_services" value="{{ service.name }}" class="service-checkbox" data-cost="{{ service.price }}">
+                                        <label for="{{ service.name }}" style="color: black;">{{ service.name }} - ${{ service.price }}</label>
+                                    </div>
+                                {% endfor %}
                             </div>
-                            
+                        
                         </div>
                         <div class="form-group">
                             <span style="color: white;">Choose mode of service :</span><br><br>
@@ -416,12 +381,10 @@ button:hover {
                             <label for="total_service_cost" style="color: white;">Total Service Cost:</label>
                             <input type="text" id="total-service-cost" name="total_service_cost" class="form-control" disabled>
                         </div>
-                    
-                        <!-- ... (previous form fields) ... -->
-
                         <div class="form-group">
-                            <input type="date" class="form-control" name="from_date" placeholder="From Date" required id="from-date" min="{{ today }}">
+                            <input type="date" class="form-control" name="from_date" placeholder="From Date" required id="from-date" min="{{ today }}" onkeydown="return false">
                         </div>
+                        
 
                         <div class="form-group">
                             <label for="selected_slot" style="color: white;">Select Time Slot:</label>
@@ -429,22 +392,19 @@ button:hover {
         <option value="7 AM TO 8 AM">7 AM TO 8 AM</option>
         <option value="8 AM TO 9 PM">8 AM TO 9 PM</option>
         <option value="9 AM TO 10 AM">9 AM TO 10 AM</option>
-        <!-- Add other time slots as needed -->
-  
-        <!--<option value="{{ id.pmpm }}">10 AM TO 11 AM</option>
-        <option value="{{ id.pmpm }}">11 AM TO 12 PM</option>
-        <option value="{{ id.pmpm }}">12 PM TO 1 PM</option>
-        <option value="{{ id.pmpm }}">1 PM TO 2 PM</option>
-        <option value="{{ id.pmpm }}">2 PM TO 3 PM</option>
-        <option value="{{ id.pmpm }}">3 PM TO 4 PM</option>
-        <option value="{{ id.pmpm }}">4 PM TO 5 PM</option>
-        <option value="{{ id.pmpm }}">5 PM TO 6 PM</option>
-        <option value="{{ id.pmpm }}">6 PM TO 7 PM</option>
-        <option value="{{ id.pmpm }}">7 PM TO 8 PM</option>
-        <option value="{{ id.pmpm }}">8 PM TO 9 PM</option>
-        <option value="{{ id.pmpm }}">9 PM TO 10 PM</option>
-        <option value="{{ id.pmpm }}">10 PM TO 11 PM</option>
-        <option value="{{ id.pmpm }}">11 PM TO 12 PM</option>-->
+        <option value="11 AM TO 12 PM">11 AM TO 12 PM</option>
+        <option value="12 PM TO 1 PM">12 PM TO 1 PM</option>
+        <option value="1 PM TO 2 PM">1 PM TO 2 PM</option>
+        <option value="2 PM TO 3 PM">2 PM TO 3 PM</option>
+        <option value="3 PM TO 4 PM">3 PM TO 4 PM</option>
+        <option value="4 PM TO 5 PM">4 PM TO 5 PM</option>
+        <option value="5 PM TO 6 PM">5 PM TO 6 PM</option>
+        <option value="6 PM TO 7 PM">6 PM TO 7 PM</option>
+        <option value="7 PM TO 8 PM">7 PM TO 8 PM</option>
+        <option value="8 PM TO 9 PM">8 PM TO 9 PM</option>
+        <option value="9 PM TO 10 PM">9 PM TO 10 PM</option>
+        <option value="10 PM TO 11 PM<">10 PM TO 11 PM</option>
+        <option value="11 PM TO 12 PM">11 PM TO 12 PM</option>
     </select>
 </div>
                        
@@ -593,16 +553,15 @@ button:hover {
     
     <script>
         function showLaptopBrandField() {
-            const serviceType = document.getElementById("service_type");
-            const laptopBrandField = document.getElementById("laptop_brand_field");
+            var serviceType = document.getElementById("service_type").value;
+            var laptopBrandField = document.getElementById("laptop_brand_field");
     
-            if (serviceType.value === "Laptop") {
+            if (serviceType === "Laptop") {
                 laptopBrandField.style.display = "block";
             } else {
                 laptopBrandField.style.display = "none";
             }
         }
-
     </script>
 
    
@@ -610,35 +569,26 @@ button:hover {
 <script>
     function redirectToBookingConfirmation() {
         // Get the user's selected services
-        const selectedServices = [];
-        const serviceCheckboxes = document.querySelectorAll('input[type="checkbox"][name="service"]');
-        serviceCheckboxes.forEach(checkbox => {
-            if (checkbox.checked) {
-                selectedServices.push(checkbox.value);
-            }
-        });
-    
-        // Calculate the total cost based on selected services
-        const totalCost = calculateTotalCost(selectedServices);
+    const selectedServices = [];
+    const serviceCheckboxes = document.querySelectorAll('input[type="checkbox"][name="selected_services"]');
+    serviceCheckboxes.forEach(checkbox => {
+        if (checkbox.checked) {
+            selectedServices.push(checkbox.value);
+        }
+    });
+
+    // Calculate the total cost based on selected services
+    const totalCost = calculateTotalCost(selectedServices);
     
         // Get the selected date
         const selectedDate = document.getElementById("from-date").value;
+        
     
-        // Construct the URL with query parameters
-        const bookingConfirmationURL = `/bookingconfirmation?services=${selectedServices.join(',')}&cost=${totalCost}&date=${selectedDate}`;
-    
-        // Redirect to the Booking Confirmation page
+        const bookingConfirmationURL = `/bookingconfirmation?selected_services=${selectedServices.join(',')}&cost=${totalCost}&date=${selectedDate}`;
+
         window.location.href = bookingConfirmationURL;
     }
     
-    function calculateTotalCost(selectedServices) {
-        let totalCost = 0;
-        selectedServices.forEach(service => {
-            const cost = parseInt(document.querySelector(`input[value="${service}"]`).getAttribute('data-cost'));
-            totalCost += cost;
-        });
-        return totalCost;
-    }
 </script>
 <script>
     // Function to calculate the total service cost and on-site service charge
@@ -699,41 +649,7 @@ button:hover {
         fromDateInput.setAttribute("min", today);
     });
 </script>
-<!--
-<script>
-    function redirectToBookingConfirmation() {
-        // Get the user's selected services
-        const selectedServices = [];
-        const serviceCheckboxes = document.querySelectorAll('input[type="checkbox"][name="service"]');
-        serviceCheckboxes.forEach(checkbox => {
-            if (checkbox.checked) {
-                selectedServices.push(checkbox.value);
-            }
-        });
-    
-        // Calculate the total cost based on selected services
-        const totalCost = calculateTotalCost(selectedServices);
-    
-        // Get the selected date
-        const selectedDate = document.getElementById("from-date").value;
-    
-        // Construct the URL with query parameters
-        const bookingConfirmationURL = `/bookingconfirmation?selected_services${selectedServices.join(',')}&cost=${totalCost}&date=${selectedDate}`;
-    
-        // Redirect to the Booking Confirmation page
-        window.location.href = bookingConfirmationURL;
-    }
-    
-    function calculateTotalCost(selectedServices) {
-        let totalCost = 0;
-        selectedServices.forEach(service => {
-            const cost = parseInt(document.querySelector(`input[value="${service}"]`).getAttribute('data-cost'));
-            totalCost += cost;
-        });
-        return totalCost;
-    }
-</script>
--->
+
 <script>
     function toggleAddressFields() {
         const currentAddressFields = document.getElementById("current-address-fields");
@@ -748,9 +664,48 @@ button:hover {
             newAddressFields.style.display = "block";
         }
     }
-
-    // ... (existing scripts) ...
+  
 </script>
+<script>
+    $(document).ready(function() {
+        // Home Address Validation
+        $("#new-home-address").on("input", function() {
+            var homeAddress = $(this).val();
+            var homeAddressError = $("#home-address-error");
+
+            if (homeAddress.length < 3) {
+                homeAddressError.text("Home address must contain at least 3 letters");
+            } else {
+                homeAddressError.text("");
+            }
+        });
+
+        // City Validation
+        $("#new-city").on("input", function() {
+            var city = $(this).val();
+            var cityError = $("#city-error");
+
+            if (!/^[a-zA-Z]{5,}$/.test(city)) {
+                cityError.text("City must contain at least 5 letters and only letters");
+            } else {
+                cityError.text("");
+            }
+        });
+
+        // Pincode Validation
+        $("#new-pincode").on("input", function() {
+            var pincode = $(this).val();
+            var pincodeError = $("#pincode-error");
+
+            if (!/^\d+$/.test(pincode)) {
+                pincodeError.text("Pincode must contain only numbers");
+            } else {
+                pincodeError.text("");
+            }
+        });
+    });
+</script>
+
  
 
 </body>
