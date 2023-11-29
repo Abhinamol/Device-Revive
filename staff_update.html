@@ -9,12 +9,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
-<link rel="shortcut icon" href="{% static "images/fav.jpg" %}">
-<link rel="stylesheet" href="{% static "css/bootstrap.min.css" %}">
-<link rel="stylesheet" href="{% static "css/fontawsom-all.min.css" %}">
-<link rel="stylesheet" href="{% static "css/animate.css" %}">
-<link rel="stylesheet" type="text/css" href="{% static "/css/style.css"%}">
-
+<link rel="shortcut icon" href="{% static "images/fav.jpg" %}" rel="stylesheet"/>
+<link rel="stylesheet" href="{% static "css/bootstrap.min.css" %}" rel="stylesheet"/>
+<link rel="stylesheet" href="{% static "css/fontawsom-all.min.css" %}" rel="stylesheet"/>
+<link rel="stylesheet" href="{% static "css/animate.css" %}" rel="stylesheet"/>
+<link rel="stylesheet" type="text/css" href="{% static "/css/style.css"%}" rel="stylesheet"/>
 <style type="text/css">
     	body {
     margin: 0;
@@ -314,11 +313,11 @@ body {
                                     </a>
                                     <div class="dropdown-menu" aria-labelledby="adminDropdown">
                                         {% if user.is_authenticated %}
-                                            <a class="dropdown-item" href="{% url 'staff_profile' %}">Profile</a>
-                                            <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
+                                            <a class="dropdown-item" href="myprofile">Profile</a>
+                                            <a class="dropdown-item" href="logout">Logout</a>
                                         {% else %}
-                                            <a class="dropdown-item" href="{% url 'login' %}">Login</a>
-                                            <a class="dropdown-item" href="{% url 'reg' %}">Sign Up</a>
+                                            <a class="dropdown-item" href="login">Login</a>
+                                            <a class="dropdown-item" href="signup">Sign Up</a>
                                         {% endif %}
                                     </div>
                                 </div>
@@ -346,38 +345,33 @@ body {
                                 {% csrf_token %}
                                 
                                 <label for="full-name">Full Name</label>
-                                <input type="text" class="form-control" id="full-name" name="full_name" value="{{ technician_details.full_name }}" required>
-                                <div id="full-name-error" class="invalid-feedback"></div>
+                                <input type="text" class="form-control" id="full-name" name="full_name" oninput="validateFullName()" value="{{ technician.full_name }}" required>
+                                <div id="full-name-error" style="color: red;"></div>
                                 
                                 <label for="eMail">Email</label>
-                                <input type="email" class="form-control" id="eMail" name="email" value="{{ technician_details.email }}" required>
-                                <div id="email-error" class="invalid-feedback"></div>
+                                <input type="email" class="form-control" id="eMail" name="email" oninput="validateEmailRealTime()" value="{{ technician.email }}" required>
+                                <div id="email-error" style="color: red;"></div>
                                 
                                 <label for="phone">Phone</label>
-                                <input type="text" class="form-control" id="phone" name="phone" value="{{ phone }}" required>
-                                <div id="phone-error" class="invalid-feedback"></div>
-
+                                <input type="text" class="form-control" id="phone" name="phone" oninput="validatePhoneNumber()" value="{{ technician.phone_number }}" required>
+                                <div id="phone-error" style="color: red;"></div>
                                 
                                 <label for="username">Username</label>
-                                <input type="text" class="form-control" id="username" name="username" value="{{ technician_details.username }}" required>
-                                <div id="username-error" class="invalid-feedback"></div>
-
-                                <!-- ... Your existing HTML code ... -->
-
-<label for="home">Home Address</label>
-<input type="text" class="form-control" id="home" name="home" value="{% if user_details.address %}{{ user_details.address.home_address }}{% endif %}">
-<div id="home-address-error" class="invalid-feedback"></div>
-
-<label for="city">City</label>
-<input type="text" class="form-control" id="city" name="city" value="{% if user_details.address %}{{ user_details.address.city }}{% endif %}">
-<div id="city-error" class="invalid-feedback"></div>
-
-<label for="zip">Zip Code</label>
-<input type="text" class="form-control" id="zip" name="zip" value="{% if user_details.address %}{{ user_details.address.pincode }}{% endif %}">
-<div id="zip-code-error" class="invalid-feedback"></div>
-
-<!-- ... Your existing HTML code ... -->
-
+                                <input type="text" class="form-control" id="username" name="username" oninput="validateUsername()" value="{{ technician.username }}" required>
+                                <div id="username-error" style="color: red;"></div>
+                                
+                                <label for="home">Home Address</label>
+                                <input type="text" class="form-control" id="home" name="home" oninput="validateHomeAddress()" value="{% if technician.address %}{{ technician.address.home_address }}{% endif %}">
+                                <div id="home-address-error" style="color: red;"></div>
+                                
+                                <label for="city">City</label>
+                                <input type="text" class="form-control" id="city" name="city" oninput="validateCity()" value="{% if technician.address %}{{ technician.address.city }}{% endif %}">
+                                <div id="city-error" style="color: red;"></div>
+                                
+                                <label for="zip">Zip Code</label>
+                                <input type="text" class="form-control" id="zip" name="zip" oninput="validateZipCode()" value="{% if technician.address %}{{ technician.address.pincode }}{% endif %}">
+                                <div id="zip-error" style="color: red;"></div>
+                                
                                 
                                 <button type="submit" class="btn btn-primary" id="updateButton">Update</button>
                             </form>
@@ -388,7 +382,6 @@ body {
         </div>
     </div>
 </div>
-<br><br>
 <!--########################## Footer CSS ####################-->
 <footer>
     <div class="container">
@@ -490,243 +483,151 @@ body {
 
 </div>
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
-<script type="text/javascript">
-<script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.bundle.min.js"></script>
-    
+<script type="text/javascript">
+	
 </script>
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const fullNameInput = document.getElementById("full-name");
+const fullNameInput = document.getElementById("full-name");
+const fullNameError = document.getElementById("full-name-error");
+const submitButton = document.getElementById("submit-button"); // Assuming you have a submit button
 
-        fullNameInput.addEventListener("input", function () {
-            validateFullName();
-        });
+function validateFullName() {
+    const fullName = fullNameInput.value;
 
-        const updateButton = document.getElementById("updateButton");
-        updateButton.addEventListener("click", function (event) {
-            if (!validateForm()) {
-                event.preventDefault();  // Prevent form submission if validation fails
-            }
-        });
-
-        function validateFullName() {
-            const fullNameInput = document.getElementById("full-name");
-            const fullNameError = document.getElementById("full-name-error");
-
-            const fullNameValue = fullNameInput.value.trim();
-            const fullNameRegex = /^[A-Za-z][A-Za-z\s]*$/;
-
-            if (fullNameRegex.test(fullNameValue)) {
-                fullNameError.textContent = "";
-                fullNameInput.classList.remove("is-invalid");
-                return true;  // Validation passed
-            } else {
-                fullNameError.textContent = "Invalid full name";
-                fullNameInput.classList.add("is-invalid");
-                return false;  // Validation failed
-            }
-        }
-
-        function validateForm() {
-            // Add other field validations as needed
-            return validateFullName();
-        }
-    });
+    if (fullName.startsWith(" ")) {
+        fullNameError.textContent = "Full name cannot start with spaces.";
+        submitButton.disabled = true;
+    } else if (!/^[A-Za-z][A-Za-z\s]*$/.test(fullName)) {
+        fullNameError.textContent = "Full name must start with a letter and can only contain letters and spaces.";
+        submitButton.disabled = true;
+    } else {
+        fullNameError.textContent = "";
+        submitButton.disabled = false;
+    }
+}
 </script>
-
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const emailInput = document.getElementById("eMail");  // Change to match the actual ID of your email input
-        const emailError = document.getElementById("email-error");
-        const emailAvailability = document.getElementById("email-availability");
+const emailInput = document.getElementById("eMail");
 
-        emailInput.addEventListener("input", function () {
-            validateEmailRealTime(emailInput.value.trim());
-            checkEmailAvailability(emailInput.value.trim());
-        });
+function validateEmailRealTime() {
+    const email = emailInput.value.trim();
+    const errorElement = document.getElementById("email-error");
 
-        function validateEmailRealTime(email) {
-            const emailError = document.getElementById("email-error");
+    // Check for the specific email address "a@a.com"
+    if (email === "a@a.com") {
+        errorElement.textContent = "Invalid email address.";
+        return;
+    }
 
-            // Check if the email input is not empty
-            if (email.trim() === "") {
-                emailError.textContent = "Email is required";
-                return;
-            }
+    // Updated regular expression pattern for general email validation
+    const emailPattern = /^[a-zA-Z][a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
-            // Updated regular expression pattern to allow emails like "abhinamolv2024a@mca.ajce.in"
-            const emailPattern = /^[a-zA-Z][a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (!emailPattern.test(email)) {
+        errorElement.textContent = "Invalid email format";
+    } else if (!/^[a-zA-Z0-9._%+-]+@(gmail|mca|ajce|yahoo|amaljyothi|ac)\.[a-z.]{2,}$/i.test(email)) {
+        errorElement.textContent = "Invalid email format";
+    } else if ((email.match(/\./g) || []).length > 3) {
+        errorElement.textContent = "Invalid email format";
+    } else if (email.length > 320) {
+        errorElement.textContent = "Invalid email format";
+    } else {
+        errorElement.textContent = "";
+    }
+}
 
-            if (!emailPattern.test(email)) {
-                emailError.textContent = "Invalid email format";
-            } else if (!/^[a-zA-Z0-9._%+-]+@(gmail|mca|ajce|yahoo|amaljyothi|ac)\.[a-z.]{2,}$/i.test(email)) {
-                emailError.textContent = "Email domain not supported";
-            } else if ((email.match(/\./g) || []).length > 3) {
-                emailError.textContent = "Invalid email format";
-            } else if (email.length > 320) {
-                emailError.textContent = "Email is too long";
-            } else {
-                emailError.textContent = "";
-            }
-        }
-
-    });
 </script>
-
-<!-- ... Your existing HTML code ... -->
-
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const phoneInput = document.getElementById("phone");  // Change to match the actual ID of your phone input
-        const phoneError = document.getElementById("phone-error");
 
-        phoneInput.addEventListener("input", function () {
-            validatePhoneNumber();
-        });
+const phoneInput = document.getElementById("phone");
 
-        function validatePhoneNumber() {
-            const phoneNumber = phoneInput.value.trim();
+function validatePhoneNumber() {
+    const phoneNumber = phoneInput.value.trim();
+    const phoneError = document.getElementById("phone-error");
 
-            if (/^[6-9]\d{9}$/.test(phoneNumber) && !/0{7,9}/.test(phoneNumber)) {
-                phoneError.textContent = "";
-            } else {
-                phoneError.textContent = "Invalid Phone number";
-            }
+    // Validate the phone number using a regular expression
+    if (/^[6-9]\d{9}$/.test(phoneNumber) && !/0{7,9}/.test(phoneNumber)) {
+        // Check if no digit is repeated more than 5 times
+        const repeatedDigits = /(.)\1{4}/g;
+        if (repeatedDigits.test(phoneNumber)) {
+            phoneError.textContent = "Invalid Phone number";
+        } else {
+            phoneError.textContent = "";
         }
-    });
+    } else {
+        phoneError.textContent = "Invalid Phone number";
+    }
+}
 </script>
-
-<!-- ... Your existing HTML code ... -->
-
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const usernameInput = document.getElementById("username");
-        const usernameError = document.getElementById("username-error");
+const usernameInput = document.getElementById("username");
 
-        usernameInput.addEventListener("input", function () {
-            const usernameValue = usernameInput.value.trim();
-            const usernameRegex = /^[a-zA-Z0-9]+$/;
+function validateUsername() {
+    const username = usernameInput.value.trim();
+    const usernameError = document.getElementById("username-error");
 
-            if (usernameRegex.test(usernameValue)) {
-                // Perform AJAX request to check if username already exists on the server
-                checkUsernameAvailability(usernameValue);
-            } else {
-                usernameError.textContent = "Invalid characters in username";
-            }
-        });
+    // Validate the username using a regular expression
+    const usernamePattern = /^[a-zA-Z0-9]{3,}$/;
 
-        function checkUsernameAvailability(username) {
-            // AJAX request to check if the username already exists
-            fetch("/check_username_availability/", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "X-CSRFToken": "{% csrf_token %}",  // Add the CSRF token, replace with the actual template tag if using Django
-                },
-                body: JSON.stringify({ username: username }),
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.username_exists) {
-                    usernameError.textContent = "This username already exists";
-                } else {
-                    usernameError.textContent = "";
-                }
-            })
-            .catch(error => {
-                console.error("Error checking username availability:", error);
-            });
-        }
-    });
+    if (usernamePattern.test(username)) {
+        usernameError.textContent = "";
+    } else {
+        usernameError.textContent = "Invalid username. Should be only letters and numbers, and minimum 3 characters.";
+    }
+}
 </script>
-<!-- ... Your existing HTML code ... -->
-
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const homeAddressInput = document.getElementById("home");
-        const cityInput = document.getElementById("city");
-        const zipCodeInput = document.getElementById("zip");
+    const homeInput = document.getElementById("home");
 
-        homeAddressInput.addEventListener("input", function () {
-            validateHomeAddress();
-        });
+function validateHomeAddress() {
+    const homeAddress = homeInput.value.trim();
+    const homeAddressError = document.getElementById("home-address-error");
 
-        cityInput.addEventListener("input", function () {
-            validateCity();
-        });
+    // Validate the home address using a regular expression
+    const homeAddressPattern = /^[a-zA-Z0-9]{3,}$/;
 
-        zipCodeInput.addEventListener("input", function () {
-            validateZipCode();
-        });
+    if (homeAddressPattern.test(homeAddress)) {
+        homeAddressError.textContent = "";
+    } else {
+        homeAddressError.textContent = "Invalid home address. Should be at least 3 characters and can include letters and numbers.";
+    }
+}
 
-        const updateButton = document.getElementById("updateButton");
-        updateButton.addEventListener("click", function (event) {
-            if (!validateForm()) {
-                event.preventDefault();  // Prevent form submission if validation fails
-            }
-        });
-
-        function validateHomeAddress() {
-            const homeAddressValue = homeAddressInput.value.trim();
-            const homeAddressError = document.getElementById("home-address-error");
-
-            if (homeAddressValue === "") {
-                homeAddressError.textContent = "Home address is required";
-            } else {
-                homeAddressError.textContent = "";
-            }
-        }
-
-        function validateCity() {
-            const cityValue = cityInput.value.trim();
-            const cityError = document.getElementById("city-error");
-            const cityRegex = /^[A-Za-z\s]+$/;
-
-            if (cityValue === "") {
-                cityError.textContent = "City is required";
-            } else if (!cityRegex.test(cityValue)) {
-                cityError.textContent = "Invalid city format (letters only)";
-            } else {
-                cityError.textContent = "";
-            }
-        }
-
-        function validateZipCode() {
-            const zipCodeValue = zipCodeInput.value.trim();
-            const zipCodeError = document.getElementById("zip-code-error");
-            const zipCodeRegex = /^\d+$/;
-
-            if (zipCodeValue === "") {
-                zipCodeError.textContent = "Zip code is required";
-            } else if (!zipCodeRegex.test(zipCodeValue)) {
-                zipCodeError.textContent = "Invalid zip code format (numbers only)";
-            } else {
-                zipCodeError.textContent = "";
-            }
-        }
-
-        function validateForm() {
-            validateHomeAddress();
-            validateCity();
-            validateZipCode();
-
-            // Add other field validations as needed
-
-            // Return true if all validations pass, otherwise return false
-            return (
-                document.getElementById("home-address-error").textContent === "" &&
-                document.getElementById("city-error").textContent === "" &&
-                document.getElementById("zip-code-error").textContent === ""
-                // Add conditions for other fields if needed
-            );
-        }
-    });
 </script>
+<script>
+    const cityInput = document.getElementById("city");
 
-<!-- ... Your existing HTML code ... -->
+function validateCity() {
+    const city = cityInput.value.trim();
+    const cityError = document.getElementById("city-error");
 
+    // Validate the city using a regular expression
+    const cityPattern = /^[a-zA-Z]{4,}$/;
 
+    if (cityPattern.test(city)) {
+        cityError.textContent = "";
+    } else {
+        cityError.textContent = "Invalid city. Should only contain letters and must be at least 4 characters.";
+    }
+}
 
+</script>
+<script>
+const zipInput = document.getElementById("zip");
+
+function validateZipCode() {
+    const zipCode = zipInput.value.trim();
+    const zipError = document.getElementById("zip-error");
+
+    // Validate the zip code using a regular expression
+    const zipPattern = /^\d{6}$/;
+
+    if (zipPattern.test(zipCode)) {
+        zipError.textContent = "";
+    } else {
+        zipError.textContent = "Invalid zip code. Must be a number and contain exactly 6 digits.";
+    }
+}
+</script>
 </body>
 </html>

@@ -842,18 +842,23 @@ function checkEmailAvailability(email) {
 
     
     
-  
-
-    function validatePhoneNumber() {
-        const phoneNumber = phoneInput.value.trim();
-    
-        if (/^[6-9]\d{9}$/.test(phoneNumber) && !/0{7,9}/.test(phoneNumber)) {
-            phoneError.textContent = "";
-        } else {
-            phoneError.textContent = "Invalid Phone number";
+        function validatePhoneNumber() {
+            const phoneNumber = phoneInput.value.trim();
+            const phoneError = document.getElementById("phone-error");
+        
+            // Validate the phone number using a regular expression
+            if (/^[6-9]\d{9}$/.test(phoneNumber) && !/0{7,9}/.test(phoneNumber)) {
+                // Check if no digit is repeated more than 5 times
+                const repeatedDigits = /(.)\1{4}/g;
+                if (repeatedDigits.test(phoneNumber)) {
+                    phoneError.textContent = "Invalid Phone number";
+                } else {
+                    phoneError.textContent = "";
+                }
+            } else {
+                phoneError.textContent = "Invalid Phone number";
+            }
         }
-    }
-    
 
     
     
