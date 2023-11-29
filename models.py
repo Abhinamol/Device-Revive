@@ -25,45 +25,40 @@ class Service(models.Model):
     price = models.DecimalField(max_digits=10, decimal_places=2)
     is_available = models.BooleanField(default=False)
 
+
+class LaptopBrand(models.Model):
+    name = models.CharField(max_length=255, unique=True)
+
+    def __str__(self):
+        return self.name
+
 class Technician(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE,null=True,blank=True)
     full_name = models.CharField(max_length=255)
     phone_number = models.CharField(max_length=15)
     email = models.EmailField()
     username = models.CharField(max_length=50, unique=True)
     password = models.CharField(max_length=100)
-    specialization = models.CharField(max_length=255)
     is_staff = models.BooleanField(default=True)  # Add the is_staff field
+    address = models.ForeignKey(Address, on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):
         return self.username
 
 
-class Booking(models.Model):
-    full_name = models.CharField(max_length=255)
-    email = models.EmailField()
-    phone_number = models.CharField(max_length=15)
-    address_choice = models.CharField(max_length=20)
-    address = models.ForeignKey(
-        Address,
-        on_delete=models.SET_NULL,
-        null=True,
-        blank=True,
-    ) 
-    new_home_address = models.TextField(blank=False, null=False)
-    new_city = models.CharField(max_length=100, blank=False, null=False)
-    new_pincode = models.CharField(max_length=10,blank=False, null=False)
-    service_type = models.CharField(max_length=20)
+class Appointment(models.Model):
+    user_details = models.ForeignKey(Userdetails, on_delete=models.CASCADE)
+    address = models.ForeignKey(Address, on_delete=models.CASCADE)
+
+    service_type = models.CharField(max_length=20, choices=[('Laptop', 'Laptop Service'), ('Desktop', 'Desktop Service')])
     laptop_brand = models.CharField(max_length=20, blank=False, null=False)
-    laptop_model = models.CharField(max_length=50, blank=False, null=False)
-    selected_services = models.TextField()
-    service_mode = models.CharField(max_length=20)
-    onsite_service_charge = models.DecimalField(max_digits=10, decimal_places=2, default=0.0)
-    total_service_cost = models.DecimalField(max_digits=10, decimal_places=2)
+    laptop_model = models.CharField(max_length=50,blank=False, null=False )
+    selected_services = models.CharField(max_length=255,blank=False, null=False )
+    service_mode = models.CharField(max_length=20, choices=[('OnSite', 'On-Site Service'), ('ServiceCenter', 'Service Center')])
+    onsite_service_charge = models.DecimalField(max_digits=10, decimal_places=2,blank=False, null=False )
+    total_service_cost = models.DecimalField(max_digits=10, decimal_places=2,blank=False, null=False)
     from_date = models.DateField()
     selected_slot = models.CharField(max_length=20)
-
-    def __str__(self):
-        return f"{self.full_name} - {self.from_date}"
 
 
 

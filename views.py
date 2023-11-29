@@ -20,7 +20,7 @@ from django.contrib.auth.hashers import check_password
 from django.views.decorators.csrf import csrf_exempt
 from django.core.mail import send_mail
 from django.urls import reverse
-from .models import Booking
+from .models import Appointment
 import datetime
 
 
@@ -223,79 +223,8 @@ def booking(request):
 def desktop(request):
     return render(request,'desktop.html')
 
-@never_cache
-@login_required(login_url='login')
-def booknow(request):
-    user_details = Userdetails.objects.get(username=request.user.username)
-    context = {
-        'user_details': user_details,
-        "services": Service.objects.filter(is_available=True),
-        "addresses": Address.objects.all(),
-    }
 
-    if request.method == "POST":
-        full_name = request.POST["full_name"]
-        email = request.POST["email"]
-        phone_number = request.POST["phone_number"]
-        address_choice = request.POST["address_choice"]
-        
-        # If 'address_choice' is 'new-address', create a new Address instance
-        if address_choice == "new-address":
-            new_home_address = request.POST["new_home_address"]
-            new_city = request.POST["new_city"]
-            new_pincode = request.POST["new_pincode"]
-            address = Address.objects.create(
-                street_address=new_home_address,
-                city=new_city,
-                pincode=new_pincode,
-            )
-        else:
-            # If 'address_choice' is 'current-address', use the user's existing address
-            address = request.user.address
-            # Save the existing address explicitly (if not auto-saved)
-            address.save()
-
-        service_type = request.POST["service_type"]
-        laptop_brand = request.POST["laptop_brand"]
-        laptop_model = request.POST["laptop_model"]
-        selected_services = request.POST.getlist("selected_services")  # Assuming it's a multi-select field
-        service_mode = request.POST["service_mode"]
-        onsite_service_charge = request.POST["onsite_service_charge"]
-        total_service_cost = request.POST["total_service_cost"]
-        from_date = request.POST["from_date"]
-        selected_slot = request.POST["selected_slot"]
-
-        try:
-            # Create a Booking instance
-            booking = Booking.objects.create(
-                full_name=full_name,
-                email=email,
-                phone_number=phone_number,
-                address_choice=address_choice,
-                address=address,
-                new_home_address=new_home_address if address_choice == "new-address" else None,
-                new_city=new_city if address_choice == "new-address" else None,
-                new_pincode=new_pincode if address_choice == "new-address" else None,
-                service_type=service_type,
-                laptop_brand=laptop_brand,
-                laptop_model=laptop_model,
-                selected_services=selected_services,
-                service_mode=service_mode,
-                onsite_service_charge=onsite_service_charge,
-                total_service_cost=total_service_cost,
-                from_date=from_date,
-                selected_slot=selected_slot,
-            )
-            booking.save()
-            # Add any additional logic or messages as needed
-            messages.success(request, "Booking created successfully.")
-            return redirect("bookingconfirmation", booking_id=booking.id)
-        except Exception as e:
-            # Print or log the error message
-            print(f"Error saving booking: {e}")
-            messages.error(request, "An error occurred while creating the booking. Please try again.")
-
-    return render(request, "booknow.html", context)
+ 
    
 @login_required(login_url='login')
 def bookingconfirmation(request):
@@ -403,29 +332,47 @@ def update_service(request, service_id):
 @login_required(login_url='login')
 def updateuser(request):
     if request.method == 'POST':
-        # Update user details and address based on form data
-        user_details = Userdetails.objects.get(username=request.user.username)
-        user_details.full_name = request.POST.get('full-name')
-        user_details.email = request.POST.get('eMail')
-        user_details.phone = request.POST.get('phone')
-        user_details.username = request.POST.get('username')
+        # Get or create Userdetails object
+        user_details, created = Userdetails.objects.get_or_create(username=request.user.username)
+
+        # Get form data
+        full_name = request.POST.get('full-name')
+        email = request.POST.get('eMail')
+        phone = request.POST.get('phone')
+        username = request.POST.get('username')
+        home_address = request.POST.get('home')
+        city = request.POST.get('city')
+        pincode = request.POST.get('zip')
+
+        # Check if email is not empty before saving
+        if email:
+            user_details.email = email
+        user_details.phone = phone
+        user_details.username = username
         user_details.save()
 
-        if user_details.address:
-            address = user_details.address
-        else:
-            address = Address()
+        # Check if home_address is not empty before saving
+        if home_address:
+            if user_details.address:
+                address = user_details.address
+            else:
+                address = Address()
 
-        address.home_address = request.POST.get('home')
-        address.city = request.POST.get('city')
-        address.pincode = request.POST.get('zip')
-        address.save()
-        
+            address.home_address = home_address
+            address.city = city
+            address.pincode = pincode
+            address.save()
+
+            # Update user_details.address with the newly created or existing Address object
+            user_details.address = address
+
+        user_details.save()
+
         # Redirect to the profile page
-        return redirect('profile')
+        return redirect('myprofile')
 
     # Assuming you have a Userdetails object associated with the user
-    user_details = Userdetails.objects.get(username=request.user.username)
+    user_details, created = Userdetails.objects.get_or_create(username=request.user.username)
 
     context = {
         'user_details': user_details,
@@ -516,32 +463,6 @@ def delete_staff(request, staff_id):
     return redirect('staffs')
 
 
-@never_cache
-@login_required(login_url='login')  # Use the appropriate login URL
-def staff_update(request):
-    user = request.user
-
-    if request.method == 'POST':
-        # Update the Technician model details
-        technician = Technician.objects.get(username=user.username)
-        technician.full_name = request.POST.get('fullName')
-        technician.email = request.POST.get('eMail')
-        technician.phone_number = request.POST.get('phone')
-        technician.website = request.POST.get('website')
-        technician.street = request.POST.get('Street')
-        technician.city = request.POST.get('ciTy')
-        technician.state = request.POST.get('sTate')
-        technician.zip_code = request.POST.get('zIp')
-        technician.save()
-
-        # Redirect to the profile page after updating
-        return render(request, 'staff_update.html', {'technician_details': technician})
-
-    # Retrieve the technician details
-    technician_details = Technician.objects.get(username=user.username)
-
-    return render(request, 'staff_update.html', {'technician_details': technician_details})
-
 
 @csrf_exempt
 def check_username_availability(request):
@@ -556,39 +477,131 @@ def check_username_availability(request):
     return JsonResponse({'error': 'Invalid request method'})
 
 
-def update_technician(request):
-    if request.method == 'POST':
-        # Assuming your form fields correspond to model fields
-        full_name = request.POST.get('full_name')
-        email = request.POST.get('email')
-        phone = request.POST.get('phone')
-        username = request.POST.get('username')
-        home_address = request.POST.get('home')
-        city = request.POST.get('city')
-        zip_code = request.POST.get('zip')
 
-        # Get the current user's Technician and Address instances
-        technician = Technician.objects.get(user=request.user)
-        address = Address.objects.get(user=request.user)
+@never_cache
+@login_required()
+def staff_update(request):
+    technicians = Technician.objects.all()
 
-        # Update the fields
-        technician.full_name = full_name
-        technician.email = email
-        technician.phone = phone
-        technician.username = username
+    # Try to get the associated Technician object or create a new one
+    technician, created = Technician.objects.get_or_create(user=request.user)
 
-        address.home_address = home_address
-        address.city = city
-        address.pincode = zip_code
-
-        # Save the changes
+    if request.method == "POST":
+        technician.full_name = request.POST["full_name"]
+        technician.email = request.POST["email"]
+        technician.phone_number = request.POST["phone"]
+        technician.username = request.POST["username"]
         technician.save()
+
+        if not technician.address:
+            address = Address()
+        else:
+            address = technician.address
+
+        address.home_address = request.POST["home"]
+        address.city = request.POST["city"]
+        address.pincode = request.POST["zip"]
         address.save()
 
-        messages.success(request, 'Profile updated successfully.')
-        return redirect('staff_profile')  # Redirect to a success page after updating
+        # Update technician.address with the newly created or existing Address object
+        technician.address = address
 
-    return render(request, 'index.html')
+    return render(request, "staff_update.html", {'technicians': technicians, 'addressid': technician.address.id if technician.address else None})
 
 
 
+
+LAPTOP_BRAND_CHOICES = [
+    ('Acer', 'Acer'),
+    ('Asus', 'Asus'),
+    ('Dell', 'Dell'),
+    ('HP', 'HP'),
+    ('Lenovo', 'Lenovo'),
+    ('Other', 'Other'),
+]
+
+
+
+@never_cache
+@login_required
+def booknow(request):
+    user_details, created = Userdetails.objects.get_or_create(username=request.user.username, defaults={'user': request.user})
+
+
+    context = {
+        'user_details': user_details,
+    }
+
+    if request.method == 'POST':
+        full_name = request.POST.get('full_name')
+        email = request.POST.get('email')
+        phone_number = request.POST.get('phone_number')
+        address_choice = request.POST.get('address_choice')
+
+        if address_choice == 'current-address':
+           
+            # Getting users address
+            address = request.user.address
+
+        else:
+            new_home_address = request.POST.get('new_home_address')
+            new_city = request.POST.get('new_city')
+            new_pincode = request.POST.get('new_pincode')
+            address, created = Address.objects.get_or_create(
+                home_address=new_home_address,
+                city=new_city,
+                pincode=new_pincode,
+            )
+            address.save()
+        user_details, created = Userdetails.objects.get_or_create(
+            user=request.user,
+            full_name=full_name,
+            email=email,
+            phone=phone_number,
+            address=address,
+        )
+
+        service_type = request.POST.get('service_type')
+        laptop_brand = request.POST.get('laptop_brand')
+        laptop_model = request.POST.get('laptop_model')
+        selected_services = request.POST.get('selected_services')
+        service_mode = request.POST.get('serviceMode')
+        onsite_service_charge = request.POST.get('onsite-service-charge')
+        total_service_cost = request.POST.get('total-service-cost')
+        from_date = request.POST.get('from_date')
+        selected_slot = request.POST.get('selected_slot')
+
+        appointment = Appointment.objects.create(
+            user_details=user_details,
+            address=address,
+            service_type=service_type,
+            laptop_brand=laptop_brand,
+            laptop_model=laptop_model,
+            selected_services=selected_services,
+            service_mode=service_mode,
+            onsite_service_charge=onsite_service_charge,
+            total_service_cost=total_service_cost,
+            from_date=from_date,
+            selected_slot=selected_slot,
+        )
+        
+        context.update({
+            'appointment': appointment,
+            'address': address,
+            'user_details': user_details,
+        })
+        appointment.save()
+        messages.success(request, 'Appointment created successfully!')
+
+        return render(request, 'bookingconfirmation.html', context)
+    else:
+        return render(request, 'booknow.html', context)
+
+
+
+@csrf_exempt
+def check_service_name(request):
+    if request.method == 'GET':
+        service_name = request.GET.get('name', '')
+        service_exists = Service.objects.filter(name__iexact=service_name).exists()
+        return JsonResponse({'exists': service_exists})
