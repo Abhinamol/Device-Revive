@@ -345,25 +345,35 @@ body {
                                 {% csrf_token %}
                                 
                                 <label for="full-name">Full Name</label>
-                                <input type="text" class="form-control" id="full-name" name="full_name" value="{{ user_details.full_name }}" required>
+                                <input type="text" class="form-control" id="full-name" name="full_name" oninput="validateFullName()" value="{{ user_details.full_name }}" required>
+                                <div id="full-name-error" style="color: red;"></div>
                                 
                                 <label for="eMail">Email</label>
-                                <input type="email" class="form-control" id="eMail" name="email" value="{{ user.email }}" required>
+                                <input type="email" class="form-control" id="eMail" name="email" oninput="validateEmailRealTime()" value="{{ user.email }}" required>
+                                <div id="email-error" style="color: red;"></div>
+                                
                                 
                                 <label for="phone">Phone</label>
-                                <input type="text" class="form-control" id="phone" name="phone" value="{{ user_details.phone }}" required>
+                                <input type="text" class="form-control" id="phone" name="phone" oninput="validatePhoneNumber()" value="{{ user_details.phone }}" required>
+                                <div id="phone-error" style="color: red;"></div>
                                 
                                 <label for="username">Username</label>
-                                <input type="text" class="form-control" id="username" name="username" value="{{ user_details.username }}" required>
-                                
+                                <input type="text" class="form-control" id="username" name="username" oninput="validateUsername()" value="{{ user_details.username }}" required>
+                                <div id="username-error" style="color: red;"></div>
+
                                 <label for="home">Home Address</label>
-                                <input type="text" class="form-control" id="home" name="home" value="{% if user_details.address %}{{ user_details.address.home_address }}{% endif %}">
-                                
+                                <input type="text" class="form-control" id="home" name="home" oninput="validateHomeAddress()" value="{% if user_details.address %}{{ user_details.address.home_address }}{% endif %}">
+                                <div id="home-address-error" style="color: red;"></div>
+
                                 <label for="city">City</label>
-                                <input type="text" class="form-control" id="city" name="city" value="{% if user_details.address %}{{ user_details.address.city }}{% endif %}">
+                                <input type="text" class="form-control" id="city" name="city" oninput="validateCity()" value="{% if user_details.address %}{{ user_details.address.city }}{% endif %}">
+                                <div id="city-error" style="color: red;"></div>
+
                                 
                                 <label for="zip">Zip Code</label>
-                                <input type="text" class="form-control" id="zip" name="zip" value="{% if user_details.address %}{{ user_details.address.pincode }}{% endif %}">
+                                <input type="text" class="form-control" id="zip" name="zip" oninput="validateZipCode()" value="{% if user_details.address %}{{ user_details.address.pincode }}{% endif %}">
+                                <div id="zip-error" style="color: red;"></div>
+                                
                                 
                                 <button type="submit" class="btn btn-primary" id="updateButton">Update</button>
                             </form>
@@ -479,8 +489,147 @@ body {
 <script type="text/javascript">
 	
 </script>
+<script>
+const fullNameInput = document.getElementById("full-name");
+const fullNameError = document.getElementById("full-name-error");
+const submitButton = document.getElementById("submit-button"); // Assuming you have a submit button
 
+function validateFullName() {
+    const fullName = fullNameInput.value;
 
+    if (fullName.startsWith(" ")) {
+        fullNameError.textContent = "Full name cannot start with spaces.";
+        submitButton.disabled = true;
+    } else if (!/^[A-Za-z][A-Za-z\s]*$/.test(fullName)) {
+        fullNameError.textContent = "Full name must start with a letter and can only contain letters and spaces.";
+        submitButton.disabled = true;
+    } else {
+        fullNameError.textContent = "";
+        submitButton.disabled = false;
+    }
+}
+</script>
+<script>
+const emailInput = document.getElementById("eMail");
 
+function validateEmailRealTime() {
+    const email = emailInput.value.trim();
+    const errorElement = document.getElementById("email-error");
+
+    // Check for the specific email address "a@a.com"
+    if (email === "a@a.com") {
+        errorElement.textContent = "Invalid email address.";
+        return;
+    }
+
+    // Updated regular expression pattern for general email validation
+    const emailPattern = /^[a-zA-Z][a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+    if (!emailPattern.test(email)) {
+        errorElement.textContent = "Invalid email format";
+    } else if (!/^[a-zA-Z0-9._%+-]+@(gmail|mca|ajce|yahoo|amaljyothi|ac)\.[a-z.]{2,}$/i.test(email)) {
+        errorElement.textContent = "Invalid email format";
+    } else if ((email.match(/\./g) || []).length > 3) {
+        errorElement.textContent = "Invalid email format";
+    } else if (email.length > 320) {
+        errorElement.textContent = "Invalid email format";
+    } else {
+        errorElement.textContent = "";
+    }
+}
+
+</script>
+<script>
+
+const phoneInput = document.getElementById("phone");
+
+function validatePhoneNumber() {
+    const phoneNumber = phoneInput.value.trim();
+    const phoneError = document.getElementById("phone-error");
+
+    // Validate the phone number using a regular expression
+    if (/^[6-9]\d{9}$/.test(phoneNumber) && !/0{7,9}/.test(phoneNumber)) {
+        // Check if no digit is repeated more than 5 times
+        const repeatedDigits = /(.)\1{4}/g;
+        if (repeatedDigits.test(phoneNumber)) {
+            phoneError.textContent = "Invalid Phone number";
+        } else {
+            phoneError.textContent = "";
+        }
+    } else {
+        phoneError.textContent = "Invalid Phone number";
+    }
+}
+</script>
+<script>
+const usernameInput = document.getElementById("username");
+
+function validateUsername() {
+    const username = usernameInput.value.trim();
+    const usernameError = document.getElementById("username-error");
+
+    // Validate the username using a regular expression
+    const usernamePattern = /^[a-zA-Z0-9]{3,}$/;
+
+    if (usernamePattern.test(username)) {
+        usernameError.textContent = "";
+    } else {
+        usernameError.textContent = "Invalid username. Should be only letters and numbers, and minimum 3 characters.";
+    }
+}
+</script>
+<script>
+    const homeInput = document.getElementById("home");
+
+function validateHomeAddress() {
+    const homeAddress = homeInput.value.trim();
+    const homeAddressError = document.getElementById("home-address-error");
+
+    // Validate the home address using a regular expression
+    const homeAddressPattern = /^[a-zA-Z0-9]{3,}$/;
+
+    if (homeAddressPattern.test(homeAddress)) {
+        homeAddressError.textContent = "";
+    } else {
+        homeAddressError.textContent = "Invalid home address. Should be at least 3 characters and can include letters and numbers.";
+    }
+}
+
+</script>
+<script>
+    const cityInput = document.getElementById("city");
+
+function validateCity() {
+    const city = cityInput.value.trim();
+    const cityError = document.getElementById("city-error");
+
+    // Validate the city using a regular expression
+    const cityPattern = /^[a-zA-Z]{4,}$/;
+
+    if (cityPattern.test(city)) {
+        cityError.textContent = "";
+    } else {
+        cityError.textContent = "Invalid city. Should only contain letters and must be at least 4 characters.";
+    }
+}
+
+</script>
+<script>
+const zipInput = document.getElementById("zip");
+
+function validateZipCode() {
+    const zipCode = zipInput.value.trim();
+    const zipError = document.getElementById("zip-error");
+
+    // Validate the zip code using a regular expression
+    const zipPattern = /^\d{6}$/;
+
+    if (zipPattern.test(zipCode)) {
+        zipError.textContent = "";
+    } else {
+        zipError.textContent = "Invalid zip code. Must be a number and contain exactly 6 digits.";
+    }
+}
+</script>
 </body>
 </html>
