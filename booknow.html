@@ -120,6 +120,7 @@ button:hover {
     background-color: #0056b3; /* Change the background color on hover */
 }
 
+
         </style>
         
     </head>
@@ -326,42 +327,33 @@ button:hover {
                         
                         
                         <div class="form-group">
-                            <label for="service_type" style="color: white;">Select Service Type:</label>
-                            <select id="service_type" name="service_type" class="form-control" required onchange="showLaptopBrandField()">
-                                <option value="Select">Select</option>
-                                <option value="Laptop">Laptop Service</option>
-                                <option value="Desktop">Desktop Service</option>
+                            <label for="deviceType" style="color: white;">Select Device Type:</label>
+                            <select id="deviceType" name="deviceType" class="form-control" required onchange="showLaptopBrandField()">
+                                <option value="" selected disabled hidden>Select your Device Type</option>
+                                <option value="laptop">Laptop</option>
+                                <option value="desktop">Desktop</option>
                             </select>
                         </div>
                         
-                        <div class="form-group" id="laptop_brand_field" style="display: none;">
-                            <label for="laptop_brand" style="color: white;">Laptop Brand:</label>
-                            <select id="laptop_brand" name="laptop_brand" class="form-control">
+                        <div>
+                            <label for="brand" style='color:white;'>Laptop Brand:</label>
+                            <select id="brand" name="brand" class="form-control">
                                 {% for brand_value, brand_label in laptop_brand_choices %}
                                     <option value="{{ brand_value }}">{{ brand_label }}</option>
                                 {% endfor %}
-                                <option value="Other">Other</option>
                             </select>
                         </div>
-                    
-                        <div class="form-group" id="laptop-model-field" style="display: none;">
-                            <label for="laptop_model" style="color: white;">Laptop Model:</label>
-                            <input type="text" id="laptop_model" name="laptop_model" class="form-control" required>
+                        <div class="form-group">
+                            <label style="color: white;">Select Service(s):</label>
+                            {% for service in services %}
+                                <div class="form-check">
+                                    <input type="checkbox" id="service_{{ service.id }}" name="selected_services" value="{{ service.id }}" class="service-checkbox" data-cost="{{ service.price }}">
+                                    <label for="service_{{ service.id }}" style="color: white;">{{ service.name }} - ${{ service.price }}</label>
+                                </div>
+                            {% endfor %}
                         </div>
                         
-
-                      <div class="form-group">
-                            <label for="service" style="color: white;">Select Service(s):</label>
-                            <div class="service-list-box">
-                                {% for service in services %}
-                                    <div>
-                                        <input type="checkbox" id="{{ service.name }}" name="selected_services" value="{{ service.name }}" class="service-checkbox" data-cost="{{ service.price }}">
-                                        <label for="{{ service.name }}" style="color: black;">{{ service.name }} - ${{ service.price }}</label>
-                                    </div>
-                                {% endfor %}
-                            </div>
-                        
-                        </div>
+                       <!--
                         <div class="form-group">
                             <span style="color: white;">Choose mode of service :</span><br><br>
                             <label style="display: inline; color: white;">
@@ -375,41 +367,26 @@ button:hover {
                         <div class="form-group">
                             <label for="onsite-service-charge" style="color: white;">On-Site Service Charge:</label>
                             <input type="text" id="onsite-service-charge" name="onsite_service_charge" class="form-control" disabled>
+                        </div>-->
+                        <div class="form-group">
+                            <label for="total-service-cost" style="color:white;">Total Service Cost:</label>
+                            <input type="text" id="total-service-cost" name="total_service_cost" readonly>
+                        </div>
+        
+                        <div class="form-group">
+                            <label for="preferredDate" style="color:white;">Preferred Date:</label>
+                            <input type="date" class="form-control" id="preferredDate" name="preferredDate" required min="{{ today }}" onkeydown="return false">
                         </div>
                         
-                        <div class="form-group">
-                            <label for="total_service_cost" style="color: white;">Total Service Cost:</label>
-                            <input type="text" id="total-service-cost" name="total_service_cost" class="form-control" disabled>
-                        </div>
-                        <div class="form-group">
-                            <input type="date" class="form-control" name="from_date" placeholder="From Date" required id="from-date" min="{{ today }}" onkeydown="return false">
-                        </div>
                         
 
                         <div class="form-group">
-                            <label for="selected_slot" style="color: white;">Select Time Slot:</label>
-                            <select class="form-control" name="selected_slot" required>
-        <option value="7 AM TO 8 AM">7 AM TO 8 AM</option>
-        <option value="8 AM TO 9 PM">8 AM TO 9 PM</option>
-        <option value="9 AM TO 10 AM">9 AM TO 10 AM</option>
-        <option value="11 AM TO 12 PM">11 AM TO 12 PM</option>
-        <option value="12 PM TO 1 PM">12 PM TO 1 PM</option>
-        <option value="1 PM TO 2 PM">1 PM TO 2 PM</option>
-        <option value="2 PM TO 3 PM">2 PM TO 3 PM</option>
-        <option value="3 PM TO 4 PM">3 PM TO 4 PM</option>
-        <option value="4 PM TO 5 PM">4 PM TO 5 PM</option>
-        <option value="5 PM TO 6 PM">5 PM TO 6 PM</option>
-        <option value="6 PM TO 7 PM">6 PM TO 7 PM</option>
-        <option value="7 PM TO 8 PM">7 PM TO 8 PM</option>
-        <option value="8 PM TO 9 PM">8 PM TO 9 PM</option>
-        <option value="9 PM TO 10 PM">9 PM TO 10 PM</option>
-        <option value="10 PM TO 11 PM<">10 PM TO 11 PM</option>
-        <option value="11 PM TO 12 PM">11 PM TO 12 PM</option>
-    </select>
+                            <label for="preferredTime" style="color:white;">Preferred Time:</label>
+                            <input type="time" id="preferredTime" name="preferredTime" required>
 </div>
-                       
-<center> <button onclick="redirectToBookingConfirmation()">Proceed to Confirmation</button> </center>
-
+<center>
+<input type="submit" class="btn btn-lg btn-primary mt-3 px-4" value="Submit">
+</center>
 </form>
 
                 </div>
@@ -532,25 +509,6 @@ button:hover {
     <script src="{% static '/js/script.js' %}"></script>
    
 
-<!--
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            var bookingLink = document.querySelector('.js-scroll-trigger[href="#login-required"]');
-            var loginRequiredMessage = document.querySelector('.login-required-message');
-            var okButton = document.querySelector('.ok-button');
-        
-            bookingLink.addEventListener("click", function(event) {
-                event.preventDefault(); // Prevent the default link behavior
-                loginRequiredMessage.style.display = "flex"; // Show the message
-            });
-            
-            okButton.addEventListener("click", function() {
-                loginRequiredMessage.style.display = "none"; // Hide the message when OK is clicked
-            });
-        });
-    </script>-->
-    
-    
     <script>
         function showLaptopBrandField() {
             var serviceType = document.getElementById("service_type").value;
@@ -591,50 +549,34 @@ button:hover {
     
 </script>
 <script>
-    // Function to calculate the total service cost and on-site service charge
+    document.addEventListener('DOMContentLoaded', function () {
+        // Add event listeners for checkbox clicks
+        const serviceCheckboxes = document.querySelectorAll('.service-checkbox');
+        serviceCheckboxes.forEach(function (checkbox) {
+            checkbox.addEventListener('change', calculateTotalCost);
+        });
+    
+        // Calculate the initial total cost
+        calculateTotalCost();
+    });
+    
     function calculateTotalCost() {
         const serviceCheckboxes = document.querySelectorAll('.service-checkbox');
         let totalCost = 0;
-        let onsiteCharge = 0;
-
+    
         serviceCheckboxes.forEach(function (checkbox) {
             if (checkbox.checked) {
-                totalCost += parseInt(checkbox.getAttribute('data-cost'));
+                totalCost += parseFloat(checkbox.getAttribute('data-cost'));
             }
         });
-
-        // Check if On-Site Service is selected and add a home service charge
-        const homeServiceRadio = document.getElementById('homeService');
-        if (homeServiceRadio.checked) {
-            // Add your home service charge to the total cost
-            const homeServiceCharge = 30; // Change this value based on your actual home service charge
-            totalCost += homeServiceCharge;
-            onsiteCharge = homeServiceCharge;
-        }
-
+    
         // Update the Total Service Cost field
         const totalServiceCostField = document.getElementById('total-service-cost');
-        totalServiceCostField.value = totalCost;
-
-        // Update the On-Site Service Charge field
-        const onsiteServiceChargeField = document.getElementById('onsite-service-charge');
-        onsiteServiceChargeField.value = onsiteCharge;
+        if (totalServiceCostField) {
+            totalServiceCostField.value = totalCost.toFixed(2); // Format to two decimal places
+        }
     }
-
-    // Add event listeners to the checkboxes and service mode radio buttons
-    const serviceCheckboxes = document.querySelectorAll('.service-checkbox');
-    serviceCheckboxes.forEach(function (checkbox) {
-        checkbox.addEventListener('change', calculateTotalCost);
-    });
-
-    const serviceModeRadios = document.querySelectorAll('input[name="serviceMode"]');
-    serviceModeRadios.forEach(function (radio) {
-        radio.addEventListener('change', calculateTotalCost);
-    });
-
-    // Initial calculation when the page loads
-    document.addEventListener('DOMContentLoaded', calculateTotalCost);
-</script>
+    </script>
 
 
 <script>
