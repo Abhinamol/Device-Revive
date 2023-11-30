@@ -46,19 +46,23 @@ class Technician(models.Model):
         return self.username
 
 
-class Appointment(models.Model):
-    user_details = models.ForeignKey(Userdetails, on_delete=models.CASCADE)
-    address = models.ForeignKey(Address, on_delete=models.CASCADE)
+class Booking(models.Model):
+    device_type_choices = [
+        ('laptop', 'Laptop'),
+        ('desktop', 'Desktop'),
+    ]
 
-    service_type = models.CharField(max_length=20, choices=[('Laptop', 'Laptop Service'), ('Desktop', 'Desktop Service')])
-    laptop_brand = models.CharField(max_length=20, blank=False, null=False)
-    laptop_model = models.CharField(max_length=50,blank=False, null=False )
-    selected_services = models.CharField(max_length=255,blank=False, null=False )
-    service_mode = models.CharField(max_length=20, choices=[('OnSite', 'On-Site Service'), ('ServiceCenter', 'Service Center')])
-    onsite_service_charge = models.DecimalField(max_digits=10, decimal_places=2,blank=False, null=False )
-    total_service_cost = models.DecimalField(max_digits=10, decimal_places=2,blank=False, null=False)
-    from_date = models.DateField()
-    selected_slot = models.CharField(max_length=20)
+    device_type = models.CharField(max_length=7, choices=device_type_choices)
+    brand = models.CharField(max_length=50, null=True, blank=True)
+    model = models.CharField(max_length=50, null=True, blank=True)
+    preferred_date = models.DateField(null=False, blank=False)
+    preferred_time = models.TimeField(null=False, blank=False)
+    selected_services = models.ManyToManyField(Service, blank=True)
+    total_service_cost = models.DecimalField(max_digits=10, decimal_places=2)
+
+
+    def __str__(self):
+        return f"{self.device_type} - {self.brand} - {self.model}"
 
 
 

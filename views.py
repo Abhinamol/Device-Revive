@@ -14,14 +14,15 @@ from django.core.mail import send_mail
 from django.utils.crypto import get_random_string
 from django.shortcuts import get_object_or_404
 from .forms import ServiceForm
-from .models import Service
+from .models import Service, LaptopBrand
 from .models import Technician
 from django.contrib.auth.hashers import check_password 
 from django.views.decorators.csrf import csrf_exempt
 from django.core.mail import send_mail
 from django.urls import reverse
-from .models import Appointment
+from .models import Booking
 import datetime
+
 
 
 
@@ -510,93 +511,62 @@ def staff_update(request):
 
 
 
-
-LAPTOP_BRAND_CHOICES = [
-    ('Acer', 'Acer'),
-    ('Asus', 'Asus'),
-    ('Dell', 'Dell'),
-    ('HP', 'HP'),
-    ('Lenovo', 'Lenovo'),
-    ('Other', 'Other'),
-]
-
-
-
 @never_cache
 @login_required
 def booknow(request):
-    user_details, created = Userdetails.objects.get_or_create(username=request.user.username, defaults={'user': request.user})
-
-
-    context = {
-        'user_details': user_details,
-    }
+    total_cost = 0
 
     if request.method == 'POST':
-        full_name = request.POST.get('full_name')
-        email = request.POST.get('email')
-        phone_number = request.POST.get('phone_number')
-        address_choice = request.POST.get('address_choice')
+        # Extract form data from the request
+        device_type = request.POST.get('deviceType')
+        brand = request.POST.get('brand')
+        model = request.POST.get('model')
+        preferred_date = request.POST.get('preferredDate')
+        preferred_time = request.POST.get('preferredTime')
+        selected_services = request.POST.getlist('selected_services')
+        total_cost = sum(float(service.price) for service in Service.objects.filter(id__in=selected_services))
 
-        if address_choice == 'current-address':
-           
-            # Getting users address
-            address = request.user.address
 
-        else:
-            new_home_address = request.POST.get('new_home_address')
-            new_city = request.POST.get('new_city')
-            new_pincode = request.POST.get('new_pincode')
-            address, created = Address.objects.get_or_create(
-                home_address=new_home_address,
-                city=new_city,
-                pincode=new_pincode,
-            )
-            address.save()
-        user_details, created = Userdetails.objects.get_or_create(
-            user=request.user,
-            full_name=full_name,
-            email=email,
-            phone=phone_number,
-            address=address,
-        )
-
-        service_type = request.POST.get('service_type')
-        laptop_brand = request.POST.get('laptop_brand')
-        laptop_model = request.POST.get('laptop_model')
-        selected_services = request.POST.get('selected_services')
-        service_mode = request.POST.get('serviceMode')
-        onsite_service_charge = request.POST.get('onsite-service-charge')
-        total_service_cost = request.POST.get('total-service-cost')
-        from_date = request.POST.get('from_date')
-        selected_slot = request.POST.get('selected_slot')
-
-        appointment = Appointment.objects.create(
-            user_details=user_details,
-            address=address,
-            service_type=service_type,
-            laptop_brand=laptop_brand,
-            laptop_model=laptop_model,
-            selected_services=selected_services,
-            service_mode=service_mode,
-            onsite_service_charge=onsite_service_charge,
-            total_service_cost=total_service_cost,
-            from_date=from_date,
-            selected_slot=selected_slot,
-        )
+        # Calculate total service cost
+        services = Service.objects.all()
         
-        context.update({
-            'appointment': appointment,
-            'address': address,
-            'user_details': user_details,
-        })
-        appointment.save()
-        messages.success(request, 'Appointment created successfully!')
 
-        return render(request, 'bookingconfirmation.html', context)
-    else:
-        return render(request, 'booknow.html', context)
+        # Create a new Booking instance after calculating the total_cost
+        booking_instance = Booking(
+            device_type=device_type,
+            brand=brand,
+            model=model,
+            preferred_date=preferred_date,
+            preferred_time=preferred_time,
+            total_service_cost=total_cost,
+        )
+        booking_instance.save()
 
+        # Add selected services to the ManyToManyField
+        booking_instance.selected_services.set(selected_services)
+
+        return redirect('bookingconfirmation')  # Redirect to a success page
+
+    # Provide choices for laptop brands
+    laptop_brand_choices = [
+        ('Acer', 'Acer'),
+        ('Asus', 'Asus'),
+        ('Dell', 'Dell'),
+        ('HP', 'HP'),
+        ('Lenovo', 'Lenovo'),
+        ('Other', 'Other'),
+    ]
+
+    # Retrieve services from the Service model
+    services = Service.objects.all()
+
+    context = {
+        'laptop_brand_choices': laptop_brand_choices,
+        'services': services,
+        'total_cost': total_cost,  # Include total_cost in the context
+    }
+
+    return render(request, 'booknow.html', context)
 
 
 @csrf_exempt
