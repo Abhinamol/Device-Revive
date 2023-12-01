@@ -229,7 +229,18 @@ def desktop(request):
    
 @login_required(login_url='login')
 def bookingconfirmation(request):
-    return render(request,'bookingconfirmation.html')
+    
+    
+    booking = Booking.objects.latest('id')
+
+    # Pass the relevant details to the template
+    context = {
+        'selected_services': booking.selected_services.all(),
+        'total_cost': booking.total_service_cost,
+        'selected_date': booking.preferred_date,
+        'selected_time': booking.preferred_time,
+    }
+    return render(request, 'bookingconfirmation.html', context)
 
 
 @never_cache
@@ -559,11 +570,15 @@ def booknow(request):
 
     # Retrieve services from the Service model
     services = Service.objects.all()
+    user_details = Userdetails.objects.get(username=request.user.username)
+
 
     context = {
+        'user_details': user_details,
         'laptop_brand_choices': laptop_brand_choices,
         'services': services,
-        'total_cost': total_cost,  # Include total_cost in the context
+        'total_cost': total_cost,
+          # Include total_cost in the context
     }
 
     return render(request, 'booknow.html', context)

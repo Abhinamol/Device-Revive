@@ -51,6 +51,7 @@ class Booking(models.Model):
         ('laptop', 'Laptop'),
         ('desktop', 'Desktop'),
     ]
+    userdetails =  models.OneToOneField(Userdetails, on_delete=models.CASCADE, null=True, blank=True)
 
     device_type = models.CharField(max_length=7, choices=device_type_choices)
     brand = models.CharField(max_length=50, null=True, blank=True)
