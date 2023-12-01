@@ -282,7 +282,7 @@ button:hover {
                         {% csrf_token %}
             
                         <div class="form-group">
-                            <input type="text" name="full_name" class="form-control border-0 p-4" placeholder="Name" value="{{ user_details.full_name }}" required="required" oninput="validateName(this)" disabled/>
+                            <input type="text" name="full_name" class="form-control border-0 p-4" placeholder="Name" value="{{  user_details.full_name }}" required="required" oninput="validateName(this)" disabled/>
                             <span id="name-error" class="error-message"></span>
                         </div>
                     
