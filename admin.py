@@ -7,4 +7,5 @@ from . import models
 # Register your models here
 
 admin.site.register(models.Userdetails)
+admin.site.register(models.Booking)
 

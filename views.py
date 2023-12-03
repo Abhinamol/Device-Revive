@@ -20,17 +20,26 @@ from django.contrib.auth.hashers import check_password
 from django.views.decorators.csrf import csrf_exempt
 from django.core.mail import send_mail
 from django.urls import reverse
-from .models import Booking
+from .models import Booking,Payment
 import datetime
-
-
+from django.db import IntegrityError, transaction
+from django.http import Http404
+from .models import Review 
+from django.contrib.auth import get_user_model
+from django.http import HttpResponseForbidden
+from .models import Review
+from .razorpay import generate_order
+from django.http import HttpResponse
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
 
 
 
 #create your views here
 @never_cache
 def index(request):
-    return render(request,'index.html')
+    reviews = Review.objects.all()  # Fetch all reviews
+    return render(request, 'index.html', {'reviews': reviews})
 
 
 
@@ -53,12 +62,12 @@ def loginn(request):
             try:
                 technician = Technician.objects.get(username=username)
                 if technician.password == password:
-                    return redirect("staff_profile")  # Redirect to staff_profile for Technicians
+                    return redirect("staff_update")  # Redirect to staff_profile for Technicians
             except Technician.DoesNotExist:
                 pass  # No Technician with this username
 
             
-            return redirect('myprofile')
+            return redirect('userprofile')
         else:
             messages.error(request, 'Invalid username or password')
             return redirect('login')
@@ -179,22 +188,22 @@ def myprofile(request):
     return render(request, 'myprofile.html', context)
 
 @never_cache
-@login_required(login_url='/login/')
+@login_required(login_url='login')
 def staff_profile(request):
     # Get the current user
     user = request.user
 
     if request.method == 'POST':
-        # Update the Technician model details
-        technician = Technician.objects.get(username=user.username)
-        technician.full_name = request.POST.get('fullName')
-        technician.email = request.POST.get('eMail')
-        technician.phone_number = request.POST.get('phone')
-        technician.website = request.POST.get('website')
-        technician.street = request.POST.get('Street')
-        technician.city = request.POST.get('ciTy')
-        technician.state = request.POST.get('sTate')
-        technician.zip_code = request.POST.get('zIp')
+        # Update or create the Technician model details
+        technician, created = Technician.objects.get_or_create(username=user.username)
+
+        technician.full_name = request.POST.get('fullName', "")
+        technician.email = request.POST.get('eMail', "")
+        technician.phone_number = request.POST.get('phone', "")
+        technician.street = request.POST.get('Street', "")
+        technician.city = request.POST.get('ciTy', "")
+        technician.state = request.POST.get('sTate', "")
+        technician.zip_code = request.POST.get('zIp', "")
         technician.save()
 
         # Redirect to the profile page after updating
@@ -204,7 +213,6 @@ def staff_profile(request):
     technician_details = Technician.objects.get(username=user.username)
 
     return render(request, 'staff_profile.html', {'technician_details': technician_details})
-
 
 @never_cache
 @login_required(login_url='login')
@@ -223,6 +231,12 @@ def booking(request):
 @login_required(login_url='login')
 def desktop(request):
     return render(request,'desktop.html')
+
+@never_cache
+@login_required(login_url='login')
+def staff_services(request):
+    services = Service.objects.all()
+    return render(request, 'staff_services.html', {'services': services})
 
 
  
@@ -275,7 +289,7 @@ def delete_user(request, user_id):
     return HttpResponse('User deleted successfully')
 
 @never_cache
-@login_required
+@login_required(login_url='login')
 def servicedetails(request):
     services = Service.objects.all()
     return render(request, 'servicedetails.html', {'services': services})
@@ -284,7 +298,7 @@ def servicedetails(request):
 
 
 @never_cache
-@login_required
+@login_required(login_url='login')
 def add_service(request):
     if request.method == 'POST':
         form = ServiceForm(request.POST)
@@ -491,18 +505,16 @@ def check_username_availability(request):
 
 
 @never_cache
-@login_required()
+@login_required
 def staff_update(request):
-    technicians = Technician.objects.all()
-
     # Try to get the associated Technician object or create a new one
     technician, created = Technician.objects.get_or_create(user=request.user)
 
     if request.method == "POST":
-        technician.full_name = request.POST["full_name"]
-        technician.email = request.POST["email"]
-        technician.phone_number = request.POST["phone"]
-        technician.username = request.POST["username"]
+        technician.full_name = request.POST.get("full_name", "")
+        technician.email = request.POST.get("email", "")
+        technician.phone_number = request.POST.get("phone", "")
+        technician.username = request.POST.get("username", "")
         technician.save()
 
         if not technician.address:
@@ -510,20 +522,21 @@ def staff_update(request):
         else:
             address = technician.address
 
-        address.home_address = request.POST["home"]
-        address.city = request.POST["city"]
-        address.pincode = request.POST["zip"]
+        address.home_address = request.POST.get("home", "")
+        address.city = request.POST.get("city", "")
+        address.pincode = request.POST.get("zip", "")
         address.save()
 
         # Update technician.address with the newly created or existing Address object
         technician.address = address
+        technician.save()
 
-    return render(request, "staff_update.html", {'technicians': technicians, 'addressid': technician.address.id if technician.address else None})
-
+    return render(request, "staff_update.html", {'technician': technician})
 
 
 @never_cache
-@login_required
+   
+@login_required(login_url='login')
 def booknow(request):
     total_cost = 0
 
@@ -537,24 +550,38 @@ def booknow(request):
         selected_services = request.POST.getlist('selected_services')
         total_cost = sum(float(service.price) for service in Service.objects.filter(id__in=selected_services))
 
+        # Retrieve the Userdetails instance for the logged-in user
+        user_details = Userdetails.objects.get(username=request.user.username)
 
-        # Calculate total service cost
-        services = Service.objects.all()
-        
-
-        # Create a new Booking instance after calculating the total_cost
-        booking_instance = Booking(
-            device_type=device_type,
-            brand=brand,
-            model=model,
-            preferred_date=preferred_date,
-            preferred_time=preferred_time,
-            total_service_cost=total_cost,
-        )
-        booking_instance.save()
-
-        # Add selected services to the ManyToManyField
-        booking_instance.selected_services.set(selected_services)
+        # Check if a Booking instance already exists for the Userdetails
+        try:
+            with transaction.atomic():
+                booking_instance = Booking.objects.select_for_update().get(userdetails=user_details)
+                # If it exists, update the existing Booking instance
+                booking_instance.device_type = device_type
+                booking_instance.brand = brand
+                booking_instance.preferred_date = preferred_date
+                booking_instance.preferred_time = preferred_time
+                booking_instance.total_service_cost = total_cost
+                booking_instance.save()
+                # Update selected services in the ManyToManyField
+                booking_instance.selected_services.set(selected_services)
+        except Booking.DoesNotExist:
+            # If it doesn't exist, create a new Booking instance
+            booking_instance = Booking(
+                userdetails=user_details,
+                device_type=device_type,
+                brand=brand,
+                preferred_date=preferred_date,
+                preferred_time=preferred_time,
+                total_service_cost=total_cost,
+            )
+            booking_instance.save()
+            # Add selected services to the ManyToManyField
+            booking_instance.selected_services.set(selected_services)
+        except IntegrityError:
+            # Handle IntegrityError, for example, log an error or return an error response
+            pass
 
         return redirect('bookingconfirmation')  # Redirect to a success page
 
@@ -570,18 +597,20 @@ def booknow(request):
 
     # Retrieve services from the Service model
     services = Service.objects.all()
-    user_details = Userdetails.objects.get(username=request.user.username)
 
+    # Retrieve the Userdetails instance for the logged-in user
+    user_details = Userdetails.objects.get(username=request.user.username)
 
     context = {
         'user_details': user_details,
         'laptop_brand_choices': laptop_brand_choices,
         'services': services,
         'total_cost': total_cost,
-          # Include total_cost in the context
     }
 
     return render(request, 'booknow.html', context)
+
+
 
 
 @csrf_exempt
@@ -590,3 +619,176 @@ def check_service_name(request):
         service_name = request.GET.get('name', '')
         service_exists = Service.objects.filter(name__iexact=service_name).exists()
         return JsonResponse({'exists': service_exists})
+
+
+
+@never_cache
+@login_required(login_url='login')
+def booking_details(request):
+    if request.method == 'POST':
+        booking_id = request.POST.get('booking_id')
+        try:
+            booking = Booking.objects.get(pk=booking_id)
+            user_email = booking.userdetails.email
+
+            # Confirm the booking (you can implement your own logic here)
+
+            # Send confirmation email to the user
+            subject = 'Booking Confirmation'
+            message = 'Your booking is confirmed.'
+            html_message = render_to_string('booking_confirmation_email.html', {'booking': booking})
+            plain_message = strip_tags(html_message)
+
+            send_mail(subject, plain_message, 'your_email@example.com', [user_email], html_message=html_message)
+
+            return redirect('booking_details')
+        except Booking.DoesNotExist:
+            return HttpResponse("Booking not found.")
+    
+    # Retrieve all booking instances with related Userdetails
+    bookings = Booking.objects.select_related('userdetails').all()
+
+    context = {'bookings': bookings}
+    return render(request, 'booking_details.html', context)
+
+@login_required(login_url='login')
+def confirm_booking(request):
+    if request.method == 'POST':
+        booking_id = request.POST.get('booking_id')
+        try:
+            booking = Booking.objects.get(pk=booking_id)
+
+            # Confirm the booking (you can implement your own logic here)
+
+            # Update the is_verified field
+            booking.is_verified = True
+            booking.save()
+
+            # Send confirmation email to the user
+            subject = 'Booking Confirmation'
+            message = 'Your booking is confirmed.'
+            html_message = render_to_string('booking_confirmation_email.html', {'booking': booking})
+            plain_message = strip_tags(html_message)
+
+            send_mail(subject, plain_message, 'your_email@example.com', [booking.userdetails.email], html_message=html_message)
+
+            return redirect('booking_details')
+        except Booking.DoesNotExist:
+            return JsonResponse({'error': 'Booking not found.'}, status=400)
+    else:
+        return JsonResponse({'error': 'Invalid request method.'}, status=400)
+
+
+@login_required(login_url='login')
+def Review_rate(request):
+    if request.method == 'POST':
+        comment = request.POST.get('comment')
+        rating = request.POST.get('rating')
+
+        # Get the user instance
+        try:
+            user = get_user_model().objects.get(pk=request.user.pk)
+        except get_user_model().DoesNotExist:
+            # Handle the case where the user does not exist
+            return HttpResponseForbidden("User not found")
+
+        # Create a new review
+        review = Review(user=user, comment=comment, rating=rating)
+        review.save()
+
+        messages.success(request, 'Review submitted successfully!')
+        return redirect('userprofile')
+    else:
+        return HttpResponseForbidden("Invalid request method")
+
+@login_required
+def payment(request, booking_id):
+    booking = get_object_or_404(Booking, id=booking_id)
+
+    if booking.payment_set.exists():
+        messages.error(request, "Payment for this appointment is already complete.")
+        return redirect("index")
+
+    try:
+        order_id = generate_order(booking.total_service_cost)
+        if order_id:
+            booking.razorpay_order_id = order_id
+            booking.save()
+
+            # Get the actual payment ID from Razorpay API response
+            # IMPORTANT: Replace "get_this_from_razorpay_response" with the actual payment ID from Razorpay.
+            actual_payment_id = "razorpay_payment_id"  # Replace with the actual payment ID
+
+            # Now, you can set the razorpay_payment_id for the booking
+            booking.razorpay_payment_id = actual_payment_id
+            booking.save()
+
+            context = {
+                "booking": booking,
+                "razorpay_key_id": settings.RAZORPAY_KEY_ID,
+                "order_id": order_id,
+                "callback_url": request.build_absolute_uri(reverse('verify_payment')),
+            }
+            return render(request, "verify_payment.html", context)
+        else:
+            messages.error(request, "Error generating order.")
+            return redirect("index")
+
+    except Exception as e:
+        messages.error(request, f"Error generating order: {str(e)}")
+        return redirect("booknow", booking_id=booking_id)
+
+
+
+
+@csrf_exempt
+def verify_payment(request):
+    if request.method == "POST":
+        raw_data = request.body.decode('utf-8')
+        print(f"Raw Request Body: {raw_data}")
+
+        try:
+            data = json.loads(raw_data)
+            order_id = data.get("razorpay_order_id")
+            payment_id = data.get("razorpay_payment_id")
+            signature = data.get("razorpay_signature")
+        except json.JSONDecodeError:
+            # If JSON decoding fails, treat it as form-encoded data
+            data = request.POST
+            order_id = data.get("razorpay_order_id")
+            payment_id = data.get("razorpay_payment_id")
+            signature = data.get("razorpay_signature")
+
+        if not order_id or not payment_id or not signature:
+            messages.error(request, "Invalid request.")
+            return redirect("index")
+
+        try:
+            booking = Booking.objects.get(razorpay_order_id=order_id)
+
+            # Save Payment instance
+            payment = Payment.objects.create(
+                user=booking.user,
+                booking=booking,
+                amount=booking.total_service_cost,
+                status=True,
+                razorpay_payment_id=payment_id,
+                razorpay_signature=signature,
+            )
+
+            print(f"Payment saved: {payment}")
+
+            # Perform any additional actions here if needed
+
+            # Render a response (you can customize this based on your needs)
+            return render(request, "payment_success.html", {"payment": payment})
+
+        except Booking.DoesNotExist:
+            messages.error(request, "Booking not found.")
+            return HttpResponse(status=404)
+        
+        except Exception as e:
+            messages.error(request, f"Error processing payment: {str(e)}")
+            return HttpResponse(status=500)
+
+    return HttpResponse("Invalid request method.")
