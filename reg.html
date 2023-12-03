@@ -712,35 +712,7 @@
     }
     
 
-    function validateUsername() {
-        const username = usernameInput.value.trim();
-        if (username.length < 3) {
-            usernameError.textContent = "Username must be at least 3 characters.";
-        } else if (!/^[a-zA-Z][a-zA-Z0-9]*$/.test(username)) {
-            usernameError.textContent = "Username must start with a letter and can only contain letters and numbers.";
-        } else {
-            // Send an AJAX request to check username availability
-            const xhr = new XMLHttpRequest();
-            xhr.onreadystatechange = function () {
-                if (xhr.readyState === 4) {
-                    if (xhr.status === 200) {
-                        const response = JSON.parse(xhr.responseText);
-                        if (response.available) {
-                            usernameError.textContent = "";
-                        } else {
-                            usernameError.textContent = "This username already exists.";
-                        }
-                    } else {
-                        console.error("Error checking username availability");
-                    }
-                }
-            };
-    
-            xhr.open("GET", `/check_username_availability/?username=${username}`, true); // Replace with your actual URL
-            xhr.send();
-        }
-    }
-    
+
     
     
     function validateEmailRealTime() {

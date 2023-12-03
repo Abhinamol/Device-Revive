@@ -10,3 +10,11 @@
     {% endfor %}
 </div>
 {% endif %}
+<!-- Add this block of code to display the success message -->
+{% if messages %}
+  {% for message in messages %}
+    <div class="alert alert-success" role="alert">
+      {{ message }}
+    </div>
+  {% endfor %}
+{% endif %}

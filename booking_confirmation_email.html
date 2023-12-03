@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Confirmation</title>
+</head>
+<body style="font-family: Arial, sans-serif;">
+
+    <table style="width: 100%; max-width: 600px; margin: auto; border-collapse: collapse;">
+        <tr>
+            <td style="background-color: #007ae1; padding: 20px; text-align: center; color: white;">
+                <h2>Booking Confirmation</h2>
+            </td>
+        </tr>
+        <tr>
+            <td style="padding: 20px;">
+                <p>Dear {{ booking.userdetails.full_name }},</p>
+                <p>Your booking has been confirmed. Below are the details:</p>
+
+                <table style="width: 100%;">
+                    <tr>
+                        <td><strong>User:</strong></td>
+                        <td>{{ booking.userdetails.full_name }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Email:</strong></td>
+                        <td>{{ booking.userdetails.email }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Selected Services:</strong></td>
+                        <td>
+                            {% for service in booking.selected_services.all %}
+                                {{ service.name }}{% if not forloop.last %}, {% endif %}
+                            {% endfor %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>Date:</strong></td>
+                        <td>{{ booking.preferred_date }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Preferred Time:</strong></td>
+                        <td>{{ booking.preferred_time }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Total Cost:</strong></td>
+                        <td>{{ booking.total_service_cost }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Payment Status:</strong></td>
+                        <td>Payment Done</td>
+                    </tr>
+                </table>
+
+                <p>Thank you for choosing our services. We look forward to serving you!</p>
+
+                <p>Best regards,<br>
+                Device Revive</p>
+            </td>
+        </tr>
+        <tr>
+            <td style="background-color: #f5f5f5; padding: 10px; text-align: center;">
+                <p>&copy; 2023 Device Revive. All rights reserved.</p>
+            </td>
+        </tr>
+    </table>
+
+</body>
+</html>

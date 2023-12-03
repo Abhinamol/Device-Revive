@@ -92,7 +92,15 @@
     background-color: #25554e; /* Blue background color */
     color: #fff; /* Text color */
 }
+.rating .star.selected-yellow {
+    color: #f8d400;
+}
 
+/* Add this to style the stars with a yellow background when hovered */
+.rating .star.hover {
+    color:#f8d400;
+    background-color: transparent;
+}
 
        
    
@@ -232,51 +240,59 @@
                             <div class="carousel-inner">
                                 <div class="carousel-item active">
                                     <h1>Device Revive</h1>
-                                    <h4>MY PROFILE</h4>
-                                    
-                                </div>
-                                
-
-    <!-- Profile information here -->
-
-    <div class="row mt-4">
-        <!-- My Booking Container -->
-        <div class="col-md-4">
-            <div class="profile-option">
-                <h2>My Booking</h2>
-                <!-- Display user booking information here -->
-                <!-- You can customize the content as needed -->
-            </div>
-        </div>
-
-        <!-- Payment Status Container -->
-        <div class="col-md-4">
-            <div class="profile-option">
-                <h2>Payment Status</h2>
-                <!-- Display payment status information here -->
-                <!-- You can customize the content as needed -->
-            </div>
-        </div>
-
-        <!-- Update Profile Container -->
-        <div class="col-md-4">
-            <div class="profile-option">
-                <h2>Update Profile</h2>
-                <!-- Display user profile update form or information here -->
-                <!-- You can customize the content as needed -->
-            </div>
-        </div>
-    </div>
-</div>
-                                
+                                </div>                      
                             </div>
                             
                         </div>
                     </div>
                 </div>
             </div>
-    
-
+    <br><br>
+    <center>
+    <div class="container">
+        <h2 class="text-center mb-5 wow fadeInUp">Leave a Review</h2>
+      <!-- Add the appoinment ID to the form -->
+      <form class="review-form" method="POST" action="review/">
+        {% csrf_token %}
+        <input type="hidden" name="appoinment_id" value="{{ appoinment.id }}">
+        
+        <div class="form-group">
+          <label for="user_review">Your Review:</label>
+          <textarea class="form-control" id="comment" name="comment" rows="4" placeholder="Write your review here..."></textarea>
+        </div>
+      
+        <div class="form-group">
+          <label for="user_rating">Your Rating:</label>
+          <div class="rating" id="rating" name="rating">
+            <span class="star" data-value="5">&#9733;</span>
+            <span class="star" data-value="4">&#9733;</span>
+            <span class="star" data-value="3">&#9733;</span>
+            <span class="star" data-value="2">&#9733;</span>
+            <span class="star" data-value="1">&#9733;</span>
+          </div>
+          <input type="hidden" name="rating" id="rating-value" value="">
+        </div>
+      
+        <button type="submit" class="btn btn-primary">Submit Review</button>
+      </form>
+      
+      <div class="existing-reviews">
+        {% for review in reviews %}
+          <div class="review">
+            <p>{{ review.comment }}</p>
+            <div class="rating">
+              {% for _ in "12345"|slice:review.rating %}
+                <span class="star selected">&#9733;</span>
+              {% endfor %}
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+      
+      </div>
+    </center>
+      <br>
+  
 
     <!--########################## Footer CSS ####################-->
     <footer>
@@ -377,13 +393,13 @@
                 </div>
     
             </div>
-        </body>
-        <script src="{% static '/js/jquery-3.2.1.min.js' %}"></script>
+            <script src="{% static '/js/jquery-3.2.1.min.js' %}"></script>
         <script src="{% static '/js/popper.min.js'%}"></script>
         <script src="{% static '/js/bootstrap.min.js'%}"></script>
         <script src="{% static '/plugins/scroll-fixed/jquery-scrolltofixed-min.js' %}"></script>
         <script src="{% static '/js/script.js' %}"></script>
-    
+        <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
         <script>
             document.addEventListener("DOMContentLoaded", function() {
                 var bookingLink = document.querySelector('.js-scroll-trigger[href="#login-required"]');
@@ -400,5 +416,26 @@
                 });
             });
         </script>
+        <script>
+            $(document).ready(function() {
+                $('.rating .star').on('click', function() {
+                    const value = $(this).data('value');
+                    const $hiddenInput = $('#rating-value');
+            
+                    // Toggle selection for the clicked star
+                    $(this).toggleClass('selected-yellow');
+            
+                    // Update the hidden input with the overall rating based on the number of selected stars
+                    const selectedStars = $('.rating .star.selected-yellow').length;
+                    $hiddenInput.val(selectedStars);
+                });
+            });
+            
+        </script>
+        
     
+    
+        </body>
+        
+        
     </html>

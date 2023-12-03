@@ -1,336 +1,582 @@
 {% load static %}
 <!DOCTYPE html>
+
 <html lang="en">
+
 <head>
-<meta charset="utf-8">
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible"
+		content="IE=edge">
+	<meta name="viewport"
+		content="width=device-width, 
+				initial-scale=2.0">
+	<title>Admin Dashboard</title>
+	<link rel="stylesheet"
+		href="style.css">
+	<link rel="stylesheet"
+		href="responsive.css">
+    <link rel="shortcut icon" href="{% static "images/fav.jpg" %}" rel="stylesheet"/>
+    <link rel="stylesheet" href="{% static "css/bootstrap.min.css" %}" rel="stylesheet"/>
+    <link rel="stylesheet" href="{% static "css/fontawsom-all.min.css" %}" rel="stylesheet"/>
+    <link rel="stylesheet" href="{% static "css/animate.css" %}" rel="stylesheet"/>
+    <link rel="stylesheet" type="text/css" href="{% static "/css/style.css"%}" rel="stylesheet"/>
+<style>
+            /* Main CSS Here */
+
+@import url(
+"https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
+<style>
+    /* Main CSS Here */
 
 
-<title>account setting or edit profile - Bootdey.com</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css" rel="stylesheet">
-
-<link rel="shortcut icon" href="{% static "images/fav.jpg" %}" rel="stylesheet"/>
-<link rel="stylesheet" href="{% static "css/bootstrap.min.css" %}" rel="stylesheet"/>
-<link rel="stylesheet" href="{% static "css/fontawsom-all.min.css" %}" rel="stylesheet"/>
-<link rel="stylesheet" href="{% static "css/animate.css" %}" rel="stylesheet"/>
-<link rel="stylesheet" type="text/css" href="{% static "/css/style.css"%}" rel="stylesheet"/>
-<style type="text/css">
-    	body {
-    margin: 0;
-    padding-top: 40px;
-    color: #2e323c;
-    background: #f5f6fa;
-    position: relative;
-    height: 100%;
+* {
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+font-family: "Poppins", sans-serif;
 }
-.account-settings .user-profile {
-    margin: 0 0 1rem 0;
-    padding-bottom: 1rem;
-    text-align: center;
+:root {
+--background-color1: #fafaff;
+--background-color2: #ffffff;
+--background-color3: #ededed;
+--background-color4: #cad7fda4;
+--primary-color: #3cdbd1;
+--secondary-color: #289a8b;
+--Border-color: #0e927c;
+--one-use-color: #0e9684;
+--two-use-color: #1dbda2;
 }
-.account-settings .user-profile .user-avatar {
-    margin: 0 0 1rem 0;
-}
-.account-settings .user-profile .user-avatar img {
-    width: 90px;
-    height: 90px;
-    -webkit-border-radius: 100px;
-    -moz-border-radius: 100px;
-    border-radius: 100px;
-}
-.account-settings .user-profile h5.user-name {
-    margin: 0 0 0.5rem 0;
-}
-.account-settings .user-profile h6.user-email {
-    margin: 0;
-    font-size: 0.8rem;
-    font-weight: 400;
-    color: #9fa8b9;
-}
-.account-settings .about {
-    margin: 2rem 0 0 0;
-    text-align: center;
-}
-.account-settings .about h5 {
-    margin: 0 0 15px 0;
-    color: #007ae1;
-}
-.account-settings .about p {
-    font-size: 0.825rem;
-}
-.form-control {
-    border: 1px solid #cfd1d8;
-    -webkit-border-radius: 2px;
-    -moz-border-radius: 2px;
-    border-radius: 2px;
-    font-size: .825rem;
-    background: #ffffff;
-    color: #2e323c;
-}
-
-.card {
-    background: #ffffff;
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    border-radius: 5px;
-    border: 0;
-    margin-bottom: 1rem;
-}
-
 body {
-    font-family: Arial, Helvetica, sans-serif;
-    background-color: #f2f2f2;
+background-color: #eaf7e3;
+max-width: 100%;
+overflow-x: hidden;
 }
 
-.login-container {
-    width: 300px;
-    margin: 0 auto;
-    padding: 10px;
-    background-color: black;
-    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent gray background color */
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    border-radius: 5px;
+header {
+height: 70px;
+width: 100vw;
+padding: 0 30px;
+background-color: var(--background-color1);
+position: fixed;
+z-index: 100;
+box-shadow: 1px 1px 15px rgba(161, 182, 253, 0.825);
+display: flex;
+justify-content: space-between;
+align-items: center;
 }
 
-.login-container h2 {
-    text-align: center;
+.logo {
+font-size: 27px;
+font-weight: 600;
+color: rgb(47, 141, 70);
 }
 
-.login-form {
-    display: flex;
-    flex-direction: column;
+.icn {
+height: 30px;
+}
+.menuicn {
+cursor: pointer;
 }
 
-.form-group {
-    margin-bottom: 15px;
+.searchbar,
+.message,
+.logosec {
+display: flex;
+align-items: center;
+justify-content: center;
 }
 
-.form-group label {
-    font-weight: bold;
+.searchbar2 {
+display: none;
 }
 
-.form-group input {
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 3px;
-    font-size: 16px;
+.logosec {
+gap: 60px;
 }
 
-.form-group input[type="submit"] {
-    background-color: black;
-    color: #fff;
-    cursor: pointer;
+.searchbar input {
+width: 250px;
+height: 42px;
+border-radius: 50px 0 0 50px;
+background-color: var(--background-color3);
+padding: 0 20px;
+font-size: 15px;
+outline: none;
+border: none;
+}
+.searchbtn {
+width: 50px;
+height: 42px;
+display: flex;
+align-items: center;
+justify-content: center;
+border-radius: 0px 50px 50px 0px;
+background-color: var(--secondary-color);
+cursor: pointer;
 }
 
-.form-group input[type="submit"]:hover {
-    background-color: #0056b3;
+.message {
+gap: 40px;
+position: relative;
+cursor: pointer;
 }
-.error-box {
-    background-color: #f8d7da;
-    border: 1px solid #f5c6cb;
-    color: #721c24;
-    padding: 10px;
-    margin-bottom: 10px;
+.circle {
+height: 7px;
+width: 7px;
+position: absolute;
+background-color: #fa7bb4;
+border-radius: 50%;
+left: 19px;
+top: 8px;
 }
-.banner-container {
-    background-image: url('{% static '/images/head_bg.jpg' %}');
-    background-size: cover;
-    background-position: center center;
-    background-repeat: no-repeat;
-    min-height: 100vh;
-   }
-   
-
-
-.header-container {
-    background-color: black; /* Set the background color to black */
+.dp {
+height: 40px;
+width: 40px;
+background-color: #626262;
+border-radius: 50%;
+display: flex;
+align-items: center;
+justify-content: center;
+overflow: hidden;
 }
-
-.header-container {
-    background-color: rgba(0, 0, 0, 0.5); /* Set the background color to black with 80% opacity */
+.main-container {
+display: flex;
+width: 100vw;
+position: relative;
+top: 70px;
+z-index: 1;
 }
-
-
-/* login required */
-
-.login-required-message {
-   display: none;
-   justify-content: center;
-   align-items: center;
-   position: fixed;
-   top: 0;
-   left: 0;
-   width: 100%;
-   height: 100%;
-   background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
-   z-index: 9999; /* Ensure it's above other elements */
+.dpicn {
+height: 42px;
 }
 
-.login-required-box {
-   background-color: #fff; /* White background for the box */
-   padding: 20px;
-   border-radius: 5px;
-   text-align: center;
+.main {
+height: calc(100vh - 70px);
+width: 100%;
+overflow-y: scroll;
+overflow-x: hidden;
+padding: 40px 30px 30px 30px;
 }
 
-.login-required-message p {
-   margin: 0;
+.main::-webkit-scrollbar-thumb {
+background-image: 
+    linear-gradient(to bottom, rgb(49, 133, 126), rgb(9, 68, 54));
+}
+.main::-webkit-scrollbar {
+width: 5px;
+}
+.main::-webkit-scrollbar-track {
+background-color: #9e9e9eb2;
 }
 
-.ok-button {
-   background-color: #2a5945;
-   color: #fff;
-   padding: 10px 20px;
-   border-radius: 5px;
-   cursor: pointer;
+.box-container {
+display: flex;
+justify-content: space-evenly;
+align-items: center;
+flex-wrap: wrap;
+gap: 50px;
+}
+.nav {
+min-height: 91vh;
+width: 250px;
+background-color: var(--background-color2);
+position: absolute;
+top: 0px;
+left: 00;
+box-shadow: 1px 1px 10px rgba(198, 189, 248, 0.825);
+display: flex;
+flex-direction: column;
+justify-content: space-between;
+overflow: hidden;
+padding: 30px 0 20px 10px;
+}
+.navcontainer {
+height: calc(100vh - 70px);
+width: 350px;
+position: relative;
+overflow-y: scroll;
+overflow-x: hidden;
+transition: all 0.5s ease-in-out;
+}
+.navcontainer::-webkit-scrollbar {
+display: none;
+}
+.navclose {
+width: 80px;
+}
+.nav-option {
+width: 250px;
+height: 60px;
+display: flex;
+align-items: center;
+padding: 0 30px 0 20px;
+gap: 20px;
+transition: all 0.1s ease-in-out;
+}
+.nav-option:hover {
+border-left: 5px solid #a2a2a2;
+background-color: #dadada;
+cursor: pointer;
+}
+.nav-img {
+height: 30px;
 }
 
-/* Style for user icon */
-    .user-icon {
-        width: 45px;
-        height: 45px;
-        margin-right: 10px;
-        border-radius: 50%;
+.nav-upper-options {
+display: flex;
+flex-direction: column;
+align-items: center;
+gap: 30px;
+}
+
+.option1 {
+border-left: 5px solid #4fd5c8af;
+background-color: var(--Border-color);
+color: white;
+cursor: pointer;
+}
+.option1:hover {
+border-left: 5px solid #40d0a0af;
+background-color: var(--Border-color);
+}
+.box {
+height: 130px;
+width: 230px;
+border-radius: 20px;
+box-shadow: 3px 3px 10px rgba(90, 238, 194, 0.751);
+padding: 20px;
+display: flex;
+align-items: center;
+justify-content: space-around;
+cursor: pointer;
+transition: transform 0.3s ease-in-out;
+}
+.box:hover {
+transform: scale(1.08);
+}
+
+.box:nth-child(1) {
+background-color: var(--one-use-color);
+}
+.box:nth-child(2) {
+background-color: var(--two-use-color);
+}
+.box:nth-child(3) {
+background-color: var(--one-use-color);
+}
+.box:nth-child(4) {
+background-color: var(--two-use-color);
+}
+
+.box img {
+height: 50px;
+}
+.box .text {
+color: white;
+}
+.topic {
+font-size: 13px;
+font-weight: 400;
+letter-spacing: 1px;
+}
+
+.topic-heading {
+font-size: 30px;
+letter-spacing: 3px;
+}
+
+.report-container {
+min-height: 300px;
+max-width: 1200px;
+margin: 70px auto 0px auto;
+background-color: #ffffff;
+border-radius: 30px;
+box-shadow: 3px 3px 10px rgb(188, 188, 188);
+padding: 0px 20px 20px 20px;
+}
+.report-header {
+height: 80px;
+width: 100%;
+display: flex;
+align-items: center;
+justify-content: space-between;
+padding: 20px 20px 10px 20px;
+border-bottom: 2px solid rgba(86, 220, 202, 0.59);
+}
+
+.recent-Articles {
+font-size: 30px;
+font-weight: 600;
+color: #197b72;
+}
+
+.view {
+height: 35px;
+width: 90px;
+border-radius: 8px;
+background-color: #268d81;
+color: white;
+font-size: 15px;
+border: none;
+cursor: pointer;
+}
+
+.report-body {
+max-width: 1160px;
+overflow-x: auto;
+padding: 20px;
+}
+.report-topic-heading,
+.item1 {
+width: 1120px;
+display: flex;
+justify-content: space-between;
+align-items: center;
+}
+.t-op {
+font-size: 18px;
+letter-spacing: 0px;
+}
+
+.items {
+width: 1120px;
+margin-top: 15px;
+}
+
+.item1 {
+margin-top: 20px;
+}
+.t-op-nextlvl {
+font-size: 14px;
+letter-spacing: 0px;
+font-weight: 600;
+}
+
+.label-tag {
+width: 100px;
+text-align: center;
+background-color: rgb(0, 177, 0);
+color: white;
+border-radius: 4px;
+}
+.container {
+max-width: 1000px;
+margin: 20px auto;
+padding: 20px;
+background-color: #fff;
+border-radius: 5px;
+box-shadow: 0 0 10px rgba(65, 117, 109, 0.1);
+}
+
+table {
+width: 100%;
+border-collapse: collapse;
+margin-top: 20px;
+background-color: #fff;
+border-radius: 10px;
+box-shadow: 0 0 10px rgba(65, 117, 109, 0.1);
+}
+
+/* Style the table header */
+th {
+background-color: #0c3e3e;
+color: #fff;
+font-weight: bold;
+padding: 10px;
+text-align: left;
+}
+
+/* Style the table rows */
+tr {
+transition: background-color 0.3s;
+}
+
+tr:nth-child(even) {
+background-color: #f2f2f2;
+}
+
+/* Style the table cells (columns) */
+th, td {
+padding: 10px;
+border-bottom: 1px solid #ddd;
+text-align: left;
+}
+
+/* Extend the Action header cell */
+th.action-header {
+width: 100px;
+}
+
+/* Style the action buttons in the table */
+.btn-edit, .btn-delete {
+padding: 5px 9px;
+margin-right: 5px;
+border: none;
+border-radius: 3px;
+cursor: pointer;
+font-size: 12px;
+color: #fff;
+transition: background-color 0.3s;
+}
+
+.btn-edit {
+background-color: #76c676;
+}
+
+.btn-delete {
+background-color: #f44336;
+}
+
+.btn-edit:hover {
+background-color: #5aaf5a;
+}
+
+.btn-delete:hover {
+background-color: #d63737;
+}
+
+    /* Style for user icon */
+        .user-icon {
+            width: 45px;
+            height: 45px;
+            margin-right: 10px;
+            border-radius: 50%;
+        }
+
+        /* Style for the user profile dropdown menu */
+        .dropdown-menu {
+            background-color: #333;
+            color: #fff;
+        }
+
+        .dropdown-item {
+            color: #fff;
+        }
+        .dropdown .btn-secondary {
+        background-color: #25554e; /* Blue background color */
+        color: #fff; /* Text color */
     }
 
-    /* Style for the user profile dropdown menu */
-    .dropdown-menu {
-        background-color: #333;
-        color: #fff;
+    /* Style for the "Active" button */
+    .btn-delete {
+        padding: 5px 10px;
+        margin-right: 5px;
+        border: none;
+        border-radius: 3px;
+        cursor: pointer;
+        font-size: 14px;
+        background-color: #4caf50; /* Green color */
+        color: #fff; /* Text color */
     }
-
-    .dropdown-item {
-        color: #fff;
+    
+    /* Style for the "Inactive" button */
+    .btn-inactive {
+        padding: 5px 10px;
+        margin-right: 5px;
+        border: none;
+        border-radius: 3px;
+        cursor: pointer;
+        font-size: 14px;
+        background-color: #f44336; /* Red color */
+        color: #fff; /* Text color */
     }
-    .dropdown .btn-secondary {
-    background-color: #25554e; /* Blue background color */
-    color: #fff; /* Text color */
-}
-  </style>
-</head>
-<body>
+    </style>
+    </head>
+    
+    <body>
+    
+        <!-- for header part -->
+        <header>
+    
+            <div class="logosec">
+                <div class="logo">DEVICE REVIVE</div>
+                
+            </div>
+    
+            <div class="message">
+                
+                <div class="dropdown">
 
-    <div class="header-container">
-        <div class="header-top">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-7 col-md-12 left-item">
-                        <ul>
-                            <li>
-                                <i class="fas fa-envelope-square"></i>
-                                devicerevive@gmail.com
-                                </li>
-                            <li class="d-none d-sm-block">
-                                <i class="fas fa-phone-square"></i>
-                                9567854321
-                                </li>
-                        </ul>
-                    </div>
-                    <div class="col-lg-5 d-none d-lg-block right-item">
-                        <ul>
-                            <li>
-                                <a>
-                                    <i class="fab fa-github" style="color: white;"></i>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="">
-                                    <i class="fab fa-linkedin-in" style="color: white;"></i>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="">
-                                    <i class="fab fa-pinterest-p" style="color: white;"></i>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="">
-                                    <i class="fab fa-twitter" style="color: white;"></i>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="">
-                                    <i class="fab fa-facebook-f" style="color: white;"></i>
-                                </a>
-                            </li>
-                        </ul>
+                    <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="userProfileDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <img src="{% static '/images/admin.jpg' %}" alt="User Icon" class="user-icon">
+                        {{ user.username }}
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="userProfileDropdown">
+                        
+                        <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
                     </div>
                 </div>
+    
+        </header>
+    
+        <div class="main-container">
+            <div class="navcontainer">
+                <nav class="nav">
+                    <div class="nav-upper-options">
+                        <div class="nav-option option1">
+                            <img src=
+    >
+                            <h3>Staff Page</h3>
+                        </div>
+    
+                        
+                        <div>
 
-            </div>
-        </div>
+                        <a href="{% url 'staff_services' %}">
+                        <div class="nav-option option5">
+                            <img src=
+    "https://media.geeksforgeeks.org/wp-content/uploads/20221210183323/10.png"
+                                class="nav-img"
+                                alt="blog">
+                            <h3> Services</h3>
+                        </div>
+                    <br>
 
-        <div class="login-required-message">
-            <div class="login-required-box">
-                <p>Login Required</p>
-                <button class="ok-button">OK</button>
-            </div>
-        </div>
-
-
-        <nav id="menu-jk" class="container-fluid  no-padding">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-1 col-sm-1 logo">
-                        <img class="log" src="{% static '/images/mylogo.png' %}"  alt="">
-                        <img class="log-gray" src="" alt="">
-                        <a data-toggle="collapse" data-target="#nav-head" href="#nav-head">
-                            <i class="fas d-block d-md-none small-menu fa-bars"></i>
-                        </a>
+                    <a href="{% url 'booking_details' %}">
+                    <div class="nav-option option3">
+                        <img src=
+"https://media.geeksforgeeks.org/wp-content/uploads/20221210183320/5.png"
+                            class="nav-img"
+                            alt="report">
+                        <h3> Booking Requests</h3>
                     </div>
-                    <div id="nav-head" class="col-md-9 nav-div d-none d-md-block">
-                        <ul>
-                            <li>
-                                <a class="js-scroll-trigger" href="index">HOME</a>
-                            </li>
-                            
-                          
-                            
-                            <li>
-                                <a class="js-scroll-trigger" href="about">ABOUT COMPANY</a>
-                            </li>
-                            <li class="yc">
-                                <a class="js-scroll-trigger" href="why">WHY CHOOSE US</a>
-                            </li>
-                            <li>
-                                <a class="js-scroll-trigger" href="{% if user.is_authenticated %}{% url 'booking' %}{% else %}#login-required{% endif %}">
-                                    BOOKING
-                                </a>
-                            
-
-                            <li>
-                                <a class="js-scroll-trigger" href="contact">CONTACT US</a>
-                            </li>
-                            <li>
-                                <div class="dropdown">
-                                    <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="adminDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        {% if user.is_authenticated %}
-                                            <img src="{% static '/images/admin.jpg' %}" alt="Admin Icon" class="user-icon">
-                                            {{ user.username }}
-                                        {% else %}
-                                            Login/Sign Up
-                                        {% endif %}
-                                    </a>
-                                    <div class="dropdown-menu" aria-labelledby="adminDropdown">
-                                        {% if user.is_authenticated %}
-                                            <a class="dropdown-item" href="myprofile">Profile</a>
-                                            <a class="dropdown-item" href="logout">Logout</a>
-                                        {% else %}
-                                            <a class="dropdown-item" href="login">Login</a>
-                                            <a class="dropdown-item" href="signup">Sign Up</a>
-                                        {% endif %}
-                                    </div>
-                                </div>
-                                
-                            </li>
-                        </ul>
+    <br><br>
+    
+                    </div>
+                </nav>
+            </div>
+            <div class="main">
+    
+                <div class="searchbar2">
+                    <input type="text"
+                        name=""
+                        id=""
+                        placeholder="Search">
+                    <div class="searchbtn">
+                    <img src=
+    "https://media.geeksforgeeks.org/wp-content/uploads/20221210180758/Untitled-design-(28).png"
+                            class="icn srchicn"
+                            alt="search-button">
                     </div>
                 </div>
-            </div>
-        </nav>
-    </div>
-    <br><br><br><br><br><br>
-
+    
+                <div class="box-container">
+                </div>
+    
+                <div class="report-container">
+                    <div class="report-header">
+                        <h1 class="recent-Articles">Personal Details</h1>
+                        
+                        
+                        <a></a>
+                    </div>
+                    <form method="post" action="{% url 'staff_update' %}">
+                        {% csrf_token %}
+    
+                    <div class="container">
+                        
+                       
 <div class="container">
     <div class="row gutters">
         <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12">
@@ -341,7 +587,7 @@ body {
                             <h6 class="mb-2 text-primary">Personal Details</h6>
                         </div>
                         <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                            <form method="post">
+                            <form method="post"action="{% url 'staff_update' %}">
                                 {% csrf_token %}
                                 
                                 <label for="full-name">Full Name</label>
@@ -381,253 +627,158 @@ body {
             </div>
         </div>
     </div>
-</div>
-<!--########################## Footer CSS ####################-->
-<footer>
-    <div class="container">
-        <div class="row">
-            <div class="col-md-3 about">
-                <h2>About Us</h2>
-                <p>At Device Revive, we are passionate about technology and dedicated to providing top-notch laptop and desktop services. With 20 years of experience in the industry, we have earned a reputation for excellence and reliability.
-                </p>
-
-                <div class="foot-address">
-                    <div class="icon">
-                        <i class="fas fa-map-marker-alt"></i>
-                    </div>
-                    <div class="addet">
-                        Kottayam
-                    </div>
-                </div>
-                <div class="foot-address">
-                    <div class="icon">
-                        <i class="far fa-envelope-open"></i>
-                    </div>
-                    <div class="addet">
-                        devicerevive.com
-                        <br>
-                        devicerevive@gmail.com
-                    </div>
-                </div>
-                <div class="foot-address">
-                    <div class="icon">
-                        <i class="fas fa-mobile-alt"></i>
-                    </div>
-                    <div class="addet">
-                        9567854321
-                        <br>
-                        8078046110
-                    </div>
-                </div>
-            </div>
-            
-            <div class="col-md-3 glink">
-                <ul>
-                    <li>
-                        <a href="index">
-                            <i class="fas fa-angle-double-right"></i>Home</a>
-                    </li>
-                    <li>
-                        <a href="about">
-                            <i class="fas fa-angle-double-right"></i>About Us</a>
-                    </li>
-                    <li>
-                        <a href="services">
-                            <i class="fas fa-angle-double-right"></i>Services</a>
-                    </li>
-                    
-                    
-                    <li>
-                        <a href="contact">
-                            <i class="fas fa-angle-double-right"></i>Contact Us</a>
-                    </li>
-                </ul>
-            </div>
-            <div class="col-md-3 tags">
-                <h2>Our Services</h2>
-                <ul>
-                    <li>Desktop Service</li>
-                    <li>Laptop Service</li>
-                    <li>Data Recovery</li>
-                    <li>Software Installation</li>
-                    <li>Motherboard Service</li>
-                    <li>Computer Networking</li>
-                    
-                </ul>
-            </div>
         </div>
-    </div>
-</footer>
-<div class="copy">
-    <div class="container">
-        <a href=""></a>
-
-        <span>
-            <a>
-                <i class="fab fa-github"></i>
-            </a>
-            <a >
-                <i class="fab fa-google-plus-g"></i>
-            </a>
-            <a href="">
-                <i class="fab fa-pinterest-p"></i>
-            </a>
-            <a href="">
-                <i class="fab fa-twitter"></i>
-            </a>
-            <a href="">
-                <i class="fab fa-facebook-f"></i>
-            </a>
-        </span>
-    </div>
-
-</div>
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.bundle.min.js"></script>
-<script type="text/javascript">
-	
-</script>
-<script>
-const fullNameInput = document.getElementById("full-name");
-const fullNameError = document.getElementById("full-name-error");
-const submitButton = document.getElementById("submit-button"); // Assuming you have a submit button
-
-function validateFullName() {
-    const fullName = fullNameInput.value;
-
-    if (fullName.startsWith(" ")) {
-        fullNameError.textContent = "Full name cannot start with spaces.";
-        submitButton.disabled = true;
-    } else if (!/^[A-Za-z][A-Za-z\s]*$/.test(fullName)) {
-        fullNameError.textContent = "Full name must start with a letter and can only contain letters and spaces.";
-        submitButton.disabled = true;
-    } else {
-        fullNameError.textContent = "";
-        submitButton.disabled = false;
-    }
-}
-</script>
-<script>
-const emailInput = document.getElementById("eMail");
-
-function validateEmailRealTime() {
-    const email = emailInput.value.trim();
-    const errorElement = document.getElementById("email-error");
-
-    // Check for the specific email address "a@a.com"
-    if (email === "a@a.com") {
-        errorElement.textContent = "Invalid email address.";
-        return;
-    }
-
-    // Updated regular expression pattern for general email validation
-    const emailPattern = /^[a-zA-Z][a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-
-    if (!emailPattern.test(email)) {
-        errorElement.textContent = "Invalid email format";
-    } else if (!/^[a-zA-Z0-9._%+-]+@(gmail|mca|ajce|yahoo|amaljyothi|ac)\.[a-z.]{2,}$/i.test(email)) {
-        errorElement.textContent = "Invalid email format";
-    } else if ((email.match(/\./g) || []).length > 3) {
-        errorElement.textContent = "Invalid email format";
-    } else if (email.length > 320) {
-        errorElement.textContent = "Invalid email format";
-    } else {
-        errorElement.textContent = "";
-    }
-}
-
-</script>
-<script>
-
-const phoneInput = document.getElementById("phone");
-
-function validatePhoneNumber() {
-    const phoneNumber = phoneInput.value.trim();
-    const phoneError = document.getElementById("phone-error");
-
-    // Validate the phone number using a regular expression
-    if (/^[6-9]\d{9}$/.test(phoneNumber) && !/0{7,9}/.test(phoneNumber)) {
-        // Check if no digit is repeated more than 5 times
-        const repeatedDigits = /(.)\1{4}/g;
-        if (repeatedDigits.test(phoneNumber)) {
-            phoneError.textContent = "Invalid Phone number";
-        } else {
-            phoneError.textContent = "";
+    
+        <script src="./index.js"></script>
+        <script src="{% static '/js/jquery-3.2.1.min.js' %}"></script>
+    <script src="{% static '/js/popper.min.js' %}"></script>
+    <script src="{% static '/js/bootstrap.min.js' %}"></script>
+    <script src="{% static '/plugins/scroll-fixed/jquery-scrolltofixed-min.js' %}"></script>
+    <script src="{% static '/js/script.js' %}"></script>
+    <script>
+        const fullNameInput = document.getElementById("full-name");
+        const fullNameError = document.getElementById("full-name-error");
+        const submitButton = document.getElementById("submit-button"); // Assuming you have a submit button
+        
+        function validateFullName() {
+            const fullName = fullNameInput.value;
+        
+            if (fullName.startsWith(" ")) {
+                fullNameError.textContent = "Full name cannot start with spaces.";
+                submitButton.disabled = true;
+            } else if (!/^[A-Za-z][A-Za-z\s]*$/.test(fullName)) {
+                fullNameError.textContent = "Full name must start with a letter and can only contain letters and spaces.";
+                submitButton.disabled = true;
+            } else {
+                fullNameError.textContent = "";
+                submitButton.disabled = false;
+            }
         }
-    } else {
-        phoneError.textContent = "Invalid Phone number";
-    }
-}
-</script>
-<script>
-const usernameInput = document.getElementById("username");
+        </script>
+        <script>
+        const emailInput = document.getElementById("eMail");
+        
+        function validateEmailRealTime() {
+            const email = emailInput.value.trim();
+            const errorElement = document.getElementById("email-error");
+        
+            // Check for the specific email address "a@a.com"
+            if (email === "a@a.com") {
+                errorElement.textContent = "Invalid email address.";
+                return;
+            }
+        
+            // Updated regular expression pattern for general email validation
+            const emailPattern = /^[a-zA-Z][a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        
+            if (!emailPattern.test(email)) {
+                errorElement.textContent = "Invalid email format";
+            } else if (!/^[a-zA-Z0-9._%+-]+@(gmail|mca|ajce|yahoo|amaljyothi|ac)\.[a-z.]{2,}$/i.test(email)) {
+                errorElement.textContent = "Invalid email format";
+            } else if ((email.match(/\./g) || []).length > 3) {
+                errorElement.textContent = "Invalid email format";
+            } else if (email.length > 320) {
+                errorElement.textContent = "Invalid email format";
+            } else {
+                errorElement.textContent = "";
+            }
+        }
+        
+        </script>
+        <script>
+        
+        const phoneInput = document.getElementById("phone");
+        
+        function validatePhoneNumber() {
+            const phoneNumber = phoneInput.value.trim();
+            const phoneError = document.getElementById("phone-error");
+        
+            // Validate the phone number using a regular expression
+            if (/^[6-9]\d{9}$/.test(phoneNumber) && !/0{7,9}/.test(phoneNumber)) {
+                // Check if no digit is repeated more than 5 times
+                const repeatedDigits = /(.)\1{4}/g;
+                if (repeatedDigits.test(phoneNumber)) {
+                    phoneError.textContent = "Invalid Phone number";
+                } else {
+                    phoneError.textContent = "";
+                }
+            } else {
+                phoneError.textContent = "Invalid Phone number";
+            }
+        }
+        </script>
+        <script>
+        const usernameInput = document.getElementById("username");
+        
+        function validateUsername() {
+            const username = usernameInput.value.trim();
+            const usernameError = document.getElementById("username-error");
+        
+            // Validate the username using a regular expression
+            const usernamePattern = /^[a-zA-Z0-9]{3,}$/;
+        
+            if (usernamePattern.test(username)) {
+                usernameError.textContent = "";
+            } else {
+                usernameError.textContent = "Invalid username. Should be only letters and numbers, and minimum 3 characters.";
+            }
+        }
+        </script>
+        <script>
+            const homeInput = document.getElementById("home");
+        
+            function validateHomeAddress() {
+                const homeAddress = homeInput.value.trim();
+                const homeAddressError = document.getElementById("home-address-error");
+            
+                // Validate the home address using a regular expression
+                // Allow letters, numbers, and spaces, but disallow commas
+                const homeAddressPattern = /^[a-zA-Z0-9\s]+$/;
+            
+                if (homeAddressPattern.test(homeAddress)) {
+                    homeAddressError.textContent = "";
+                } else {
+                    homeAddressError.textContent = "Invalid home address. Should be at least 3 characters and can include letters, numbers, and spaces.";
+                }
+            }
+            
+        
+        </script>
+        <script>
+            const cityInput = document.getElementById("city");
+        
+        function validateCity() {
+            const city = cityInput.value.trim();
+            const cityError = document.getElementById("city-error");
+        
+            // Validate the city using a regular expression
+            const cityPattern = /^[a-zA-Z]{4,}$/;
+        
+            if (cityPattern.test(city)) {
+                cityError.textContent = "";
+            } else {
+                cityError.textContent = "Invalid city. Should only contain letters and must be at least 4 characters.";
+            }
+        }
+        
+        </script>
+        <script>
+        const zipInput = document.getElementById("zip");
+        
+        function validateZipCode() {
+            const zipCode = zipInput.value.trim();
+            const zipError = document.getElementById("zip-error");
+        
+            // Validate the zip code using a regular expression
+            const zipPattern = /^\d{6}$/;
+        
+            if (zipPattern.test(zipCode)) {
+                zipError.textContent = "";
+            } else {
+                zipError.textContent = "Invalid zip code. Must be a number and contain exactly 6 digits.";
+            }
+        }
+        </script>
 
-function validateUsername() {
-    const username = usernameInput.value.trim();
-    const usernameError = document.getElementById("username-error");
-
-    // Validate the username using a regular expression
-    const usernamePattern = /^[a-zA-Z0-9]{3,}$/;
-
-    if (usernamePattern.test(username)) {
-        usernameError.textContent = "";
-    } else {
-        usernameError.textContent = "Invalid username. Should be only letters and numbers, and minimum 3 characters.";
-    }
-}
-</script>
-<script>
-    const homeInput = document.getElementById("home");
-
-function validateHomeAddress() {
-    const homeAddress = homeInput.value.trim();
-    const homeAddressError = document.getElementById("home-address-error");
-
-    // Validate the home address using a regular expression
-    const homeAddressPattern = /^[a-zA-Z0-9]{3,}$/;
-
-    if (homeAddressPattern.test(homeAddress)) {
-        homeAddressError.textContent = "";
-    } else {
-        homeAddressError.textContent = "Invalid home address. Should be at least 3 characters and can include letters and numbers.";
-    }
-}
-
-</script>
-<script>
-    const cityInput = document.getElementById("city");
-
-function validateCity() {
-    const city = cityInput.value.trim();
-    const cityError = document.getElementById("city-error");
-
-    // Validate the city using a regular expression
-    const cityPattern = /^[a-zA-Z]{4,}$/;
-
-    if (cityPattern.test(city)) {
-        cityError.textContent = "";
-    } else {
-        cityError.textContent = "Invalid city. Should only contain letters and must be at least 4 characters.";
-    }
-}
-
-</script>
-<script>
-const zipInput = document.getElementById("zip");
-
-function validateZipCode() {
-    const zipCode = zipInput.value.trim();
-    const zipError = document.getElementById("zip-error");
-
-    // Validate the zip code using a regular expression
-    const zipPattern = /^\d{6}$/;
-
-    if (zipPattern.test(zipCode)) {
-        zipError.textContent = "";
-    } else {
-        zipError.textContent = "Invalid zip code. Must be a number and contain exactly 6 digits.";
-    }
-}
-</script>
-</body>
-</html>
+    </body>
+    </html>

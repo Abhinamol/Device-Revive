@@ -415,7 +415,10 @@ button {
                        
                             
                             <br><br>
-                            <button id="confirmBookingButton" onclick="confirmBooking()">Confirm Booking</button>
+                            <button id="paymentButton" onclick="proceedToPayment()">Proceed to Payment</button>
+                            {% csrf_token %}
+
+
                         </div>
                     </div>
                     <br>
@@ -470,5 +473,42 @@ button {
         alert("Booking confirmed!"); // Replace this with your actual confirmation process
     }
 </script> 
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var app = {
+            proceedToPayment: function () {
+                // Convert the total_cost to paise
+                var amount = parseFloat("{{ total_cost }}") * 100;
+                
+                var options = {
+                    "key": "rzp_test_M6dbYT1aGAl9FR",
+                    "amount": amount,
+                    "currency": "INR",
+                    "name": "Laptop/Desktop service center website",
+                    "description": "Service Booking",
+                    "order_id": "{{ order_id }}",
+                    "callback_url": "{{ callback_url }}",
+                    "prefill": {
+                        "name": "CUSTOMER_NAME",
+                        "email": "CUSTOMER_EMAIL",
+                        "contact": "CUSTOMER_PHONE_NUMBER"
+                    },
+                };
+
+                var rzp1 = new Razorpay(options);
+                rzp1.open();
+            }
+        };
+
+        // You can trigger the payment function when needed, for example on a button click
+        var paymentButton = document.getElementById('paymentButton'); // Update the ID if needed
+        paymentButton.addEventListener('click', function () {
+            app.proceedToPayment();
+        });
+    });
+</script>
+
+
 </body>
 </html>
