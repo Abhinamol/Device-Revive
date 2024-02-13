@@ -10,20 +10,16 @@
 	<meta name="viewport"
 		content="width=device-width, 
 				initial-scale=2.0">
-	<title>Edit_Product</title>
+	<title>Admin Dashboard</title>
 	<link rel="stylesheet"
 		href="style.css">
 	<link rel="stylesheet"
 		href="responsive.css">
-        <link rel="stylesheet" href="{% static 'style.css' %}">
-        <link rel="stylesheet" href="{% static 'responsive.css' %}">
-        <link rel="shortcut icon" href="{% static 'images/fav.jpg' %}" type="image/x-icon">
-        <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
-        <link rel="stylesheet" href="{% static 'css/fontawsom-all.min.css' %}">
-        <link rel="stylesheet" href="{% static 'css/animate.css' %}">
-        <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
-        
-        <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link rel="shortcut icon" href="{% static "images/fav.jpg" %}" rel="stylesheet"/>
+    <link rel="stylesheet" href="{% static "css/bootstrap.min.css" %}" rel="stylesheet"/>
+    <link rel="stylesheet" href="{% static "css/fontawsom-all.min.css" %}" rel="stylesheet"/>
+    <link rel="stylesheet" href="{% static "css/animate.css" %}" rel="stylesheet"/>
+    <link rel="stylesheet" type="text/css" href="{% static "/css/style.css"%}" rel="stylesheet"/>
 <style>
             /* Main CSS Here */
 
@@ -485,81 +481,7 @@ background-color: #d63737;
         background-color: #f44336; /* Red color */
         color: #fff; /* Text color */
     }
-    <style>
-        .form-container {
-            max-width: 600px;
-            margin: 0 auto;
-        }
-    
-        .form-group {
-            margin-bottom: 20px;
-        }
-    
-        label {
-            display: block;
-            font-weight: bold;
-        }
-    
-        input[type="text"],
-        input[type="number"],
-        input[type="checkbox"] {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 3px;
-            font-size: 16px;
-        }
-    
-        input[type="checkbox"] {
-            width: auto;
-        }
-    
-        .availability-checkbox label {
-            display: inline;
-        }
-    
-        .form-submit-button {
-            background-color: #007BFF;
-            color: #fff;
-            border: none;
-            border-radius: 3px;
-            padding: 10px 20px;
-            cursor: pointer;
-            font-size: 18px;
-            transition: background-color 0.3s;
-        }
-    
-        .form-submit-button:hover {
-            background-color: #0056b3;
-        }
-
-        .error-message {
-            color: red;
-            font-size: 14px;
-            margin-top: 5px;
-        }
-        /* CSS for Save Changes button */
-button[type="submit"] {
-    background-color: #4CAF50; /* Green color */
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 3px;
-    cursor: pointer;
-    font-size: 18px;
-    transition: background-color 0.3s;
-}
-
-button[type="submit"]:hover {
-    background-color: #45a049; /* Darker green color on hover */
-}
-
-     
-
-
-
     </style>
-   
     </head>
     
     <body>
@@ -569,38 +491,22 @@ button[type="submit"]:hover {
     
             <div class="logosec">
                 <div class="logo">DEVICE REVIVE</div>
-                <img src=
-    "https://media.geeksforgeeks.org/wp-content/uploads/20221210182541/Untitled-design-(30).png"
-                    class="icn menuicn"
-                    id="menuicn"
-                    alt="menu-icon">
-            </div>
-    
-            <div class="searchbar">
-                <input type="text"
-                    placeholder="Search">
-                <div class="searchbtn">
-                <img src="{% static '/images/search.jpg' %}" 
-    
-                        class="icn srchicn"
-                        alt="search-icon">
-                </div>
+                
             </div>
     
             <div class="message">
-                <div class="circle"></div>
-                <img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210183322/8.png" class="icn" alt="">
+                
                 <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" id="userProfileDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+
+                    <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="userProfileDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <img src="{% static '/images/admin.jpg' %}" alt="User Icon" class="user-icon">
                         {{ user.username }}
-                    </button>
+                    </a>
                     <div class="dropdown-menu" aria-labelledby="userProfileDropdown">
-                        <a class="dropdown-item" href="{% url 'dashboard' %}">Profile</a>
+                        
                         <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
                     </div>
                 </div>
-            </div>
     
         </header>
     
@@ -611,31 +517,13 @@ button[type="submit"]:hover {
                         <div class="nav-option option1">
                             <img src=
     >
-                            <h3> Dashboard</h3>
+                            <h3>Staff Page</h3>
                         </div>
     
-                        <a href="{% url 'userdetailss' %}">
-                            <div class="option2 nav-option">
-                                <img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210183322/9.png"
-                                    class="nav-img"
-                                    alt="">
-                                <h3> Registered Users</h3>
-                            </div>
-                        </a>
                         
-                        
-                        <a href="{% url 'staffs' %}">
-                        <div class="nav-option option4">
-                            <img src=
-    "https://media.geeksforgeeks.org/wp-content/uploads/20221210183321/6.png"
-                                class="nav-img"
-                                alt="institution">
-                            <h3> Staffs</h3>
-                        </div>
                         <div>
-                        </a>
 
-                        <a href="{% url 'servicedetails' %}">
+                        <a href="{% url 'staff_services' %}">
                         <div class="nav-option option5">
                             <img src=
     "https://media.geeksforgeeks.org/wp-content/uploads/20221210183323/10.png"
@@ -643,19 +531,9 @@ button[type="submit"]:hover {
                                 alt="blog">
                             <h3> Services</h3>
                         </div>
-                </a><br>
-                <a href="{% url 'product_details'%}">
-                    <div class="nav-option option5">
-                        <img src=
-"https://media.geeksforgeeks.org/wp-content/uploads/20221210183323/10.png"
-                            class="nav-img"
-                            alt="blog">
-                        <h3> Product</h3>
-                    </div>
-                </div>
-            </a>
+                    <br>
 
-                <a href="{% url 'admin_booking' %}">
+                    <a href="{% url 'booking_details' %}">
                     <div class="nav-option option3">
                         <img src=
 "https://media.geeksforgeeks.org/wp-content/uploads/20221210183320/5.png"
@@ -663,9 +541,7 @@ button[type="submit"]:hover {
                             alt="report">
                         <h3> Booking Requests</h3>
                     </div>
-                </a>
-               
-                        
+    <br><br>
     
                     </div>
                 </nav>
@@ -686,132 +562,92 @@ button[type="submit"]:hover {
                 </div>
     
                 <div class="box-container">
-    
-                    <div class="box box1">
-                        <div class="text">
-                            <h2 class="topic-heading">450</h2>
-                            <h2 class="topic">Registered Users</h2>
-                        </div>
-    
-                        <img src="">
-                    </div>
-    
-                    <div class="box box2">
-                        <div class="text">
-                            <h2 class="topic-heading">150</h2>
-                            <h2 class="topic">Reviews</h2>
-                        </div>
-    
-                        <img src=
-    >
-                    </div>
-    
-                    <div class="box box3">
-                        <div class="text">
-                            <h2 class="topic-heading">4.9</h2>
-                            <h2 class="topic">Ratings</h2>
-                        </div>
-    
-                        <img src=
-    >
-                    </div>
-    
-                    <div class="box box4">
-                        <div class="text">
-                            <h2 class="topic-heading">14</h2>
-                            <h2 class="topic">Certified Technicians</h2>
-                        </div>
-    
-                        <img src=
-    >
-                    </div>
                 </div>
-                <div class="report-container form-container">
+    
+                <div class="report-container">
                     <div class="report-header">
-                        <h3>Edit Product Details</h3>
+                        <h1 class="recent-Articles">Personal Details</h1>
+                        <a></a>
                     </div>
-                    <div class="report-body">
-                        <form method="post" action="{% url 'edit_product' product_id=product.id %}" enctype="multipart/form-data">
-                            {% csrf_token %}
-                            <div class="form-group">
-                                <label for="name">Product Name:</label>
-                                <input type="text" id="name" name="name" value="{{ product.name }}" required>
-                                <div id="name-error" class="error-message"></div>
-                            </div>
+                    <form method="post" action="{% url 'staff_profile' %}">
+                        {% csrf_token %}
     
+                    <div class="container">
+                        
+                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                             <div class="form-group">
-                                <label for="brand">Brand:</label>
-                                <input type="text" id="brand" name="brand" value="{{ product.brand }}" required>
-                                <div id="brand-error" class="error-message"></div>
+                                <label for="fullName">Full Name</label>
+                                <input type="text" class="form-control" id="fullName" name="fullName" value="{{ technician_details.full_name }}"disabled>
                             </div>
-    
+                        </div>
+                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                        <div class="form-group">
+                        <label for="eMail">Email</label>
+                        <input type="email" class="form-control" id="eMail" name="email"value="{{ technician_details.email}}"  disabled>
+                        </div>
+                        </div>
+                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                        <div class="form-group">
+                        <label for="phone">Phone</label>
+                        <input type="text" class="form-control" id="phone" name="phone_number" value="{{ technician_details.phone_number}}" disabled>
+                        </div>
+                        </div>
+                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                             <div class="form-group">
-                                <label for="model">Model:</label>
-                                <input type="text" id="model" name="model" value="{{ product.model }}" required>
-                                <div id="model-error" class="error-message"></div>
+                                <label for="fullName">Username</label>
+                                <input type="text" class="form-control" id="userName" name="userName" value="{{ technician_details.username }}" disabled>
                             </div>
-    
-                            <div class="form-group">
-                                <label for="description">Description:</label>
-                                <textarea id="description" name="description" rows="4" required>{{ product.description }}</textarea>
-                                <div id="description-error" class="error-message"></div>
-                            </div>
-    
-                            <div class="form-group">
-                                <label for="condition">Condition:</label>
-                                <select id="condition" name="condition" required>
-                                    <option value="new" {% if product.condition == 'new' %}selected{% endif %}>New</option>
-                                    <option value="used" {% if product.condition == 'used' %}selected{% endif %}>Used</option>
-                                    <option value="refurbished" {% if product.condition == 'refurbished' %}selected{% endif %}>Refurbished</option>
-                                </select>
-                                <div id="condition-error" class="error-message"></div>
-                            </div>
-    
-                            <div class="form-group">
-                                <label for="year">Year:</label>
-                                <input type="text" id="year" name="year" value="{{ product.year }}" required>
-                                <div id="year-error" class="error-message"></div>
-                            </div>
-    
-                            <div class="form-group">
-                                <label for="price">Price:</label>
-                                <input type="number" id="price" name="price" value="{{ product.price }}" required>
-                                <div id="price-error" class="error-message"></div>
-                            </div>
-    
-                            <div class="form-group">
-                                <label for="image">Product Image:</label>
-                                <input type="file" id="image" name="image" accept="image/*" required>
-                                <div id="image-error" class="error-message"></div>
-                            </div>
-                            <div class="form-group">
-                                <label for="is_available">Is Available:</label>
-                                <input type="checkbox" id="is_available" name="is_available" {% if product.is_available %}checked{% endif %}>
-                                <div id="is_available-error" class="error-message"></div>
-                            </div>
-                            
-    
-                            <center>
-                                <button type="submit">Save Changes</button>
-                            </center>
-                        </form>
+                        </div>
+                        </div>
+                        <div class="row gutters">
+                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                        <h6 class="mt-3 mb-2 text-primary">Address</h6>
+                        </div>
+                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                        <div class="form-group">
+                        <label for="Street">Street</label>
+                        <input type="text" class="form-control" id="Street" name="street" value="{% if technician_details.address %}{{ technician_details.address.street }}{% endif %}" readonly>
+                        </div>
+                        </div>
+                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                        <div class="form-group">
+                        <label for="ciTy">City</label>
+                        <input type="name" class="form-control" id="ciTy" disabled>
+                        </div>
+                        </div>
+                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                        <div class="form-group">
+                        <label for="sTate">State</label>
+                        <input type="text" class="form-control" id="sTate" disabled>
+                        </div>
+                        </div>
+                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                        <div class="form-group">
+                        <label for="zIp">Zip Code</label>
+                        <input type="text" class="form-control" id="zIp" disabled>
+                        </div>
+                        </div>
+                        </div>
+                    </div>
+                    <center>
+                    <div class="text-right">
+                        <button type="button" id="submit" name="submit" class="btn btn-secondary">Cancel</button>
+                        <a href="{% url 'staff_update' %}" class="btn btn-primary" id="updateButton">Update</a>
+                        </div>
+                    </center>
+                </form>
+                    </div>
                     </div>
                 </div>
             </div>
         </div>
     
-            
-        <script src="{% static '/assets/js/jquery-3.5.1.min.js'%}"></script>
+        <script src="./index.js"></script>
+        <script src="{% static '/js/jquery-3.2.1.min.js' %}"></script>
+    <script src="{% static '/js/popper.min.js' %}"></script>
+    <script src="{% static '/js/bootstrap.min.js' %}"></script>
+    <script src="{% static '/plugins/scroll-fixed/jquery-scrolltofixed-min.js' %}"></script>
+    <script src="{% static '/js/script.js' %}"></script>
 
-        <script src="{% static '/assets/js/bootstrap.bundle.min.js'%}"></script>
-    
-        <script src="{% static '/assets/vendor/owl-carousel/js/owl.carousel.min.js'%}"></script>
-    
-        <script src="{% static '/assets/vendor/wow/wow.min.js'%}"></script>
-    
-        <script src="{% static '/assets/js/theme.js'%}"></script>
-        <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script> 
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.bundle.min.js"></script>
-        
     </body>
     </html>

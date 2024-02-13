@@ -1,0 +1,794 @@
+{% load static %}
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible"
+		content="IE=edge">
+	<meta name="viewport"
+		content="width=device-width, 
+				initial-scale=2.0">
+	<title>Admin Dashboard</title>
+	<link rel="stylesheet"
+		href="style.css">
+	<link rel="stylesheet"
+		href="responsive.css">
+    <link rel="shortcut icon" href="{% static "images/fav.jpg" %}" rel="stylesheet"/>
+    <link rel="stylesheet" href="{% static "css/bootstrap.min.css" %}" rel="stylesheet"/>
+    <link rel="stylesheet" href="{% static "css/fontawsom-all.min.css" %}" rel="stylesheet"/>
+    <link rel="stylesheet" href="{% static "css/animate.css" %}" rel="stylesheet"/>
+    <link rel="stylesheet" type="text/css" href="{% static "/css/style.css"%}" rel="stylesheet"/>
+<style>
+            /* Main CSS Here */
+
+@import url(
+"https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
+<style>
+    /* Main CSS Here */
+
+
+* {
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+font-family: "Poppins", sans-serif;
+}
+:root {
+--background-color1: #fafaff;
+--background-color2: #ffffff;
+--background-color3: #ededed;
+--background-color4: #cad7fda4;
+--primary-color: #3cdbd1;
+--secondary-color: #289a8b;
+--Border-color: #0e927c;
+--one-use-color: #0e9684;
+--two-use-color: #1dbda2;
+}
+body {
+background-color: #eaf7e3;
+max-width: 100%;
+overflow-x: hidden;
+}
+
+header {
+height: 70px;
+width: 100vw;
+padding: 0 30px;
+background-color: var(--background-color1);
+position: fixed;
+z-index: 100;
+box-shadow: 1px 1px 15px rgba(161, 182, 253, 0.825);
+display: flex;
+justify-content: space-between;
+align-items: center;
+}
+
+.logo {
+font-size: 27px;
+font-weight: 600;
+color: rgb(47, 141, 70);
+}
+
+.icn {
+height: 30px;
+}
+.menuicn {
+cursor: pointer;
+}
+
+.searchbar,
+.message,
+.logosec {
+display: flex;
+align-items: center;
+justify-content: center;
+}
+
+.searchbar2 {
+display: none;
+}
+
+.logosec {
+gap: 60px;
+}
+
+.searchbar input {
+width: 250px;
+height: 42px;
+border-radius: 50px 0 0 50px;
+background-color: var(--background-color3);
+padding: 0 20px;
+font-size: 15px;
+outline: none;
+border: none;
+}
+.searchbtn {
+width: 50px;
+height: 42px;
+display: flex;
+align-items: center;
+justify-content: center;
+border-radius: 0px 50px 50px 0px;
+background-color: var(--secondary-color);
+cursor: pointer;
+}
+
+.message {
+gap: 40px;
+position: relative;
+cursor: pointer;
+}
+.circle {
+height: 7px;
+width: 7px;
+position: absolute;
+background-color: #fa7bb4;
+border-radius: 50%;
+left: 19px;
+top: 8px;
+}
+.dp {
+height: 40px;
+width: 40px;
+background-color: #626262;
+border-radius: 50%;
+display: flex;
+align-items: center;
+justify-content: center;
+overflow: hidden;
+}
+.main-container {
+display: flex;
+width: 100vw;
+position: relative;
+top: 70px;
+z-index: 1;
+}
+.dpicn {
+height: 42px;
+}
+
+.main {
+height: calc(100vh - 70px);
+width: 100%;
+overflow-y: scroll;
+overflow-x: hidden;
+padding: 40px 30px 30px 30px;
+}
+
+.main::-webkit-scrollbar-thumb {
+background-image: 
+    linear-gradient(to bottom, rgb(49, 133, 126), rgb(9, 68, 54));
+}
+.main::-webkit-scrollbar {
+width: 5px;
+}
+.main::-webkit-scrollbar-track {
+background-color: #9e9e9eb2;
+}
+
+.box-container {
+display: flex;
+justify-content: space-evenly;
+align-items: center;
+flex-wrap: wrap;
+gap: 50px;
+}
+.nav {
+min-height: 91vh;
+width: 250px;
+background-color: var(--background-color2);
+position: absolute;
+top: 0px;
+left: 00;
+box-shadow: 1px 1px 10px rgba(198, 189, 248, 0.825);
+display: flex;
+flex-direction: column;
+justify-content: space-between;
+overflow: hidden;
+padding: 30px 0 20px 10px;
+}
+.navcontainer {
+height: calc(100vh - 70px);
+width: 350px;
+position: relative;
+overflow-y: scroll;
+overflow-x: hidden;
+transition: all 0.5s ease-in-out;
+}
+.navcontainer::-webkit-scrollbar {
+display: none;
+}
+.navclose {
+width: 80px;
+}
+.nav-option {
+width: 250px;
+height: 60px;
+display: flex;
+align-items: center;
+padding: 0 30px 0 20px;
+gap: 20px;
+transition: all 0.1s ease-in-out;
+}
+.nav-option:hover {
+border-left: 5px solid #a2a2a2;
+background-color: #dadada;
+cursor: pointer;
+}
+.nav-img {
+height: 30px;
+}
+
+.nav-upper-options {
+display: flex;
+flex-direction: column;
+align-items: center;
+gap: 30px;
+}
+
+.option1 {
+border-left: 5px solid #4fd5c8af;
+background-color: var(--Border-color);
+color: white;
+cursor: pointer;
+}
+.option1:hover {
+border-left: 5px solid #40d0a0af;
+background-color: var(--Border-color);
+}
+.box {
+height: 130px;
+width: 230px;
+border-radius: 20px;
+box-shadow: 3px 3px 10px rgba(90, 238, 194, 0.751);
+padding: 20px;
+display: flex;
+align-items: center;
+justify-content: space-around;
+cursor: pointer;
+transition: transform 0.3s ease-in-out;
+}
+.box:hover {
+transform: scale(1.08);
+}
+
+.box:nth-child(1) {
+background-color: var(--one-use-color);
+}
+.box:nth-child(2) {
+background-color: var(--two-use-color);
+}
+.box:nth-child(3) {
+background-color: var(--one-use-color);
+}
+.box:nth-child(4) {
+background-color: var(--two-use-color);
+}
+
+.box img {
+height: 50px;
+}
+.box .text {
+color: white;
+}
+.topic {
+font-size: 13px;
+font-weight: 400;
+letter-spacing: 1px;
+}
+
+.topic-heading {
+font-size: 30px;
+letter-spacing: 3px;
+}
+
+.report-container {
+min-height: 300px;
+max-width: 1200px;
+margin: 70px auto 0px auto;
+background-color: #ffffff;
+border-radius: 30px;
+box-shadow: 3px 3px 10px rgb(188, 188, 188);
+padding: 0px 20px 20px 20px;
+}
+.report-header {
+height: 80px;
+width: 100%;
+display: flex;
+align-items: center;
+justify-content: space-between;
+padding: 20px 20px 10px 20px;
+border-bottom: 2px solid rgba(86, 220, 202, 0.59);
+}
+
+.recent-Articles {
+font-size: 30px;
+font-weight: 600;
+color: #197b72;
+}
+
+.view {
+height: 35px;
+width: 90px;
+border-radius: 8px;
+background-color: #268d81;
+color: white;
+font-size: 15px;
+border: none;
+cursor: pointer;
+}
+
+.report-body {
+max-width: 1160px;
+overflow-x: auto;
+padding: 20px;
+}
+.report-topic-heading,
+.item1 {
+width: 1120px;
+display: flex;
+justify-content: space-between;
+align-items: center;
+}
+.t-op {
+font-size: 18px;
+letter-spacing: 0px;
+}
+
+.items {
+width: 1120px;
+margin-top: 15px;
+}
+
+.item1 {
+margin-top: 20px;
+}
+.t-op-nextlvl {
+font-size: 14px;
+letter-spacing: 0px;
+font-weight: 600;
+}
+
+.label-tag {
+width: 100px;
+text-align: center;
+background-color: rgb(0, 177, 0);
+color: white;
+border-radius: 4px;
+}
+.container {
+max-width: 1000px;
+margin: 20px auto;
+padding: 20px;
+background-color: #fff;
+border-radius: 5px;
+box-shadow: 0 0 10px rgba(65, 117, 109, 0.1);
+}
+
+table {
+width: 100%;
+border-collapse: collapse;
+margin-top: 20px;
+background-color: #fff;
+border-radius: 10px;
+box-shadow: 0 0 10px rgba(65, 117, 109, 0.1);
+}
+
+/* Style the table header */
+th {
+background-color: #0c3e3e;
+color: #fff;
+font-weight: bold;
+padding: 10px;
+text-align: left;
+}
+
+/* Style the table rows */
+tr {
+transition: background-color 0.3s;
+}
+
+tr:nth-child(even) {
+background-color: #f2f2f2;
+}
+
+/* Style the table cells (columns) */
+th, td {
+padding: 10px;
+border-bottom: 1px solid #ddd;
+text-align: left;
+}
+
+/* Extend the Action header cell */
+th.action-header {
+width: 100px;
+}
+
+/* Style the action buttons in the table */
+.btn-edit, .btn-delete {
+padding: 5px 9px;
+margin-right: 5px;
+border: none;
+border-radius: 3px;
+cursor: pointer;
+font-size: 12px;
+color: #fff;
+transition: background-color 0.3s;
+}
+
+.btn-edit {
+background-color: #76c676;
+}
+
+.btn-delete {
+background-color: #f44336;
+}
+
+.btn-edit:hover {
+background-color: #5aaf5a;
+}
+
+.btn-delete:hover {
+background-color: #d63737;
+}
+
+    /* Style for user icon */
+        .user-icon {
+            width: 45px;
+            height: 45px;
+            margin-right: 10px;
+            border-radius: 50%;
+        }
+
+        /* Style for the user profile dropdown menu */
+        .dropdown-menu {
+            background-color: #333;
+            color: #fff;
+        }
+
+        .dropdown-item {
+            color: #fff;
+        }
+        .dropdown .btn-secondary {
+        background-color: #25554e; /* Blue background color */
+        color: #fff; /* Text color */
+    }
+
+    /* Style for the "Active" button */
+    .btn-delete {
+        padding: 5px 10px;
+        margin-right: 5px;
+        border: none;
+        border-radius: 3px;
+        cursor: pointer;
+        font-size: 14px;
+        background-color: #4caf50; /* Green color */
+        color: #fff; /* Text color */
+    }
+    
+    /* Style for the "Inactive" button */
+    .btn-inactive {
+        padding: 5px 10px;
+        margin-right: 5px;
+        border: none;
+        border-radius: 3px;
+        cursor: pointer;
+        font-size: 14px;
+        background-color: #f44336; /* Red color */
+        color: #fff; /* Text color */
+    }
+    </style>
+    </head>
+    
+    <body>
+    
+        <!-- for header part -->
+        <header>
+    
+            <div class="logosec">
+                <div class="logo">DEVICE REVIVE</div>
+                
+            </div>
+    
+            <div class="message">
+                
+                <div class="dropdown">
+
+                    <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="userProfileDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <img src="{% static '/images/admin.jpg' %}" alt="User Icon" class="user-icon">
+                        {{ user.username }}
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="userProfileDropdown">
+                        
+                        <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
+                    </div>
+                </div>
+    
+        </header>
+    
+        <div class="main-container">
+            <div class="navcontainer">
+                <nav class="nav">
+                    <div class="nav-upper-options">
+                        <div class="nav-option option1">
+                            <img src=
+    >
+                            <h3>Staff Page</h3>
+                        </div>
+    
+                        
+                        <div>
+
+                        <a href="{% url 'staff_services' %}">
+                        <div class="nav-option option5">
+                            <img src=
+    "https://media.geeksforgeeks.org/wp-content/uploads/20221210183323/10.png"
+                                class="nav-img"
+                                alt="blog">
+                            <h3> Services</h3>
+                        </div>
+                    <br>
+
+                    <a href="{% url 'booking_details' %}">
+                    <div class="nav-option option3">
+                        <img src=
+"https://media.geeksforgeeks.org/wp-content/uploads/20221210183320/5.png"
+                            class="nav-img"
+                            alt="report">
+                        <h3> Booking Requests</h3>
+                    </div>
+    <br>
+    <div>
+
+        <a href="{% url 'staff_product' %}">
+        <div class="nav-option option5">
+            <img src=
+"https://media.geeksforgeeks.org/wp-content/uploads/20221210183323/10.png"
+                class="nav-img"
+                alt="blog">
+            <h3> Products</h3>
+        </div>
+    
+                    </div>
+                </nav>
+            </div>
+            <div class="main">
+    
+                <div class="searchbar2">
+                    <input type="text"
+                        name=""
+                        id=""
+                        placeholder="Search">
+                    <div class="searchbtn">
+                    <img src=
+    "https://media.geeksforgeeks.org/wp-content/uploads/20221210180758/Untitled-design-(28).png"
+                            class="icn srchicn"
+                            alt="search-button">
+                    </div>
+                </div>
+    
+                <div class="box-container">
+                </div>
+    
+                <div class="report-container">
+                    <div class="report-header">
+                        <h1 class="recent-Articles">Personal Details</h1>
+                        
+                        
+                        <a></a>
+                    </div>
+                    <form method="post" action="{% url 'staff_update' %}">
+                        {% csrf_token %}
+    
+                    <div class="container">
+                        
+                       
+<div class="container">
+    <div class="row gutters">
+        <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12">
+            <div class="card h-100">
+                <div class="card-body">
+                    <div class="row gutters">
+                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                            <h6 class="mb-2 text-primary">Personal Details</h6>
+                        </div>
+                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                            <form method="post"action="{% url 'staff_update' %}">
+                                {% csrf_token %}
+                                
+                                <label for="full-name">Full Name</label>
+                                <input type="text" class="form-control" id="full-name" name="full_name" oninput="validateFullName()" value="{{ technician.full_name }}" required>
+                                <div id="full-name-error" style="color: red;"></div>
+                                
+                                <label for="eMail">Email</label>
+                                <input type="email" class="form-control" id="eMail" name="email" oninput="validateEmailRealTime()" value="{{ technician.email }}" required>
+                                <div id="email-error" style="color: red;"></div>
+                                
+                                <label for="phone">Phone</label>
+                                <input type="text" class="form-control" id="phone" name="phone" oninput="validatePhoneNumber()" value="{{ technician.phone_number }}" required>
+                                <div id="phone-error" style="color: red;"></div>
+                                
+                                <label for="username">Username</label>
+                                <input type="text" class="form-control" id="username" name="username" oninput="validateUsername()" value="{{ technician.username }}" required>
+                                <div id="username-error" style="color: red;"></div>
+                                
+                                <label for="home">Home Address</label>
+                                <input type="text" class="form-control" id="home" name="home" oninput="validateHomeAddress()" value="{% if technician.address %}{{ technician.address.home_address }}{% endif %}">
+                                <div id="home-address-error" style="color: red;"></div>
+                                
+                                <label for="city">City</label>
+                                <input type="text" class="form-control" id="city" name="city" oninput="validateCity()" value="{% if technician.address %}{{ technician.address.city }}{% endif %}">
+                                <div id="city-error" style="color: red;"></div>
+                                
+                                <label for="zip">Zip Code</label>
+                                <input type="text" class="form-control" id="zip" name="zip" oninput="validateZipCode()" value="{% if technician.address %}{{ technician.address.pincode }}{% endif %}">
+                                <div id="zip-error" style="color: red;"></div>
+                                
+                                
+                                <button type="submit" class="btn btn-primary" id="updateButton">Update</button>
+                            </form>
+                        </div> 
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+        </div>
+    
+        <script src="./index.js"></script>
+        <script src="{% static '/js/jquery-3.2.1.min.js' %}"></script>
+    <script src="{% static '/js/popper.min.js' %}"></script>
+    <script src="{% static '/js/bootstrap.min.js' %}"></script>
+    <script src="{% static '/plugins/scroll-fixed/jquery-scrolltofixed-min.js' %}"></script>
+    <script src="{% static '/js/script.js' %}"></script>
+    <script>
+        const fullNameInput = document.getElementById("full-name");
+        const fullNameError = document.getElementById("full-name-error");
+        const submitButton = document.getElementById("submit-button"); // Assuming you have a submit button
+        
+        function validateFullName() {
+            const fullName = fullNameInput.value;
+        
+            if (fullName.startsWith(" ")) {
+                fullNameError.textContent = "Full name cannot start with spaces.";
+                submitButton.disabled = true;
+            } else if (!/^[A-Za-z][A-Za-z\s]*$/.test(fullName)) {
+                fullNameError.textContent = "Full name must start with a letter and can only contain letters and spaces.";
+                submitButton.disabled = true;
+            } else {
+                fullNameError.textContent = "";
+                submitButton.disabled = false;
+            }
+        }
+        </script>
+        <script>
+        const emailInput = document.getElementById("eMail");
+        
+        function validateEmailRealTime() {
+            const email = emailInput.value.trim();
+            const errorElement = document.getElementById("email-error");
+        
+            // Check for the specific email address "a@a.com"
+            if (email === "a@a.com") {
+                errorElement.textContent = "Invalid email address.";
+                return;
+            }
+        
+            // Updated regular expression pattern for general email validation
+            const emailPattern = /^[a-zA-Z][a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        
+            if (!emailPattern.test(email)) {
+                errorElement.textContent = "Invalid email format";
+            } else if (!/^[a-zA-Z0-9._%+-]+@(gmail|mca|ajce|yahoo|amaljyothi|ac)\.[a-z.]{2,}$/i.test(email)) {
+                errorElement.textContent = "Invalid email format";
+            } else if ((email.match(/\./g) || []).length > 3) {
+                errorElement.textContent = "Invalid email format";
+            } else if (email.length > 320) {
+                errorElement.textContent = "Invalid email format";
+            } else {
+                errorElement.textContent = "";
+            }
+        }
+        
+        </script>
+        <script>
+        
+        const phoneInput = document.getElementById("phone");
+        
+        function validatePhoneNumber() {
+            const phoneNumber = phoneInput.value.trim();
+            const phoneError = document.getElementById("phone-error");
+        
+            // Validate the phone number using a regular expression
+            if (/^[6-9]\d{9}$/.test(phoneNumber) && !/0{7,9}/.test(phoneNumber)) {
+                // Check if no digit is repeated more than 5 times
+                const repeatedDigits = /(.)\1{4}/g;
+                if (repeatedDigits.test(phoneNumber)) {
+                    phoneError.textContent = "Invalid Phone number";
+                } else {
+                    phoneError.textContent = "";
+                }
+            } else {
+                phoneError.textContent = "Invalid Phone number";
+            }
+        }
+        </script>
+        <script>
+        const usernameInput = document.getElementById("username");
+        
+        function validateUsername() {
+            const username = usernameInput.value.trim();
+            const usernameError = document.getElementById("username-error");
+        
+            // Validate the username using a regular expression
+            const usernamePattern = /^[a-zA-Z0-9]{3,}$/;
+        
+            if (usernamePattern.test(username)) {
+                usernameError.textContent = "";
+            } else {
+                usernameError.textContent = "Invalid username. Should be only letters and numbers, and minimum 3 characters.";
+            }
+        }
+        </script>
+        <script>
+            const homeInput = document.getElementById("home");
+        
+            function validateHomeAddress() {
+                const homeAddress = homeInput.value.trim();
+                const homeAddressError = document.getElementById("home-address-error");
+            
+                // Validate the home address using a regular expression
+                // Allow letters, numbers, and spaces, but disallow commas
+                const homeAddressPattern = /^[a-zA-Z0-9\s]+$/;
+            
+                if (homeAddressPattern.test(homeAddress)) {
+                    homeAddressError.textContent = "";
+                } else {
+                    homeAddressError.textContent = "Invalid home address. Should be at least 3 characters and can include letters, numbers, and spaces.";
+                }
+            }
+            
+        
+        </script>
+        <script>
+            const cityInput = document.getElementById("city");
+        
+        function validateCity() {
+            const city = cityInput.value.trim();
+            const cityError = document.getElementById("city-error");
+        
+            // Validate the city using a regular expression
+            const cityPattern = /^[a-zA-Z]{4,}$/;
+        
+            if (cityPattern.test(city)) {
+                cityError.textContent = "";
+            } else {
+                cityError.textContent = "Invalid city. Should only contain letters and must be at least 4 characters.";
+            }
+        }
+        
+        </script>
+        <script>
+        const zipInput = document.getElementById("zip");
+        
+        function validateZipCode() {
+            const zipCode = zipInput.value.trim();
+            const zipError = document.getElementById("zip-error");
+        
+            // Validate the zip code using a regular expression
+            const zipPattern = /^\d{6}$/;
+        
+            if (zipPattern.test(zipCode)) {
+                zipError.textContent = "";
+            } else {
+                zipError.textContent = "Invalid zip code. Must be a number and contain exactly 6 digits.";
+            }
+        }
+        </script>
+
+    </body>
+    </html>

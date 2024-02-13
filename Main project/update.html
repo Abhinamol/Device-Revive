@@ -1,0 +1,939 @@
+
+{% load static %}
+<!doctype html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, shrink-to-fit=no, user-scalable=no">
+        <title>Sign Up</title>
+        <link rel="shortcut icon" href="{% static "images/fav.jpg" %}" rel="stylesheet"/>
+        <link rel="stylesheet" href="{% static "css/bootstrap.min.css" %}" rel="stylesheet"/>
+        <link rel="stylesheet" href="{% static "css/fontawsom-all.min.css" %}" rel="stylesheet"/>
+        <link rel="stylesheet" href="{% static "css/animate.css" %}" rel="stylesheet"/>
+        <link rel="stylesheet" type="text/css" href="{% static "/css/style.css"%}" rel="stylesheet"/>
+        <style>
+            body {
+                font-family: Arial, Helvetica, sans-serif;
+                background-color: #f2f2f2;
+            }
+            
+            .registration-container {
+                width: 500px;
+                margin: 0 auto;
+                margin-top: 100px;
+                background-color: black;
+                background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent gray background color */
+                border-radius: 5px;
+                padding: 20px;
+                box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            }
+            
+            /* Content inside the registration container */
+            .registration-container h2 {
+                text-align: center;
+            }
+            
+            .input-group {
+                margin-bottom: 15px;
+            }
+            
+            .input-group label {
+                display: block;
+                margin-bottom: 5px;
+            }
+            
+            .input-group input {
+                width: 95%;
+                padding: 10px;
+                border: 1px solid #ccc;
+                border-radius: 3px;
+            }
+            
+            .registration-button {
+                width: 100%;
+                padding: 10px;
+                background-color: #d39647;
+                color: #151111;
+                border: none;
+                border-radius: 3px;
+                cursor: pointer;
+            }
+            
+            .registration-button:hover {
+                background-color: #0056b3;
+            }
+            
+            /* Add a transition for a smoother effect */
+            .registration-button {
+                transition: background-color 0.3s ease;
+            }
+            
+           
+           .banner-container {
+            background-image: url('{% static '/images/head_bg.jpg' %}');
+            background-size: cover;
+            background-position: center center;
+            background-repeat: no-repeat;
+            min-height: 100vh;
+           }
+           
+
+           .header-container {
+            background-color: black; /* Set the background color to black */
+        }
+
+        .header-container {
+            background-color: rgba(0, 0, 0, 0.5); /* Set the background color to black with 80% opacity */
+        }
+        
+        .input-error {
+            border: 1px solid red;
+        }
+    
+        /* CSS class for green border */
+        .input-success {
+            border: 1px solid green;
+        }
+        
+        /* Apply a background color change effect on hover */
+        .header-top ul li:hover {
+          background-color: #0056b3; /* Change to the desired color on hover */
+         color: white; /* Change text color for better visibility */
+         transition: background-color 0.2s ease; /* Add a smooth transition effect */
+         }
+
+         /* Style for the login/signup button */
+           .nav-div ul li:last-child a {
+               background-color:#2a6b5f;
+               color: #FFFFFF;
+               font-size: 11px;
+                padding: 10px 20px; /* Adjust padding as needed */
+               border-radius: 5px; /* Add rounded corners */
+               text-decoration: none;
+            } 
+
+            /* login required */
+
+     .login-required-message {
+        display: none;
+        justify-content: center;
+        align-items: center;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
+        z-index: 9999; /* Ensure it's above other elements */
+    }
+
+    .login-required-box {
+        background-color: #fff; /* White background for the box */
+        padding: 20px;
+        border-radius: 5px;
+        text-align: center;
+    }
+
+    .login-required-message p {
+        margin: 0;
+    }
+
+    .ok-button {
+        background-color: #2a5945;
+        color: #fff;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .error {
+        color: red; /* Set the color of the error messages to red */
+        font-size: 5px; /* Adjust the font size to your desired size */
+        /* You can add more CSS properties to further customize the appearance */
+    }
+
+    #username-error {
+        color: red; /* Set the color of the error messages to red */
+        font-size: 15px;
+    }
+    
+    #email-error {
+        color: red; 
+        font-size: 15px;
+    }
+
+    #full-name-error {
+        color: red; 
+        font-size: 15px;
+    }
+
+    #password-error {
+        color: red; 
+        font-size: 15px;
+    }
+
+    #confirm-password-error {
+        color: red; 
+        font-size: 15px;
+    }
+
+    #phone-error {
+        color: red; 
+        font-size: 15px;
+    }
+
+    /* Style for user icon */
+    .user-icon {
+        width: 45px;
+        height: 45px;
+        margin-right: 10px;
+        border-radius: 50%;
+    }
+
+    /* Style for the user profile dropdown menu */
+    .dropdown-menu {
+        background-color: #333;
+        color: #fff;
+    }
+
+    .dropdown-item {
+        color: #fff;
+    }
+    .dropdown .btn-secondary {
+    background-color: #25554e; /* Blue background color */
+    color: #fff; /* Text color */
+}
+
+ 
+
+
+
+    </style>
+    </head>
+         <body>
+
+        <!--########################## Header CSS ####################-->
+        <div class="header-container">
+            <div class="header-top">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-7 col-md-12 left-item">
+                            <ul>
+                                <li>
+                                    <i class="fas fa-envelope-square"></i>
+                                    devicerevive@gmail.com
+                                    </li>
+                                <li class="d-none d-sm-block">
+                                    <i class="fas fa-phone-square"></i>
+                                    9567854321
+                                    </li>
+                            </ul>
+                        </div>
+                        <div class="col-lg-5 d-none d-lg-block right-item">
+                            <ul>
+                                <li>
+                                    <a>
+                                        <i class="fab fa-github" style="color: white;"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="">
+                                        <i class="fab fa-linkedin-in" style="color: white;"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="">
+                                        <i class="fab fa-pinterest-p" style="color: white;"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="">
+                                        <i class="fab fa-twitter" style="color: white;"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="">
+                                        <i class="fab fa-facebook-f" style="color: white;"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="login-required-message">
+                <div class="login-required-box">
+                    <p>Login Required</p>
+                    <button class="ok-button">OK</button>
+                </div>
+            </div>
+
+
+            <nav id="menu-jk" class="container-fluid  no-padding">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-1 col-sm-1 logo">
+                            <img class="log" src="{% static '/images/mylogo.png' %}"  alt="">
+                            <img class="log-gray" src="" alt="">
+                            <a data-toggle="collapse" data-target="#nav-head" href="#nav-head">
+                                <i class="fas d-block d-md-none small-menu fa-bars"></i>
+                            </a>
+                        </div>
+                        <div id="nav-head" color="black" class="col-md-9 nav-div d-none d-md-block">
+                            <ul>
+                                <li>
+                                    <a class="js-scroll-trigger" href="index">HOME</a>
+                                </li>
+                                <li>
+                                    <a class="js-scroll-trigger" href="services">SERVICES</a>
+                                </li>
+                                
+                                
+                                
+                                <li>
+                                    <a class="js-scroll-trigger" href="about">ABOUT</a>
+                                </li>
+                                <li class="yc">
+                                    <a class="js-scroll-trigger" href="why">EXPERIENCE</a>
+                                </li>
+
+                                <li>
+                                    <a class="js-scroll-trigger" href="contact">CONTACT</a>
+                                </li>
+                                <li>
+                                    <a class="js-scroll-trigger" href="{% if user.is_authenticated %}{% url 'booking' %}{% else %}#login-required{% endif %}">
+                                        BOOKING
+                                    </a>
+                                    <li>
+                                        <div class="dropdown">
+                                            <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="adminDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                {% if user.is_authenticated %}
+                                                    <img src="{% static '/images/admin.jpg' %}" alt="Admin Icon" class="user-icon">
+                                                    {{ user.username }}
+                                                {% else %}
+                                                    Login/Sign Up
+                                                {% endif %}
+                                            </a>
+                                            <div class="dropdown-menu" aria-labelledby="adminDropdown">
+                                                {% if user.is_authenticated %}
+                                                    <a class="dropdown-item" href="myprofile">Profile</a>
+                                                    <a class="dropdown-item" href="logout">Logout</a>
+                                                {% else %}
+                                                    <a class="dropdown-item" href="login">Login</a>
+                                                    <a class="dropdown-item" href="signup">Sign Up</a>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                        
+                                    </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+
+        <!--########################## Slider CSS ####################-->
+
+        <div id="home" class="banner-container no-padding">
+            <div class="container">
+                <div class="row mx-auto"></div>
+                <div class="slider-det">
+                    <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+                        <div class="registration-container">
+                            <h2>UPDATE PROFILE</h2>
+                            <form id="signup-form" method="POST">
+                                {% csrf_token %}
+                                
+                                <!-- Personal Information -->
+                                <div class="form-group">
+                                    <label for="full-name">Full Name:</label>
+                                    <input type="text" id="full-name" name="full-name" class="form-control" required onblur="checkEmptyField(this)" oninput="checkEmptyField(this)" required autocomplete="off">
+                                    <span id="full-name-error" class="error"></span>
+                                    <div id="full-name-warning" class="warning"></div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="email">Email Address:</label>
+                                    <input type="email" id="email" name="email" class="form-control" required onblur="checkEmptyField(this)" oninput="checkEmptyField(this)" required autocomplete="off">
+                                    <span id="email-error" class="error"></span>
+                                    <div id="email-warning" class="warning"></div>
+                                    <span id="email-availability" class="availability"></span>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="phone">Phone Number:</label>
+                                    <input type="tel" id="phone" name="phone" class="form-control" required onblur="checkEmptyField(this)" oninput="checkEmptyField(this)" required autocomplete="off">
+                                    <span id="phone-error" class="error"></span>
+                                    <div id="phone-warning" class="warning"></div>
+                                </div>
+                                
+                                <!--<div class="form-group"> 
+                                    <label>Address:</label>
+                                    <input type="text" id="street" name="street" class="form-control" placeholder="Street Address" required>
+                                    <input type="text" id="city" name="city" class="form-control" placeholder="City" required>
+                                    <input type="text" id="state" name="state" class="form-control" placeholder="State/Province" required>
+                                    <input type="text" id="zip" name="zip" class="form-control" placeholder="Postal/ZIP Code" required>
+                                    <input type="text" id="country" name="country" class="form-control" placeholder="Country" required>
+                                </div>-->
+                                
+                                <!-- User Account -->
+                             
+                                <div class="form-group">
+                                    <label for="username">Username:</label>
+                                    <input type="text" id="username" name="username" class="form-control" required onblur="checkEmptyField(this)" oninput="checkEmptyField(this)" required autocomplete="off">
+                                    <span id="username-error" class="error"></span>
+                                    <div id="username-warning" class="warning"></div>
+                                    <div id="username-availability" class="availability"></div> 
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="password">Reset Password</label><br>
+                                    <label for="password">New Password:</label>
+                                    <input type="password" id="password" name="password" class="form-control" required onblur="checkEmptyField(this)" oninput="checkEmptyField(this)" required autocomplete="off">
+                                    <span id="password-error" class="error"></span>
+                                    <span id="password-requirements" class="requirements"></span>
+                                    <div id="password-warning" class="warning"></div>
+                                </div>
+                                
+                                
+                                <div class="form-group">
+                                    <label for="confirm-password">Confirm New Password:</label>
+                                    <input type="password" id="confirm-password" name="confirm-password" class="form-control" required onblur="checkEmptyField(this)" oninput="checkEmptyField(this)" required autocomplete="off">
+                                    <span id="confirm-password-error" class="error"></span> 
+                                    <div id="confirm-password-warning" class="warning"></div>
+                                </div>
+                                
+                                <!-- Consent -->
+                               
+                                
+                                <!-- Submit Button -->
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-primary" id="submit-button" disabled>Submit</button>
+
+                                </div>
+                            </form>
+                        </div>
+                        <br><center> <p>Already have an account..?<a href="login" style="color: red;">Login</a></p></center>
+                     </div> 
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>        
+
+ <!--########################## Footer CSS ####################-->
+ <footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3 about">
+                <h2>About Us</h2>
+                <p>At Device Revive, we are passionate about technology and dedicated to providing top-notch laptop and desktop services. With 20 years of experience in the industry, we have earned a reputation for excellence and reliability.
+                </p>
+
+                <div class="foot-address">
+                    <div class="icon">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <div class="addet">
+                        Kottayam
+                    </div>
+                </div>
+                <div class="foot-address">
+                    <div class="icon">
+                        <i class="far fa-envelope-open"></i>
+                    </div>
+                    <div class="addet">
+                        devicerevive.com
+                        <br>
+                        devicerevive@gmail.com
+                    </div>
+                </div>
+                <div class="foot-address">
+                    <div class="icon">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <div class="addet">
+                        9567854321
+                        <br>
+                        8078046110
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 glink">
+                <ul>
+                    <li>
+                        <a href="index">
+                            <i class="fas fa-angle-double-right"></i>Home</a>
+                    </li>
+                    <li>
+                        <a href="about">
+                            <i class="fas fa-angle-double-right"></i>About Us</a>
+                    </li>
+                    <li>
+                        <a href="services">
+                            <i class="fas fa-angle-double-right"></i>Services</a>
+                    </li>
+                    <li>
+                        <a href="contact">
+                            <i class="fas fa-angle-double-right"></i>Contact</a>
+                    </li>
+                   
+                </ul>
+            </div>
+            <div class="col-md-3 tags">
+                <h2>Our Services</h2>
+                <ul>
+                    <li>Desktop Service</li>
+                    <li>Laptop Service</li>
+                    <li>Data Recovery</li>
+                    <li>Software Installation</li>
+                    <li>Motherboard Service</li>
+                    <li>Computer Networking</li>
+                    
+                </ul>
+            </div> 
+        </div>
+    </div>
+</footer>
+<div class="copy">
+    <div class="container">
+        <a href=""></a>
+
+        <span>
+            <a>
+                <i class="fab fa-github"></i>
+            </a>
+            <a >
+                <i class="fab fa-google-plus-g"></i>
+            </a>
+            <a href="">
+                <i class="fab fa-pinterest-p"></i>
+            </a>
+            <a href="">
+                <i class="fab fa-twitter"></i>
+            </a>
+            <a href="">
+                <i class="fab fa-facebook-f"></i>
+            </a>
+        </span>
+    </div>
+
+</div>
+
+<script>
+    // Get references to the form and input fields
+    const form = document.getElementById("signup-form");
+    const usernameInput = document.getElementById("username");
+    const phoneInput = document.getElementById("phone");
+    const fullNameInput = document.getElementById("full-name");
+    const emailInput = document.getElementById("email");
+    const passwordInput = document.getElementById("password");
+    const confirmPasswordInput = document.getElementById("confirm-password");
+    const usernameError = document.getElementById("username-error");
+    const emailError = document.getElementById("email-error");
+    const passwordError = document.getElementById("password-error");
+    const confirmPasswordError = document.getElementById("confirm-password-error");
+    const fullNameError = document.getElementById("full-name-error");
+    const phoneError = document.getElementById("phone-error");
+    
+    // Function to validate the form
+    function validateForm() {
+        // Reset previous error messages
+        usernameError.textContent = "";
+        emailError.textContent = "";
+        passwordError.textContent = "";
+        confirmPasswordError.textContent = "";
+        fullNameError.textContent = "";
+        phoneError.textContent = "";
+
+        // Get the values of the input fields
+        const phoneNumber = phoneInput.value.trim();
+        const fullName = fullNameInput.value.trim();
+        const username = usernameInput.value.trim();
+        const email = emailInput.value.trim();
+        const password = passwordInput.value.trim();
+        const confirmPassword = confirmPasswordInput.value.trim();
+
+     
+
+        // Check if any error messages are displayed
+        const hasErrors = !!(
+            usernameError.textContent ||
+            emailError.textContent ||
+            passwordError.textContent ||
+            confirmPasswordError.textContent ||
+            fullNameError.textContent ||
+            phoneError.textContent
+        );
+
+        // If any errors exist, prevent form submission
+        if (hasErrors) {
+            return false;
+        }
+
+        // If all validations pass, allow form submission
+        return true;
+    }
+
+    // Attach the validateForm function to the form's submit event
+    form.addEventListener("submit", function (event) {
+        if (!validateForm()) {
+            event.preventDefault(); // Prevent form submission if validation fails
+        }
+    });
+
+    function checkFieldsAndEnableSubmitButton() {
+        const isValid = (
+            usernameError.textContent === "" &&
+            emailError.textContent === "" &&
+            passwordError.textContent === "" &&
+            confirmPasswordError.textContent === "" &&
+            fullNameError.textContent === "" &&
+            phoneError.textContent === ""
+        );
+
+        const submitButton = document.getElementById("submit-button");
+        submitButton.disabled = !isValid; // Enable the button if all fields are valid, otherwise disable it
+    }
+
+    
+    // Track whether the field was initially empty
+    let initialEmptyState = {};
+
+    // Attach an event listener to input fields when they gain focus
+    function attachFocusEventListeners() {
+        const inputFields = [
+            usernameInput,
+            emailInput,
+            passwordInput,
+            confirmPasswordInput,
+            fullNameInput,
+            phoneInput
+        ];
+
+        inputFields.forEach((input) => {
+            input.addEventListener("focus", function () {
+                // Store the initial empty state of the field
+                initialEmptyState[this.id] = this.value.trim() === "";
+            });
+        });
+    }
+
+    // Function to check if a field is empty and show the "This field is required" message if needed
+    function checkEmptyFieldOnBlur(field) {
+        const warningMessage = document.getElementById(field.id + "-warning"); // Get the warning div associated with the field
+
+        // Check if the field was initially empty and is still empty when it loses focus, and was not just visited
+        if (initialEmptyState[field.id] && field.value.trim() === "" && !field.classList.contains("visited")) {
+            field.classList.remove("input-filled"); // Remove the filled class
+            field.classList.remove("input-success");
+            field.classList.add("input-error");
+            warningMessage.textContent = "This field is required."; // Set the warning message
+            warningMessage.style.color = "red"; // Set the warning text color to red
+        } else {
+            field.classList.remove("input-error");
+            field.classList.add("input-filled"); // Add the filled class
+            field.classList.add("input-success");
+            warningMessage.textContent = ""; // Clear the warning message
+        }
+    }
+
+
+    
+    // Attach real-time validation and field checking to input fields
+    usernameInput.addEventListener("input", function () {
+        checkEmptyFieldOnBlur(this);
+        validateUsername();
+        checkFieldsAndEnableSubmitButton();
+    });
+
+    emailInput.addEventListener("input", function () {
+        checkEmptyFieldOnBlur(this);
+        validateEmailRealTime();
+        checkEmailAvailability(this.value.trim());
+        checkFieldsAndEnableSubmitButton();
+    });
+
+    passwordInput.addEventListener("input", function () {
+        checkEmptyFieldOnBlur(this);
+        validatePassword();
+        checkFieldsAndEnableSubmitButton();
+    });
+
+    confirmPasswordInput.addEventListener("input", function () {
+        checkEmptyFieldOnBlur(this);
+        validateConfirmPassword();
+        checkFieldsAndEnableSubmitButton();
+    });
+
+    fullNameInput.addEventListener("input", function () {
+        fullNameInput.classList.add("visited");
+        checkEmptyFieldOnBlur(this);
+        validateFullName();
+        checkFieldsAndEnableSubmitButton();
+    });
+
+    phoneInput.addEventListener("input", function () {
+        checkEmptyFieldOnBlur(this);
+        validatePhoneNumber();
+        checkFieldsAndEnableSubmitButton();
+    });
+
+
+    emailInput.addEventListener("keyup", function () {
+        checkEmptyFieldOnBlur(this);
+        validateEmailWithCapital();
+        checkFieldsAndEnableSubmitButton();
+    });
+
+
+    attachFocusEventListeners();
+   
+
+  
+
+    // Helper functions for individual field validation
+    function validateUsername() {
+        const username = usernameInput.value.trim();
+        if (username.length < 3) {
+            usernameError.textContent = "Username must be at least 3 characters.";
+        } else if (!/^[a-zA-Z][a-zA-Z0-9]*$/.test(username)) {
+            usernameError.textContent = "Username must start with a letter and can only contain letters and numbers.";
+        } else {
+            usernameError.textContent = "";
+        }
+    }
+    
+
+    function validateUsername() {
+        const username = usernameInput.value.trim();
+        if (username.length < 3) {
+            usernameError.textContent = "Username must be at least 3 characters.";
+        } else if (!/^[a-zA-Z][a-zA-Z0-9]*$/.test(username)) {
+            usernameError.textContent = "Username must start with a letter and can only contain letters and numbers.";
+        } else {
+            // Send an AJAX request to check username availability
+            const xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4) {
+                    if (xhr.status === 200) {
+                        const response = JSON.parse(xhr.responseText);
+                        if (response.available) {
+                            usernameError.textContent = "";
+                        } else {
+                            usernameError.textContent = "This username already exists.";
+                        }
+                    } else {
+                        console.error("Error checking username availability");
+                    }
+                }
+            };
+    
+            xhr.open("GET", `/check_username_availability/?username=${username}`, true); // Replace with your actual URL
+            xhr.send();
+        }
+    }
+    
+    
+    
+    function validateEmailRealTime() {
+        const email = emailInput.value.trim();
+        const errorElement = document.getElementById("email-error");
+    
+        // Check for the specific email address "a@a.com"
+        if (email === "a@a.com") {
+            errorElement.textContent = "Invalid email address.";
+            return;
+        }
+    
+        // Updated regular expression pattern to allow emails like "abhinamolv2024a@mca.ajce.in"
+        const emailPattern = /^[a-zA-Z][a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    
+        if (!emailPattern.test(email)) {
+            errorElement.textContent = "Invalid email format";
+        } else if (!/^[a-zA-Z0-9._%+-]+@(gmail|mca|ajce|yahoo|amaljyothi|ac)\.[a-z.]{2,}$/i.test(email)) {
+            errorElement.textContent = "Invalid email format";
+        } else if ((email.match(/\./g) || []).length > 3) {
+            errorElement.textContent = "Invalid email format";
+        } else if (email.length > 320) {
+            errorElement.textContent = "Invalid email format";
+        } else {
+            errorElement.textContent = "";
+        }
+    }
+    
+    
+    
+   // Function to check email availability in real-time
+function checkEmailAvailability(email) {
+    const emailAvailability = document.getElementById("email-availability");
+
+    // Check if the email input is not empty
+    if (email.trim() === "") {
+        emailAvailability.textContent = ""; // Clear the message if the email is empty
+        return;
+    }
+
+    // Send an AJAX request to check email availability
+    const xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4) {
+            if (xhr.status === 200) {
+                const response = JSON.parse(xhr.responseText);
+                if (response.available) {
+                    emailAvailability.textContent = ""; // Email is available
+                } else {
+                    emailAvailability.textContent = "This email already exists."; // Email is not available
+                }
+            } else {
+                console.error("Error checking email availability");
+            }
+        }
+    };
+
+    xhr.open("GET", `/check_email_availability/?email=${email}`, true); // Replace with your actual URL for checking email availability
+    xhr.send();
+}
+
+    
+
+
+    function validatePassword() {
+        const password = passwordInput.value.trim();
+        if (password.length < 6) {
+            passwordError.textContent = "Password must be at least 6 characters.";
+        } else {
+            passwordError.textContent = "";
+        }
+    }
+
+    function validateConfirmPassword() {
+        const confirmPassword = confirmPasswordInput.value.trim();
+        const password = passwordInput.value.trim();
+        if (confirmPassword !== password) {
+            confirmPasswordError.textContent = "Passwords do not match.";
+        } else {
+            confirmPasswordError.textContent = "";
+        }
+    }
+        
+        
+          function validateFullName() {
+            const fullName = fullNameInput.value;
+
+            if (fullName.startsWith(" ")) {
+                fullNameError.textContent = "Full name cannot start with spaces.";
+                submitButton.disabled = true;
+            } else if (!/^[A-Za-z][A-Za-z\s]*$/.test(fullName)) {
+                fullNameError.textContent = "Full name must start with a letter and can only contain letters and spaces.";
+                submitButton.disabled = true;
+            } else {
+                fullNameError.textContent = "";
+                submitButton.disabled = false;
+            }
+        }
+
+    
+    
+  
+
+    function validatePhoneNumber() {
+        const phoneNumber = phoneInput.value.trim();
+    
+        if (/^[6-9]\d{9}$/.test(phoneNumber) && !/0{7,9}/.test(phoneNumber)) {
+            phoneError.textContent = "";
+        } else {
+            phoneError.textContent = "Invalid Phone number";
+        }
+    }
+    
+
+    
+    
+
+    // Function to validate the password
+  
+    function validatePassword() {
+        const password = passwordInput.value.trim();
+        const hasDigit = /\d/.test(password);
+        const hasCapitalLetter = /[A-Z]/.test(password);
+        const hasSpecialCharacter = /[!@#$%^&*()_+{}\[\]:;<>,.?~\\\-]/.test(password);
+
+        // Check if the password meets the requirements
+        if (password.length >= 6 && hasDigit && hasCapitalLetter && hasSpecialCharacter) {
+            passwordError.textContent = "";
+            passwordRequirements.textContent = "";
+        } else {
+            passwordError.textContent = "Password must be at least 6 characters and include digits, an uppercase letter, and  special character.";
+            passwordRequirements.textContent = "Requirements: At least 6 characters, 1 digit, 1 uppercase letter, and 1 special character.";
+        }
+    }
+
+    function checkEmptyField(field) {
+        const warningMessage = document.getElementById(field.id + "-warning"); // Get the warning div associated with the field
+
+        if (field.value.trim() === "") {
+            field.classList.remove("input-filled"); // Remove the filled class
+            field.classList.remove("input-success");
+            field.classList.add("input-error");
+            warningMessage.textContent = "This field is required."; // Set the warning message
+            warningMessage.style.color = "red"; // Set the warning text color to red
+        } else {
+            field.classList.remove("input-error");
+            field.classList.add("input-filled"); // Add the filled class
+            field.classList.add("input-success");
+            warningMessage.textContent = ""; // Clear the warning message
+        }
+    }
+
+        // Function to reset the form fields
+function resetForm() {
+    const registrationForm = document.getElementById("registration-form");
+    const formInputs = registrationForm.querySelectorAll("input, textarea");
+  
+    // Clear input values
+    formInputs.forEach((input) => {
+      input.value = "";
+    });
+  
+    // Clear any error messages
+    const errorElements = document.querySelectorAll(".error");
+    errorElements.forEach((errorElement) => (errorElement.textContent = ""));
+  }
+
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        var bookingLink = document.querySelector('.js-scroll-trigger[href="#login-required"]');
+        var loginRequiredMessage = document.querySelector('.login-required-message');
+        var okButton = document.querySelector('.ok-button');
+    
+        bookingLink.addEventListener("click", function(event) {
+            event.preventDefault(); // Prevent the default link behavior
+            loginRequiredMessage.style.display = "flex"; // Show the message
+        });
+
+        okButton.addEventListener("click", function() {
+            loginRequiredMessage.style.display = "none"; // Hide the message when OK is clicked
+        });
+    });
+
+
+  
+</script>
+
+
+</body>
+<script src="{% static '/js/jquery-3.2.1.min.js' %}"></script>
+<script src="{% static '/js/popper.min.js' %}"></script>
+<script src="{% static '/js/bootstrap.min.js' %}"></script>
+<script src="{% static '/plugins/scroll-fixed/jquery-scrolltofixed-min.js' %}"></script>
+<script src="{% static '/js/script.js' %}"></script>
+
+</html>

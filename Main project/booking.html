@@ -1,0 +1,313 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, shrink-to-fit=no, user-scalable=no">
+        
+        <title>login
+            </title>
+
+        <link rel="shortcut icon" href="{% static "images/fav.jpg" %}" rel="stylesheet"/>
+        <link rel="stylesheet" href="{% static "css/bootstrap.min.css" %}" rel="stylesheet"/>
+        <link rel="stylesheet" href="{% static "css/fontawsom-all.min.css" %}" rel="stylesheet"/>
+        <link rel="stylesheet" href="{% static "css/animate.css" %}" rel="stylesheet"/>
+        <link rel="stylesheet" type="text/css" href="{% static "/css/style.css"%}" rel="stylesheet"/>
+        <style>
+            /* Style for the login/signup button */
+            .nav-div ul li:last-child a {
+                background-color: #2a6b5f;
+                color: #FFFFFF;
+                font-size: 11px;
+                padding: 10px 20px;
+                /* Adjust padding as needed */
+                border-radius: 5px;
+                /* Add rounded corners */
+                text-decoration: none;
+            }
+    
+            /* Custom CSS for the message toaster */
+            .message-toaster {
+                position: fixed;
+                top: 0;
+                left: 50%;
+                text-align: center;
+                z-index: 9999;
+                transform: translateX(-50%);
+                padding: 30px 0;
+            }
+    
+            /* Style for user icon */
+            .user-icon {
+                width: 45px;
+                height: 45px;
+                margin-right: 10px;
+                border-radius: 50%;
+            }
+    
+            /* Style for the user profile dropdown menu */
+            .dropdown-menu {
+                background-color: #333;
+                color: #fff;
+            }
+    
+            .dropdown-item {
+                color: #fff;
+            }
+    
+            .dropdown .btn-secondary {
+                background-color: #25554e;
+                /* Blue background color */
+                color: #fff;
+                /* Text color */
+            }
+    
+            .service-container {
+                border: 1px solid #ccc; /* Add a border around the container */
+                padding: 20px; /* Add padding inside the container */
+                margin: 20px; /* Add margin to separate it from other content */
+            }
+    
+            .service {
+                border: 1px solid #ccc;
+                padding: 10px;
+                margin: 10px 0;
+            }
+    
+            .book-now-button {
+                background-color: #0b834b;
+                /* Green background color */
+                color: #fff;
+                /* White text color */
+                border: none;
+                padding: 5px 10px;
+                cursor: pointer;
+                font-size: 14px;
+                border-radius: 5px;
+                transition: background-color 0.3s;
+                display: inline-block;
+                /* Display the button as an inline element */
+                text-decoration: none;
+                /* Remove underlines for links */
+            }
+    
+            .book-now-button:hover {
+                background-color: #0a723c;
+                /* Darker green on hover */
+            }
+        </style>
+        
+    </head>
+    {% include "messages.html" %}
+    <body>
+       
+
+        <!--########################## Header CSS ####################-->
+        <div class="header-container">
+            <div class="header-top">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-7 col-md-12 left-item">
+                            <ul>
+                                <li>
+                                    <i class="fas fa-envelope-square"></i>
+                                    devicerevive@gmail.com
+                                    </li>
+                                <li class="d-none d-sm-block">
+                                    <i class="fas fa-phone-square"></i>
+                                    7736279659
+                                    </li>
+                            </ul>
+                        </div>
+                        
+                    </div>
+
+                </div>
+            </div>
+            <nav id="menu-jk" class="container-fluid  no-padding">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-1 col-sm-1 logo">
+                            <img class="log" src="{% static '/images/mylogo.png' %}"  alt="">
+                            <img class="log-gray" src="" alt="">
+                            <a data-toggle="collapse" data-target="#nav-head" href="#nav-head">
+                                <i class="fas d-block d-md-none small-menu fa-bars"></i>
+                            </a>
+                        </div>
+                        <div id="nav-head" class="col-md-9 nav-div d-none d-md-block">
+                            <ul>
+                                <li>
+                                    <a class="js-scroll-trigger" href="{% url 'index' %}">HOME</a>
+                                </li>
+                                <li>
+                                    <a class="js-scroll-trigger" href="{% url 'services' %}">SERVICES</a>
+                                </li>
+                                <li>
+                                    <a class="js-scroll-trigger" href="{% url 'booknow' %}">BOOKING</a>
+                                </li>
+                                <li>
+                                    <a class="js-scroll-trigger" href="{% url 'display_products' %}">PRODUCTS</a>
+                                </li>
+                                
+                                <li>
+                                    <a class="js-scroll-trigger" href="{% url 'about' %}">ABOUT</a>
+                                </li>
+                               
+                                <li>
+                                    <a class="js-scroll-trigger" href="{% url 'contact' %}">CONTACT</a>
+                                </li>
+                                <li>
+                                    <div class="dropdown">
+                                        <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="adminDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            {% if user.is_authenticated %}
+                                                <img src="{% static '/images/admin.jpg' %}" alt="Admin Icon" class="user-icon">
+                                                {{ user.username }}
+                                            {% else %}
+                                                Login/Sign Up
+                                            {% endif %}
+                                        </a>
+                                        <div class="dropdown-menu" aria-labelledby="adminDropdown">
+                                            {% if user.is_authenticated %}
+                                                <a class="dropdown-item" href="{% url 'myprofile' %}">Profile</a>
+                                                <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
+                                            {% else %}
+                                                <a class="dropdown-item" href="{% url 'login' %}">Login</a>
+                                                <a class="dropdown-item" href="{% url 'reg' %}">Sign Up</a>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                    
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+        
+        <!--########################## Slider CSS ####################-->
+         
+        <div id="home" class="banner-container no-padding">
+            <div class="container">
+                <div class="row mx-auto"></div>
+                <div class="slider-det">
+                    <h1>DEVICE REVIVE</h1>
+                    
+                    <p>Service Booking Made Simple - Get Started Today!!!</p>
+                        
+                        
+                </div>
+            </div>
+        </div>
+        <br><br>
+        <center>
+            <h2 class="bold-heading">AVAILABLE SERVICES</h2>
+
+<div class="service-container">
+        <div class="report-body">
+            {% for service in services %}
+                <div class="service">
+                    <h2>{{ service.name }}</h2>
+                    <p>{{ service.description }}</p>
+                    <p class="price">Rs.{{ service.price }}</p>
+                    <form method="post" action="{% url 'delete_service' service.id %}">
+                        {% csrf_token %}
+                        
+                        <a href="{% url 'book_now' service.id %}" class="book-now-button">Book Now</a>
+                    </form>
+                    
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    </center>
+        <!--########################## Footer CSS ####################-->
+        <footer>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-3 about">
+                        <h2>About Us</h2>
+                        <p>At Device Revive, we are passionate about technology and dedicated to providing top-notch laptop and desktop services. With 20 years of experience in the industry, we have earned a reputation for excellence and reliability.
+                        </p>
+
+                        <div class="foot-address">
+                            <div class="icon">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div class="addet">
+                                Kottayam
+                            </div>
+                        </div>
+                        <div class="foot-address">
+                            <div class="icon">
+                                <i class="far fa-envelope-open"></i>
+                            </div>
+                            <div class="addet">
+                                devicerevive.com
+                                <br>
+                                devicerevive@gmail.com
+                            </div>
+                        </div>
+                        <div class="foot-address">
+                            <div class="icon">
+                                <i class="fas fa-mobile-alt"></i>
+                            </div>
+                            <div class="addet">
+                                7736279659
+                                <br>
+                                8078046110
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-3 glink">
+                        <ul>
+                            <li>
+                                <a href="index">
+                                    <i class="fas fa-angle-double-right"></i>Home</a>
+                            </li>
+                            <li>
+                                <a href="about">
+                                    <i class="fas fa-angle-double-right"></i>About Us</a>
+                            </li>
+                            <li>
+                                <a href="services">
+                                    <i class="fas fa-angle-double-right"></i>Services</a>
+                            </li>
+                           
+                            
+                            <li>
+                                <a href="contact">
+                                    <i class="fas fa-angle-double-right"></i>Contact Us</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-md-3 tags">
+                        <h2>Our Services</h2>
+                        <ul>
+                            <li>Desktop Service</li>
+                            <li>Laptop Service</li>
+                            <li>Data Recovery</li>
+                            <li>Software Installation</li>
+                            <li>Motherboard Service</li>
+                            <li>Computer Networking</li>
+                            
+                        </ul>
+                    </div> 
+                </div>
+            </div>
+        </footer>
+
+        </div>
+    </body>
+
+
+    
+    <script src="{% static '/js/jquery-3.2.1.min.js' %}"></script>
+    <script src="{% static '/js/popper.min.js' %}"></script>
+    <script src="{% static '/js/bootstrap.min.js' %}"></script>
+    <script src="{% static '/plugins/scroll-fixed/jquery-scrolltofixed-min.js' %}"></script>
+    <script src="{% static '/js/script.js' %}"></script>
+
+</html>

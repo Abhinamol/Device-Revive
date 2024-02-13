@@ -1,0 +1,584 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+
+
+<title>account setting or edit profile - Bootdey.com</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<link rel="shortcut icon" href="{% static "images/fav.jpg" %}" rel="stylesheet"/>
+<link rel="stylesheet" href="{% static "css/bootstrap.min.css" %}" rel="stylesheet"/>
+<link rel="stylesheet" href="{% static "css/fontawsom-all.min.css" %}" rel="stylesheet"/>
+<link rel="stylesheet" href="{% static "css/animate.css" %}" rel="stylesheet"/>
+<link rel="stylesheet" type="text/css" href="{% static "/css/style.css"%}" rel="stylesheet"/>
+<style type="text/css">
+    	body {
+    margin: 0;
+    padding-top: 40px;
+    color: #2e323c;
+    background: #f5f6fa;
+    position: relative;
+    height: 100%;
+}
+.account-settings .user-profile {
+    margin: 0 0 1rem 0;
+    padding-bottom: 1rem;
+    text-align: center;
+}
+.account-settings .user-profile .user-avatar {
+    margin: 0 0 1rem 0;
+}
+.account-settings .user-profile .user-avatar img {
+    width: 90px;
+    height: 90px;
+    -webkit-border-radius: 100px;
+    -moz-border-radius: 100px;
+    border-radius: 100px;
+}
+.account-settings .user-profile h5.user-name {
+    margin: 0 0 0.5rem 0;
+}
+.account-settings .user-profile h6.user-email {
+    margin: 0;
+    font-size: 0.8rem;
+    font-weight: 400;
+    color: #9fa8b9;
+}
+.account-settings .about {
+    margin: 2rem 0 0 0;
+    text-align: center;
+}
+.account-settings .about h5 {
+    margin: 0 0 15px 0;
+    color: #007ae1;
+}
+.account-settings .about p {
+    font-size: 0.825rem;
+}
+.form-control {
+    border: 1px solid #cfd1d8;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
+    font-size: .825rem;
+    background: #ffffff;
+    color: #2e323c;
+}
+
+.card {
+    background: #ffffff;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    border: 0;
+    margin-bottom: 1rem;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #f2f2f2;
+}
+
+.login-container {
+    width: 300px;
+    margin: 0 auto;
+    padding: 10px;
+    background-color: black;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent gray background color */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+}
+
+.login-container h2 {
+    text-align: center;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    font-weight: bold;
+}
+
+.form-group input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    font-size: 16px;
+}
+
+.form-group input[type="submit"] {
+    background-color: black;
+    color: #fff;
+    cursor: pointer;
+}
+
+.form-group input[type="submit"]:hover {
+    background-color: #0056b3;
+}
+.error-box {
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    color: #721c24;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+.banner-container {
+    background-image: url('{% static '/images/head_bg.jpg' %}');
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    min-height: 100vh;
+   }
+   
+
+
+.header-container {
+    background-color: black; /* Set the background color to black */
+}
+
+.header-container {
+    background-color: rgba(0, 0, 0, 0.5); /* Set the background color to black with 80% opacity */
+}
+
+
+/* login required */
+
+.login-required-message {
+   display: none;
+   justify-content: center;
+   align-items: center;
+   position: fixed;
+   top: 0;
+   left: 0;
+   width: 100%;
+   height: 100%;
+   background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
+   z-index: 9999; /* Ensure it's above other elements */
+}
+
+.login-required-box {
+   background-color: #fff; /* White background for the box */
+   padding: 20px;
+   border-radius: 5px;
+   text-align: center;
+}
+
+.login-required-message p {
+   margin: 0;
+}
+
+.ok-button {
+   background-color: #2a5945;
+   color: #fff;
+   padding: 10px 20px;
+   border-radius: 5px;
+   cursor: pointer;
+}
+
+/* Style for user icon */
+    .user-icon {
+        width: 45px;
+        height: 45px;
+        margin-right: 10px;
+        border-radius: 50%;
+    }
+
+    /* Style for the user profile dropdown menu */
+    .dropdown-menu {
+        background-color: #333;
+        color: #fff;
+    }
+
+    .dropdown-item {
+        color: #fff;
+    }
+    .dropdown .btn-secondary {
+    background-color: #25554e; /* Blue background color */
+    color: #fff; /* Text color */
+}
+  </style>
+</head>
+<body>
+
+    <div class="header-container">
+        <div class="header-top">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-7 col-md-12 left-item">
+                        <ul>
+                            <li>
+                                <i class="fas fa-envelope-square"></i>
+                                devicerevive@gmail.com
+                                </li>
+                            <li class="d-none d-sm-block">
+                                <i class="fas fa-phone-square"></i>
+                                7736279659
+                                </li>
+                        </ul>
+                    </div>
+                    
+                </div>
+
+            </div>
+        </div>
+
+        <div class="login-required-message">
+            <div class="login-required-box">
+                <p>Login Required</p>
+                <button class="ok-button">OK</button>
+            </div>
+        </div>
+
+
+        <nav id="menu-jk" class="container-fluid  no-padding">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-1 col-sm-1 logo">
+                        <img class="log" src="{% static '/images/mylogo.png' %}"  alt="">
+                        <img class="log-gray" src="" alt="">
+                        <a data-toggle="collapse" data-target="#nav-head" href="#nav-head">
+                            <i class="fas d-block d-md-none small-menu fa-bars"></i>
+                        </a>
+                    </div>
+                    <div id="nav-head" class="col-md-9 nav-div d-none d-md-block">
+                        <ul>
+                            <li>
+                                <a class="js-scroll-trigger" href="index">HOME</a>
+                            </li>
+                            <li>
+                                <a class="js-scroll-trigger" href="services">SERVICES</a>
+                            </li>
+                            <li>
+                                <a class="js-scroll-trigger" href="{% if user.is_authenticated %}{% url 'booking' %}{% else %}#login-required{% endif %}">
+                                    BOOKING
+                                </a>
+                            </li>
+                          <li>
+                                <a class="js-scroll-trigger" href="about">ABOUT</a>
+                            </li>
+                            <li class="yc">
+                                <a class="js-scroll-trigger" href="why">EXPERIENCE</a>
+                            </li>
+                           <li>
+                                <a class="js-scroll-trigger" href="contact">CONTACT</a>
+                            </li>
+                            <li>
+                                <div class="dropdown">
+                                    <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="adminDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        {% if user.is_authenticated %}
+                                            <img src="{% static '/images/admin.jpg' %}" alt="Admin Icon" class="user-icon">
+                                            {{ user.username }}
+                                        {% else %}
+                                            Login/Sign Up
+                                        {% endif %}
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="adminDropdown">
+                                        {% if user.is_authenticated %}
+                                            <a class="dropdown-item" href="myprofile">Profile</a>
+                                            <a class="dropdown-item" href="logout">Logout</a>
+                                        {% else %}
+                                            <a class="dropdown-item" href="login">Login</a>
+                                            <a class="dropdown-item" href="signup">Sign Up</a>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </div>
+    <br><br><br><br><br><br>
+
+<div class="container">
+    <div class="row gutters">
+        <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12">
+            <div class="card h-100">
+                <div class="card-body">
+                    <div class="row gutters">
+                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                            <h6 class="mb-2 text-primary">Personal Details</h6>
+                        </div>
+                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                            <form method="post">
+                                {% csrf_token %}
+                                
+                                <label for="full-name">Full Name</label>
+                                <input type="text" class="form-control" id="full-name" name="full_name" oninput="validateFullName()" value="{{ user_details.full_name }}" required>
+                                <div id="full-name-error" style="color: red;"></div>
+                                
+                                <label for="eMail">Email</label>
+                                <input type="email" class="form-control" id="eMail" name="email" oninput="validateEmailRealTime()" value="{{ user.email }}" required>
+                                <div id="email-error" style="color: red;"></div>
+                                
+                                
+                                <label for="phone">Phone</label>
+                                <input type="text" class="form-control" id="phone" name="phone" oninput="validatePhoneNumber()" value="{{ user_details.phone }}" required>
+                                <div id="phone-error" style="color: red;"></div>
+                                
+                                <label for="username">Username</label>
+                                <input type="text" class="form-control" id="username" name="username" oninput="validateUsername()" value="{{ user_details.username }}" required>
+                                <div id="username-error" style="color: red;"></div>
+
+                                <label for="home">Home Address</label>
+                                <input type="text" class="form-control" id="home" name="home" oninput="validateHomeAddress()" value="{% if user_details.address %}{{ user_details.address.home_address }}{% endif %}">
+                                <div id="home-address-error" style="color: red;"></div>
+
+                                <label for="city">City</label>
+                                <input type="text" class="form-control" id="city" name="city" oninput="validateCity()" value="{% if user_details.address %}{{ user_details.address.city }}{% endif %}">
+                                <div id="city-error" style="color: red;"></div>
+
+                                
+                                <label for="zip">Zip Code</label>
+                                <input type="text" class="form-control" id="zip" name="zip" oninput="validateZipCode()" value="{% if user_details.address %}{{ user_details.address.pincode }}{% endif %}">
+                                <div id="zip-error" style="color: red;"></div>
+                                
+                                
+                                <button type="submit" class="btn btn-primary" id="updateButton">Update</button>
+                            </form>
+                        </div> 
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--########################## Footer CSS ####################-->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3 about">
+                <h2>About Us</h2>
+                <p>At Device Revive, we are passionate about technology and dedicated to providing top-notch laptop and desktop services. With 20 years of experience in the industry, we have earned a reputation for excellence and reliability.
+                </p>
+
+                <div class="foot-address">
+                    <div class="icon">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <div class="addet">
+                        Kottayam
+                    </div>
+                </div>
+                <div class="foot-address">
+                    <div class="icon">
+                        <i class="far fa-envelope-open"></i>
+                    </div>
+                    <div class="addet">
+                        devicerevive.com
+                        <br>
+                        devicerevive@gmail.com
+                    </div>
+                </div>
+                <div class="foot-address">
+                    <div class="icon">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <div class="addet">
+                        7736279659
+                        <br>
+                        8078046110
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-3 glink">
+                <ul>
+                    <li>
+                        <a href="index">
+                            <i class="fas fa-angle-double-right"></i>Home</a>
+                    </li>
+                    <li>
+                        <a href="about">
+                            <i class="fas fa-angle-double-right"></i>About Us</a>
+                    </li>
+                    <li>
+                        <a href="services">
+                            <i class="fas fa-angle-double-right"></i>Services</a>
+                    </li>
+                    
+                    
+                    <li>
+                        <a href="contact">
+                            <i class="fas fa-angle-double-right"></i>Contact Us</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-3 tags">
+                <h2>Our Services</h2>
+                <ul>
+                    <li>Desktop Service</li>
+                    <li>Laptop Service</li>
+                    <li>Data Recovery</li>
+                    <li>Software Installation</li>
+                    <li>Motherboard Service</li>
+                    <li>Computer Networking</li>
+                    
+                </ul>
+            </div>
+        </div>
+    </div>
+</footer>
+
+</div>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.bundle.min.js"></script>
+<script type="text/javascript">
+	
+</script>
+<script>
+const fullNameInput = document.getElementById("full-name");
+const fullNameError = document.getElementById("full-name-error");
+const submitButton = document.getElementById("submit-button"); // Assuming you have a submit button
+
+function validateFullName() {
+    const fullName = fullNameInput.value;
+
+    if (fullName.startsWith(" ")) {
+        fullNameError.textContent = "Full name cannot start with spaces.";
+        submitButton.disabled = true;
+    } else if (!/^[A-Za-z][A-Za-z\s]*$/.test(fullName)) {
+        fullNameError.textContent = "Full name must start with a letter and can only contain letters and spaces.";
+        submitButton.disabled = true;
+    } else {
+        fullNameError.textContent = "";
+        submitButton.disabled = false;
+    }
+}
+</script>
+<script>
+const emailInput = document.getElementById("eMail");
+
+function validateEmailRealTime() {
+    const email = emailInput.value.trim();
+    const errorElement = document.getElementById("email-error");
+
+    // Check for the specific email address "a@a.com"
+    if (email === "a@a.com") {
+        errorElement.textContent = "Invalid email address.";
+        return;
+    }
+
+    // Updated regular expression pattern for general email validation
+    const emailPattern = /^[a-zA-Z][a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+    if (!emailPattern.test(email)) {
+        errorElement.textContent = "Invalid email format";
+    } else if (!/^[a-zA-Z0-9._%+-]+@(gmail|mca|ajce|yahoo|amaljyothi|ac)\.[a-z.]{2,}$/i.test(email)) {
+        errorElement.textContent = "Invalid email format";
+    } else if ((email.match(/\./g) || []).length > 3) {
+        errorElement.textContent = "Invalid email format";
+    } else if (email.length > 320) {
+        errorElement.textContent = "Invalid email format";
+    } else {
+        errorElement.textContent = "";
+    }
+}
+
+</script>
+<script>
+
+const phoneInput = document.getElementById("phone");
+
+function validatePhoneNumber() {
+    const phoneNumber = phoneInput.value.trim();
+    const phoneError = document.getElementById("phone-error");
+
+    // Validate the phone number using a regular expression
+    if (/^[6-9]\d{9}$/.test(phoneNumber) && !/0{7,9}/.test(phoneNumber)) {
+        // Check if no digit is repeated more than 5 times
+        const repeatedDigits = /(.)\1{4}/g;
+        if (repeatedDigits.test(phoneNumber)) {
+            phoneError.textContent = "Invalid Phone number";
+        } else {
+            phoneError.textContent = "";
+        }
+    } else {
+        phoneError.textContent = "Invalid Phone number";
+    }
+}
+</script>
+<script>
+const usernameInput = document.getElementById("username");
+
+function validateUsername() {
+    const username = usernameInput.value.trim();
+    const usernameError = document.getElementById("username-error");
+
+    // Validate the username using a regular expression
+    const usernamePattern = /^[a-zA-Z0-9]{3,}$/;
+
+    if (usernamePattern.test(username)) {
+        usernameError.textContent = "";
+    } else {
+        usernameError.textContent = "Invalid username. Should be only letters and numbers, and minimum 3 characters.";
+    }
+}
+</script>
+<script>
+    const homeInput = document.getElementById("home");
+
+function validateHomeAddress() {
+    const homeAddress = homeInput.value.trim();
+    const homeAddressError = document.getElementById("home-address-error");
+
+    // Validate the home address using a regular expression
+    const homeAddressPattern = /^[a-zA-Z0-9]{3,}$/;
+
+    if (homeAddressPattern.test(homeAddress)) {
+        homeAddressError.textContent = "";
+    } else {
+        homeAddressError.textContent = "Invalid home address. Should be at least 3 characters and can include letters and numbers.";
+    }
+}
+
+</script>
+<script>
+    const cityInput = document.getElementById("city");
+
+function validateCity() {
+    const city = cityInput.value.trim();
+    const cityError = document.getElementById("city-error");
+
+    // Validate the city using a regular expression
+    const cityPattern = /^[a-zA-Z]{4,}$/;
+
+    if (cityPattern.test(city)) {
+        cityError.textContent = "";
+    } else {
+        cityError.textContent = "Invalid city. Should only contain letters and must be at least 4 characters.";
+    }
+}
+
+</script>
+<script>
+const zipInput = document.getElementById("zip");
+
+function validateZipCode() {
+    const zipCode = zipInput.value.trim();
+    const zipError = document.getElementById("zip-error");
+
+    // Validate the zip code using a regular expression
+    const zipPattern = /^\d{6}$/;
+
+    if (zipPattern.test(zipCode)) {
+        zipError.textContent = "";
+    } else {
+        zipError.textContent = "Invalid zip code. Must be a number and contain exactly 6 digits.";
+    }
+}
+</script>
+</body>
+</html>

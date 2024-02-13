@@ -10,20 +10,16 @@
 	<meta name="viewport"
 		content="width=device-width, 
 				initial-scale=2.0">
-	<title>Edit_Product</title>
+	<title>Add_service</title>
 	<link rel="stylesheet"
 		href="style.css">
 	<link rel="stylesheet"
 		href="responsive.css">
-        <link rel="stylesheet" href="{% static 'style.css' %}">
-        <link rel="stylesheet" href="{% static 'responsive.css' %}">
-        <link rel="shortcut icon" href="{% static 'images/fav.jpg' %}" type="image/x-icon">
-        <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
-        <link rel="stylesheet" href="{% static 'css/fontawsom-all.min.css' %}">
-        <link rel="stylesheet" href="{% static 'css/animate.css' %}">
-        <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
-        
-        <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link rel="shortcut icon" href="{% static "images/fav.jpg" %}" rel="stylesheet"/>
+    <link rel="stylesheet" href="{% static "css/bootstrap.min.css" %}" rel="stylesheet"/>
+    <link rel="stylesheet" href="{% static "css/fontawsom-all.min.css" %}" rel="stylesheet"/>
+    <link rel="stylesheet" href="{% static "css/animate.css" %}" rel="stylesheet"/>
+    <link rel="stylesheet" type="text/css" href="{% static "/css/style.css"%}" rel="stylesheet"/>
 <style>
             /* Main CSS Here */
 
@@ -538,25 +534,6 @@ background-color: #d63737;
             font-size: 14px;
             margin-top: 5px;
         }
-        /* CSS for Save Changes button */
-button[type="submit"] {
-    background-color: #4CAF50; /* Green color */
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 3px;
-    cursor: pointer;
-    font-size: 18px;
-    transition: background-color 0.3s;
-}
-
-button[type="submit"]:hover {
-    background-color: #45a049; /* Darker green color on hover */
-}
-
-     
-
-
 
     </style>
    
@@ -643,14 +620,15 @@ button[type="submit"]:hover {
                                 alt="blog">
                             <h3> Services</h3>
                         </div>
-                </a><br>
-                <a href="{% url 'product_details'%}">
+                </a>
+                <br>
+                <a href="{% url 'product_details' %}">
                     <div class="nav-option option5">
                         <img src=
 "https://media.geeksforgeeks.org/wp-content/uploads/20221210183323/10.png"
                             class="nav-img"
                             alt="blog">
-                        <h3> Product</h3>
+                        <h3>Products</h3>
                     </div>
                 </div>
             </a>
@@ -726,80 +704,46 @@ button[type="submit"]:hover {
     >
                     </div>
                 </div>
-                <div class="report-container form-container">
-                    <div class="report-header">
-                        <h3>Edit Product Details</h3>
-                    </div>
-                    <div class="report-body">
-                        <form method="post" action="{% url 'edit_product' product_id=product.id %}" enctype="multipart/form-data">
-                            {% csrf_token %}
-                            <div class="form-group">
-                                <label for="name">Product Name:</label>
-                                <input type="text" id="name" name="name" value="{{ product.name }}" required>
-                                <div id="name-error" class="error-message"></div>
-                            </div>
     
-                            <div class="form-group">
-                                <label for="brand">Brand:</label>
-                                <input type="text" id="brand" name="brand" value="{{ product.brand }}" required>
-                                <div id="brand-error" class="error-message"></div>
-                            </div>
-    
-                            <div class="form-group">
-                                <label for="model">Model:</label>
-                                <input type="text" id="model" name="model" value="{{ product.model }}" required>
-                                <div id="model-error" class="error-message"></div>
-                            </div>
-    
-                            <div class="form-group">
-                                <label for="description">Description:</label>
-                                <textarea id="description" name="description" rows="4" required>{{ product.description }}</textarea>
-                                <div id="description-error" class="error-message"></div>
-                            </div>
-    
-                            <div class="form-group">
-                                <label for="condition">Condition:</label>
-                                <select id="condition" name="condition" required>
-                                    <option value="new" {% if product.condition == 'new' %}selected{% endif %}>New</option>
-                                    <option value="used" {% if product.condition == 'used' %}selected{% endif %}>Used</option>
-                                    <option value="refurbished" {% if product.condition == 'refurbished' %}selected{% endif %}>Refurbished</option>
-                                </select>
-                                <div id="condition-error" class="error-message"></div>
-                            </div>
-    
-                            <div class="form-group">
-                                <label for="year">Year:</label>
-                                <input type="text" id="year" name="year" value="{{ product.year }}" required>
-                                <div id="year-error" class="error-message"></div>
-                            </div>
-    
-                            <div class="form-group">
-                                <label for="price">Price:</label>
-                                <input type="number" id="price" name="price" value="{{ product.price }}" required>
-                                <div id="price-error" class="error-message"></div>
-                            </div>
-    
-                            <div class="form-group">
-                                <label for="image">Product Image:</label>
-                                <input type="file" id="image" name="image" accept="image/*" required>
-                                <div id="image-error" class="error-message"></div>
-                            </div>
-                            <div class="form-group">
-                                <label for="is_available">Is Available:</label>
-                                <input type="checkbox" id="is_available" name="is_available" {% if product.is_available %}checked{% endif %}>
-                                <div id="is_available-error" class="error-message"></div>
-                            </div>
-                            
-    
-                            <center>
-                                <button type="submit">Save Changes</button>
-                            </center>
-                        </form>
-                    </div>
+              
+            <!-- Your existing content here -->
+
+            <div class="report-container form-container">
+                <div class="report-header">
+                    <h3>Add New Services</h3>
+                </div>
+                <div class="report-body">
+                    <form method="post" action="{% url 'add_service' %}">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="name">Service Name:</label>
+                            <input type="text" id="name" name="name"  required>
+                            <div id="name-error" class="error-message"></div>
+                        </div>
+        
+                        <div class="form-group">
+                            <label for="description">Description:</label>
+                            <input type="text" id="description" name="description" required>
+                            <div id="description-error" class="error-message"></div>
+                        </div>
+        
+                        <div class="form-group">
+                            <label for="price">Price:</label>
+                            <input type="number" id="price" name="price" required>
+                            <div id="price-error" class="error-message"></div>
+                        </div>
+        
+                        <div class="form-group availability-checkbox">
+                            <input type="checkbox" id="checkbox-availability" name="is_available">
+                            <label for="is_available">Available</label>
+                        </div>
+        
+                        <div class="form-group">
+                            <input type="submit" class="form-submit-button" value="Add Service">
+                        </div>
+                    </form>
                 </div>
             </div>
-        </div>
-    
             
         <script src="{% static '/assets/js/jquery-3.5.1.min.js'%}"></script>
 
@@ -812,6 +756,134 @@ button[type="submit"]:hover {
         <script src="{% static '/assets/js/theme.js'%}"></script>
         <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script> 
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.bundle.min.js"></script>
+
+        
+        <script>
+            function updateAvailability() {
+                const checkbox = document.getElementById("checkbox-availability");
+                const availabilityField = document.getElementById("availability");
+
+        
+                if (checkbox.checked) {
+                    availabilityField.value = "True";
+                } else {
+                    availabilityField.value = "False";
+                }
+            }
+        </script>
+
+        <!-- Add this JavaScript section at the end of your file, just before the closing </body> tag -->
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const nameInput = document.getElementById("name");
+        const descriptionInput = document.getElementById("description");
+        const priceInput = document.getElementById("price");
+        const form = document.querySelector("form");
+
+        nameInput.addEventListener("input", function () {
+            validateName(nameInput.value);
+        });
+
+        descriptionInput.addEventListener("input", function () {
+            validateDescription(descriptionInput.value);
+        });
+
+        priceInput.addEventListener("input", function () {
+            validatePrice(priceInput.value);
+        });
+
+        function validateName(name) {
+            const errorDiv = document.getElementById("name-error");
+            const regex = /^[a-zA-Z\s]+$/; // Regular expression to match only letters and spaces
+        
+            if (name.trim().length < 5) {
+                errorDiv.textContent = "Service name must contain at least 5 characters.";
+            } else if (!regex.test(name)) {
+                errorDiv.textContent = "Service name must contain only letters and spaces.";
+            } else {
+                errorDiv.textContent = "";
+            }
+        }
+        
+
+        function validateDescription(description) {
+            const errorDiv = document.getElementById("description-error");
+            const words = description.trim().split(/\s+/);
+            
+            // Regular expression to check if the first word starts with a letter
+            const startsWithLetterRegex = /^[a-zA-Z]/;
+        
+            if (words.length < 5 || !startsWithLetterRegex.test(words[0])) {
+                errorDiv.textContent = "Description must contain at least 5 words, and it should start with a letter.";
+            } else {
+                errorDiv.textContent = "";
+            }
+        }
+        
+
+        function validatePrice(price) {
+            const parsedPrice = parseFloat(price);
+            const errorDiv = document.getElementById("price-error");
+
+            if (isNaN(parsedPrice) || parsedPrice < 0) {
+                errorDiv.textContent = "Please enter a valid positive price.";
+            } else {
+                errorDiv.textContent = "";
+            }
+        }
+
+        form.addEventListener("submit", function (event) {
+            validateName(nameInput.value);
+            validateDescription(descriptionInput.value);
+            validatePrice(priceInput.value);
+
+            const errorDivs = document.querySelectorAll(".error-message");
+            for (const errorDiv of errorDivs) {
+                if (errorDiv.textContent !== "") {
+                    event.preventDefault();
+                    break;
+                }
+            }
+        });
+    });
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const nameInput = document.getElementById("name");
+        const nameErrorDiv = document.getElementById("name-error");
+
+        nameInput.addEventListener("input", function () {
+            const serviceName = nameInput.value.trim();
+            if (serviceName.length >= 5) {
+                // Send an AJAX request to check if the service name exists
+                checkServiceName(serviceName);
+            } else {
+                nameErrorDiv.textContent = "Service name must contain at least 5 characters.";
+            }
+        });
+
+        function checkServiceName(serviceName) {
+            // Make an AJAX request to your Django view to check if the service name exists
+            const xhr = new XMLHttpRequest();
+            xhr.open("GET", `/check_service_name/?name=${encodeURIComponent(serviceName)}`, true);
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    const response = JSON.parse(xhr.responseText);
+
+                    if (response.exists) {
+                        nameErrorDiv.textContent = "This service name already exists.";
+                    } else {
+                        nameErrorDiv.textContent = "";
+                    }
+                }
+            };
+
+            xhr.send();
+        }
+    });
+</script>
         
     </body>
     </html>

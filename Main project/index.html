@@ -1,0 +1,503 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, shrink-to-fit=no, user-scalable=no">
+        <title>index
+            </title>
+
+        <link rel="shortcut icon" href="{% static "images/fav.jpg" %}" rel="stylesheet"/>
+        <link rel="stylesheet" href="{% static "css/bootstrap.min.css" %}" rel="stylesheet"/>
+        <link rel="stylesheet" href="{% static "css/fontawsom-all.min.css" %}" rel="stylesheet"/>
+        <link rel="stylesheet" href="{% static "css/animate.css" %}" rel="stylesheet"/>
+        <link rel="stylesheet" type="text/css" href="{% static "/css/style.css"%}" rel="stylesheet"/>
+
+        <style>
+            .custom-button {
+                background-color: #FF5733;
+                color: #FFFFFF;
+                font-size: 25px;
+                /* Add any other styles you want here */
+            }
+
+            /* Add this CSS to your existing styles */
+            .nav-div ul {
+              list-style: none;
+               padding: 0;
+              margin: 0;
+             display: flex; /* Make the list items display in a row */
+            align-items: center; /* Vertically center items */
+           }
+
+         .nav-div ul li {
+            margin-right: 10px; /* Add spacing between list items */
+          }
+
+          .nav-div ul li:last-child {
+          margin-right: 0; /* Remove margin from the last list item */
+          }
+
+         /* Style for the login/signup button */
+        .nav-div ul li:last-child a {
+       background-color: #2a5945;
+       color: #FFFFFF;
+       font-size: 15px;
+       padding: 10px 20px; /* Adjust padding as needed */
+       border-radius: 5px; /* Add rounded corners */
+       text-decoration: none;
+      }
+
+      .nav-div ul li:last-child a:hover {
+    background-color: #FF4500; /* Change color on hover */
+     }
+     /* login required */
+
+     .login-required-message {
+        display: none;
+        justify-content: center;
+        align-items: center;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
+        z-index: 9999; /* Ensure it's above other elements */
+    }
+
+    .login-required-box {
+        background-color: #fff; /* White background for the box */
+        padding: 20px;
+        border-radius: 5px;
+        text-align: center;
+    }
+
+    .login-required-message p {
+        margin: 0;
+    }
+
+    .ok-button {
+        background-color: #2a5945;
+        color: #fff;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    /* Style for user icon */
+    .user-icon {
+        width: 45px;
+        height: 45px;
+        margin-right: 10px;
+        border-radius: 50%;
+    }
+
+    /* Style for the user profile dropdown menu */
+    .dropdown-menu {
+        background-color: #333;
+        color: #fff;
+    }
+
+    .dropdown-item {
+        color: #fff;
+    }
+    .dropdown .btn-secondary {
+    background-color: #25554e; 
+    color: #fff; 
+}
+.selected {
+    color: #FFD700; 
+} 
+
+.testimonial-section {
+    background-color: rgba(0, 0, 0, 0.7); 
+    color: #fff; /* White text */
+    padding: 50px 0; 
+}
+
+.testimonial-carousel {
+    display: flex;
+    flex-direction: row;
+    overflow-x: auto;
+    margin: -15px;
+}
+
+.testimonial-carousel > div {
+    margin: 0 15px;
+}
+
+.testimonial-carousel .bg-light {
+    background-color: rgba(255, 255, 255, 0.9); 
+    color: #000; 
+}
+.existing-review {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.rating {
+    color: #f8d400; 
+}
+</style>
+    
+    </head>
+    
+    <body>
+
+        <!--########################## Header CSS ####################-->
+        <div class="header-container">
+            <div class="header-top">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-7 col-md-12 left-item">
+                            <ul>
+                                <li>
+                                    <i class="fas fa-envelope-square"></i>
+                                    devicerevive@gmail.com
+                                    </li>
+                                <li class="d-none d-sm-block">
+                                    <i class="fas fa-phone-square"></i>
+                                    7736279659
+                                    </li>
+                            </ul>
+                        </div>
+                        
+                    </div>
+
+                </div>
+            </div>
+           
+            <div class="login-required-message">
+                <div class="login-required-box">
+                    <p>Login Required</p>
+                    <button class="ok-button">OK</button>
+                </div>
+            </div>
+
+            <nav id="menu-jk" class="container-fluid  no-padding">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-1 col-sm-1 logo">
+                            <img class="log" src="{% static '/images/mylogo.png' %}"  alt="">
+                            <img class="log-gray" src="" alt="">
+                            <a data-toggle="collapse" data-target="#nav-head" href="#nav-head">
+                                <i class="fas d-block d-md-none small-menu fa-bars"></i>
+                            </a>
+                        </div>
+                        <div id="nav-head" class="col-md-9 nav-div d-none d-md-block">
+                            <ul>
+                                <li>
+                                    <a class="js-scroll-trigger" href="index">HOME</a>
+                                </li>
+                                <li>
+                                    <a class="js-scroll-trigger" href="services">SERVICES</a>
+                                </li>
+                                <li>
+                                    <a class="js-scroll-trigger" href="{% if user.is_authenticated %}{% url 'booking' %}{% else %}#login-required{% endif %}">
+                                        BOOKING
+                                    </a>
+
+                                </li>
+                                
+                                <li>
+                                    <a class="js-scroll-trigger" href="ecommerce">PRODUCTS</a>
+                                </li>
+                                <li>
+                                    <a class="js-scroll-trigger" href="about">ABOUT</a>
+                                </li>
+                                
+
+                                <li>
+                                    <a class="js-scroll-trigger" href="contact">CONTACT</a>
+                                </li>
+                                <div class="dropdown">
+                                    <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="adminDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        {% if user.is_authenticated %}
+                                            <img src="{% static '/images/admin.jpg' %}" alt="Admin Icon" class="user-icon">
+                                            {{ user.username }}
+                                        {% else %}
+                                            Login/Sign Up
+                                        {% endif %}
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="adminDropdown">
+                                        {% if user.is_authenticated %}
+                                            <a class="dropdown-item" href="myprofile">Profile</a>
+                                            <a class="dropdown-item" href="logout">Logout</a>
+                                        {% else %}
+                                            <a class="dropdown-item" href="login">Login</a>
+                                            <a class="dropdown-item" href="signup">Sign Up</a>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                
+                                
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+     
+      
+        <!--########################## Slider CSS ####################-->
+
+        <div id="home" class="banner-container no-padding">
+            <div class="container">
+                <div class="row mx-auto"></div>
+                <div class="slider-det">
+                    <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+                        
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <span>Device Revive</span>
+                                <h2>WE DO ALL! </h2>
+                                <p>Revive. Repair. Thrive</p>
+                            </div>
+                            <div class="carousel-item">
+                                <span>Device Revive</span>
+                                <h2>Your Trusted Tech Partner.</h2>
+                                
+                            </div>
+                            <div class="carousel-item">
+                                <span>Device Revive</span>
+                                <h2>Empowering Your Digital World</h2>
+                                
+                            </div>
+                            
+                        </div>
+                        <a
+                            class="carousel-control-prev"
+                            href="#carouselExampleControls"
+                            role="button"
+                            data-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a
+                            class="carousel-control-next"
+                            href="#carouselExampleControls"
+                            role="button"
+                            data-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+
+        <!--########################## Key Features CSS ####################-->
+
+        <div class="key-container container-fluid">
+            <div class="container">
+                <div class="row key-row">
+                    <div class="col-md-4 key-col">
+                        <h2>20 Years Experience</h2>
+                        <p>At Device Revive, we take pride in our two decades of dedicated service in the world of laptop and desktop repairs. With 20 years of invaluable experience under our belt, we have established ourselves as a trusted and reliable name in the industry.
+                        </p>
+                        <a href=""></a>
+                    </div>
+                    <div class="col-md-4 key-col">
+                        <h2>Advanced Technology</h2>
+                        <p>At Device Revive, we are committed to staying at the forefront of technology to provide you with the most advanced and efficient laptop and desktop repair services. We believe that investing in cutting-edge technology is key to delivering superior results and exceeding your expectations.
+                        </p>
+                        <a href=""></a>
+                    </div>
+                    <div class="col-md-4 no-br key-col">
+                        <h2>24 x 7 Support</h2>
+                        <p>At Device Revive, our dedication to your satisfaction extends beyond regular business hours. We understand that laptop and desktop issues don't always conform to a 9-to-5 schedule, which is why we offer round-the-clock, 24/7 support to ensure you receive the assistance you need precisely when you need it.
+                        </p>
+                        <a href=""></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+         <!-- Testimonial Start -->
+         <div class="testimonial-section">
+            <div class="container p-0 pt-5">
+                <div class="d-flex flex-column text-center mb-5">
+                    <h4 class="text-secondary mb-3">Testimonial</h4>
+                    <h1 class="display-4 m-0">Our Client <span class="text-primary">Says</span></h1>
+                </div>
+            <div class="owl-carousel testimonial-carousel">
+                <div class="bg-light mx-3 p-4">
+                    <div class="d-flex align-items-end mb-3 mt-n4 ml-n4">
+                        <!--<img class="img-fluid" src="" style="width: 80px; height: 80px;" alt="">-->
+                        <div class="ml-3">
+                            <h5>Aneesh</h5>
+                            <i>Web Developer</i>
+                        </div>
+                    </div>
+                    <p class="m-0">Device Revive provided excellent service and fixed my laptop quickly. I highly recommend their professional team!</p>
+                </div>
+                <div class="bg-light mx-3 p-4">
+                    <div class="d-flex align-items-end mb-3 mt-n4 ml-n4">
+                       <!-- <img class="img-fluid" src="" style="width: 80px; height: 80px;" alt="">-->
+                        <div class="ml-3">
+                            <h5>Ajesh</h5>
+                            <i>IT Manager</i>
+                        </div>
+                    </div>
+                    <p class="m-0">I had a great experience with Device Revive's team. They were fast and efficient in resolving my desktop issues.</p>
+                </div>
+                <div class="bg-light mx-3 p-4">
+                    <div class="d-flex align-items-end mb-3 mt-n4 ml-n4">
+                        <!--<img class="img-fluid" src="" style="width: 80px; height: 80px;" alt="">-->
+                        <div class="ml-3">
+                            <h5>Anagha</h5>
+                            <i>Graphic Designer</i>
+                        </div>
+                    </div>
+                    <p class="m-0">I'm impressed with Device Revive's expertise in software installation. They solved my software issues in no time.</p>
+                </div>
+                <div class="bg-light mx-3 p-4">
+                    <div class="d-flex align-items-end mb-3 mt-n4 ml-n4">
+                       <!--<img class="img-fluid" src="" style="width: 80px; height: 80px;" alt="">-->
+                        <div class="ml-3">
+                            <h5>Anju</h5>
+                            <i>Marketing Manager</i>
+                        </div>
+                    </div>
+                    <p class="m-0">Device Revive provided excellent customer support 24/7. They ensured my computer networking issues were resolved promptly.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Testimonial End -->
+    <br>
+    <br>
+    
+    <center>
+       <h2>REVIEWS AND RATINGS</h2>
+<div class="existing-reviews">
+    {% for review in reviews %}
+        <div class="existing-review">
+            <h5>{{ review.user.username }}</h5>
+            <div class="rating">
+                {% for _ in "12345"|slice:review.rating %}
+                    <span class="star selected">&#9733;</span>
+                {% endfor %}
+            </div>
+            <p>{{ review.comment }}</p>
+            <p class="text-muted">Created at: {{ review.created_at|date:"F j, Y" }}</p>
+        </div>
+    {% endfor %}
+</div>
+</form>
+
+</center>
+<br>
+        
+ <!--########################## Footer CSS ####################-->
+        <footer>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-3 about">
+                        <h2>About Us</h2>
+                        <p>At Device Revive, we are passionate about technology and dedicated to providing top-notch laptop and desktop services. With 20 years of experience in the industry, we have earned a reputation for excellence and reliability.
+                        </p>
+
+                        <div class="foot-address">
+                            <div class="icon">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div class="addet">
+                                Kottayam
+                            </div>
+                        </div>
+                        <div class="foot-address">
+                            <div class="icon">
+                                <i class="far fa-envelope-open"></i>
+                            </div>
+                            <div class="addet">
+                                devicerevive.com
+                                <br>
+                                devicerevive@gmail.com
+                            </div>
+                        </div>
+                        <div class="foot-address">
+                            <div class="icon">
+                                <i class="fas fa-mobile-alt"></i>
+                            </div>
+                            <div class="addet">
+                                7736279659
+                                <br>
+                                8078046110
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-3 glink">
+                        <ul>
+                            <li>
+                                <a href="index">
+                                    <i class="fas fa-angle-double-right"></i>Home</a>
+                            </li>
+                            <li>
+                                <a href="about">
+                                    <i class="fas fa-angle-double-right"></i>About Us</a>
+                            </li>
+                            <li>
+                                <a href="services">
+                                    <i class="fas fa-angle-double-right"></i>Services</a>
+                            </li>
+                            
+                            
+                            <li>
+                                <a href="contact">
+                                    <i class="fas fa-angle-double-right"></i>Contact Us</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-md-3 tags">
+                        <h2>Our Services</h2>
+                        <ul>
+                            <li>Desktop Service</li>
+                            <li>Laptop Service</li>
+                            <li>Data Recovery</li>
+                            <li>Software Installation</li>
+                            <li>Motherboard Service</li>
+                            <li>Computer Networking</li>
+                            
+                        </ul>
+                    </div> 
+                </div>
+            </div>
+        </footer>
+    </div>
+    </body>
+    <script src="{% static '/js/jquery-3.2.1.min.js' %}"></script>
+    <script src="{% static '/js/popper.min.js' %}"></script>
+    <script src="{% static '/js/bootstrap.min.js' %}"></script>
+    <script src="{% static '/plugins/scroll-fixed/jquery-scrolltofixed-min.js' %}"></script>
+    <script src="{% static '/js/script.js' %}"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  
+    
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        var bookingLink = document.querySelector('.js-scroll-trigger[href="#login-required"]');
+        var loginRequiredMessage = document.querySelector('.login-required-message');
+        var okButton = document.querySelector('.ok-button');
+    
+        bookingLink.addEventListener("click", function(event) {
+            event.preventDefault(); // Prevent the default link behavior
+            loginRequiredMessage.style.display = "flex"; // Show the message
+        });
+
+        okButton.addEventListener("click", function() {
+            loginRequiredMessage.style.display = "none"; // Hide the message when OK is clicked
+        });
+    });
+</script>
+
+    
+        
+
+</html>

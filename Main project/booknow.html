@@ -1,0 +1,686 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, shrink-to-fit=no, user-scalable=no">
+        <title>
+            </title>
+
+        <link rel="shortcut icon" href="{% static "images/fav.jpg" %}" rel="stylesheet"/>
+        <link rel="stylesheet" href="{% static "css/bootstrap.min.css" %}" rel="stylesheet"/>
+        <link rel="stylesheet" href="{% static "css/fontawsom-all.min.css" %}" rel="stylesheet"/>
+        <link rel="stylesheet" href="{% static "css/animate.css" %}" rel="stylesheet"/>
+        <link rel="stylesheet" type="text/css" href="{% static "/css/style.css"%}" rel="stylesheet"/>
+        <style>
+            /* Style for the login/signup button */
+           .nav-div ul li:last-child a {
+               background-color:#2a6b5f;
+               color: #FFFFFF;
+               font-size: 11px;
+                padding: 10px 20px; /* Adjust padding as needed */
+               border-radius: 5px; /* Add rounded corners */
+               text-decoration: none;
+            } 
+
+            .bg-primary {
+                background-color: #2a6b5f!important; /* Change to your desired color */
+            }
+
+             /* login required */
+
+            .login-required-message {
+               display: none;
+               justify-content: center;
+               align-items: center;
+               position: fixed;
+               top: 0;
+               left: 0;
+               width: 100%;
+               height: 100%;
+               background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
+               z-index: 9999; /* Ensure it's above other elements */
+           }
+       
+           .login-required-box {
+               background-color: #fff; /* White background for the box */
+               padding: 20px;
+               border-radius: 5px;
+               text-align: center;
+           }
+       
+           .login-required-message p {
+               margin: 0;
+           }
+       
+           .ok-button {
+               background-color: #2a5945;
+               color: #fff;
+               padding: 10px 20px;
+               border-radius: 5px;
+               cursor: pointer;
+           }
+
+           /* Style for user icon */
+           .user-icon {
+               width: 45px;
+               height: 45px;
+               margin-right: 10px;
+               border-radius: 50%;
+           }
+       
+           /* Style for the user profile dropdown menu */
+           .dropdown-menu {
+               background-color: #333;
+               color: #fff;
+           }
+       
+           .dropdown-item {
+               color: #fff;
+           }
+           .dropdown .btn-secondary {
+           background-color: #25554e; /* Blue background color */
+           color: #fff; /* Text color */
+       }
+
+       .hidden {
+        display: none;
+    }
+
+    .service-list-box {
+        background-color: white;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        padding: 20px;
+        margin: 20px 0;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    
+
+    .error-message {
+        color: red; /* Set error message color to red */
+    }
+
+    /* Center the button horizontally and vertically */
+button {
+    display: block;
+    margin: 0 auto;
+    text-align: center;
+    padding: 10px 20px; /* Adjust the padding as needed */
+    background-color: #007ae1; /* Change the background color */
+    color: #fff; /* Text color */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* Style the button on hover */
+button:hover {
+    background-color: #0056b3; /* Change the background color on hover */
+}
+
+
+        </style>
+        
+    </head>
+    
+    <body>
+
+        <!--########################## Header CSS ####################-->
+        <div class="header-container">
+            <div class="header-top">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-7 col-md-12 left-item">
+                            <ul>
+                                <li>
+                                    <i class="fas fa-envelope-square"></i>
+                                    devicerevive@gmail.com
+                                    </li>
+                                <li class="d-none d-sm-block">
+                                    <i class="fas fa-phone-square"></i>
+                                    9567854321
+                                    </li>
+                            </ul>
+                        </div>
+                        <div class="col-lg-5 d-none d-lg-block right-item">
+                            <ul>
+                                <li>
+                                    <a>
+                                        <i class="fab fa-github" style="color: white;" ></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="">
+                                        <i class="fab fa-linkedin-in" style="color: white;"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="">
+                                        <i class="fab fa-pinterest-p" style="color: white;"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="">
+                                        <i class="fab fa-twitter" style="color: white;"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="">
+                                        <i class="fab fa-facebook-f" style="color: white;"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="login-required-message">
+                <div class="login-required-box">
+                    <p>Login Required</p>
+                    <button class="ok-button">OK</button>
+                </div>
+            </div>
+
+            <nav id="menu-jk" class="container-fluid  no-padding">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-1 col-sm-1 logo">
+                            <img class="log" src="{% static '/images/mylogo.png' %}"  alt="">
+                            <img class="log-gray" src="" alt="">
+                            <a data-toggle="collapse" data-target="#nav-head" href="#nav-head">
+                                <i class="fas d-block d-md-none small-menu fa-bars"></i>
+                            </a>
+                        </div>
+                        <div id="nav-head" class="col-md-9 nav-div d-none d-md-block">
+                            <ul>
+                                <li>
+                                    <a class="js-scroll-trigger" href="index">HOME</a>
+                                </li>
+                                <li>
+                                    <a class="js-scroll-trigger" href="services">SERVICES</a>
+                                </li>
+                                <li>
+                                    <a class="js-scroll-trigger" href="{% if user.is_authenticated %}{% url 'booking' %}{% else %}#login-required{% endif %}">
+                                        BOOKING
+                                    </a>
+
+                                </li>
+                               
+                                
+                                
+                                <li>
+                                    <a class="js-scroll-trigger" href="about">ABOUT</a>
+                                </li>
+                                <li>
+                                    <a class="js-scroll-trigger" href="about">PRODUCTS</a>
+                                </li>
+
+                                <li>
+                                    <a class="js-scroll-trigger" href="contact">CONTACT</a>
+                                </li>
+                                <li>
+                                    <div class="dropdown">
+                                        <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="adminDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            {% if user.is_authenticated %}
+                                                <img src="{% static '/images/admin.jpg' %}" alt="Admin Icon" class="user-icon">
+                                                {{ user.username }}
+                                            {% else %}
+                                                Login/Sign Up
+                                            {% endif %}
+                                        </a>
+                                        <div class="dropdown-menu" aria-labelledby="adminDropdown">
+                                            {% if user.is_authenticated %}
+                                                <a class="dropdown-item" href="myprofile">Profile</a>
+                                                <a class="dropdown-item" href="logout">Logout</a>
+                                            {% else %}
+                                                <a class="dropdown-item" href="login">Login</a>
+                                                <a class="dropdown-item" href="signup">Sign Up</a>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                    
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+
+        <!--########################## Slider CSS ####################-->
+
+        <div id="home" class="banner-container no-padding">
+            <div class="container">
+                <div class="row mx-auto"></div>
+                <div class="slider-det">
+                    <h1>DEVICE REVIVE</h1>
+                    <h3>SERVICE BOOKING</h3>
+                        
+                        
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+<!-- Booking Start -->
+
+<br><br>
+<div>
+    <div class="container" style="max-width: 1500px;">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="bg-primary py-3 px-4 px-sm-5">
+                    <center><label style="font-size: xx-large;color: white">&nbsp &nbsp&nbsp&nbsp Booking Details</label></center>
+                    <form id="booking-form" class="py-3" method="post" action="{% url 'booknow' %}">
+                        {% csrf_token %}
+            
+                        <div class="form-group">
+                            <input type="text" name="full_name" class="form-control border-0 p-4" placeholder="Name" value="{{  user_details.full_name }}" required="required" oninput="validateName(this)" disabled/>
+                            <span id="name-error" class="error-message"></span>
+                        </div>
+                    
+                        <div class="form-group">
+                            <input type="email" name="email" class="form-control border-0 p-4" placeholder="Email" value="{{ user.email }}" required="required" oninput="validateEmail(this)" disabled />
+                            <span id="email-error" class="error-message"></span>
+                        </div>
+                    
+                        <div class="form-group">
+                            <input type="text" name="phone_number" class="form-control border-0 p-4" placeholder="Phone No." value="{{ user_details.phone }}" required="required" oninput="validatePhoneNumber(this)"disabled />
+                            <span id="phone-error" class="error-message"></span>
+                        </div>
+
+                        <span style="color: white;">Address:</span><br><br>
+                        <div class="radio-box">
+                            <label class="radio-label" style="color: white;">
+                                <input type="radio" id="current-address-choice" name="address_choice" value="current-address" checked onchange="toggleAddressFields()">
+                                Use Current Address
+                            </label>
+                            <label class="radio-label" style="color: white;">
+                                <input type="radio" id="new-address-choice" name="address_choice" value="new-address" onchange="toggleAddressFields()">
+                                Enter New Address
+                            </label>
+                        </div>
+                        
+                        <div id="current-address-fields">
+                            <input type="text" id="current-home-address" name="address.home_address" placeholder="Current Home Address" readonly value="{{ user_details.address.home_address }}" style="width: 100%;" disabled>
+                            <input type="text" id="current-city" name="address.city" placeholder="Current City" readonly value="{{ user_details.address.city }}" style="width: 100%;" disabled>
+                            <input type="text" id="current-pincode" name="address.pincode" placeholder="Current Pincode" readonly value="{{ user_details.address.pincode }}" style="width: 100%;" disabled>
+                        </div>
+                        
+                        <div id="new-address-fields" class="new-address-fields" style="display: none;">
+                            <input type="text" id="new-home-address" name="new_home_address" placeholder="New Home Address" style="width: 100%;">
+                            <div id="home-address-error" style="color: red;"></div>
+                        
+                            <input type="text" id="new-city" name="new_city" placeholder="New City" style="width: 100%;">
+                            <div id="city-error" style="color: red;"></div>
+                        
+                            <input type="text" id="new-pincode" name="new_pincode" placeholder="New Pincode" style="width: 100%;">
+                            <div id="pincode-error" style="color: red;"></div>
+                        </div>
+                        
+                        
+                        <div class="form-group">
+                            <label for="deviceType" style="color: white;">Select Device Type:</label>
+                            <select id="deviceType" name="deviceType" class="form-control" required onchange="showLaptopBrandField()">
+                                <option value="" selected disabled hidden>Select your Device Type</option>
+                                <option value="laptop">Laptop</option>
+                                <option value="desktop">Desktop</option>
+                            </select>
+                        </div>
+                        
+                        <div id="brandField" class="form-group" style="display: none;">
+                            <label for="brand" style='color:white;'>Laptop Brand:</label>
+                            <select id="brand" name="brand" class="form-control">
+                                {% for brand_value, brand_label in laptop_brand_choices %}
+                                    <option value="{{ brand_value }}">{{ brand_label }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label style="color: white;">Select Service(s):</label>
+                            {% for service in services %}
+                                <div class="form-check">
+                                    <input type="checkbox" id="service_{{ service.id }}" name="selected_services" value="{{ service.id }}" class="service-checkbox" data-cost="{{ service.price }}">
+                                    <label for="service_{{ service.id }}" style="color: white;">{{ service.name }} - Rs.{{ service.price }}</label>
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <div class="form-group">
+                            <label for="comments" style="color: white;">Additional Comments:</label>
+                            <textarea id="comments" name="comments" class="form-control" rows="4" placeholder="Enter any additional comments here"></textarea>
+                        </div>
+                        
+                        
+                       <!--
+                        <div class="form-group">
+                            <span style="color: white;">Choose mode of service :</span><br><br>
+                            <label style="display: inline; color: white;">
+                                <input type="radio" id="homeService" name="serviceMode" value="OnSite" checked> On-Site Service
+                            </label>
+                            <label style="display: inline; color: white;">
+                                <input type="radio" id="centerService" name="serviceMode" value="ServiceCenter"> Service Center
+                            </label>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="onsite-service-charge" style="color: white;">On-Site Service Charge:</label>
+                            <input type="text" id="onsite-service-charge" name="onsite_service_charge" class="form-control" disabled>
+                        </div>-->
+                        <div class="form-group">
+                            <label for="total-service-cost" style="color:white;">Total Service Cost:</label>
+                            <input type="text" id="total-service-cost" name="total_service_cost" readonly>
+                        </div>
+        
+                        <div class="form-group">
+                            <label for="preferredDate" style="color:white;">Preferred Date:</label>
+                            <input type="date" class="form-control" id="preferredDate" name="preferredDate" required onkeydown="return false">
+                        </div>
+                        
+
+                        <div class="form-group">
+                            <label for="preferredTime" style="color:white;">Preferred Time:</label>
+                            <input type="time" id="preferredTime" name="preferredTime" required>
+</div>
+<center>
+<input type="submit" class="btn btn-lg btn-primary mt-3 px-4" value="Submit">
+</center>
+</form>
+
+                </div>
+            </div>
+    
+            
+        </div>
+    </div>
+</div>
+<!-- Booking Start -->
+
+
+<br><br>
+
+        <!--########################## Footer CSS ####################-->
+        <footer>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-3 about">
+                        <h2>About Us</h2>
+                        <p>At Device Revive, we are passionate about technology and dedicated to providing top-notch laptop and desktop services. With 20 years of experience in the industry, we have earned a reputation for excellence and reliability.
+                        </p>
+
+                        <div class="foot-address">
+                            <div class="icon">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div class="addet">
+                                Kottayam
+                            </div>
+                        </div>
+                        <div class="foot-address">
+                            <div class="icon">
+                                <i class="far fa-envelope-open"></i>
+                            </div>
+                            <div class="addet">
+                                devicerevive.com
+                                <br>
+                                devicerevive@gmail.com
+                            </div>
+                        </div>
+                        <div class="foot-address">
+                            <div class="icon">
+                                <i class="fas fa-mobile-alt"></i>
+                            </div>
+                            <div class="addet">
+                                9567854321
+                                <br>
+                                8078046110
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-3 glink">
+                        <ul>
+                            <li>
+                                <a href="index">
+                                    <i class="fas fa-angle-double-right"></i>Home</a>
+                            </li>
+                            <li>
+                                <a href="about">
+                                    <i class="fas fa-angle-double-right"></i>About Us</a>
+                            </li>
+                            <li>
+                                <a href="services">
+                                    <i class="fas fa-angle-double-right"></i>Services</a>
+                            </li>
+                            <li>
+                                <a href="contact">
+                                    <i class="fas fa-angle-double-right"></i>Contact</a>
+                            </li>
+                           
+                        </ul>
+                    </div>
+                    
+                    <div class="col-md-3 tags">
+                        <h2>Our Services</h2>
+                        <ul>
+                            <li>Desktop Service</li>
+                            <li>Laptop Service</li>
+                            <li>Data Recovery</li>
+                            <li>Software Installation</li>
+                            <li>Motherboard Service</li>
+                            <li>Computer Networking</li>
+                            
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </footer>
+        <div class="copy">
+            <div class="container">
+                <a href=></a>
+
+                <span>
+                    <a>
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <a >
+                        <i class="fab fa-google-plus-g"></i>
+                    </a>
+                    <a href="">
+                        <i class="fab fa-pinterest-p"></i>
+                    </a>
+                    <a href="">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                </span>
+            </div>
+
+        </div>
+    
+    <script src="{% static '/js/jquery-3.2.1.min.js' %}"></script>
+    <script src="{% static '/js/popper.min.js' %}"></script>
+    <script src="{% static '/js/bootstrap.min.js' %}"></script>
+    <script src="{% static '/plugins/scroll-fixed/jquery-scrolltofixed-min.js' %}"></script>
+    <script src="{% static '/js/script.js' %}"></script>
+   
+
+    <script>
+        function showLaptopBrandField() {
+            var serviceType = document.getElementById("service_type").value;
+            var laptopBrandField = document.getElementById("laptop_brand_field");
+    
+            if (serviceType === "Laptop") {
+                laptopBrandField.style.display = "block";
+            } else {
+                laptopBrandField.style.display = "none";
+            }
+        }
+    </script>
+
+   
+<!-- Add this script after the existing scripts -->
+<script>
+    function redirectToBookingConfirmation() {
+        // Get the user's selected services
+    const selectedServices = [];
+    const serviceCheckboxes = document.querySelectorAll('input[type="checkbox"][name="selected_services"]');
+    serviceCheckboxes.forEach(checkbox => {
+        if (checkbox.checked) {
+            selectedServices.push(checkbox.value);
+        }
+    });
+
+    // Calculate the total cost based on selected services
+    const totalCost = calculateTotalCost(selectedServices);
+    
+        // Get the selected date
+        const selectedDate = document.getElementById("from-date").value;
+        
+    
+        const bookingConfirmationURL = `/bookingconfirmation?selected_services=${selectedServices.join(',')}&cost=${totalCost}&date=${selectedDate}`;
+
+        window.location.href = bookingConfirmationURL;
+    }
+    
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Add event listeners for checkbox clicks
+        const serviceCheckboxes = document.querySelectorAll('.service-checkbox');
+        serviceCheckboxes.forEach(function (checkbox) {
+            checkbox.addEventListener('change', calculateTotalCost);
+        });
+    
+        // Calculate the initial total cost
+        calculateTotalCost();
+    });
+    
+    function calculateTotalCost() {
+        const serviceCheckboxes = document.querySelectorAll('.service-checkbox');
+        let totalCost = 0;
+    
+        serviceCheckboxes.forEach(function (checkbox) {
+            if (checkbox.checked) {
+                totalCost += parseFloat(checkbox.getAttribute('data-cost'));
+            }
+        });
+    
+        // Update the Total Service Cost field
+        const totalServiceCostField = document.getElementById('total-service-cost');
+        if (totalServiceCostField) {
+            totalServiceCostField.value = totalCost.toFixed(2); // Format to two decimal places
+        }
+    }
+    </script>
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Find the date input element by its ID
+        const fromDateInput = document.getElementById("from-date");
+
+        // Get the current date in the required format (YYYY-MM-DD)
+        const today = new Date().toISOString().split("T")[0];
+        
+        // Set the minimum date for the input field
+        fromDateInput.setAttribute("min", today);
+    });
+</script>
+
+<script>
+    function toggleAddressFields() {
+        const currentAddressFields = document.getElementById("current-address-fields");
+        const newAddressFields = document.getElementById("new-address-fields");
+        const currentAddressChoice = document.getElementById("current-address-choice");
+
+        if (currentAddressChoice.checked) {
+            currentAddressFields.style.display = "block";
+            newAddressFields.style.display = "none";
+        } else {
+            currentAddressFields.style.display = "none";
+            newAddressFields.style.display = "block";
+        }
+    }
+  
+</script>
+<script>
+    $(document).ready(function() {
+        // Home Address Validation
+        $("#new-home-address").on("input", function() {
+            var homeAddress = $(this).val();
+            var homeAddressError = $("#home-address-error");
+
+            if (homeAddress.length < 3) {
+                homeAddressError.text("Home address must contain at least 3 letters");
+            } else {
+                homeAddressError.text("");
+            }
+        });
+
+        // City Validation
+        $("#new-city").on("input", function() {
+            var city = $(this).val();
+            var cityError = $("#city-error");
+
+            if (!/^[a-zA-Z]{5,}$/.test(city)) {
+                cityError.text("City must contain at least 5 letters and only letters");
+            } else {
+                cityError.text("");
+            }
+        });
+
+        // Pincode Validation
+        $("#new-pincode").on("input", function() {
+            var pincode = $(this).val();
+            var pincodeError = $("#pincode-error");
+
+            if (!/^\d+$/.test(pincode)) {
+                pincodeError.text("Pincode must contain only numbers");
+            } else {
+                pincodeError.text("");
+            }
+        });
+    });
+</script>
+<script>
+    // Get today's date
+    var today = new Date();
+    
+    // Set the minimum date to today (disable selecting yesterday)
+    var minDate = today.toISOString().split('T')[0];
+    
+    // Calculate the maximum date (five days from today)
+    today.setDate(today.getDate() + 5);
+    var maxDate = today.toISOString().split('T')[0];
+    
+    // Set the minimum and maximum attributes for the date input
+    document.getElementById("preferredDate").setAttribute("min", minDate);
+    document.getElementById("preferredDate").setAttribute("max", maxDate);
+</script>
+<script>
+    function showLaptopBrandField() {
+        var deviceType = document.getElementById("deviceType").value; // Get the selected device type
+
+        var laptopBrandField = document.getElementById("brandField"); // Get the laptop brand field element
+
+        if (deviceType === "laptop") { // Check if the selected device type is "laptop"
+            laptopBrandField.style.display = "block"; // Show the laptop brand field
+        } else {
+            laptopBrandField.style.display = "none"; // Hide the laptop brand field
+        }
+    }
+</script>
+
+
+</body>
+
+</html>

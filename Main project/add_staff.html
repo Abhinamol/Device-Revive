@@ -10,20 +10,16 @@
 	<meta name="viewport"
 		content="width=device-width, 
 				initial-scale=2.0">
-	<title>Edit_Product</title>
-	<link rel="stylesheet"
-		href="style.css">
+	<title>Admin Dashboard</title>
+	<link rel="stylesheet" href="{% static 'style.css' %}">
+
 	<link rel="stylesheet"
 		href="responsive.css">
-        <link rel="stylesheet" href="{% static 'style.css' %}">
-        <link rel="stylesheet" href="{% static 'responsive.css' %}">
-        <link rel="shortcut icon" href="{% static 'images/fav.jpg' %}" type="image/x-icon">
-        <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
-        <link rel="stylesheet" href="{% static 'css/fontawsom-all.min.css' %}">
-        <link rel="stylesheet" href="{% static 'css/animate.css' %}">
-        <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
-        
-        <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link rel="shortcut icon" href="{% static "images/fav.jpg" %}" rel="stylesheet"/>
+    <link rel="stylesheet" href="{% static "css/bootstrap.min.css" %}" rel="stylesheet"/>
+    <link rel="stylesheet" href="{% static "css/fontawsom-all.min.css" %}" rel="stylesheet"/>
+    <link rel="stylesheet" href="{% static "css/animate.css" %}" rel="stylesheet"/>
+    <link rel="stylesheet" type="text/css" href="{% static "/css/style.css"%}" rel="stylesheet"/>
 <style>
             /* Main CSS Here */
 
@@ -533,33 +529,79 @@ background-color: #d63737;
             background-color: #0056b3;
         }
 
-        .error-message {
-            color: red;
-            font-size: 14px;
-            margin-top: 5px;
+        .form-container {
+            width: 80%; /* Adjust the width as needed */
+            margin: 0 auto; /* Center the form on the page */
         }
-        /* CSS for Save Changes button */
-button[type="submit"] {
-    background-color: #4CAF50; /* Green color */
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 3px;
-    cursor: pointer;
-    font-size: 18px;
-    transition: background-color 0.3s;
-}
-
-button[type="submit"]:hover {
-    background-color: #45a049; /* Darker green color on hover */
-}
-
-     
-
-
+        
+        .form-field {
+            margin-bottom: 20px; /* Adds space between form fields */
+        }
+        
+        label {
+            display: block; /* Display labels on separate lines */
+            font-weight: bold;
+        }
+        
+        input[type="text"],
+        textarea {
+            width: 100%; /* Make text input and textarea fields wider */
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        
+        button {
+            background-color: #007BFF;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+        /* Add this style in the existing CSS */
+        .form-field label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px; /* Add margin-bottom for spacing between label and input */
+        }
+        
+        .form-field input[type="text"],
+        .form-field input[type="email"],
+        .form-field input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            margin-bottom: 10px; /* Add margin-bottom for spacing between input fields */
+        }
+        
+        .form-field button {
+            background-color: #007BFF;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 18px;
+            transition: background-color 0.3s;
+            display: inline-block; /* Ensure the button doesn't take full width */
+        }
+        
+        .form-field button:hover {
+            background-color: #0056b3;
+        }
+        .error-message {
+            color: red; /* Set the color for error messages to red */
+            font-size: 14px; /* You can adjust the font size as needed */
+            margin-top: 5px; /* Add some space above the error message */
+        }
 
     </style>
-   
+    
+    </style>
     </head>
     
     <body>
@@ -576,16 +618,7 @@ button[type="submit"]:hover {
                     alt="menu-icon">
             </div>
     
-            <div class="searchbar">
-                <input type="text"
-                    placeholder="Search">
-                <div class="searchbtn">
-                <img src="{% static '/images/search.jpg' %}" 
-    
-                        class="icn srchicn"
-                        alt="search-icon">
-                </div>
-            </div>
+            
     
             <div class="message">
                 <div class="circle"></div>
@@ -643,14 +676,15 @@ button[type="submit"]:hover {
                                 alt="blog">
                             <h3> Services</h3>
                         </div>
-                </a><br>
-                <a href="{% url 'product_details'%}">
+                    </div>
+                </a>
+                <a href="{% url 'product_details' %}">
                     <div class="nav-option option5">
                         <img src=
 "https://media.geeksforgeeks.org/wp-content/uploads/20221210183323/10.png"
                             class="nav-img"
                             alt="blog">
-                        <h3> Product</h3>
+                        <h3> Products</h3>
                     </div>
                 </div>
             </a>
@@ -664,10 +698,6 @@ button[type="submit"]:hover {
                         <h3> Booking Requests</h3>
                     </div>
                 </a>
-               
-                        
-    
-                    </div>
                 </nav>
             </div>
             <div class="main">
@@ -689,7 +719,7 @@ button[type="submit"]:hover {
     
                     <div class="box box1">
                         <div class="text">
-                            <h2 class="topic-heading">450</h2>
+                            <h2 class="topic-heading">10</h2>
                             <h2 class="topic">Registered Users</h2>
                         </div>
     
@@ -698,7 +728,7 @@ button[type="submit"]:hover {
     
                     <div class="box box2">
                         <div class="text">
-                            <h2 class="topic-heading">150</h2>
+                            <h2 class="topic-heading">5</h2>
                             <h2 class="topic">Reviews</h2>
                         </div>
     
@@ -726,80 +756,56 @@ button[type="submit"]:hover {
     >
                     </div>
                 </div>
-                <div class="report-container form-container">
-                    <div class="report-header">
-                        <h3>Edit Product Details</h3>
-                    </div>
-                    <div class="report-body">
-                        <form method="post" action="{% url 'edit_product' product_id=product.id %}" enctype="multipart/form-data">
-                            {% csrf_token %}
-                            <div class="form-group">
-                                <label for="name">Product Name:</label>
-                                <input type="text" id="name" name="name" value="{{ product.name }}" required>
-                                <div id="name-error" class="error-message"></div>
-                            </div>
     
-                            <div class="form-group">
-                                <label for="brand">Brand:</label>
-                                <input type="text" id="brand" name="brand" value="{{ product.brand }}" required>
-                                <div id="brand-error" class="error-message"></div>
-                            </div>
-    
-                            <div class="form-group">
-                                <label for="model">Model:</label>
-                                <input type="text" id="model" name="model" value="{{ product.model }}" required>
-                                <div id="model-error" class="error-message"></div>
-                            </div>
-    
-                            <div class="form-group">
-                                <label for="description">Description:</label>
-                                <textarea id="description" name="description" rows="4" required>{{ product.description }}</textarea>
-                                <div id="description-error" class="error-message"></div>
-                            </div>
-    
-                            <div class="form-group">
-                                <label for="condition">Condition:</label>
-                                <select id="condition" name="condition" required>
-                                    <option value="new" {% if product.condition == 'new' %}selected{% endif %}>New</option>
-                                    <option value="used" {% if product.condition == 'used' %}selected{% endif %}>Used</option>
-                                    <option value="refurbished" {% if product.condition == 'refurbished' %}selected{% endif %}>Refurbished</option>
-                                </select>
-                                <div id="condition-error" class="error-message"></div>
-                            </div>
-    
-                            <div class="form-group">
-                                <label for="year">Year:</label>
-                                <input type="text" id="year" name="year" value="{{ product.year }}" required>
-                                <div id="year-error" class="error-message"></div>
-                            </div>
-    
-                            <div class="form-group">
-                                <label for="price">Price:</label>
-                                <input type="number" id="price" name="price" value="{{ product.price }}" required>
-                                <div id="price-error" class="error-message"></div>
-                            </div>
-    
-                            <div class="form-group">
-                                <label for="image">Product Image:</label>
-                                <input type="file" id="image" name="image" accept="image/*" required>
-                                <div id="image-error" class="error-message"></div>
-                            </div>
-                            <div class="form-group">
-                                <label for="is_available">Is Available:</label>
-                                <input type="checkbox" id="is_available" name="is_available" {% if product.is_available %}checked{% endif %}>
-                                <div id="is_available-error" class="error-message"></div>
-                            </div>
-                            
-    
-                            <center>
-                                <button type="submit">Save Changes</button>
-                            </center>
-                        </form>
-                    </div>
+              <br>
+            <!-- Your existing content here -->
+
+            <!-- Add this form within the "main" div -->
+            <div class="report-container form-container">
+                <div class="report-header">
+                    <h1>Add Technician</h1>
                 </div>
-            </div>
-        </div>
-    
+                <div class="report-body">
+                    <!-- Your existing HTML code -->
+                    <form method="post" id="technicianForm">
+                        {% csrf_token %}
+                        <div class="form-field">
+                            <label for="full_name">Full Name:</label>
+                            <input type="text" name="full_name" id="full_name" value="{{ technician.full_name }}">
+                            <span id="full_name_error" class="error-message"></span>
+                            
+                        </div>
+                    
+                        <div class="form-field">
+                            <label for="email">Email:</label>
+                            <input type="email" name="email" id="email" value="{{ technician.email }}">
+                            <span id="email_error" class="error-message"></span>
+                        </div>
+                        
+                        <div class="form-field">
+                            <label for="username">Username:</label>
+                            <input type="text" name="username" id="username" value="{{ technician.username }}">
+                            <span id="username_error" class="error-message"></span>
+                        </div>
+                    
+                        <div class="form-field">
+                            <label for="password">Password:</label>
+                            <input type="password" name="password" id="password" value="{{ technician.password }}" oninput="validatePasswordRealTime(this.value)">
+                            <span id="password_error" class="error-message"></span>
+                        </div>
+                        
+                    
+                        <div class="form-field">
+                            <button type="submit">Add</button>
+                        </div>
+                    </form>
+                    
+<!-- Your existing HTML code -->
+</div></div>
+
+            
+            
+            
             
         <script src="{% static '/assets/js/jquery-3.5.1.min.js'%}"></script>
 
@@ -810,8 +816,166 @@ button[type="submit"]:hover {
         <script src="{% static '/assets/vendor/wow/wow.min.js'%}"></script>
     
         <script src="{% static '/assets/js/theme.js'%}"></script>
+        <script src="{% static '/assets/js/jquery-3.5.1.min.js' %}"></script>
+        <script src="{% static '/assets/js/bootstrap.bundle.min.js' %}"></script>
         <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script> 
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.bundle.min.js"></script>
+
+        
+        <script>
+            function updateAvailability() {
+                const checkbox = document.getElementById("checkbox-availability");
+                const availabilityField = document.getElementById("availability");
+
+        
+                if (checkbox.checked) {
+                    availabilityField.value = "True";
+                } else {
+                    availabilityField.value = "False";
+                }
+            }
+        </script>
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                const fullNameInput = document.getElementById("full_name");
+            
+                fullNameInput.addEventListener("input", function () {
+                    const fullNameValue = fullNameInput.value.trim();
+                    const fullNameRegex = /^[A-Za-z][A-Za-z\s]*$/;
+            
+                    if (fullNameRegex.test(fullNameValue)) {
+                        document.getElementById("full_name_error").textContent = "";
+                    } else {
+                        document.getElementById("full_name_error").textContent = "Invalid full name";
+                    }
+                });
+            });
+
+            document.addEventListener("DOMContentLoaded", function () {
+                const usernameInput = document.getElementById("username");
+                const usernameError = document.getElementById("username_error");
+        
+                usernameInput.addEventListener("input", function () {
+                    const usernameValue = usernameInput.value.trim();
+                    const usernameRegex = /^[a-zA-Z0-9]+$/;
+        
+                    if (usernameRegex.test(usernameValue)) {
+                        // Perform AJAX request to check if username already exists on the server
+                        checkUsernameAvailability(usernameValue);
+                    } else {
+                        usernameError.textContent = "Invalid characters in username";
+                    }
+                });
+        
+                function checkUsernameAvailability(username) {
+                    // AJAX request to check if the username already exists
+                    fetch("/check_username_availability/", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/x-www-form-urlencoded",
+                            "X-CSRFToken": "{{ csrf_token }}",  // Add the CSRF token
+                        },
+                        body: `username=${username}`,
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.usernameExists) {
+                            usernameError.textContent = "This username already exists";
+                        } else {
+                            usernameError.textContent = "";
+                        }
+                    })
+                    .catch(error => {
+                        console.error("Error checking username availability:", error);
+                    });
+                }
+            });
+
+
+            
+            
+        </script>
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                const emailInput = document.getElementById("email");
+                const emailError = document.getElementById("email_error");
+                const emailAvailability = document.getElementById("email-availability");
+    
+                emailInput.addEventListener("input", function () {
+                    validateEmailRealTime(emailInput.value.trim());
+                    checkEmailAvailability(emailInput.value.trim());
+                });
+                function validateEmailRealTime(email) {
+                    const emailError = document.getElementById("email_error");
+                
+                    // Check if the email input is not empty
+                    if (email.trim() === "") {
+                        emailError.textContent = "Email is required";
+                        return;
+                    }
+                
+                    // Updated regular expression pattern to allow emails like "abhinamolv2024a@mca.ajce.in"
+                    const emailPattern = /^[a-zA-Z][a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+                
+                    if (!emailPattern.test(email)) {
+                        emailError.textContent = "Invalid email format";
+                    } else if (!/^[a-zA-Z0-9._%+-]+@(gmail|mca|ajce|yahoo|amaljyothi|ac)\.[a-z.]{2,}$/i.test(email)) {
+                        emailError.textContent = "Email domain not supported";
+                    } else if ((email.match(/\./g) || []).length > 3) {
+                        emailError.textContent = "Invalid email format";
+                    } else if (email.length > 320) {
+                        emailError.textContent = "Email is too long";
+                    } else {
+                        emailError.textContent = "";
+                    }
+                }
+                
+    
+                function checkEmailAvailability(email) {
+                    // Check if the email input is not empty
+                    if (email.trim() === "") {
+                        emailAvailability.textContent = ""; // Clear the message if the email is empty
+                        return;
+                    }
+    
+                    // Send an AJAX request to check email availability
+                    fetch(`/check_email_availability/?email=${encodeURIComponent(email)}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.available) {
+                                emailAvailability.textContent = ""; // Email is available
+                            } else {
+                                emailAvailability.textContent = "This email already exists."; // Email is not available
+                            }
+                        })
+                        .catch(error => {
+                            console.error("Error checking email availability:", error);
+                        });
+                }
+            });
+        </script>
+        <script>
+            function validatePasswordRealTime(password) {
+                const passwordError = document.getElementById("password_error");
+            
+                // Check if the password input is not empty
+                if (password.trim() === "") {
+                    passwordError.textContent = "Password is required";
+                    return;
+                }
+            
+                // Strong password pattern: At least one uppercase letter, one lowercase letter, one digit, one special character, no spaces
+                const strongPasswordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/;
+            
+                if (!strongPasswordPattern.test(password)) {
+                    passwordError.textContent = "Use a strong password with at least one uppercase letter, one lowercase letter, one digit, and one special character. No spaces allowed.";
+                } else {
+                    passwordError.textContent = "";
+                }
+            }
+            </script>
+    
+        
         
     </body>
     </html>

@@ -1,0 +1,42 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Exchange</title>
+</head>
+<body>
+
+<h1>Product Exchange</h1>
+
+<form action="/process_exchange" method="post">
+    <label for="yourProductName">Your Product Name:</label>
+    <input type="text" id="yourProductName" name="yourProductName" required>
+    <br>
+
+    <label for="yourProductDescription">Your Product Description:</label>
+    <textarea id="yourProductDescription" name="yourProductDescription" rows="4" required></textarea>
+    <br>
+
+    <label for="otherProductName">Product You Want to Exchange For:</label>
+    <input type="text" id="otherProductName" name="otherProductName" required>
+    <br>
+
+    <label for="otherProductDescription">Description of the Product You Want to Exchange For:</label>
+    <textarea id="otherProductDescription" name="otherProductDescription" rows="4" required></textarea>
+    <br>
+
+    <label for="exchangeLocation">Exchange Location:</label>
+    <input type="text" id="exchangeLocation" name="exchangeLocation" required>
+    <br>
+
+    <label for="additionalNotes">Additional Notes:</label>
+    <textarea id="additionalNotes" name="additionalNotes" rows="4"></textarea>
+    <br>
+
+    <input type="submit" value="Submit Exchange">
+</form>
+
+</body>
+</html>
