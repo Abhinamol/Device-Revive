@@ -993,9 +993,16 @@ def cart_view(request):
         try:
             user_cart = Cart.objects.get(user=request.user)
             products_in_cart = user_cart.products.all()
+            print(products_in_cart)  # Print debug information
             return render(request, 'cart.html', {'products_in_cart': products_in_cart})
         except Cart.DoesNotExist:
             pass
     return render(request, 'cart.html', {'products_in_cart': None})
+
+
+def remove_from_cart(request, product_id):
+    cart_item = get_object_or_404(CartItem, product_id=product_id, cart__user=request.user)
+    cart_item.delete()
+    return redirect('cart')
 
 
