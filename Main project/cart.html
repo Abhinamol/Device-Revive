@@ -132,6 +132,27 @@
     background-repeat: no-repeat;
     min-height: 100vh;
 }
+.bg-black {
+    background-color: #fff; /* Black background color */
+    color: #000; /* White text color for better contrast */
+    height: 100%; /* Ensure all containers have equal height */
+  }
+  
+  .product-container {
+    display: flex; /* Use flexbox */
+    flex-direction: column; /* Align items vertically */
+  }
+  
+  .product-details {
+    flex-grow: 1; /* Allow the details to expand to fill the container */
+    padding: 10px; /* Add padding to the details */
+  }
+  
+  .product-image {
+    width: 100%; /* Make the image fill the width of the container */
+    height: auto; /* Preserve the aspect ratio */
+  }
+  
 
 </style>
 </head>
@@ -192,7 +213,7 @@
                                 </li>
                                 
                                 <li>
-                                    <a class="js-scroll-trigger" href="ecommerce">PRODUCTS</a>
+                                    <a class="js-scroll-trigger" href="{% url 'display_products' %}">PRODUCTS</a>
                                 </li>
                                 <li>
                                     <a class="js-scroll-trigger" href="about">ABOUT</a>
@@ -213,11 +234,11 @@
                                     </a>
                                     <div class="dropdown-menu" aria-labelledby="adminDropdown">
                                         {% if user.is_authenticated %}
-                                            <a class="dropdown-item" href="myprofile">Profile</a>
-                                            <a class="dropdown-item" href="logout">Logout</a>
+                                            <a class="dropdown-item" href="{% url 'myprofile' %}">Profile</a>
+                                            <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
                                         {% else %}
-                                            <a class="dropdown-item" href="login">Login</a>
-                                            <a class="dropdown-item" href="signup">Sign Up</a>
+                                            <a class="dropdown-item" href="{% url 'login' %}">Login</a>
+                                            <a class="dropdown-item" href="{% url 'reg' %}">Sign Up</a>
                                         {% endif %}
                                     </div>
                                 </div>
@@ -238,21 +259,24 @@
                 <div class="row mx-auto"></div>
                 <div class="slider-det">
                     <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
-                        <h1>My Cart</h1>
-                        {% if products_in_cart %}
-                         <h2>Products in Your Cart</h2>
-                         <div class="product-container">
-                           {% for item in products_in_cart %}
-                             <div class="product-details">
-                               <h3>{{ item.product.name }}</h3>
-                               <p>Price: {{ item.product.price }}</p>
-                               <p>Quantity: {{ item.quantity }}</p>
-                             </div>
-                           {% endfor %}
+                        <div class="row">
+                            {% for product_item in products_in_cart %}
+                              <div class="col-md-4">
+                                <div class="product-container bg-black">
+                                  <div class="product-details">
+                                    <img src="{{ product_item.image.url }}" alt="{{ product_item.name }}" class="product-image">
+                                    <h3>{{ product_item.name }}</h3>
+                                    <p>Price: {{ product_item.price }}</p>
+                                    <form action="{% url 'remove_from_cart' product_item.id %}" method="post">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-danger">Remove from Cart</button>
+                                    </form>
+                                  </div>
+                                </div>
+                              </div>
+                            {% endfor %}
                           </div>
-                          {% else %}
-                          <p>Your cart is empty.</p>
-                       {% endif %}
+
                     </div>
                 </div>
             </div>

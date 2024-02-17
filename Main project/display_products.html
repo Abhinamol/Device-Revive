@@ -244,10 +244,25 @@
 .add-to-cart-button:hover {
     background-color: #0056b3; /* Darker blue on hover */
 }
+/* Style for the cart icon and text */
+.cart-icon {
+    color: black; /* Change color as needed */
+    margin-left: 10px; /* Adjust spacing as needed */
+    text-decoration: none; /* Remove underline */
+    font-size: 16px; /* Adjust size as needed */
+}
 
-    
+.cart-icon:hover {
+    color: black; /* Change color on hover */
+}
+
+/* Style for the "View Cart" text */
+.view-cart {
+    color: black; /* Change color as needed */
+}
 
 
+            
             
                       
                 
@@ -389,7 +404,13 @@
                     <form class="search-form" method="GET" action="{% url 'display_products' %}">
                         <input id="search-input" class="search-input" type="text" name="q" placeholder="Search products...">
                         <button class="search-button" type="submit">Search</button>
+                        <!-- Cart icon with view cart link -->
+                        <a href="{% url 'cart' %}" class="cart-icon">
+                            <i class="fas fa-shopping-cart"></i> View Cart
+                        </a>
                     </form>
+                  
+                
                     <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
                        <center><h1>Available Second-hand Products</h1></center>
                         <div class="product-container">
@@ -403,7 +424,7 @@
                                     <p>Condition: {{ product.get_condition_display }}</p>
                                     <p>Year: {{ product.year }}</p>
                                     <p>Price: {{ product.price }}</p>
-                                    <button class="exchange-button" onclick="exchangeNow({{ product.id }})">Exchange Now</button>
+                                    <button class="exchange-button">Exchange Product</button>
                                     <form action="{% url 'add_to_cart' product.id %}" method="post">
                                         {% csrf_token %}
                                         <button type="submit" class="add-to-cart-button">Add to Cart</button>
@@ -541,8 +562,28 @@
         });
     });
 </script>
+<script>
+    // Function to handle live search
+    function liveSearch() {
+        var input, filter, products, productDetails, productName;
+        input = document.getElementById("search-input");
+        filter = input.value.toUpperCase();
+        products = document.querySelectorAll(".product-details");
 
+        // Loop through all product details and hide those that don't match the search query
+        products.forEach(function(product) {
+            productName = product.querySelector("h2");
+            if (productName.innerText.toUpperCase().indexOf(filter) > -1) {
+                product.style.display = "";
+            } else {
+                product.style.display = "none";
+            }
+        });
+    }
 
+    // Attach event listener to search input field
+    document.getElementById("search-input").addEventListener("input", liveSearch);
+</script>
 
 
 </html>
