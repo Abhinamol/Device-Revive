@@ -149,10 +149,19 @@
   }
   
   .product-image {
-    width: 100%; /* Make the image fill the width of the container */
+    width: 90%; /* Make the image fill the width of the container */
     height: auto; /* Preserve the aspect ratio */
   }
-  
+  .product-divider {
+    border-top: 1px solid #ccc; /* Change color and style as needed */
+    margin-top: 20px; /* Adjust spacing between products */
+    margin-bottom: 20px; /* Adjust spacing between products */
+}
+
+
+   
+
+
 
 </style>
 </head>
@@ -252,67 +261,49 @@
         </div>
      
       
-        <!--########################## Slider CSS ####################-->
+<!--########################## Slider CSS ####################-->
 
-        <div id="home" class="banner-container no-padding">
-            <div class="container">
-                <div class="row mx-auto"></div>
-                <div class="slider-det">
-                    <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
-                        <div class="row">
-                            {% for product_item in products_in_cart %}
-                              <div class="col-md-4">
-                                <div class="product-container bg-black">
-                                  <div class="product-details">
+<div id="home" class="banner-container no-padding">
+    <div class="container">
+        <div class="row mx-auto"></div>
+        <div class="slider-det">
+            <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+                <div class="product-container bg-black">
+                    {% if products_in_cart %}
+                        <!-- If there are items in the cart, display them -->
+                        {% for product_item in products_in_cart %}
+                            <div class="row product-row">
+                                <div class="col-md-4">
                                     <img src="{{ product_item.image.url }}" alt="{{ product_item.name }}" class="product-image">
-                                    <h3>{{ product_item.name }}</h3>
-                                    <p>Price: {{ product_item.price }}</p>
-                                    <form action="{% url 'remove_from_cart' product_item.id %}" method="post">
-                                        {% csrf_token %}
-                                        <button type="submit" class="btn btn-danger">Remove from Cart</button>
-                                    </form>
-                                  </div>
                                 </div>
-                              </div>
-                            {% endfor %}
-                          </div>
-
+                                <div class="col-md-8">
+                                    <div class="product-details">
+                                        <h3>{{ product_item.name }}</h3>
+                                        <p>Price: {{ product_item.price }}</p>
+                                
+                                <!-- Add an "Exchange" link button -->
+                                <a href="{% url 'exchange' %}?product_id={{ product_item.id }}" class="btn btn-success">Exchange</a>
+                            <form action="{% url 'remove_from_cart' product_item.id %}" method="post">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-danger">Remove from Cart</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
-            </div>
+                     <!-- Add a separating line between each product -->
+                <hr class="product-divider">
+                {% endfor %}
+            {% else %}
+                <!-- If the cart is empty, display a message -->
+                <p class="empty-cart-message">No items in your cart.</p>
+            {% endif %}
         </div>
+    </div>
+</div>
+</div>
+
      
-        <!--########################## Key Features CSS ####################-->
-
-        <div class="key-container container-fluid">
-            <div class="container">
-                <div class="row key-row">
-                    <div class="col-md-4 key-col">
-                        <h2>Quality Selection</h2>
-                        <p>At Device Revive, we curate a high-quality selection of second-hand products, ensuring that each item meets our standards of functionality and reliability. Our rigorous inspection process guarantees that you'll find top-notch products at competitive prices.
-                        </p>
-                        
-                    </div>
-                    <div class="col-md-4 key-col">
-                        <h2>Trade-In Convenience</h2>
-                        <p>Trade in your pre-loved items hassle-free with Device Revive. Our streamlined trade-in process makes it easy for you to exchange your old gadgets for something new. Simply bring in your device, and we'll offer you a fair price based on its condition.
-                        </p>
-                        
-                    </div>
-                    <div class="col-md-4 no-br key-col">
-                        <h2>Customer Satisfaction</h2>
-                        <p>At Device Revive, your satisfaction is our priority. We strive to provide a seamless and satisfying experience for every customer, whether you're buying, selling, or trading. Our friendly and knowledgeable staff are here to assist you every step of the way.
-                        </p>
-                       
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-
-       
-<br>
-        
+      
  <!--########################## Footer CSS ####################-->
         <footer>
             <div class="container">

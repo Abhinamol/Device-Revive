@@ -694,75 +694,71 @@ background-color: #d63737;
     >
                     </div>
                 </div>
-                 <!-- Add New Second Hand Product Details -->
-                 <div class="report-container form-container">
-                    <div class="report-header">
-                        <h3>Add New Second Hand Product Details</h3>
-                    </div>
-                    <div class="report-body">
-                        <form method="post" action="{% url 'add_second_hand_product' %}" enctype="multipart/form-data">
-                            {% csrf_token %}
-                            <div class="form-group">
-                                <label for="name">Product Name:</label>
-                                <input type="text" id="name" name="name" required>
-                                <div id="name-error" class="error-message"></div>
-                            </div>
-                
-                            <div class="form-group">
-                                <label for="brand">Brand:</label>
-                                <input type="text" id="brand" name="brand" required>
-                                <div id="brand-error" class="error-message"></div>
-                            </div>
-                
-                            <div class="form-group">
-                                <label for="model">Model:</label>
-                                <input type="text" id="model" name="model" required>
-                                <div id="model-error" class="error-message"></div>
-                            </div>
-                
-                            <div class="form-group">
-                                <label for="description">Description:</label>
-                                <input type="text" id="description" name="description" required>
-                                <div id="description-error" class="error-message"></div>
-                            </div>
-                
-                            <div class="form-group">
-                                <label for="condition">Condition:</label>
-                                <select id="condition" name="condition" required>
-                                    <option value="new">New</option>
-                                    <option value="used">Used</option>
-                                    <option value="refurbished">Refurbished</option>
-                                </select>
-                                <div id="condition-error" class="error-message"></div>
-                            </div>
-                
-                            <div class="form-group">
-                                <label for="year">Year:</label>
-                                <input type="text" id="year" name="year" required>
-                                <div id="year-error" class="error-message"></div>
-                            </div>
-                
-                            <div class="form-group">
-                                <label for="price">Price:</label>
-                                <input type="number" id="price" name="price" required>
-                                <div id="price-error" class="error-message"></div>
-                            </div>
-                
-                            <div class="form-group">
-                                <label for="image">Product Image:</label>
-                                <input type="file" id="image" name="image" accept="image/*" required>
-                                <div id="image-error" class="error-message"></div>
-                            </div>
-                
-                            <button type="submit" class="form-submit-button">Submit</button>
-                        </form>
-                    </div>
-                </div>
-                
-    
-              
-           
+                <!-- Add New Second Hand Product Details -->
+<div class="report-container form-container">
+    <div class="report-header">
+        <h3>Add New Second Hand Product Details</h3>
+    </div>
+    <div class="report-body">
+        <form id="product-form" method="post" action="{% url 'add_second_hand_product' %}" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="name">Product Name:</label>
+                <input type="text" id="name" name="name" required>
+                <div id="name-error" class="error-message"></div>
             </div>
+
+            <div class="form-group">
+                <label for="brand">Brand:</label>
+                <input type="text" id="brand" name="brand" required>
+                <div id="brand-error" class="error-message"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="model">Model:</label>
+                <input type="text" id="model" name="model" required>
+                <div id="model-error" class="error-message"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="description">Description:</label>
+                <textarea id="description" name="description" required></textarea>
+                <div id="description-error" class="error-message"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="condition">Condition:</label>
+                <select id="condition" name="condition" required>
+                    <option value="new">New</option>
+                    <option value="used">Used</option>
+                    <option value="refurbished">Refurbished</option>
+                </select>
+                <div id="condition-error" class="error-message"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="year">Year:</label>
+                <input type="number" id="year" name="year" required>
+                <div id="year-error" class="error-message"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="price">Price:</label>
+                <input type="number" id="price" name="price" required>
+                <div id="price-error" class="error-message"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="image">Product Image:</label>
+                <input type="file" id="image" name="image" accept="image/*" required>
+                <div id="image-error" class="error-message"></div>
+            </div>
+
+            <button type="submit" class="form-submit-button">Submit</button>
+        </form>
+    </div>
+</div>
+
             
         <script src="{% static '/assets/js/jquery-3.5.1.min.js'%}"></script>
 
@@ -775,6 +771,180 @@ background-color: #d63737;
         <script src="{% static '/assets/js/theme.js'%}"></script>
         <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script> 
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.bundle.min.js"></script>
+          
+        <script>
+            // Function to validate product name
+            function validateName() {
+                const nameInput = document.getElementById('name');
+                const nameError = document.getElementById('name-error');
+                const nameValue = nameInput.value.trim();
+        
+                // Check if name contains only letters
+                const lettersOnlyRegex = /^[a-zA-Z ]*$/;
+                if (!lettersOnlyRegex.test(nameValue)) {
+                    nameError.textContent = 'Name should contain only letters';
+                    return false;
+                }
+        
+                // Check if name contains at least 3 characters
+                if (nameValue.replace(/\s+/g, '').length < 3) {
+                    nameError.textContent = 'Name should contain at least 3 non-space characters';
+                    return false;
+                }
+        
+                // Check if name starts with a space after typing
+                if (nameValue.charAt(0) === ' ' && nameValue.length > 1) {
+                    nameError.textContent = 'Name should not start with a space';
+                    return false;
+                }
+        
+                // If all conditions pass, clear error message
+                nameError.textContent = '';
+                return true;
+            }
+        
+            // Add event listener for input event on name field
+            document.getElementById('name').addEventListener('input', validateName);
+        
+            // Other validation functions and event listeners for other fields...
+        </script>
+        <script>
+            // Function to validate brand name
+            function validateBrand() {
+                const brandInput = document.getElementById('brand');
+                const brandError = document.getElementById('brand-error');
+                const brandValue = brandInput.value.trim();
+        
+                // Check if brand contains at least 3 characters
+                if (brandValue.length < 2) {
+                    brandError.textContent = 'Brand should contain at least 3 characters';
+                    return false;
+                }
+        
+                // If all conditions pass, clear error message
+                brandError.textContent = '';
+                return true;
+            }
+        
+            // Add event listener for input event on brand field
+            document.getElementById('brand').addEventListener('input', validateBrand);
+        
+            // Other validation functions and event listeners for other fields...
+        </script>
+        <script>
+            // Function to validate model
+            function validateModel() {
+                const modelInput = document.getElementById('model');
+                const modelError = document.getElementById('model-error');
+                const modelValue = modelInput.value.trim();
+        
+                // Check if model contains at least 3 characters
+                if (modelValue.length < 3) {
+                    modelError.textContent = 'Model should contain at least 3 characters';
+                    return false;
+                }
+        
+                // If all conditions pass, clear error message
+                modelError.textContent = '';
+                return true;
+            }
+        
+            // Add event listener for input event on model field
+            document.getElementById('model').addEventListener('input', validateModel);
+        
+            // Other validation functions and event listeners for other fields...
+        </script>
+        <script>
+            // Function to validate description
+            function validateDescription() {
+                const descriptionInput = document.getElementById('description');
+                const descriptionError = document.getElementById('description-error');
+                const descriptionValue = descriptionInput.value.trim();
+        
+                // Split the description into words
+                const words = descriptionValue.split(/\s+/);
+        
+                // Check if description contains at least 2 words
+                if (words.length < 2) {
+                    descriptionError.textContent = 'Description should contain at least 2 words';
+                    return false;
+                }
+        
+                // If all conditions pass, clear error message
+                descriptionError.textContent = '';
+                return true;
+            }
+        
+            // Add event listener for input event on description field
+            document.getElementById('description').addEventListener('input', validateDescription);
+        
+            // Other validation functions and event listeners for other fields...
+        </script>
+        <script>
+            // Function to validate price
+            function validatePrice() {
+                const priceInput = document.getElementById('price');
+                const priceError = document.getElementById('price-error');
+                const priceValue = parseFloat(priceInput.value.trim());
+        
+                // Check if price is empty
+                if (priceValue === '' || isNaN(priceValue)) {
+                    priceError.textContent = 'Price is required';
+                    return false;
+                }
+        
+                // Check if price is a positive number
+                if (priceValue <= 0) {
+                    priceError.textContent = 'Price must be a positive number';
+                    return false;
+                }
+        
+                // If all conditions pass, clear error message
+                priceError.textContent = '';
+                return true;
+            }
+        
+            // Add event listener for input event on price field
+            document.getElementById('price').addEventListener('input', validatePrice);
+        
+            // Function to validate year
+            function validateYear() {
+                const yearInput = document.getElementById('year');
+                const yearError = document.getElementById('year-error');
+                const yearValue = yearInput.value.trim();
+        
+                // Check if year is empty
+                if (yearValue === '') {
+                    yearError.textContent = 'Year is required';
+                    return false;
+                }
+        
+                // Check if year is a valid number with 4 digits
+                const yearRegex = /^\d{4}$/;
+                if (!yearRegex.test(yearValue)) {
+                    yearError.textContent = 'Year should be a number with 4 digits';
+                    return false;
+                }
+        
+                // Convert year to a number
+                const year = parseInt(yearValue);
+        
+                // Check if year is after 2021
+                if (year <= 2021) {
+                    yearError.textContent = 'Year should be after 2021';
+                    return false;
+                }
+        
+                // If all conditions pass, clear error message
+                yearError.textContent = '';
+                return true;
+            }
+        
+            // Add event listener for input event on year field
+            document.getElementById('year').addEventListener('input', validateYear);
+        
+            // Other validation functions and event listeners for other fields...
+        </script>
         
     </body>
     </html>
