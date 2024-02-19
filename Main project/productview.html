@@ -261,13 +261,43 @@
     color: black; /* Change color as needed */
 }
 
-.out-of-stock-text {
-    color: red;
-    font-weight: bold;
+.product-details {
+    border: 1px solid #ccc;
+    padding: 20px;
+    background-color: #fff;
+    color: #333;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center items horizontally */
+    justify-content: center; /* Center items vertically */
+    max-width: 500px; /* Adjust max-width as needed */
+    margin-top: 10px; /* Add top margin for spacing */
 }
 
-            
-            
+.product-details img {
+    max-width: 100%; /* Ensure the image fits within the container */
+    margin-bottom: 10px; /* Add some space below the image */
+}
+
+.product-details h2 {
+    text-align: center; /* Center the heading */
+}
+
+.product-details p {
+    text-align: center; /* Center paragraphs */
+}
+
+.product-details button {
+    margin-top: 10px; /* Add space above the button */
+}
+
+
+
+
+
+
+  
                       
                 
         </style>
@@ -358,7 +388,7 @@
                                 
                     
                                 <li>
-                                    <a class="js-scroll-trigger" href="{% url 'ecommerce' %}">PRODUCTS</a>
+                                    <a class="js-scroll-trigger" href="{% url 'display_products' %}">PRODUCTS</a>
                                 </li>
                                 <li>
                                     <a class="js-scroll-trigger" href="{% if user.is_authenticated %}{% url 'booking' %}{% else %}#login-required{% endif %}">
@@ -400,57 +430,35 @@
         
 
         <!--########################## Slider CSS ####################-->
-       
-        <div id="home" class="banner-container no-padding">
-            <div class="container">
-                <div class="row mx-auto"></div>
-                <div class="slider-det">
-                    <form class="search-form" method="GET" action="{% url 'display_products' %}">
-                        <input id="search-input" class="search-input" type="text" name="q" placeholder="Search products...">
-                        <button class="search-button" type="submit">Search</button>
-                
-                        <a href="{% url 'cart' %}" class="cart-icon">
-                            <i class="fas fa-shopping-cart"></i> View Cart
-                        </a>
-                    </form>
-                  
-                
-                    <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
-                       <center><h1>Available Second-hand Products</h1></center>
-                       <div class="product-container">
-                        {% for product in products %}
-                        <div class="product-details">
-                            <a href="{% url 'productview' product_id=product.id %}">
-
+  
+        <div class="main-container">
+            <div id="home" class="banner-container no-padding">
+                <div class="container">
+                    <br><br><br><br><br><br><br><br><br>
+                    <div class="row mx-auto">
+                        <div class="col-md-12">
+                            <!-- Image container -->
+                            <div class="product-details">
                                 <img src="{{ product.image.url }}" alt="{{ product.name }}" class="product-image">
-                            </a>
                                 <h2>{{ product.name }}</h2>
-
-                                <p>Price: {{ product.price }}</p>
-                                <br>
-                                {% if product.stock == 0 %}
-                                  <p class="out-of-stock-text">Out of Stock</p>
-                                {% elif product.is_available %}
-                                    <button class="exchange-button">Exchange Product</button>
+                                <p>Brand: {{ product.brand }}</p>
+                                <p>Model: {{ product.model }}</p>
+                                <p>Description: {{ product.description }}</p>
+                                <p>Condition: {{ product.condition }}</p>
+                                <p>Year: {{ product.year }}</p>
+                                <p>Price: Rs.{{ product.price }}</p>
+                                <button class="exchange-button">Exchange Product</button>
                                     <form action="{% url 'add_to_cart' product.id %}" method="post">
                                         {% csrf_token %}
                                         <button type="submit" class="add-to-cart-button">Add to Cart</button>
                                     </form>
-                                {% endif %}
                             </div>
-                        {% empty %}
-                            <p>No products available.</p>
-                        {% endfor %}
-                    </div>
-                    
-                        
-                       
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-
+        
     <div class="login-required-message">
         <div class="login-required-box">
             <p>Login Required</p>
@@ -569,28 +577,6 @@
         });
     });
 </script>
-<script>
-    // Function to handle live search
-    function liveSearch() {
-        var input, filter, products, productDetails, productName;
-        input = document.getElementById("search-input");
-        filter = input.value.toUpperCase();
-        products = document.querySelectorAll(".product-details");
-
-        // Loop through all product details and hide those that don't match the search query
-        products.forEach(function(product) {
-            productName = product.querySelector("h2");
-            if (productName.innerText.toUpperCase().indexOf(filter) > -1) {
-                product.style.display = "";
-            } else {
-                product.style.display = "none";
-            }
-        });
-    }
-
-    // Attach event listener to search input field
-    document.getElementById("search-input").addEventListener("input", liveSearch);
-</script>
-
+</body>
 
 </html>

@@ -157,6 +157,10 @@
     margin-top: 20px; /* Adjust spacing between products */
     margin-bottom: 20px; /* Adjust spacing between products */
 }
+.out-of-stock-text {
+    color: red;
+    font-weight: bold;
+}
 
 
    
@@ -262,7 +266,6 @@
      
       
 <!--########################## Slider CSS ####################-->
-
 <div id="home" class="banner-container no-padding">
     <div class="container">
         <div class="row mx-auto"></div>
@@ -280,26 +283,30 @@
                                     <div class="product-details">
                                         <h3>{{ product_item.name }}</h3>
                                         <p>Price: {{ product_item.price }}</p>
-                                
-                                <!-- Add an "Exchange" link button -->
-                                <a href="{% url 'exchange' %}?product_id={{ product_item.id }}" class="btn btn-success">Exchange</a>
-                            <form action="{% url 'remove_from_cart' product_item.id %}" method="post">
-                                {% csrf_token %}
-                                <button type="submit" class="btn btn-danger">Remove from Cart</button>
-                            </form>
-                        </div>
-                    </div>
+                                        <br>
+                                        {% if product_item.stock == 0 %}
+                                            <p class="out-of-stock-text">Out of Stock</p>
+                                        {% else %}
+                                            <a href="{% url 'exchange' %}?product_id={{ product_item.id }}" class="btn btn-success">Exchange</a>
+                                            <form action="{% url 'remove_from_cart' product_item.id %}" method="post">
+                                                {% csrf_token %}
+                                                <button type="submit" class="btn btn-danger">Remove from Cart</button>
+                                            </form>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Add a separating line between each product -->
+                            <hr class="product-divider">
+                        {% endfor %}
+                    {% else %}
+                        <!-- If the cart is empty, display a message -->
+                        <p class="empty-cart-message">No items in your cart.</p>
+                    {% endif %}
                 </div>
-                     <!-- Add a separating line between each product -->
-                <hr class="product-divider">
-                {% endfor %}
-            {% else %}
-                <!-- If the cart is empty, display a message -->
-                <p class="empty-cart-message">No items in your cart.</p>
-            {% endif %}
+            </div>
         </div>
     </div>
-</div>
 </div>
 
      
