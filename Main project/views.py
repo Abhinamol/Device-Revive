@@ -34,6 +34,7 @@ from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 from .models import SecondHandProduct, Cart, CartItem
 from django.db.models import Q
+from .models import ProductExchange 
 
 
 
@@ -836,6 +837,7 @@ def add_second_hand_product(request):
         condition = request.POST.get('condition')
         year = request.POST.get('year')
         price = request.POST.get('price')
+        stock = request.POST.get('stock')  # Get stock from form data
         image = request.FILES.get('image')
 
         SecondHandProduct.objects.create(
@@ -846,10 +848,12 @@ def add_second_hand_product(request):
             condition=condition,
             year=year,
             price=price,
+            stock=stock,  # Add stock to object creation
             image=image
         )
         return redirect('product_details')  # Redirect to a success page
     return render(request, 'add_product.html')
+
 
 @never_cache 
 @login_required(login_url='login')
@@ -897,6 +901,7 @@ def edit_product(request, product_id):
         year = request.POST.get('year')
         price = request.POST.get('price')
         is_available = request.POST.get('is_available')
+        stock = request.POST.get('stock')  # Retrieve the stock value
         
         # Update the product object with new data
         product.name = name
@@ -906,16 +911,18 @@ def edit_product(request, product_id):
         product.condition = condition
         product.year = year
         product.price = price
+        product.stock = stock  # Update the stock field
+        
         # Set the is_available field based on the checkbox value
         if is_available == 'on':
-            product.is_available = 1
+            product.is_available = True
         else:
-            product.is_available = 0
+            product.is_available = False
         
         # Save the updated product
         product.save()
         
-        return redirect('product_details')  # Assuming 'product_details' is the URL name for the product details page
+        return redirect('product_details')  # Redirect to the product details page
     
     return render(request, 'edit_product.html', {'product': product})
 
@@ -924,6 +931,11 @@ def edit_product(request, product_id):
 @never_cache
 def ecommerce(request):
     return render(request,'ecommerce.html')
+
+def productview(request, product_id):
+    product = get_object_or_404(SecondHandProduct, pk=product_id)
+    return render(request, 'productview.html', {'product': product})
+
 
 @never_cache 
 @login_required(login_url='login')
@@ -937,30 +949,8 @@ def delete_product(request, product_id):
 @never_cache 
 @login_required(login_url='login')
 def exchange(request):
-    if request.method == 'POST':
-        your_product_name = request.POST.get('yourProductName')
-        your_product_description = request.POST.get('yourProductDescription')
-        other_product_name = request.POST.get('otherProductName')
-        other_product_description = request.POST.get('otherProductDescription')
-        exchange_location = request.POST.get('exchangeLocation')
-        additional_notes = request.POST.get('additionalNotes')
-        
-        if your_product_name and your_product_description and other_product_name and other_product_description and exchange_location:
-            # Save the product exchange
-            product_exchange = ProductExchange.objects.create(
-                user=request.user,  # Assuming user is logged in
-                your_product_name=your_product_name,
-                your_product_description=your_product_description,
-                other_product_name=other_product_name,
-                other_product_description=other_product_description,
-                exchange_location=exchange_location,
-                additional_notes=additional_notes
-            )
-            return redirect('exchange_success')  # Redirect to a success page after successful submission
-        else:
-            return HttpResponse('All fields are required')  # Handle case when form fields are missing
-    else:
-        return render(request, 'exchange.html') 
+       return render(request, 'exchange.html')
+
 
 @never_cache 
 @login_required(login_url='login')

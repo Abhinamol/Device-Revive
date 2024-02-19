@@ -96,11 +96,13 @@ class SecondHandProduct(models.Model):
     condition = models.CharField(max_length=20, choices=CONDITION_CHOICES)
     year = models.CharField(max_length=4)  # Assuming year is a string, adjust if necessary
     price = models.DecimalField(max_digits=10, decimal_places=2)
+    stock = models.PositiveIntegerField(default=0)  # New field for stock
     image = models.ImageField(upload_to='product_images')
-    is_available = models.BooleanField(default=True)  # New field for availability
+    is_available = models.BooleanField(default=True)
 
     def __str__(self):
         return self.name
+
 
 
 class ProductExchange(models.Model):
