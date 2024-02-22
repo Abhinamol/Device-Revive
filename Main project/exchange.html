@@ -304,24 +304,33 @@
                 <div class="form-border">
                     <form action=" " method="post">
                         {% csrf_token %}
+                       
                         <label for="yourProductName">Your Product Name:</label>
                         <input type="text" id="yourProductName" name="yourProductName" required>
+                        <p id="productNameError" style="color: red;"></p>
+
                         <br>
                     
                         <label for="yourProductDescription">Your Product Description:</label>
                         <textarea id="yourProductDescription" name="yourProductDescription" rows="4" required></textarea>
+                        <p id="productDescriptionError" style="color: red;"></p>
+                        
                         <br>
-                    
                         <label for="otherProductName">Product You Want to Exchange For:</label>
                         <input type="text" id="otherProductName" name="otherProductName" required>
+                        <p id="exchangeProductError" style="color: red;"></p>
+                        
                         <br>
-                    
                         <label for="otherProductDescription">Description of the Product You Want to Exchange For:</label>
                         <textarea id="otherProductDescription" name="otherProductDescription" rows="4" required></textarea>
+                        <p id="exchangeProductDescriptionError" style="color: red;"></p>
+                        
                         <br>
                     
                         <label for="exchangeLocation">Exchange Location:</label>
                         <input type="text" id="exchangeLocation" name="exchangeLocation" required>
+                        <p id="exchangeLocationError" style="color: red;"></p>
+                        
                         <br>
                     
                         <label for="additionalNotes">Additional Notes:</label>
@@ -441,6 +450,113 @@
         });
     });
 </script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        var productNameInput = document.getElementById('yourProductName');
+        var productNameError = document.getElementById('productNameError');
+
+        productNameInput.addEventListener('input', function() {
+            var productName = productNameInput.value.trim();
+            var isValid = /^[A-Za-z]{3,}$/.test(productName); // Regular expression to match at least 3 letters
+
+            if (!isValid) {
+                productNameError.textContent = 'Product name must contain only letters and have at least 3 characters';
+                productNameInput.classList.add('invalid');
+            } else {
+                productNameError.textContent = '';
+                productNameInput.classList.remove('invalid');
+            }
+        });
+    });
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        var productDescriptionInput = document.getElementById('yourProductDescription');
+        var productDescriptionError = document.getElementById('productDescriptionError');
+
+        productDescriptionInput.addEventListener('input', function() {
+            var productDescription = productDescriptionInput.value.trim();
+            var wordCount = productDescription.split(/\s+/).length; // Count words using whitespace as delimiter
+            var containsLetters = /[a-zA-Z]/.test(productDescription); // Check if the description contains letters
+
+            if (wordCount < 2 || !containsLetters) {
+                productDescriptionError.textContent = 'Product description must contain at least 2 words with letters';
+                productDescriptionInput.classList.add('invalid');
+            } else {
+                productDescriptionError.textContent = '';
+                productDescriptionInput.classList.remove('invalid');
+            }
+        });
+    });
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        var exchangeProductInput = document.getElementById('otherProductName');
+        var exchangeProductError = document.getElementById('exchangeProductError');
+
+        exchangeProductInput.addEventListener('input', function() {
+            var exchangeProduct = exchangeProductInput.value.trim();
+            
+            if (/^[a-zA-Z]{2,}$/.test(exchangeProduct)) {
+                exchangeProductError.textContent = '';
+                exchangeProductInput.classList.remove('invalid');
+            } else {
+                exchangeProductError.textContent = 'Exchange product must contain only letters and at least 2 letters';
+                exchangeProductInput.classList.add('invalid');
+            }
+        });
+    });
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        var otherProductDescriptionInput = document.getElementById('otherProductDescription');
+        var exchangeProductDescriptionError = document.getElementById('exchangeProductDescriptionError');
+
+        otherProductDescriptionInput.addEventListener('input', function() {
+            validateProductDescription(otherProductDescriptionInput, exchangeProductDescriptionError);
+        });
+
+        function validateProductDescription(input, errorElement) {
+            var productDescription = input.value.trim();
+            var words = productDescription.split(/\s+/);
+            var wordCount = words.length;
+            var containsLetters = words.some(word => /[a-zA-Z]/.test(word)); // Check if any word contains letters
+
+            if (wordCount < 2 || !containsLetters) {
+                errorElement.textContent = 'Description must contain at least 2 words with letters';
+                input.classList.add('invalid');
+            } else {
+                errorElement.textContent = '';
+                input.classList.remove('invalid');
+            }
+        }
+    });
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        var exchangeLocationInput = document.getElementById('exchangeLocation');
+        var exchangeLocationError = document.getElementById('exchangeLocationError');
+
+        exchangeLocationInput.addEventListener('input', function() {
+            validateExchangeLocation(exchangeLocationInput, exchangeLocationError);
+        });
+
+        function validateExchangeLocation(input, errorElement) {
+            var location = input.value.trim();
+            var containsLetters = /[a-zA-Z]/.test(location); // Check if the location contains letters
+
+            if (!containsLetters) {
+                errorElement.textContent = 'Exchange location must contain at least 1 word with letters';
+                input.classList.add('invalid');
+            } else {
+                errorElement.textContent = '';
+                input.classList.remove('invalid');
+            }
+        }
+    });
+</script>
+
 
 </body>   
         

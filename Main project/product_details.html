@@ -645,7 +645,11 @@ background-color: #d63737;
                 
                     
             </div>
-    
+            <div class="searchbar">
+                <input type="text" id="searchInput" placeholder="Search products...">
+                <button id="searchButton" class="searchbtn" style="width: 100px;">Search</button>
+            </div>
+            
         
            
                 <div class="dropdown">
@@ -747,7 +751,7 @@ background-color: #d63737;
     
                     <div class="box box1">
                         <div class="text">
-                            <h2 class="topic-heading">10</h2>
+                            <h2 class="topic-heading">09</h2>
                             <h2 class="topic">Registered Users</h2>
                         </div>
     
@@ -787,7 +791,7 @@ background-color: #d63737;
     <br>
     <div class="container">
         <h2>Product Details</h2>
-        <table>
+        <table id="productTable">
             <thead>
                 <tr>
                     <th>Name</th>
@@ -856,8 +860,31 @@ background-color: #d63737;
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.bundle.min.js"></script>
        
         
-</body>
-</html>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                var searchInput = document.getElementById('searchInput');
+                var rows = document.querySelectorAll('#productTable tbody tr');
+        
+                // Function to filter rows based on search input
+                function filterRows() {
+                    var query = searchInput.value.trim().toLowerCase();
+        
+                    rows.forEach(function(row) {
+                        var productName = row.querySelector('td:nth-child(1)').textContent.toLowerCase();
+        
+                        if (productName.includes(query)) {
+                            row.style.display = 'table-row';
+                        } else {
+                            row.style.display = 'none';
+                        }
+                    });
+                }
+        
+                // Add event listener for input on search input
+                searchInput.addEventListener('input', filterRows);
+            });
+        </script>
+        
     
 </body>
 </html>

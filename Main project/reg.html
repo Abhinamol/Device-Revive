@@ -290,12 +290,12 @@
                                 <li>
                                     <a class="js-scroll-trigger" href="services">SERVICES</a>
                                 </li>
-                                
-                                
-                                
                                 <li>
-                                    <a class="js-scroll-trigger" href="about">ABOUT</a>
+                                    <a class="js-scroll-trigger" href="{% if user.is_authenticated %}{% url 'booking' %}{% else %}#login-required{% endif %}">
+                                        BOOKING
+                                    </a>
                                 </li>
+                                
                                 <li>
                                     <a class="js-scroll-trigger" href="ecommerce">PRODUCTS</a>
                                 </li>
@@ -304,10 +304,9 @@
                                     <a class="js-scroll-trigger" href="contact">CONTACT</a>
                                 </li>
                                 <li>
-                                    <a class="js-scroll-trigger" href="{% if user.is_authenticated %}{% url 'booking' %}{% else %}#login-required{% endif %}">
-                                        BOOKING
-                                    </a>
-                                    <li>
+                                    <a class="js-scroll-trigger" href="about">ABOUT</a>
+                                </li>
+                              <li>
                                         <div class="dropdown">
                                             <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="adminDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                 {% if user.is_authenticated %}

@@ -569,27 +569,14 @@ button[type="submit"]:hover {
     
             <div class="logosec">
                 <div class="logo">DEVICE REVIVE</div>
-                <img src=
-    "https://media.geeksforgeeks.org/wp-content/uploads/20221210182541/Untitled-design-(30).png"
-                    class="icn menuicn"
-                    id="menuicn"
-                    alt="menu-icon">
+                
             </div>
     
-            <div class="searchbar">
-                <input type="text"
-                    placeholder="Search">
-                <div class="searchbtn">
-                <img src="{% static '/images/search.jpg' %}" 
-    
-                        class="icn srchicn"
-                        alt="search-icon">
-                </div>
-            </div>
+            
     
             <div class="message">
                 <div class="circle"></div>
-                <img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210183322/8.png" class="icn" alt="">
+                
                 <div class="dropdown">
                     <button class="btn btn-secondary dropdown-toggle" type="button" id="userProfileDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <img src="{% static '/images/admin.jpg' %}" alt="User Icon" class="user-icon">
@@ -689,7 +676,7 @@ button[type="submit"]:hover {
     
                     <div class="box box1">
                         <div class="text">
-                            <h2 class="topic-heading">450</h2>
+                            <h2 class="topic-heading">09</h2>
                             <h2 class="topic">Registered Users</h2>
                         </div>
     
@@ -698,7 +685,7 @@ button[type="submit"]:hover {
     
                     <div class="box box2">
                         <div class="text">
-                            <h2 class="topic-heading">150</h2>
+                            <h2 class="topic-heading">5</h2>
                             <h2 class="topic">Reviews</h2>
                         </div>
     
@@ -787,7 +774,8 @@ button[type="submit"]:hover {
                             </div>
                             <div class="form-group">
                                 <label for="stock">Stock:</label>
-                                <input type="number" id="stock" name="stock" value="{{ product.stock }}">
+                                <input type="number" id="stock" name="stock" value="{{ product.stock }}"required>
+                                <div id="stock-error" class="error-message"></div>
                             </div>
                             
                             <div class="form-group">
@@ -1011,6 +999,24 @@ button[type="submit"]:hover {
             
                 // Other validation functions and event listeners for other fields...
             </script>
+            <script>
+                document.addEventListener("DOMContentLoaded", function() {
+                    const stockInput = document.getElementById("stock");
+                    const stockError = document.getElementById("stock-error");
+                
+                    stockInput.addEventListener("input", function() {
+                        const stockValue = parseFloat(stockInput.value);
+                
+                        if (isNaN(stockValue) || stockValue < 0) {
+                            stockError.textContent = "Stock must be a non-negative number.";
+                            stockInput.setCustomValidity("Stock must be a non-negative number.");
+                        } else {
+                            stockError.textContent = "";
+                            stockInput.setCustomValidity("");
+                        }
+                    });
+                });
+                </script>
 <script>            
         
            
