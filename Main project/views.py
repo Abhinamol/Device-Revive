@@ -960,8 +960,7 @@ def add_to_cart(request, product_id):
 
     # Check if the product is available
     if not product.is_available:
-        # You can handle this case as per your application's logic
-        return redirect('product_not_available')
+        return JsonResponse({'success': False, 'message': 'Product is not available.'})
 
     # Get or create the user's cart
     cart, created = Cart.objects.get_or_create(user=request.user)
@@ -973,8 +972,9 @@ def add_to_cart(request, product_id):
         # If the product is already in the cart, increase the quantity by 1
         cart_item.quantity += 1
         cart_item.save()
+        return JsonResponse({'success': False, 'message': 'Product is already in the cart.'})
 
-    return redirect('cart')
+    return JsonResponse({'success': True, 'message': 'Product successfully added to the cart.'})
 
 @never_cache 
 @login_required(login_url='login')
