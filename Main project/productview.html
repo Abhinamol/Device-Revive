@@ -433,6 +433,25 @@
   
         <div class="main-container">
             <div id="home" class="banner-container no-padding">
+                   <!-- Modal for displaying messages -->
+<div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="messageModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="messageModalLabel">Message</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p id="messageText"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
                 <div class="container">
                     <br><br><br><br><br><br><br><br><br>
                     <div class="row mx-auto">
@@ -447,11 +466,10 @@
                                 <p>Condition: {{ product.condition }}</p>
                                 <p>Year: {{ product.year }}</p>
                                 <p>Price: Rs.{{ product.price }}</p>
-                                <button class="exchange-button">Exchange Product</button>
-                                    <form action="{% url 'add_to_cart' product.id %}" method="post">
-                                        {% csrf_token %}
-                                        <button type="submit" class="add-to-cart-button">Add to Cart</button>
-                                    </form>
+                                <form id="add-to-cart-form" action="{% url 'add_to_cart' product.id %}" method="post">
+                                    {% csrf_token %}
+                                    <button type="submit" class="add-to-cart-button">Add to Cart</button>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -550,33 +568,48 @@
 <script src="{% static '/js/script.js' %}"></script>
 <script src="{% static '/js/jquery-3.2.1.min.js' %}"></script>
 <script src="{% static '/js/jquery-3.2.1.min.js' %}"></script>
+
+<!-- Ensure jQuery is included before this script -->
 <script>
     $(document).ready(function () {
-        function showLoginRequiredMessage() {
-            $(".login-required-message").fadeIn();
-        }
-
-        function hideLoginRequiredMessage() {
-            $(".login-required-message").fadeOut();
+        function showMessage(message) {
+            $("#messageText").text(message);
+            $("#messageModal").modal('show');
         }
 
         $(".exchange-button").click(function () {
-            // Check if the user is authenticated
+            var productId = $(this).data('product-id'); // Get the product ID associated with the clicked button
             var isAuthenticated = {% if user.is_authenticated %}true{% else %}false{% endif %};
             if (isAuthenticated) {
-                // Redirect to exchange.html
-                window.location.href = "{% url 'exchange' %}";
+                window.location.href = "/exchange/" + productId + "/";
             } else {
-                // Show login required message
-                showLoginRequiredMessage();
+                showMessage("Login Required");
             }
         });
 
-        $(".ok-button").click(function () {
-            hideLoginRequiredMessage();
+        $(".add-to-cart-button").click(function (e) {
+            e.preventDefault(); // Prevent default form submission
+            var form = $(this).closest('form');
+            $.ajax({
+                type: "POST",
+                url: form.attr('action'),
+                data: form.serialize(),
+                success: function (response) {
+                    if (response.success) {
+                        showMessage(response.message);
+                    } else {
+                        showMessage(response.message);
+                    }
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    showMessage("An error occurred while adding the product to the cart.");
+                }
+            });
         });
     });
 </script>
+
+
 </body>
 
 </html>

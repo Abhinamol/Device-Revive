@@ -183,52 +183,46 @@
                 left: 50%; 
                 transform: translate(-50%, -50%); 
             }
-            .product-details {
-                border: 1px solid #ccc;
-                padding: 20px;
-                background-color: #fff; 
-                color: #333; 
-            }
-            .product-image {
-                width: 250px; 
-                height: 150px; 
-                object-fit: cover; 
-                margin-bottom: 10px;
-            }
-            /* Search form container */
-.search-form {
-    margin-top: 20px;
-    margin-bottom: 20px;
-    text-align: center;
+
+.report-container {
+    background-color: #fff; /* White background */
+    border-radius: 10px;
+    padding: 20px;
+    margin: auto; /* Center horizontally */
+    margin-top: 50px; /* Adjust as needed for vertical centering */
+    max-width: 500px; /* Adjust width as needed */
 }
 
-/* Search input */
-.search-input {
+/* Alignment for form fields */
+.form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.form-group input[type="text"],
+.form-group input[type="number"],
+.form-group select,
+.form-group textarea {
     padding: 10px;
     border: 1px solid #ccc;
-    border-radius: 5px;
-    width: 300px; /* Adjust width as needed */
+    border-radius: 3px;
     font-size: 16px;
-    margin-right: 10px;
+    margin-top: 5px;
 }
 
-/* Search button */
-.search-button {
-    padding: 10px 20px;
-    border: none;
-    background-color: #007bff; /* Change to desired color */
-    color: #fff;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
+.form-group textarea {
+    height: 100px; /* Adjust height as needed */
 }
 
-.search-button:hover {
-    background-color: #0056b3; /* Change to desired color on hover */
-}
-/* Style for the add to cart button */
-.add-to-cart-button {
-    background-color: #007bff; /* Blue */
+/* CSS for submit button */
+.form-submit-button {
+    background-color: #4CAF50;
     border: none;
     color: white;
     padding: 10px 20px;
@@ -238,56 +232,17 @@
     font-size: 16px;
     margin-top: 10px;
     cursor: pointer;
-    border-radius: 5px; /* Rounded corners */
+    border-radius: 3px;
 }
 
-.add-to-cart-button:hover {
-    background-color: #0056b3; /* Darker blue on hover */
-}
-/* Style for the cart icon and text */
-.cart-icon {
-    color: black; /* Change color as needed */
-    margin-left: 10px; /* Adjust spacing as needed */
-    text-decoration: none; /* Remove underline */
-    font-size: 16px; /* Adjust size as needed */
+.form-submit-button:hover {
+    background-color: #45a049;
 }
 
-.cart-icon:hover {
-    color: black; /* Change color on hover */
-}
-
-/* Style for the "View Cart" text */
-.view-cart {
-    color: black; /* Change color as needed */
-}
-
-.out-of-stock-text {
+.error-message {
     color: red;
-    font-weight: bold;
 }
-.product-container {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 5px;
-    justify-content: space-around; /* Align items horizontally */
-}
-
-.centered {
-    display: flex;
-    justify-content: center; /* Center items horizontally */
-    align-items: center; /* Center items vertically */
-    min-height: 50vh; /* Set minimum height to viewport height */
-}
-
-.no-products-message {
-    text-align: center;
-}
-
-            
-            
-                      
-                
-        </style>
+ </style>
     </head>
          <body>
         
@@ -309,7 +264,7 @@
                                     </li>
                             </ul>
                         </div>
-                       
+                        
                     </div>
 
                 </div>
@@ -387,71 +342,94 @@
         
 
         <!--########################## Slider CSS ####################-->
-       
-        <div id="home" class="banner-container no-padding">
-            <div class="container">
-     <!-- Modal for displaying messages -->
-<div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="messageModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="messageModalLabel">Message</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+  
+        <div class="main-container">
+            <div id="home" class="banner-container no-padding">
+                <div class="container">
+                    <br><br><br><br><br><br><br><br><br>
+                                 
+ <div class="report-container form-container">
+    <div class="report-header">
+       <center> <h3>Second Hand Product Details</h3></center>
+    </div>
+    <div class="report-body">
+        <form id="product-form" method="post" action="{% url 'add_second_hand_product' %}" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="category">Category:</label>
+                <select id="category" name="category" required>
+                    {% for category in categories %}
+                        <option value="{{ category.id }}">{{ category.name }}</option>
+                    {% endfor %}
+                </select>
             </div>
-            <div class="modal-body">
-                <p id="messageText"></p>
+            <div class="form-group">
+                <label for="brand">Brand:</label>
+                <input type="text" id="brand" name="brand" value="{{ product.brand }}" required>
+                <div id="brand-error" class="error-message"></div>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+            <div class="form-group">
+                <label for="model">Model:</label>
+                <input type="text" id="model" name="model" value="{{ product.model }}" required>
+                <div id="model-error" class="error-message"></div>
             </div>
-        </div>
+
+
+            <div class="form-group">
+                <label for="description">Description:</label>
+                <textarea id="description" name="description" rows="4" required>{{ product.description }}</textarea>
+                <div id="description-error" class="error-message"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="condition">Condition:</label>
+                <select id="condition" name="condition" required>
+                    <option value="new" {% if product.condition == 'new' %}selected{% endif %}>New</option>
+                    <option value="used" {% if product.condition == 'used' %}selected{% endif %}>Used</option>
+                    <option value="refurbished" {% if product.condition == 'refurbished' %}selected{% endif %}>Refurbished</option>
+                </select>
+                <div id="condition-error" class="error-message"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="year">Year of Purchase:</label>
+                <input type="text" id="year" name="year" value="{{ product.year }}" required>
+                <div id="year-error" class="error-message"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="price">Price:</label>
+                <input type="number" id="price" name="price" value="{{ product.price }}" required>
+                <div id="price-error" class="error-message"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="image">Product Image:</label>
+                <input type="file" id="image" name="image" accept="image/*">
+                <div id="image-error" class="error-message"></div>
+            </div>
+            <center>  <button type="submit" class="form-submit-button">Submit</button></center>
+        </form>
     </div>
 </div>
-  
-                <div class="row mx-auto"></div>
-                <div class="slider-det">
-                    <form class="search-form" method="GET" action="{% url 'display_products' %}">
-                        <input id="search-input" class="search-input" type="text" name="q" placeholder="Search products...">
-                        <button class="search-button" type="submit">Search</button>
-                
-                        <a href="{% url 'cart' %}" class="cart-icon">
-                            <i class="fas fa-shopping-cart"></i> View Cart
-                        </a>
-                    </form>
-                  
-                    <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
-                        <center><h1>Available Second-hand Products</h1></center>
-                        <div class="product-container {% if products|length == 0 %}centered{% endif %}">
-                            {% for product in products %}
-                            <div class="product-details">
-                                <a href="{% url 'productview' product_id=product.id %}">
-                                    <img src="{{ product.image.url }}" alt="{{ product.name }}" class="product-image">
-                                </a>
-                                <h2>{{ product.name }}</h2>
-                                <p>Price: {{ product.price }}</p>
-                                
-                                <!-- Inside the product-details div -->
-                                <form id="add-to-cart-form" action="{% url 'add_to_cart' product.id %}" method="post">
-                                    {% csrf_token %}
-                                    <button type="submit" class="add-to-cart-button">Add to Cart</button>
-                                </form>
+
+            
+</div>
+
                             </div>
-                            {% empty %}
-                            <p class="no-products-message">No products available.</p>
-                            {% endfor %}
-                          
                         </div>
                     </div>
-                    
-                    <div class="login-required-message">
-                        <div class="login-required-box">
-                            <p>Login Required</p>
-                            <button class="ok-button">OK</button>
-                        </div>
-                    </div>
-                </div></div>                    
+                </div>
+            </div>
+        </div>
+        
+    <div class="login-required-message">
+        <div class="login-required-box">
+            <p>Login Required</p>
+            <button class="ok-button">OK</button>
+        </div>
+    </div>
 
 <!--########################## Footer CSS ####################-->
 <footer>
@@ -537,101 +515,256 @@
 <script src="{% static '/js/script.js' %}"></script>
 
 <script>
-    $(document).ready(function () {
-        function showLoginRequiredMessage() {
-            $(".login-required-message").fadeIn();
+    // Function to validate product name
+    function validateName() {
+        const nameInput = document.getElementById('name');
+        const nameError = document.getElementById('name-error');
+        const nameValue = nameInput.value.trim();
+
+        // Check if name contains only letters
+        const lettersOnlyRegex = /^[a-zA-Z ]*$/;
+        if (!lettersOnlyRegex.test(nameValue)) {
+            nameError.textContent = 'Name should contain only letters';
+            return false;
         }
 
-        function hideLoginRequiredMessage() {
-            $(".login-required-message").fadeOut();
+        // Check if name contains at least 3 characters
+        if (nameValue.replace(/\s+/g, '').length < 3) {
+            nameError.textContent = 'Name should contain at least 3 non-space characters';
+            return false;
         }
 
-        $(".exchange-button").click(function () {
-            // Check if the user is authenticated
-            var isAuthenticated = {% if user.is_authenticated %}true{% else %}false{% endif %};
-            if (isAuthenticated) {
-                // Get the product ID
-                var product_id = $(this).data('product-id');
-                // Redirect to the exchange URL with the product ID
-                window.location.href = "/exchange/" + product_id + "/";
-            } else {
-                // Show login required message
-                showLoginRequiredMessage();
-            }
-        });
+        // Check if name starts with a space after typing
+        if (nameValue.charAt(0) === ' ' && nameValue.length > 1) {
+            nameError.textContent = 'Name should not start with a space';
+            return false;
+        }
 
-        $(".ok-button").click(function () {
-            hideLoginRequiredMessage();
-        });
-    });
-</script>
-
-</script>
-<script>
-    // Function to handle live search
-    function liveSearch() {
-        var input, filter, products, productDetails, productName;
-        input = document.getElementById("search-input");
-        filter = input.value.toUpperCase();
-        products = document.querySelectorAll(".product-details");
-
-        // Loop through all product details and hide those that don't match the search query
-        products.forEach(function(product) {
-            productName = product.querySelector("h2");
-            if (productName.innerText.toUpperCase().indexOf(filter) > -1) {
-                product.style.display = "";
-            } else {
-                product.style.display = "none";
-            }
-        });
+        // If all conditions pass, clear error message
+        nameError.textContent = '';
+        return true;
     }
 
-    // Attach event listener to search input field
-    document.getElementById("search-input").addEventListener("input", liveSearch);
+    // Add event listener for input event on name field
+    document.getElementById('name').addEventListener('input', validateName);
+
+    // Other validation functions and event listeners for other fields...
+
+    // Function to validate the entire form before submission
+    function validateForm() {
+        return validateName(); // Add other validation function calls if needed
+    }
 </script>
-
-
-<!-- Ensure jQuery is included before this script -->
 <script>
-    $(document).ready(function () {
-        function showMessage(message) {
-            $("#messageText").text(message);
-            $("#messageModal").modal('show');
+    // Function to validate brand name
+    function validateBrand() {
+        const brandInput = document.getElementById('brand');
+        const brandError = document.getElementById('brand-error');
+        const brandValue = brandInput.value.trim();
+
+        // Check if brand contains at least 2 characters
+        if (brandValue.length < 2) {
+            brandError.textContent = 'Brand should contain at least 2 characters';
+            return false;
         }
 
-        $(".exchange-button").click(function () {
-            var productId = $(this).data('product-id'); // Get the product ID associated with the clicked button
-            var isAuthenticated = {% if user.is_authenticated %}true{% else %}false{% endif %};
-            if (isAuthenticated) {
-                window.location.href = "/exchange/" + productId + "/";
-            } else {
-                showMessage("Login Required");
-            }
-        });
+        // If all conditions pass, clear error message
+        brandError.textContent = '';
+        return true;
+    }
 
-        $(".add-to-cart-button").click(function (e) {
-            e.preventDefault(); // Prevent default form submission
-            var form = $(this).closest('form');
-            $.ajax({
-                type: "POST",
-                url: form.attr('action'),
-                data: form.serialize(),
-                success: function (response) {
-                    if (response.success) {
-                        showMessage(response.message);
-                    } else {
-                        showMessage(response.message);
-                    }
-                },
-                error: function (xhr, textStatus, errorThrown) {
-                    showMessage("An error occurred while adding the product to the cart.");
+    // Add event listener for input event on brand field
+    document.getElementById('brand').addEventListener('input', validateBrand);
+
+    // Other validation functions and event listeners for other fields...
+
+    // Function to validate the entire form before submission
+    function validateForm() {
+        return validateBrand(); // Add other validation function calls if needed
+    }
+</script>
+    <script>
+        // Function to validate model
+        function validateModel() {
+            const modelInput = document.getElementById('model');
+            const modelError = document.getElementById('model-error');
+            const modelValue = modelInput.value.trim();
+
+            // Check if model contains at least 2 characters
+            if (modelValue.length < 3) {
+                modelError.textContent = 'Model should contain at least 2 characters';
+                return false;
+            }
+
+            // If all conditions pass, clear error message
+            modelError.textContent = '';
+            return true;
+        }
+
+        // Add event listener for input event on model field
+        document.getElementById('model').addEventListener('input', validateModel);
+
+        // Other validation functions and event listeners for other fields...
+
+        // Function to validate the entire form before submission
+        function validateForm() {
+            return validateModel(); // Add other validation function calls if needed
+        }
+    </script>
+
+    <script>
+        // Function to validate description
+        function validateDescription() {
+            var description = document.getElementById('description').value.trim();
+            var descriptionError = document.getElementById('description-error');
+    
+            // Split the description into words
+            var words = description.split(/\s+/);
+    
+            // Check if description contains at least 2 words
+            if (words.length < 2) {
+                descriptionError.innerHTML = 'Description should contain at least 2 words';
+                return false;
+            } else {
+                descriptionError.innerHTML = '';
+                return true;
+            }
+        }
+    
+        // Add event listener for input event on description field
+        document.getElementById('description').addEventListener('input', validateDescription);
+    
+        // Other validation functions and event listeners for other fields...
+    
+        // Function to validate the entire form before submission
+        function validateForm() {
+            return validateDescription(); // Add other validation function calls if needed
+        }
+    </script>
+    
+    <script>
+        // Function to validate price
+        function validatePrice() {
+            const priceInput = document.getElementById('price');
+            const priceError = document.getElementById('price-error');
+            const priceValue = parseFloat(priceInput.value.trim());
+    
+            // Check if price is empty
+            if (priceValue === '' || isNaN(priceValue)) {
+                priceError.textContent = 'Price is required';
+                return false;
+            }
+    
+            // Check if price is a positive number
+            if (priceValue <= 0) {
+                priceError.textContent = 'Price must be a positive number';
+                return false;
+            }
+    
+            // If all conditions pass, clear error message
+            priceError.textContent = '';
+            return true;
+        }
+    
+        // Add event listener for input event on price field
+        document.getElementById('price').addEventListener('input', validatePrice);
+    
+       
+
+    // Function to validate year
+    function validateYear() {
+        const yearInput = document.getElementById('year');
+        const yearError = document.getElementById('year-error');
+        const yearValue = yearInput.value.trim();
+
+        // Check if year is empty
+        if (yearValue === '') {
+            yearError.textContent = 'Year is required';
+            return false;
+        }
+
+        // Check if year is a valid number with 4 digits
+        const yearRegex = /^\d{4}$/;
+        if (!yearRegex.test(yearValue)) {
+            yearError.textContent = 'Year should be a number with 4 digits';
+            return false;
+        }
+
+        // Convert year to a number
+        const year = parseInt(yearValue);
+
+        // Check if year is after 2024
+        if (year > 2024) {
+            yearError.textContent = 'Year cannot be after 2024';
+            return false;
+        }
+
+        // If all conditions pass, clear error message
+        yearError.textContent = '';
+        return true;
+    }
+
+    // Add event listener for input event on year field
+    document.getElementById('year').addEventListener('input', validateYear);
+
+    // Form submission event listener
+    document.getElementById('myForm').addEventListener('submit', function(event) {
+        // Prevent form submission if validation fails
+        if (!validateYear()) {
+            event.preventDefault();
+        }
+    });
+</script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const stockInput = document.getElementById("stock");
+            const stockError = document.getElementById("stock-error");
+        
+            stockInput.addEventListener("input", function() {
+                const stockValue = parseFloat(stockInput.value);
+        
+                if (isNaN(stockValue) || stockValue < 0) {
+                    stockError.textContent = "Stock must be a non-negative number.";
+                    stockInput.setCustomValidity("Stock must be a non-negative number.");
+                } else {
+                    stockError.textContent = "";
+                    stockInput.setCustomValidity("");
                 }
             });
         });
-    });
-</script>
+        </script>
+        <script>
+            // Function to validate image file format
+            function validateImage() {
+                const imageInput = document.getElementById('image');
+                const imageError = document.getElementById('image-error');
+                const allowedExtensions = ['jpg', 'jpeg', 'png', 'gif']; // Define the allowed image extensions
+        
+                // Get the file name and split it to get the extension
+                const fileName = imageInput.value.trim();
+                const fileExtension = fileName.split('.').pop().toLowerCase();
+        
+                // Check if the file extension is in the allowed list
+                if (!allowedExtensions.includes(fileExtension)) {
+                    imageError.textContent = 'Unsupported file format. Please upload an image (jpg, jpeg, png, gif).';
+                    return false;
+                }
+        
+                // If all conditions pass, clear error message
+                imageError.textContent = '';
+                return true;
+            }
+        
+            // Add event listener for change event on image file input
+            document.getElementById('image').addEventListener('change', validateImage);
+        
+            // Function to validate the entire form before submission
+            function validateForm() {
+                return validateImage(); // Add other validation function calls if needed
+            }
+        </script>
+        
 
-
-
+</body>
 
 </html>

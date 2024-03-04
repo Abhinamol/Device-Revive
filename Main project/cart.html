@@ -284,16 +284,14 @@
                                     <div class="product-details">
                                         <h3>{{ product_item.name }}</h3>
                                         <p>Price: {{ product_item.price }}</p>
-                                        <br>
-                                        {% if product_item.stock == 0 %}
-                                            <p class="out-of-stock-text">Out of Stock</p>
-                                        {% else %}
-                                            <a href="{% url 'exchange' %}?product_id={{ product_item.id }}" class="btn btn-success">Exchange</a>
-                                            <form action="{% url 'remove_from_cart' product_item.id %}" method="post">
+                                        <a href="{% url 'buynow' product_id=product_item.id %}" class="btn btn-success">Buy Now</a>
+
+
+                                          <form action="{% url 'remove_from_cart' product_item.id %}" method="post">
                                                 {% csrf_token %}
                                                 <button type="submit" class="btn btn-danger">Remove from Cart</button>
                                             </form>
-                                        {% endif %}
+                                       
                                     </div>
                                 </div>
                             </div>

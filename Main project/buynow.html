@@ -283,7 +283,32 @@
     text-align: center;
 }
 
-            
+#paymentButton {
+    background-color: #4CAF50; /* Green background */
+    color: white; /* White text color */
+    padding: 10px 20px; /* Padding */
+    text-align: center; /* Center text */
+    text-decoration: none; /* Remove underline */
+    display: inline-block; /* Display as block element */
+    border-radius: 5px; /* Rounded corners */
+    border: none; /* Remove border */
+    cursor: pointer; /* Add cursor pointer */
+}
+
+#paymentButton:hover {
+    background-color: #45a049; /* Darker green background on hover */
+}   
+/* CSS for alignment */
+        .address-selection,
+        .new-address-fields {
+            margin-bottom: 10px;
+        }
+
+        .new-address-fields label,
+        .new-address-fields input {
+            display: block;
+            margin-bottom: 5px;
+        }        
             
                       
                 
@@ -390,69 +415,74 @@
        
         <div id="home" class="banner-container no-padding">
             <div class="container">
-     <!-- Modal for displaying messages -->
-<div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="messageModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="messageModalLabel">Message</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <p id="messageText"></p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <br><br><br><br><br><br><br><br>
+                <div class="container">
+                   
+                    {% if error %}
+                        <p class="error">{{ error }}</p>
+                    {% else %}
+                        <div class="product-details">
+        
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="product-info">
+                                            <h2>Product Details</h2>
+                                            <div class="product-image">
+                                                <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                                            </div>
+                                            <h4>{{ product.name }}</h4>
+                                            <p><strong>Brand:</strong> {{ product.brand }}</p>
+                                            <p><strong>Model:</strong> {{ product.model }}</p>
+                                            <p><strong>Description:</strong> {{ product.description }}</p>
+                                            <p><strong>Condition:</strong> {{ product.get_condition_display }}</p>
+                                            <p><strong>Year:</strong> {{ product.year }}</p>
+                                            <p><strong>Seller Price:</strong> Rs.{{ product.price }}</p>
+                                            <p><strong>Platform Fee:</strong> Rs.150</p>
+                                            <p><strong>Total Price:</strong> Rs.<span id="totalPrice">{{ product.price|add:150 }}</span></p>
+                                              <input type="hidden" id="totalPriceInput" value="{{ product.price|add:150 }}">
+                                            </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="user-details">
+                                            <h2>Shipping Address</h2>
+                                            <p><strong>Full Name:</strong> {{ user_details.full_name }}</p>
+                                            <p><strong>Email:</strong> {{ user_details.email }}</p>
+                                            <p><strong>Phone:</strong> {{ user_details.phone }}</p>
+                                            <p><strong>Address:</strong> {{ user_details.address.home_address }}, {{ user_details.address.city }}, {{ user_details.address.pincode }}</p>
+                                        </div>
+                                        <div class="address-selection">
+                                            <label for="addressType">Select Address Type:</label>
+                                            <select id="addressType" onchange="toggleAddressFields()">
+                                                <option value="current">Current Address</option>
+                                                <option value="new">Add New Address</option>
+                                            </select>
+                                        </div>
+                                        <div class="new-address-fields" style="display: none;">
+                                            <label for="homeAddress">Home Address:</label>
+                                            <input type="text" id="homeAddress" name="homeAddress">
+                                           
+                                            <label for="city">City:</label>
+                                            <input type="text" id="city" name="city">
+                                           
+                                            <label for="pincode">Pincode:</label>
+                                            <input type="text" id="pincode" name="pincode">
+                                            <!-- New phone number field -->
+                                           <label for="phoneNumber">Phone Number:</label>
+                                           <input type="text" id="phoneNumber" name="phoneNumber">
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <center>
+                                    <button id="paymentButton" onclick="proceedToPayment()">Proceed to Payment</button>
+                                </center>
+                            </div>
+                    {% endif %}
+                </div>
             </div>
         </div>
-    </div>
-</div>
-  
-                <div class="row mx-auto"></div>
-                <div class="slider-det">
-                    <form class="search-form" method="GET" action="{% url 'display_products' %}">
-                        <input id="search-input" class="search-input" type="text" name="q" placeholder="Search products...">
-                        <button class="search-button" type="submit">Search</button>
-                
-                        <a href="{% url 'cart' %}" class="cart-icon">
-                            <i class="fas fa-shopping-cart"></i> View Cart
-                        </a>
-                    </form>
-                  
-                    <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
-                        <center><h1>Available Second-hand Products</h1></center>
-                        <div class="product-container {% if products|length == 0 %}centered{% endif %}">
-                            {% for product in products %}
-                            <div class="product-details">
-                                <a href="{% url 'productview' product_id=product.id %}">
-                                    <img src="{{ product.image.url }}" alt="{{ product.name }}" class="product-image">
-                                </a>
-                                <h2>{{ product.name }}</h2>
-                                <p>Price: {{ product.price }}</p>
-                                
-                                <!-- Inside the product-details div -->
-                                <form id="add-to-cart-form" action="{% url 'add_to_cart' product.id %}" method="post">
-                                    {% csrf_token %}
-                                    <button type="submit" class="add-to-cart-button">Add to Cart</button>
-                                </form>
-                            </div>
-                            {% empty %}
-                            <p class="no-products-message">No products available.</p>
-                            {% endfor %}
-                          
-                        </div>
-                    </div>
-                    
-                    <div class="login-required-message">
-                        <div class="login-required-box">
-                            <p>Login Required</p>
-                            <button class="ok-button">OK</button>
-                        </div>
-                    </div>
-                </div></div>                    
-
+<br>
 <!--########################## Footer CSS ####################-->
 <footer>
     <div class="container">
@@ -535,103 +565,75 @@
 <script src="{% static '/js/bootstrap.min.js' %}"></script>
 <script src="{% static '/plugins/scroll-fixed/jquery-scrolltofixed-min.js' %}"></script>
 <script src="{% static '/js/script.js' %}"></script>
-
 <script>
-    $(document).ready(function () {
-        function showLoginRequiredMessage() {
-            $(".login-required-message").fadeIn();
+    function toggleAddressFields() {
+        var addressType = document.getElementById("addressType").value;
+        var newAddressFields = document.querySelector(".new-address-fields");
+    
+        if (addressType === "new") {
+            newAddressFields.style.display = "block";
+        } else {
+            newAddressFields.style.display = "none";
         }
-
-        function hideLoginRequiredMessage() {
-            $(".login-required-message").fadeOut();
-        }
-
-        $(".exchange-button").click(function () {
-            // Check if the user is authenticated
-            var isAuthenticated = {% if user.is_authenticated %}true{% else %}false{% endif %};
-            if (isAuthenticated) {
-                // Get the product ID
-                var product_id = $(this).data('product-id');
-                // Redirect to the exchange URL with the product ID
-                window.location.href = "/exchange/" + product_id + "/";
-            } else {
-                // Show login required message
-                showLoginRequiredMessage();
-            }
-        });
-
-        $(".ok-button").click(function () {
-            hideLoginRequiredMessage();
-        });
-    });
-</script>
-
-</script>
-<script>
-    // Function to handle live search
-    function liveSearch() {
-        var input, filter, products, productDetails, productName;
-        input = document.getElementById("search-input");
-        filter = input.value.toUpperCase();
-        products = document.querySelectorAll(".product-details");
-
-        // Loop through all product details and hide those that don't match the search query
-        products.forEach(function(product) {
-            productName = product.querySelector("h2");
-            if (productName.innerText.toUpperCase().indexOf(filter) > -1) {
-                product.style.display = "";
-            } else {
-                product.style.display = "none";
-            }
-        });
     }
-
-    // Attach event listener to search input field
-    document.getElementById("search-input").addEventListener("input", liveSearch);
 </script>
-
-
-<!-- Ensure jQuery is included before this script -->
 <script>
-    $(document).ready(function () {
-        function showMessage(message) {
-            $("#messageText").text(message);
-            $("#messageModal").modal('show');
+    function toggleAddressFields() {
+        var addressType = document.getElementById("addressType").value;
+        var newAddressFields = document.querySelector(".new-address-fields");
+    
+        if (addressType === "new") {
+            newAddressFields.style.display = "block";
+        } else {
+            newAddressFields.style.display = "none";
         }
+    }
+</script>
+                           
+<script>
+    function confirmBooking() {
+        // Add your confirmation logic here
+        // For example, you can send a request to your server to save the booking and handle the payment method
+        alert("Booking confirmed!"); // Replace this with your actual confirmation process
+    }
+</script> 
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var app = {
+            proceedToPayment: function () {
+               
+                var totalCost = document.getElementById('totalPriceInput').value;
 
-        $(".exchange-button").click(function () {
-            var productId = $(this).data('product-id'); // Get the product ID associated with the clicked button
-            var isAuthenticated = {% if user.is_authenticated %}true{% else %}false{% endif %};
-            if (isAuthenticated) {
-                window.location.href = "/exchange/" + productId + "/";
-            } else {
-                showMessage("Login Required");
+
+                var amount = parseFloat(totalCost) * 100;
+                
+                var options = {
+                    "key": "rzp_test_M6dbYT1aGAl9FR",
+                    "amount": amount,
+                    "currency": "INR",
+                    "name": "Laptop/Desktop service center website",
+                    "description": "Service Booking",
+                    "order_id": "{{ order_id }}",
+                    "callback_url": "{{ callback_url }}",
+                    "prefill": {
+                        "name": "CUSTOMER_NAME",
+                        "email": "CUSTOMER_EMAIL",
+                        "contact": "CUSTOMER_PHONE_NUMBER"
+                    },
+                };
+
+                var rzp1 = new Razorpay(options);
+                rzp1.open();
             }
-        });
+        };
 
-        $(".add-to-cart-button").click(function (e) {
-            e.preventDefault(); // Prevent default form submission
-            var form = $(this).closest('form');
-            $.ajax({
-                type: "POST",
-                url: form.attr('action'),
-                data: form.serialize(),
-                success: function (response) {
-                    if (response.success) {
-                        showMessage(response.message);
-                    } else {
-                        showMessage(response.message);
-                    }
-                },
-                error: function (xhr, textStatus, errorThrown) {
-                    showMessage("An error occurred while adding the product to the cart.");
-                }
-            });
+        // You can trigger the payment function when needed, for example on a button click
+        var paymentButton = document.getElementById('paymentButton'); // Update the ID if needed
+        paymentButton.addEventListener('click', function () {
+            app.proceedToPayment();
         });
     });
 </script>
-
-
-
 
 </html>

@@ -261,30 +261,43 @@
     color: black; /* Change color as needed */
 }
 
-.out-of-stock-text {
-    color: red;
-    font-weight: bold;
-}
-.product-container {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 5px;
-    justify-content: space-around; /* Align items horizontally */
-}
-
-.centered {
+.product-details {
+    border: 1px solid #ccc;
+    padding: 20px;
+    background-color: #fff;
+    color: #333;
+    margin: auto;
     display: flex;
-    justify-content: center; /* Center items horizontally */
-    align-items: center; /* Center items vertically */
-    min-height: 50vh; /* Set minimum height to viewport height */
+    flex-direction: column;
+    align-items: center; /* Center items horizontally */
+    justify-content: center; /* Center items vertically */
+    max-width: 500px; /* Adjust max-width as needed */
+    margin-top: 10px; /* Add top margin for spacing */
 }
 
-.no-products-message {
-    text-align: center;
+.product-details img {
+    max-width: 100%; /* Ensure the image fits within the container */
+    margin-bottom: 10px; /* Add some space below the image */
 }
 
-            
-            
+.product-details h2 {
+    text-align: center; /* Center the heading */
+}
+
+.product-details p {
+    text-align: center; /* Center paragraphs */
+}
+
+.product-details button {
+    margin-top: 10px; /* Add space above the button */
+}
+
+
+
+
+
+
+  
                       
                 
         </style>
@@ -309,7 +322,37 @@
                                     </li>
                             </ul>
                         </div>
-                       
+                        <div class="col-lg-5 d-none d-lg-block right-item">
+                            <ul>
+                                <li>
+                                    <a>
+                                        <i class="fab fa-github" style="color: white;"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="">
+                                        <i class="fab fa-linkedin-in" style="color: white;"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="">
+                                        <i class="fab fa-pinterest-p" style="color: white;"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="">
+                                        <i class="fab fa-twitter" style="color: white;"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="">
+                                        <i class="fab fa-facebook-f" style="color: white;"></i>
+                                    </a>
+                                </li>
+                               
+                                
+                            </ul>
+                        </div>
                     </div>
 
                 </div>
@@ -387,71 +430,44 @@
         
 
         <!--########################## Slider CSS ####################-->
-       
-        <div id="home" class="banner-container no-padding">
-            <div class="container">
-     <!-- Modal for displaying messages -->
-<div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="messageModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="messageModalLabel">Message</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+  
+        <div class="main-container">
+        <div class="container">
+            <br><br><br><br><br><br><br>
+            <div class="row">
+                <div class="col-md-12">
+                    <center>
+                    <h1>Your Products</h1>
+                    <div class="product-container">
+                        {% for product in products %}
+                        <div class="product-details">
+                            <img src="{{ product.image.url }}" alt="{{ product.name }}" class="product-image">
+                            <h2>{{ product.name }}</h2>
+                            <p>Brand: {{ product.brand }}</p>
+                            <p>Model: {{ product.model }}</p>
+                            <p>Description: {{ product.description }}</p>
+                            <p>Condition: {{ product.get_condition_display }}</p>
+                            <p>Year: {{ product.year }}</p>
+                            <p>Price: {{ product.price }}</p>
+                           
+                        </div>
+                        {% endfor %}
+                    </div>
+                </center>
+                </div>
+               
             </div>
-            <div class="modal-body">
-                <p id="messageText"></p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div>
+            <br><br>
         </div>
     </div>
-</div>
-  
-                <div class="row mx-auto"></div>
-                <div class="slider-det">
-                    <form class="search-form" method="GET" action="{% url 'display_products' %}">
-                        <input id="search-input" class="search-input" type="text" name="q" placeholder="Search products...">
-                        <button class="search-button" type="submit">Search</button>
-                
-                        <a href="{% url 'cart' %}" class="cart-icon">
-                            <i class="fas fa-shopping-cart"></i> View Cart
-                        </a>
-                    </form>
-                  
-                    <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
-                        <center><h1>Available Second-hand Products</h1></center>
-                        <div class="product-container {% if products|length == 0 %}centered{% endif %}">
-                            {% for product in products %}
-                            <div class="product-details">
-                                <a href="{% url 'productview' product_id=product.id %}">
-                                    <img src="{{ product.image.url }}" alt="{{ product.name }}" class="product-image">
-                                </a>
-                                <h2>{{ product.name }}</h2>
-                                <p>Price: {{ product.price }}</p>
-                                
-                                <!-- Inside the product-details div -->
-                                <form id="add-to-cart-form" action="{% url 'add_to_cart' product.id %}" method="post">
-                                    {% csrf_token %}
-                                    <button type="submit" class="add-to-cart-button">Add to Cart</button>
-                                </form>
-                            </div>
-                            {% empty %}
-                            <p class="no-products-message">No products available.</p>
-                            {% endfor %}
-                          
-                        </div>
-                    </div>
-                    
-                    <div class="login-required-message">
-                        <div class="login-required-box">
-                            <p>Login Required</p>
-                            <button class="ok-button">OK</button>
-                        </div>
-                    </div>
-                </div></div>                    
+
+        
+    <div class="login-required-message">
+        <div class="login-required-box">
+            <p>Login Required</p>
+            <button class="ok-button">OK</button>
+        </div>
+    </div>
 
 <!--########################## Footer CSS ####################-->
 <footer>
@@ -536,102 +552,32 @@
 <script src="{% static '/plugins/scroll-fixed/jquery-scrolltofixed-min.js' %}"></script>
 <script src="{% static '/js/script.js' %}"></script>
 
+
 <script>
     $(document).ready(function () {
-        function showLoginRequiredMessage() {
-            $(".login-required-message").fadeIn();
-        }
-
-        function hideLoginRequiredMessage() {
-            $(".login-required-message").fadeOut();
-        }
-
-        $(".exchange-button").click(function () {
-            // Check if the user is authenticated
-            var isAuthenticated = {% if user.is_authenticated %}true{% else %}false{% endif %};
-            if (isAuthenticated) {
-                // Get the product ID
-                var product_id = $(this).data('product-id');
-                // Redirect to the exchange URL with the product ID
-                window.location.href = "/exchange/" + product_id + "/";
-            } else {
-                // Show login required message
-                showLoginRequiredMessage();
-            }
-        });
-
-        $(".ok-button").click(function () {
-            hideLoginRequiredMessage();
-        });
-    });
-</script>
-
-</script>
-<script>
-    // Function to handle live search
-    function liveSearch() {
-        var input, filter, products, productDetails, productName;
-        input = document.getElementById("search-input");
-        filter = input.value.toUpperCase();
-        products = document.querySelectorAll(".product-details");
-
-        // Loop through all product details and hide those that don't match the search query
-        products.forEach(function(product) {
-            productName = product.querySelector("h2");
-            if (productName.innerText.toUpperCase().indexOf(filter) > -1) {
-                product.style.display = "";
-            } else {
-                product.style.display = "none";
-            }
-        });
-    }
-
-    // Attach event listener to search input field
-    document.getElementById("search-input").addEventListener("input", liveSearch);
-</script>
-
-
-<!-- Ensure jQuery is included before this script -->
-<script>
-    $(document).ready(function () {
-        function showMessage(message) {
-            $("#messageText").text(message);
-            $("#messageModal").modal('show');
-        }
-
-        $(".exchange-button").click(function () {
-            var productId = $(this).data('product-id'); // Get the product ID associated with the clicked button
-            var isAuthenticated = {% if user.is_authenticated %}true{% else %}false{% endif %};
-            if (isAuthenticated) {
-                window.location.href = "/exchange/" + productId + "/";
-            } else {
-                showMessage("Login Required");
-            }
-        });
-
-        $(".add-to-cart-button").click(function (e) {
+        $("#add-to-cart-form").submit(function (e) {
             e.preventDefault(); // Prevent default form submission
-            var form = $(this).closest('form');
+
+            // Make AJAX request to add product to cart
             $.ajax({
                 type: "POST",
-                url: form.attr('action'),
-                data: form.serialize(),
+                url: $(this).attr('action'),
+                data: $(this).serialize(),
                 success: function (response) {
-                    if (response.success) {
-                        showMessage(response.message);
-                    } else {
-                        showMessage(response.message);
-                    }
+                    // Show success/failure message in modal
+                    $("#messageText").text(response.message);
+                    $("#messageModal").modal('show');
                 },
                 error: function (xhr, textStatus, errorThrown) {
-                    showMessage("An error occurred while adding the product to the cart.");
+                    // Show error message in modal
+                    $("#messageText").text("An error occurred while adding the product to the cart.");
+                    $("#messageModal").modal('show');
                 }
             });
         });
     });
 </script>
 
-
-
+</body>
 
 </html>
