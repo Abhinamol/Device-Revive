@@ -32,6 +32,7 @@ class LaptopBrand(models.Model):
     def __str__(self):
         return self.name
 
+
 class Technician(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE,null=True,blank=True)
     full_name = models.CharField(max_length=255)
@@ -82,11 +83,18 @@ class Review(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
 
+
+
+
 class SecondHandProduct(models.Model):
     CONDITION_CHOICES = (
         ('new', 'New'),
         ('used', 'Used'),
         ('refurbished', 'Refurbished'),
+    )
+    ACTION_CHOICES = (
+        ('pending', 'Approval Pending'),
+        ('approved', 'Approved'),
     )
 
     name = models.CharField(max_length=100)
@@ -94,11 +102,19 @@ class SecondHandProduct(models.Model):
     model = models.CharField(max_length=100)
     description = models.TextField()
     condition = models.CharField(max_length=20, choices=CONDITION_CHOICES)
-    year = models.CharField(max_length=4)  # Assuming year is a string, adjust if necessary
+    year = models.CharField(max_length=4)  
     price = models.DecimalField(max_digits=10, decimal_places=2)
-    stock = models.PositiveIntegerField(default=0)  # New field for stock
     image = models.ImageField(upload_to='product_images')
-    is_available = models.BooleanField(default=True)
+    added_by = models.ForeignKey(Userdetails, on_delete=models.CASCADE, blank=True, null=True)
+    
+    
+    
+    def __str__(self):
+        return self.name
+
+
+class Category(models.Model):
+    name = models.CharField(max_length=100)
 
     def __str__(self):
         return self.name
@@ -130,3 +146,32 @@ class CartItem(models.Model):
 
     def __str__(self):
         return f"{self.quantity} of {self.product.name} in {self.cart.user.username}'s cart"
+
+
+
+class Purchase(models.Model):
+    PAYMENT_STATUS_CHOICES = (
+        ('pending', 'Pending'),
+        ('completed', 'Completed'),
+        ('cancelled', 'Cancelled')
+    )
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    product = models.ForeignKey(SecondHandProduct, on_delete=models.CASCADE)
+    total_amount = models.DecimalField(max_digits=10, decimal_places=2)
+    payment_status = models.CharField(max_length=20, choices=PAYMENT_STATUS_CHOICES, default='pending')
+    purchase_date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.user.username} bought {self.product.name} on {self.purchase_date}"
+
+
+class Deliveryboy(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE,null=True,blank=True)
+    full_name = models.CharField(max_length=255)
+    phone_number = models.CharField(max_length=15)
+    email = models.EmailField()
+    username = models.CharField(max_length=50, unique=True)
+    password = models.CharField(max_length=100)
+    address = models.OneToOneField(Address, on_delete=models.CASCADE, null=True, blank=True)
+

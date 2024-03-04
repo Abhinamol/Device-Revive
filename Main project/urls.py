@@ -12,6 +12,7 @@ from .views import admin_booking
 from django.conf import settings
 from django.conf.urls.static import static
 from .views import productview
+from .views import add_deliveryboy
 
 urlpatterns = [
     path('',views.index,name="index"),
@@ -76,11 +77,23 @@ urlpatterns = [
     path('review/',views.Review_rate,name="review"),
     path('edit_product/<int:product_id>/', views.edit_product, name='edit_product'),
     path('delete_product/<int:product_id>/', views.delete_product, name='delete_product'),
-    path('exchange/', views.exchange, name='exchange'),
+    path('exchange/<int:product_id>/', views.exchange, name='exchange'),
     path('add_to_cart/<int:product_id>/', views.add_to_cart, name='add_to_cart'),
     path('cart/', views.cart_view, name='cart'),
     path('productview/<int:product_id>/', views.productview, name='productview'),
     path('remove/<int:product_id>/', views.remove_from_cart, name='remove_from_cart'),
+    path('exchangelist/<int:product_id>/', views.exchangelist, name='exchangelist'),
+    path('selling/', views.selling, name='selling'),
+    path('selling_details/', views.selling_details, name='selling_details'),
+    path('product_approve/', views.product_approve, name='product_approve'),
+    path('add_category/', views.add_category, name='add_category'),
+    path('categorylist/', views.categorylist, name='categorylist'),
+    path('buynow/<int:product_id>/', views.buynow, name='buynow'),
+    path('add_deliveryboy/', views.add_deliveryboy, name='add_deliveryboy'),
+    path('deliveryboy/', views.deliveryboy, name='deliveryboy'),
+    path('deliveryboyprofile/', views.deliveryboyprofile, name='deliveryboyprofile'),
+    path('deliveryboy_update/', views.deliveryboy_update, name='deliveryboy_update'),
+    
    
 
 

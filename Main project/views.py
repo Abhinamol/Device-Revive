@@ -35,6 +35,11 @@ from django.utils.html import strip_tags
 from .models import SecondHandProduct, Cart, CartItem
 from django.db.models import Q
 from .models import ProductExchange 
+from .models import Category
+import json
+from .models import Deliveryboy
+from django.core.mail import send_mail
+from django.conf import settings
 
 
 
@@ -44,7 +49,6 @@ from .models import ProductExchange
 def index(request):
     reviews = Review.objects.all()  # Fetch all reviews
     return render(request, 'index.html', {'reviews': reviews})
-
 
 
 
@@ -70,7 +74,14 @@ def loginn(request):
             except Technician.DoesNotExist:
                 pass  # No Technician with this username
 
-            
+            # Check if the user is a DeliveryBoy
+            try:
+                delivery_boy = Deliveryboy.objects.get(username=username)
+                if delivery_boy.password == password:
+                    return redirect("deliveryboyprofile")  # Redirect to delivery boy dashboard
+            except Deliveryboy.DoesNotExist:
+                pass  # No DeliveryBoy with this username
+
             return redirect('userprofile')
         else:
             messages.error(request, 'Invalid username or password')
@@ -704,6 +715,7 @@ def Review_rate(request):
     else:
         return HttpResponseForbidden("Invalid request method")
 
+
 @login_required
 def payment(request, booking_id):
     booking = get_object_or_404(Booking, id=booking_id)
@@ -826,9 +838,14 @@ def admin_booking(request):
     context = {'bookings': bookings}
     return render(request, 'admin_booking.html', context)
 
-@never_cache 
+    
+
+@never_cache
 @login_required(login_url='login')
 def add_second_hand_product(request):
+    categories = Category.objects.all()
+    print(categories)
+    
     if request.method == 'POST':
         name = request.POST.get('name')
         brand = request.POST.get('brand')
@@ -837,10 +854,14 @@ def add_second_hand_product(request):
         condition = request.POST.get('condition')
         year = request.POST.get('year')
         price = request.POST.get('price')
-        stock = request.POST.get('stock')  # Get stock from form data
         image = request.FILES.get('image')
+        category_id = request.POST.get('category')
+
+        user_details = Userdetails.objects.get(username=request.user.username)
+        category = Category.objects.get(id=category_id)
 
         SecondHandProduct.objects.create(
+            added_by=user_details,
             name=name,
             brand=brand,
             model=model,
@@ -848,11 +869,13 @@ def add_second_hand_product(request):
             condition=condition,
             year=year,
             price=price,
-            stock=stock,  # Add stock to object creation
-            image=image
+            image=image,
+            category=category
         )
-        return redirect('product_details')  # Redirect to a success page
-    return render(request, 'add_product.html')
+
+        return redirect('selling_details')  # Redirect to any page you desire after successful form submission
+
+    return render(request, 'selling.html', {'categories': categories})
 
 
 @never_cache 
@@ -866,26 +889,35 @@ def product_details(request):
 
 @never_cache 
 def display_products(request):
-    # Filter products where is_available is True
-    products = SecondHandProduct.objects.filter(is_available=True)
+    # Filter products where action is approved
+    products = SecondHandProduct.objects.all()
+
+    # Get the Userdetails instance associated with the logged-in user, if it exists
+    try:
+        user_details = Userdetails.objects.get(username=request.user.username)
+    except Userdetails.DoesNotExist:
+        user_details = None
+
+    if user_details:
+        # Exclude products uploaded by the logged-in user
+        products = products.exclude(added_by=user_details)
 
     query = request.GET.get('q')
     if query:
-        products = products.filter(
-            Q(name__icontains=query) |
-            Q(brand__icontains=query) |
-            Q(model__icontains=query)
-        ).distinct()
+        products = products.filter(name__icontains=query)
 
     return render(request, 'display_products.html', {'products': products})
 
-    
+
+
+
 @never_cache
 @login_required(login_url='login')
 def staff_product(request):
     # Filter products where is_available is True
-    products = SecondHandProduct.objects.filter(is_available=True)
+    products = SecondHandProduct.objects.all()
     return render(request, 'staff_product.html', {'products': products})
+
 
 @never_cache 
 @login_required(login_url='login')
@@ -932,9 +964,71 @@ def edit_product(request, product_id):
 def ecommerce(request):
     return render(request,'ecommerce.html')
 
+
+@login_required(login_url='login')
+@never_cache
+def selling(request):
+    return render(request,'selling.html')
+
+
+
+@login_required(login_url='login')
+@never_cache
+def selling_details(request):
+    # Get the currently logged-in user
+    current_user = request.user
+
+    try:
+        # Retrieve the Userdetails instance associated with the current user
+        user_details = Userdetails.objects.get(username=current_user.username)
+
+        # Filter products based on the retrieved Userdetails instance
+        user_products = SecondHandProduct.objects.filter(added_by=user_details)
+
+        # Pass the filtered products to the template
+        return render(request, 'selling_details.html', {'products': user_products})
+
+    except Userdetails.DoesNotExist:
+        # Handle the case where Userdetails instance does not exist for the current user
+        # You can redirect the user to a page indicating that they need to set up their details
+        return HttpResponse("Userdetails not found for this user.")
+
+
+
+
+@never_cache
+@login_required(login_url='login')
+def product_approve(request):
+    if request.method == 'POST':
+        product_id = request.POST.get('product_id')
+        try:
+            product = get_object_or_404(SecondHandProduct, pk=product_id)
+            product.action = 'approved'
+            product.save()
+            # Redirect to the product approval page
+            return redirect('product_approve')
+        except SecondHandProduct.DoesNotExist:
+            # Handle the case where the product does not exist
+            # You can add appropriate error handling or redirect to a different page
+            pass
+
+    # Fetch all products
+    products = SecondHandProduct.objects.all()
+    return render(request, 'product_approve.html', {'products': products})
+
+
+
+@never_cache
 def productview(request, product_id):
     product = get_object_or_404(SecondHandProduct, pk=product_id)
     return render(request, 'productview.html', {'product': product})
+
+@never_cache 
+@login_required(login_url='login')
+def exchangelist(request, product_id):
+    product = get_object_or_404(SecondHandProduct, pk=product_id)
+    return render(request, 'exchangelist.html', {'product': product})
+
 
 
 @never_cache 
@@ -948,46 +1042,48 @@ def delete_product(request, product_id):
 
 @never_cache 
 @login_required(login_url='login')
-def exchange(request):
-       return render(request, 'exchange.html')
+def exchange(request, product_id):
+    product = get_object_or_404(SecondHandProduct, pk=product_id)
+    return render(request, 'exchange.html', {'product': product})
 
 
-@never_cache 
+
+@never_cache
 @login_required(login_url='login')
 def add_to_cart(request, product_id):
-    # Get the product
-    product = SecondHandProduct.objects.get(pk=product_id)
+    try:
+        # Get the product
+        product = SecondHandProduct.objects.get(pk=product_id)
+        
+        # Get or create the user's cart
+        cart, created = Cart.objects.get_or_create(user=request.user)
 
-    # Check if the product is available
-    if not product.is_available:
-        return JsonResponse({'success': False, 'message': 'Product is not available.'})
+        # Get or create the cart item
+        cart_item, item_created = CartItem.objects.get_or_create(product=product, cart=cart)
 
-    # Get or create the user's cart
-    cart, created = Cart.objects.get_or_create(user=request.user)
+        if not item_created:
+            # If the product is already in the cart, increase the quantity by 1
+            cart_item.quantity += 1
+            cart_item.save()
+            return JsonResponse({'success': False, 'message': 'Product is already in the cart.'})
 
-    # Check if the product is already in the user's cart
-    cart_item, item_created = CartItem.objects.get_or_create(product=product, cart=cart)
-
-    if not item_created:
-        # If the product is already in the cart, increase the quantity by 1
-        cart_item.quantity += 1
-        cart_item.save()
-        return JsonResponse({'success': False, 'message': 'Product is already in the cart.'})
-
-    return JsonResponse({'success': True, 'message': 'Product successfully added to the cart.'})
+        return JsonResponse({'success': True, 'message': 'Product successfully added to the cart.'})
+    except SecondHandProduct.DoesNotExist:
+        return JsonResponse({'success': False, 'message': 'Product not found.'})
 
 @never_cache 
 @login_required(login_url='login')
 def cart_view(request):
-    if request.user.is_authenticated:
-        try:
-            user_cart = Cart.objects.get(user=request.user)
-            products_in_cart = user_cart.products.all()
-            print(products_in_cart)  # Print debug information
-            return render(request, 'cart.html', {'products_in_cart': products_in_cart})
-        except Cart.DoesNotExist:
-            pass
-    return render(request, 'cart.html', {'products_in_cart': None})
+    try:
+        # Get the user's cart
+        user_cart = Cart.objects.get(user=request.user)
+        # Retrieve products in the cart
+        products_in_cart = user_cart.products.all()
+        return render(request, 'cart.html', {'products_in_cart': products_in_cart})
+    except Cart.DoesNotExist:
+        # If the cart does not exist for the user
+        return render(request, 'cart.html', {'products_in_cart': None})
+
 
 
 def remove_from_cart(request, product_id):
@@ -996,3 +1092,129 @@ def remove_from_cart(request, product_id):
     return redirect('cart')
 
 
+
+
+
+@never_cache
+@login_required(login_url='login')
+def buynow(request, product_id):
+    try:
+        # Get the product details
+        product = get_object_or_404(SecondHandProduct, pk=product_id)
+        
+        # Get the user details of the logged-in user
+        user_details = Userdetails.objects.get(username=request.user.username)
+        
+        # Pass the product and user details to the template
+        return render(request, 'buynow.html', {'product': product, 'user_details': user_details})
+    except SecondHandProduct.DoesNotExist:
+        return render(request, 'buynow.html', {'error': 'Product not found.'})
+
+
+
+@login_required(login_url='login')
+@never_cache
+def add_category(request):
+    if request.method == 'POST':
+        name = request.POST.get('name')  # Get the value of the 'name' input from the form
+        if name:
+            category = Category(name=name)
+            category.save()
+            return redirect('categorylist') # Return a success message or redirect to a success URL
+        else:
+            return HttpResponse('Please provide a category name')  # Handle validation errors
+    return render(request, 'add_category.html')
+
+
+
+@login_required(login_url='login')
+@never_cache
+def categorylist(request):
+    categories = Category.objects.all()
+    return render(request, 'categorylist.html', {'categories': categories})
+
+
+def add_deliveryboy(request):
+    if request.method == 'POST':
+        full_name = request.POST['full_name']
+        email = request.POST['email']
+        username = request.POST['username']
+        password = request.POST['password']
+        
+        # Create a new User object
+        user = User.objects.create_user(username=username, email=email, password=password)
+        
+        # Create a new Deliveryboy object and save it to the database
+        deliveryboy = Deliveryboy.objects.create(user=user, full_name=full_name, email=email, username=username, password=password)
+
+        send_mail(
+            'Welcome to Your Site',
+            f'Dear {full_name},\n\nYou have been added as a delivery boy. Your username is {username} and password is {password}. '
+             f'Please log in with these credentials..'
+              f'Remember to update your profile and change the temporary password provided.\n\n' \
+              f'Thank you!\nDevice Revive',
+            'your_email@example.com',  # Replace with your email address
+            [email],  # Use the staff member's email address
+            fail_silently=False,
+        )
+
+        return redirect('deliveryboy')  # Redirect to a success page
+    else:
+        return render(request, 'add_deliveryboy.html')
+
+def deliveryboy(request):
+    delivery_boys = Deliveryboy.objects.all()
+    context = {
+        'delivery_boys': delivery_boys
+    }
+    return render(request, 'deliveryboy.html', context)
+
+
+
+@login_required(login_url='login')
+@never_cache
+def deliveryboyprofile(request):
+    # Assuming you want to display details of the currently logged-in delivery boy
+    current_user = request.user
+    deliveryboy = Deliveryboy.objects.get(user=current_user)
+    
+    context = {
+        'deliveryboy': deliveryboy
+    }
+    
+    return render(request, 'deliveryboyprofile.html', context)
+
+
+@login_required(login_url='login')
+def deliveryboy_update(request):
+    # Assuming each delivery boy has a corresponding User object
+    user = request.user
+    deliveryboy = Deliveryboy.objects.get(user=user)
+    
+    if request.method == 'POST':
+        full_name = request.POST.get('fullName')
+        email = request.POST.get('email')
+        phone_number = request.POST.get('phone_number')
+        username = request.POST.get('userName')
+        street = request.POST.get('street')
+        city = request.POST.get('ciTy')
+        pincode = request.POST.get('zIp')
+        
+        # Get or create the Address object
+        address, created = Address.objects.get_or_create(home_address=street, city=city, pincode=pincode)
+        
+        # Update delivery boy's details
+        deliveryboy.full_name = full_name
+        deliveryboy.email = email
+        deliveryboy.phone_number = phone_number
+        deliveryboy.username = username
+        deliveryboy.address = address
+        deliveryboy.save()
+        
+        return redirect('deliveryboy_profile')  # Redirect to a success page or profile page
+    
+    context = {
+        'deliveryboy': deliveryboy
+    }
+    
+    return render(request, 'deliveryboy_update.html', context)
