@@ -144,35 +144,7 @@ button:hover {
                                     </li>
                             </ul>
                         </div>
-                        <div class="col-lg-5 d-none d-lg-block right-item">
-                            <ul>
-                                <li>
-                                    <a>
-                                        <i class="fab fa-github" style="color: white;" ></i>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="">
-                                        <i class="fab fa-linkedin-in" style="color: white;"></i>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="">
-                                        <i class="fab fa-pinterest-p" style="color: white;"></i>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="">
-                                        <i class="fab fa-twitter" style="color: white;"></i>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="">
-                                        <i class="fab fa-facebook-f" style="color: white;"></i>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
+                      
                     </div>
 
                 </div>
@@ -209,16 +181,16 @@ button:hover {
                                     </a>
 
                                 </li>
-                               
+                                <li>
+                                    <a class="js-scroll-trigger" href="ecommerce">PRODUCTS</a>
+                                </li>
+
                                 
                                 
                                 <li>
                                     <a class="js-scroll-trigger" href="about">ABOUT</a>
                                 </li>
-                                <li class="yc">
-                                    <a class="js-scroll-trigger" href="why">EXPERIENCE</a>
-                                </li>
-
+                               
                                 <li>
                                     <a class="js-scroll-trigger" href="contact">CONTACT</a>
                                 </li>
@@ -335,7 +307,7 @@ button:hover {
                             </select>
                         </div>
                         
-                        <div>
+                        <div id="brandField" class="form-group" style="display: none;">
                             <label for="brand" style='color:white;'>Laptop Brand:</label>
                             <select id="brand" name="brand" class="form-control">
                                 {% for brand_value, brand_label in laptop_brand_choices %}
@@ -348,10 +320,15 @@ button:hover {
                             {% for service in services %}
                                 <div class="form-check">
                                     <input type="checkbox" id="service_{{ service.id }}" name="selected_services" value="{{ service.id }}" class="service-checkbox" data-cost="{{ service.price }}">
-                                    <label for="service_{{ service.id }}" style="color: white;">{{ service.name }} - ${{ service.price }}</label>
+                                    <label for="service_{{ service.id }}" style="color: white;">{{ service.name }} - Rs.{{ service.price }}</label>
                                 </div>
                             {% endfor %}
                         </div>
+                        <div class="form-group">
+                            <label for="comments" style="color: white;">Additional Comments:</label>
+                            <textarea id="comments" name="comments" class="form-control" rows="4" placeholder="Enter any additional comments here"></textarea>
+                        </div>
+                        
                         
                        <!--
                         <div class="form-group">
@@ -375,9 +352,8 @@ button:hover {
         
                         <div class="form-group">
                             <label for="preferredDate" style="color:white;">Preferred Date:</label>
-                            <input type="date" class="form-control" id="preferredDate" name="preferredDate" required min="{{ today }}" onkeydown="return false">
+                            <input type="date" class="form-control" id="preferredDate" name="preferredDate" required onkeydown="return false">
                         </div>
-                        
                         
 
                         <div class="form-group">
@@ -477,31 +453,7 @@ button:hover {
                 </div>
             </div>
         </footer>
-        <div class="copy">
-            <div class="container">
-                <a href=></a>
-
-                <span>
-                    <a>
-                        <i class="fab fa-github"></i>
-                    </a>
-                    <a >
-                        <i class="fab fa-google-plus-g"></i>
-                    </a>
-                    <a href="">
-                        <i class="fab fa-pinterest-p"></i>
-                    </a>
-                    <a href="">
-                        <i class="fab fa-twitter"></i>
-                    </a>
-                    <a href="">
-                        <i class="fab fa-facebook-f"></i>
-                    </a>
-                </span>
-            </div>
-
-        </div>
-    
+       
     <script src="{% static '/js/jquery-3.2.1.min.js' %}"></script>
     <script src="{% static '/js/popper.min.js' %}"></script>
     <script src="{% static '/js/bootstrap.min.js' %}"></script>
@@ -647,8 +599,35 @@ button:hover {
         });
     });
 </script>
+<script>
+    // Get today's date
+    var today = new Date();
+    
+    // Set the minimum date to today (disable selecting yesterday)
+    var minDate = today.toISOString().split('T')[0];
+    
+    // Calculate the maximum date (five days from today)
+    today.setDate(today.getDate() + 5);
+    var maxDate = today.toISOString().split('T')[0];
+    
+    // Set the minimum and maximum attributes for the date input
+    document.getElementById("preferredDate").setAttribute("min", minDate);
+    document.getElementById("preferredDate").setAttribute("max", maxDate);
+</script>
+<script>
+    function showLaptopBrandField() {
+        var deviceType = document.getElementById("deviceType").value; // Get the selected device type
 
- 
+        var laptopBrandField = document.getElementById("brandField"); // Get the laptop brand field element
+
+        if (deviceType === "laptop") { // Check if the selected device type is "laptop"
+            laptopBrandField.style.display = "block"; // Show the laptop brand field
+        } else {
+            laptopBrandField.style.display = "none"; // Hide the laptop brand field
+        }
+    }
+</script>
+
 
 </body>
 

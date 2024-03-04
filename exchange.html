@@ -5,7 +5,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, shrink-to-fit=no, user-scalable=no">
-        <title>index
+        <title>exchange page
             </title>
 
         <link rel="shortcut icon" href="{% static "images/fav.jpg" %}" rel="stylesheet"/>
@@ -110,44 +110,96 @@
 .selected {
     color: #FFD700; 
 } 
-
-.testimonial-section {
-    background-color: rgba(0, 0, 0, 0.7); 
-    color: #fff; /* White text */
-    padding: 50px 0; 
+.btn-primary {
+    background-color: #0056b3; /* Primary button color */
+    color: white; /* Text color */
+    border: none; /* Remove border */
+    border-radius: 5px; /* Add rounded corners */
+    padding: 10px; /* Padding around the text */
+    font-size: 14px; /* Font size */
+    width: 200px; /* Fixed width */
+    cursor: pointer; /* Cursor style */
+    transition: background-color 0.3s ease; /* Smooth transition */
 }
 
-.testimonial-carousel {
-    display: flex;
-    flex-direction: row;
-    overflow-x: auto;
-    margin: -15px;
+.btn-primary:hover {
+    background-color: #003366; /* Darker color on hover */
 }
-
-.testimonial-carousel > div {
-    margin: 0 15px;
+.banner-container {
+    background-image: url('{% static "/images/ecom7.AVIF" %}'); /* Replace "new_background_image.jpg" with the path to your new background image */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    min-height: 100vh;
 }
-
-.testimonial-carousel .bg-light {
-    background-color: rgba(255, 255, 255, 0.9); 
-    color: #000; 
-}
-.existing-review {
+.bg-black {
+    background-color: #fff; /* Black background color */
+    color: #000; /* White text color for better contrast */
+    height: 100%; /* Ensure all containers have equal height */
+  }
+  
+  .product-container {
+    display: flex; /* Use flexbox */
+    flex-direction: column; /* Align items vertically */
+  }
+  .form-border {
     border: 1px solid #ccc;
+    padding: 20px;
+    border-radius: 10px;
+}
+/* Style for form container */
+.form-container {
+    margin-top: 50px; /* Adjust the top margin as needed */
+}
+
+/* Style for form elements */
+.form-border {
+    border: 1px solid #ccc;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: #f9f9f9; /* Light gray background color */
+}
+
+.form-border label {
+    font-weight: bold;
+}
+
+.form-border input[type="text"],
+.form-border textarea {
+    width: 100%; /* Make input fields take up full width */
     padding: 10px;
-    margin-bottom: 10px;
+    margin-bottom: 15px; /* Add spacing between form elements */
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
 }
 
-.rating {
-    color: #f8d400; 
+.form-border textarea {
+    height: 100px; /* Adjust the height of the textarea */
 }
+
+/* Style for submit button */
+.form-border input[type="submit"] {
+    background-color: #FF5733; /* Button background color */
+    color: #fff; /* Button text color */
+    border: none; /* Remove border */
+    border-radius: 5px; /* Add rounded corners */
+    padding: 10px 20px; /* Add padding */
+    font-size: 16px; /* Button text size */
+    cursor: pointer; /* Change cursor to pointer on hover */
+    transition: background-color 0.3s ease; /* Smooth transition */
+}
+
+.form-border input[type="submit"]:hover {
+    background-color: #FF4500; /* Darker color on hover */
+}
+
+
+
 </style>
-    
-    </head>
-    
-    <body>
-
-        <!--########################## Header CSS ####################-->
+</head>
+<body>
+<!--########################## Header CSS ####################-->
         <div class="header-container">
             <div class="header-top">
                 <div class="container">
@@ -203,7 +255,7 @@
                                 </li>
                                 
                                 <li>
-                                    <a class="js-scroll-trigger" href="ecommerce">PRODUCTS</a>
+                                    <a class="js-scroll-trigger" href="{% url 'display_products' %}">PRODUCTS</a>
                                 </li>
                                 <li>
                                     <a class="js-scroll-trigger" href="about">ABOUT</a>
@@ -224,11 +276,11 @@
                                     </a>
                                     <div class="dropdown-menu" aria-labelledby="adminDropdown">
                                         {% if user.is_authenticated %}
-                                            <a class="dropdown-item" href="myprofile">Profile</a>
-                                            <a class="dropdown-item" href="logout">Logout</a>
+                                            <a class="dropdown-item" href="{% url 'myprofile' %}">Profile</a>
+                                            <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
                                         {% else %}
-                                            <a class="dropdown-item" href="login">Login</a>
-                                            <a class="dropdown-item" href="signup">Sign Up</a>
+                                            <a class="dropdown-item" href="{% url 'login' %}">Login</a>
+                                            <a class="dropdown-item" href="{% url 'reg' %}">Sign Up</a>
                                         {% endif %}
                                     </div>
                                 </div>
@@ -242,158 +294,51 @@
         </div>
      
       
-        <!--########################## Slider CSS ####################-->
+<!--########################## Slider CSS ####################-->
 
-        <div id="home" class="banner-container no-padding">
-            <div class="container">
-                <div class="row mx-auto"></div>
-                <div class="slider-det">
-                    <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
-                        
-                        <div class="carousel-inner">
-                            <div class="carousel-item active">
-                                <span>Device Revive</span>
-                                <h2>WE DO ALL! </h2>
-                                <p>Revive. Repair. Thrive</p>
-                            </div>
-                            <div class="carousel-item">
-                                <span>Device Revive</span>
-                                <h2>Your Trusted Tech Partner.</h2>
-                                
-                            </div>
-                            <div class="carousel-item">
-                                <span>Device Revive</span>
-                                <h2>Empowering Your Digital World</h2>
-                                
-                            </div>
-                            
-                        </div>
-                        <a
-                            class="carousel-control-prev"
-                            href="#carouselExampleControls"
-                            role="button"
-                            data-slide="prev">
-                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                            <span class="sr-only">Previous</span>
-                        </a>
-                        <a
-                            class="carousel-control-next"
-                            href="#carouselExampleControls"
-                            role="button"
-                            data-slide="next">
-                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                            <span class="sr-only">Next</span>
-                        </a>
-                        
-                    </div>
-                </div>
-            </div>
-        </div>
-    
-
-        <!--########################## Key Features CSS ####################-->
-
-        <div class="key-container container-fluid">
-            <div class="container">
-                <div class="row key-row">
-                    <div class="col-md-4 key-col">
-                        <h2>20 Years Experience</h2>
-                        <p>At Device Revive, we take pride in our two decades of dedicated service in the world of laptop and desktop repairs. With 20 years of invaluable experience under our belt, we have established ourselves as a trusted and reliable name in the industry.
-                        </p>
-                        <a href=""></a>
-                    </div>
-                    <div class="col-md-4 key-col">
-                        <h2>Advanced Technology</h2>
-                        <p>At Device Revive, we are committed to staying at the forefront of technology to provide you with the most advanced and efficient laptop and desktop repair services. We believe that investing in cutting-edge technology is key to delivering superior results and exceeding your expectations.
-                        </p>
-                        <a href=""></a>
-                    </div>
-                    <div class="col-md-4 no-br key-col">
-                        <h2>24 x 7 Support</h2>
-                        <p>At Device Revive, our dedication to your satisfaction extends beyond regular business hours. We understand that laptop and desktop issues don't always conform to a 9-to-5 schedule, which is why we offer round-the-clock, 24/7 support to ensure you receive the assistance you need precisely when you need it.
-                        </p>
-                        <a href=""></a>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-         <!-- Testimonial Start -->
-         <div class="testimonial-section">
-            <div class="container p-0 pt-5">
-                <div class="d-flex flex-column text-center mb-5">
-                    <h4 class="text-secondary mb-3">Testimonial</h4>
-                    <h1 class="display-4 m-0">Our Client <span class="text-primary">Says</span></h1>
-                </div>
-            <div class="owl-carousel testimonial-carousel">
-                <div class="bg-light mx-3 p-4">
-                    <div class="d-flex align-items-end mb-3 mt-n4 ml-n4">
-                        <!--<img class="img-fluid" src="" style="width: 80px; height: 80px;" alt="">-->
-                        <div class="ml-3">
-                            <h5>Aneesh</h5>
-                            <i>Web Developer</i>
-                        </div>
-                    </div>
-                    <p class="m-0">Device Revive provided excellent service and fixed my laptop quickly. I highly recommend their professional team!</p>
-                </div>
-                <div class="bg-light mx-3 p-4">
-                    <div class="d-flex align-items-end mb-3 mt-n4 ml-n4">
-                       <!-- <img class="img-fluid" src="" style="width: 80px; height: 80px;" alt="">-->
-                        <div class="ml-3">
-                            <h5>Ajesh</h5>
-                            <i>IT Manager</i>
-                        </div>
-                    </div>
-                    <p class="m-0">I had a great experience with Device Revive's team. They were fast and efficient in resolving my desktop issues.</p>
-                </div>
-                <div class="bg-light mx-3 p-4">
-                    <div class="d-flex align-items-end mb-3 mt-n4 ml-n4">
-                        <!--<img class="img-fluid" src="" style="width: 80px; height: 80px;" alt="">-->
-                        <div class="ml-3">
-                            <h5>Anagha</h5>
-                            <i>Graphic Designer</i>
-                        </div>
-                    </div>
-                    <p class="m-0">I'm impressed with Device Revive's expertise in software installation. They solved my software issues in no time.</p>
-                </div>
-                <div class="bg-light mx-3 p-4">
-                    <div class="d-flex align-items-end mb-3 mt-n4 ml-n4">
-                       <!--<img class="img-fluid" src="" style="width: 80px; height: 80px;" alt="">-->
-                        <div class="ml-3">
-                            <h5>Anju</h5>
-                            <i>Marketing Manager</i>
-                        </div>
-                    </div>
-                    <p class="m-0">Device Revive provided excellent customer support 24/7. They ensured my computer networking issues were resolved promptly.</p>
+<div id="home" class="banner-container no-padding">
+    <br><br><br><br>
+    <div class="container form-container">
+        <div class="row justify-content-center align-items-center" style="min-height: 100vh;">
+            <div class="col-md-6">
+                <div class="form-border">
+                    <form action=" " method="post">
+                        {% csrf_token %}
+                        <label for="yourProductName">Your Product Name:</label>
+                        <input type="text" id="yourProductName" name="yourProductName" required>
+                        <br>
+                    
+                        <label for="yourProductDescription">Your Product Description:</label>
+                        <textarea id="yourProductDescription" name="yourProductDescription" rows="4" required></textarea>
+                        <br>
+                    
+                        <label for="otherProductName">Product You Want to Exchange For:</label>
+                        <input type="text" id="otherProductName" name="otherProductName" required>
+                        <br>
+                    
+                        <label for="otherProductDescription">Description of the Product You Want to Exchange For:</label>
+                        <textarea id="otherProductDescription" name="otherProductDescription" rows="4" required></textarea>
+                        <br>
+                    
+                        <label for="exchangeLocation">Exchange Location:</label>
+                        <input type="text" id="exchangeLocation" name="exchangeLocation" required>
+                        <br>
+                    
+                        <label for="additionalNotes">Additional Notes:</label>
+                        <textarea id="additionalNotes" name="additionalNotes" rows="4"></textarea>
+                        <br>
+                    <center>
+                        <input type="submit" value="Submit Exchange">
+                    </center>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
-    <!-- Testimonial End -->
     <br>
-    <br>
-    
-    <center>
-       <h2>REVIEWS AND RATINGS</h2>
-<div class="existing-reviews">
-    {% for review in reviews %}
-        <div class="existing-review">
-            <h5>{{ review.user.username }}</h5>
-            <div class="rating">
-                {% for _ in "12345"|slice:review.rating %}
-                    <span class="star selected">&#9733;</span>
-                {% endfor %}
-            </div>
-            <p>{{ review.comment }}</p>
-            <p class="text-muted">Created at: {{ review.created_at|date:"F j, Y" }}</p>
-        </div>
-    {% endfor %}
-</div>
-</form>
+</div>    
 
-</center>
-<br>
-        
+       
  <!--########################## Footer CSS ####################-->
         <footer>
             <div class="container">
@@ -497,7 +442,7 @@
     });
 </script>
 
-    
+</body>   
         
 
 </html>

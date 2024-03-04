@@ -543,17 +543,6 @@ background-color: #d63737;
                
             </div>
     
-            <div class="searchbar">
-                <input type="text"
-                    placeholder="Search">
-                <div class="searchbtn">
-                <img src="{% static '/images/search.jpg' %}" 
-    
-                        class="icn srchicn"
-                        alt="search-icon">
-                </div>
-            </div>
-    
             <div class="message">
                 
                 <div class="dropdown">
@@ -611,25 +600,27 @@ background-color: #d63737;
                         </div>
                     </div>
                 </a>
-
+                
+                <a href="{% url 'product_approve' %}">
                     <div class="nav-option option3">
                         <img src=
 "https://media.geeksforgeeks.org/wp-content/uploads/20221210183320/5.png"
                             class="nav-img"
                             alt="report">
-                        <h3> Appointment requests</h3>
+                        <h3> Products</h3>
                     </div>
-    <br>
-                        <div class="nav-option option6">
-                            <img src=
-    "https://media.geeksforgeeks.org/wp-content/uploads/20221210183320/4.png"
-                                class="nav-img"
-                                alt="settings">
-                            <h3> Settings</h3>
-                        </div>
-    
-                        
-    
+                </a>
+
+                <a href="{% url 'admin_booking' %}">
+                    <div class="nav-option option3">
+                        <img src=
+"https://media.geeksforgeeks.org/wp-content/uploads/20221210183320/5.png"
+                            class="nav-img"
+                            alt="report">
+                        <h3> Booking Requests</h3>
+                    </div>
+                </a>
+            
                     </div>
                 </nav>
             </div>
@@ -661,7 +652,7 @@ background-color: #d63737;
     
                     <div class="box box2">
                         <div class="text">
-                            <h2 class="topic-heading">150</h2>
+                            <h2 class="topic-heading">5</h2>
                             <h2 class="topic">Reviews</h2>
                         </div>
     

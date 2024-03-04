@@ -1,0 +1,770 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, shrink-to-fit=no, user-scalable=no">
+        <title>Display Products</title>
+
+        <link rel="shortcut icon" href="{% static "images/fav.jpg" %}" rel="stylesheet"/>
+        <link rel="stylesheet" href="{% static "css/bootstrap.min.css" %}" rel="stylesheet"/>
+        <link rel="stylesheet" href="{% static "css/fontawsom-all.min.css" %}" rel="stylesheet"/>
+        <link rel="stylesheet" href="{% static "css/animate.css" %}" rel="stylesheet"/>
+        <link rel="stylesheet" type="text/css" href="{% static "/css/style.css"%}" rel="stylesheet"/>
+        <style>
+                    body {
+                        font-family: Arial, Helvetica, sans-serif;
+                        background-color: #f2f2f2;
+                    }
+            
+                    .login-container {
+                        width: 300px;
+                        margin: 0 auto;
+                        padding: 10px;
+                        background-color: black;
+                        background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent gray background color */
+                        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                        border-radius: 5px;
+                    }
+                    
+                    .login-container h2 {
+                        text-align: center;
+                    }
+            
+                    .login-form {
+                        display: flex;
+                        flex-direction: column;
+                    }
+            
+                    .form-group {
+                        margin-bottom: 15px;
+                    }
+            
+                    .form-group label {
+                        font-weight: bold;
+                    }
+            
+                    .form-group input {
+                        padding: 10px;
+                        border: 1px solid #ccc;
+                        border-radius: 3px;
+                        font-size: 16px;
+                    }
+            
+                    .form-group input[type="submit"] {
+                        background-color: black;
+                        color: #fff;
+                        cursor: pointer;
+                    }
+            
+                    .form-group input[type="submit"]:hover {
+                        background-color: #0056b3;
+                    }
+                    .error-box {
+                        background-color: #f8d7da;
+                        border: 1px solid #f5c6cb;
+                        color: #721c24;
+                        padding: 10px;
+                        margin-bottom: 10px;
+                    }
+                    .banner-container {
+                        background-image: url('{% static '/images/ecom7.AVIF' %}');
+                        background-size: cover;
+                        background-position: center center;
+                        background-repeat: no-repeat;
+                        min-height: 100vh;
+                       }
+                       
+                    
+
+                    .header-container {
+                        background-color: black; /* Set the background color to black */
+                    }
+
+                    .header-container {
+                        background-color: rgba(0, 0, 0, 0.5); /* Set the background color to black with 80% opacity */
+                    }
+                    
+
+                    /* login required */
+
+                    .login-required-message {
+                       display: none;
+                       justify-content: center;
+                       align-items: center;
+                       position: fixed;
+                       top: 0;
+                       left: 0;
+                       width: 100%;
+                       height: 100%;
+                       background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
+                       z-index: 9999; /* Ensure it's above other elements */
+                   }
+               
+                   .login-required-box {
+                       background-color: #fff; /* White background for the box */
+                       padding: 20px;
+                       border-radius: 5px;
+                       text-align: center;
+                   }
+               
+                   .login-required-message p {
+                       margin: 0;
+                   }
+               
+                   .ok-button {
+                       background-color: #2a5945;
+                       color: #fff;
+                       padding: 10px 20px;
+                       border-radius: 5px;
+                       cursor: pointer;
+                   }
+               
+                   .product-container {
+                    display: grid;
+                    grid-template-columns: repeat(3, 1fr);
+                    gap: 20px;
+                }
+                .product-details {
+                    border: 1px solid #ccc;
+                    padding: 20px;
+                }
+              
+                
+                .exchange-button {
+                    background-color: #4CAF50;
+                    border: none;
+                    color: white;
+                    padding: 10px 20px;
+                    text-align: center;
+                    text-decoration: none;
+                    display: inline-block;
+                    font-size: 16px;
+                    margin-top: 10px;
+                    cursor: pointer;
+                }
+                .exchange-button:hover {
+                    background-color: #45a049;
+                }
+                /* Style for user icon */
+                .user-icon {
+                    width: 45px;
+                    height: 45px;
+                    margin-right: 10px;
+                    border-radius: 50%;
+                }
+            
+                /* Style for the user profile dropdown menu */
+                .dropdown-menu {
+                    background-color: #333;
+                    color: #fff;
+                }
+            
+                .dropdown-item {
+                    color: #fff;
+                }
+                .dropdown .btn-secondary {
+                background-color: #25554e; 
+                color: #fff; 
+            }
+            .selected {
+                color: #FFD700; 
+            }  
+            .login-required-box {
+                background-color: #fff; 
+                padding: 20px; 
+                border-radius: 10px;
+                text-align: center;
+                font-size: 14px;
+                width: 200px; 
+                position: fixed;
+                top: 50%; 
+                left: 50%; 
+                transform: translate(-50%, -50%); 
+            }
+
+.report-container {
+    background-color: #fff; /* White background */
+    border-radius: 10px;
+    padding: 20px;
+    margin: auto; /* Center horizontally */
+    margin-top: 50px; /* Adjust as needed for vertical centering */
+    max-width: 500px; /* Adjust width as needed */
+}
+
+/* Alignment for form fields */
+.form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.form-group input[type="text"],
+.form-group input[type="number"],
+.form-group select,
+.form-group textarea {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    font-size: 16px;
+    margin-top: 5px;
+}
+
+.form-group textarea {
+    height: 100px; /* Adjust height as needed */
+}
+
+/* CSS for submit button */
+.form-submit-button {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin-top: 10px;
+    cursor: pointer;
+    border-radius: 3px;
+}
+
+.form-submit-button:hover {
+    background-color: #45a049;
+}
+
+.error-message {
+    color: red;
+}
+ </style>
+    </head>
+         <body>
+        
+
+        <!--########################## Header CSS ####################-->
+        <div class="header-container">
+            <div class="header-top">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-7 col-md-12 left-item">
+                            <ul>
+                                <li>
+                                    <i class="fas fa-envelope-square"></i>
+                                    devicerevive@gmail.com
+                                    </li>
+                                <li class="d-none d-sm-block">
+                                    <i class="fas fa-phone-square"></i>
+                                    9567854321
+                                    </li>
+                            </ul>
+                        </div>
+                        
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="login-required-message">
+                <div class="login-required-box">
+                    <p>Login Required</p>
+                    <button class="ok-button">OK</button>
+                </div>
+            </div>
+
+
+            <nav id="menu-jk" class="container-fluid  no-padding">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-1 col-sm-1 logo">
+                            <img class="log" src="{% static '/images/mylogo.png' %}"  alt="">
+                            <img class="log-gray" src="" alt="">
+                            <a data-toggle="collapse" data-target="#nav-head" href="#nav-head">
+                                <i class="fas d-block d-md-none small-menu fa-bars"></i>
+                            </a>
+                        </div>
+                        <div id="nav-head" class="col-md-9 nav-div d-none d-md-block">
+                            <ul>
+                                <li>
+                                    <a class="js-scroll-trigger" href="{% url 'index' %}">HOME</a>
+                                </li>
+                                <li>
+                                    <a class="js-scroll-trigger" href="{% url 'services' %}">SERVICES
+                                    </a>
+                                </li>
+                                
+                    
+                                <li>
+                                    <a class="js-scroll-trigger" href="{% url 'ecommerce' %}">PRODUCTS</a>
+                                </li>
+                                <li>
+                                    <a class="js-scroll-trigger" href="{% if user.is_authenticated %}{% url 'booking' %}{% else %}#login-required{% endif %}">
+                                        BOOKING
+                                    </a></li>
+                                    <li>
+                                        <a class="js-scroll-trigger" href="{% url 'about' %}">ABOUT</a>
+                                    </li>
+                                <li>
+                                    <a class="js-scroll-trigger" href="{% url 'contact' %}">CONTACT US</a>
+                                </li>
+                               <li>
+                                <div class="dropdown">
+                                    <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="adminDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        {% if user.is_authenticated %}
+                                            <img src="{% static '/images/admin.jpg' %}" alt="Admin Icon" class="user-icon">
+                                            {{ user.username }}
+                                        {% else %}
+                                            Login/Sign Up
+                                        {% endif %}
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="adminDropdown">
+                                        {% if user.is_authenticated %}
+                                            <a class="dropdown-item" href="{% url 'myprofile' %}">Profile</a>
+                                            <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
+                                        {% else %}
+                                            <a class="dropdown-item" href="{% url 'login' %}">Login</a>
+                                            <a class="dropdown-item" href="{% url 'signup' %}">Sign Up</a>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                               </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+        
+
+        <!--########################## Slider CSS ####################-->
+  
+        <div class="main-container">
+            <div id="home" class="banner-container no-padding">
+                <div class="container">
+                    <br><br><br><br><br><br><br><br><br>
+                                 
+ <div class="report-container form-container">
+    <div class="report-header">
+       <center> <h3>Second Hand Product Details</h3></center>
+    </div>
+    <div class="report-body">
+        <form id="product-form" method="post" action="{% url 'add_second_hand_product' %}" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="category">Category:</label>
+                <select id="category" name="category" required>
+                    {% for category in categories %}
+                        <option value="{{ category.id }}">{{ category.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="brand">Brand:</label>
+                <input type="text" id="brand" name="brand" value="{{ product.brand }}" required>
+                <div id="brand-error" class="error-message"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="model">Model:</label>
+                <input type="text" id="model" name="model" value="{{ product.model }}" required>
+                <div id="model-error" class="error-message"></div>
+            </div>
+
+
+            <div class="form-group">
+                <label for="description">Description:</label>
+                <textarea id="description" name="description" rows="4" required>{{ product.description }}</textarea>
+                <div id="description-error" class="error-message"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="condition">Condition:</label>
+                <select id="condition" name="condition" required>
+                    <option value="new" {% if product.condition == 'new' %}selected{% endif %}>New</option>
+                    <option value="used" {% if product.condition == 'used' %}selected{% endif %}>Used</option>
+                    <option value="refurbished" {% if product.condition == 'refurbished' %}selected{% endif %}>Refurbished</option>
+                </select>
+                <div id="condition-error" class="error-message"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="year">Year of Purchase:</label>
+                <input type="text" id="year" name="year" value="{{ product.year }}" required>
+                <div id="year-error" class="error-message"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="price">Price:</label>
+                <input type="number" id="price" name="price" value="{{ product.price }}" required>
+                <div id="price-error" class="error-message"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="image">Product Image:</label>
+                <input type="file" id="image" name="image" accept="image/*">
+                <div id="image-error" class="error-message"></div>
+            </div>
+            <center>  <button type="submit" class="form-submit-button">Submit</button></center>
+        </form>
+    </div>
+</div>
+
+            
+</div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    <div class="login-required-message">
+        <div class="login-required-box">
+            <p>Login Required</p>
+            <button class="ok-button">OK</button>
+        </div>
+    </div>
+
+<!--########################## Footer CSS ####################-->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3 about">
+                <h2>About Us</h2>
+                <p>At Device Revive, we are passionate about technology and dedicated to providing top-notch laptop and desktop services. With 20 years of experience in the industry, we have earned a reputation for excellence and reliability.
+                </p>
+
+                <div class="foot-address">
+                    <div class="icon">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <div class="addet">
+                        Kottayam
+                    </div>
+                </div>
+                <div class="foot-address">
+                    <div class="icon">
+                        <i class="far fa-envelope-open"></i>
+                    </div>
+                    <div class="addet">
+                        devicerevive.com
+                        <br>
+                        devicerevive@gmail.com
+                    </div>
+                </div>
+                <div class="foot-address">
+                    <div class="icon">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <div class="addet">
+                        9567854321
+                        <br>
+                        8078046110
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-3 glink">
+                <ul>
+                    <li>
+                        <a href="index">
+                            <i class="fas fa-angle-double-right"></i>Home</a>
+                    </li>
+                    <li>
+                        <a href="about">
+                            <i class="fas fa-angle-double-right"></i>About Us</a>
+                    </li>
+                    <li>
+                        <a href="services">
+                            <i class="fas fa-angle-double-right"></i>Services</a>
+                    </li>
+                    
+                    
+                    <li>
+                        <a href="contact">
+                            <i class="fas fa-angle-double-right"></i>Contact Us</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-3 tags">
+                <h2>Our Services</h2>
+                <ul>
+                    <li>Desktop Service</li>
+                    <li>Laptop Service</li>
+                    <li>Data Recovery</li>
+                    <li>Software Installation</li>
+                    <li>Motherboard Service</li>
+                    <li>Computer Networking</li>
+                    
+                </ul>
+            </div>
+        </div>
+    </div>
+</footer>
+</body>
+<script src="{% static '/js/jquery-3.2.1.min.js' %}"></script>
+<script src="{% static '/js/popper.min.js' %}"></script>
+<script src="{% static '/js/bootstrap.min.js' %}"></script>
+<script src="{% static '/plugins/scroll-fixed/jquery-scrolltofixed-min.js' %}"></script>
+<script src="{% static '/js/script.js' %}"></script>
+
+<script>
+    // Function to validate product name
+    function validateName() {
+        const nameInput = document.getElementById('name');
+        const nameError = document.getElementById('name-error');
+        const nameValue = nameInput.value.trim();
+
+        // Check if name contains only letters
+        const lettersOnlyRegex = /^[a-zA-Z ]*$/;
+        if (!lettersOnlyRegex.test(nameValue)) {
+            nameError.textContent = 'Name should contain only letters';
+            return false;
+        }
+
+        // Check if name contains at least 3 characters
+        if (nameValue.replace(/\s+/g, '').length < 3) {
+            nameError.textContent = 'Name should contain at least 3 non-space characters';
+            return false;
+        }
+
+        // Check if name starts with a space after typing
+        if (nameValue.charAt(0) === ' ' && nameValue.length > 1) {
+            nameError.textContent = 'Name should not start with a space';
+            return false;
+        }
+
+        // If all conditions pass, clear error message
+        nameError.textContent = '';
+        return true;
+    }
+
+    // Add event listener for input event on name field
+    document.getElementById('name').addEventListener('input', validateName);
+
+    // Other validation functions and event listeners for other fields...
+
+    // Function to validate the entire form before submission
+    function validateForm() {
+        return validateName(); // Add other validation function calls if needed
+    }
+</script>
+<script>
+    // Function to validate brand name
+    function validateBrand() {
+        const brandInput = document.getElementById('brand');
+        const brandError = document.getElementById('brand-error');
+        const brandValue = brandInput.value.trim();
+
+        // Check if brand contains at least 2 characters
+        if (brandValue.length < 2) {
+            brandError.textContent = 'Brand should contain at least 2 characters';
+            return false;
+        }
+
+        // If all conditions pass, clear error message
+        brandError.textContent = '';
+        return true;
+    }
+
+    // Add event listener for input event on brand field
+    document.getElementById('brand').addEventListener('input', validateBrand);
+
+    // Other validation functions and event listeners for other fields...
+
+    // Function to validate the entire form before submission
+    function validateForm() {
+        return validateBrand(); // Add other validation function calls if needed
+    }
+</script>
+    <script>
+        // Function to validate model
+        function validateModel() {
+            const modelInput = document.getElementById('model');
+            const modelError = document.getElementById('model-error');
+            const modelValue = modelInput.value.trim();
+
+            // Check if model contains at least 2 characters
+            if (modelValue.length < 3) {
+                modelError.textContent = 'Model should contain at least 2 characters';
+                return false;
+            }
+
+            // If all conditions pass, clear error message
+            modelError.textContent = '';
+            return true;
+        }
+
+        // Add event listener for input event on model field
+        document.getElementById('model').addEventListener('input', validateModel);
+
+        // Other validation functions and event listeners for other fields...
+
+        // Function to validate the entire form before submission
+        function validateForm() {
+            return validateModel(); // Add other validation function calls if needed
+        }
+    </script>
+
+    <script>
+        // Function to validate description
+        function validateDescription() {
+            var description = document.getElementById('description').value.trim();
+            var descriptionError = document.getElementById('description-error');
+    
+            // Split the description into words
+            var words = description.split(/\s+/);
+    
+            // Check if description contains at least 2 words
+            if (words.length < 2) {
+                descriptionError.innerHTML = 'Description should contain at least 2 words';
+                return false;
+            } else {
+                descriptionError.innerHTML = '';
+                return true;
+            }
+        }
+    
+        // Add event listener for input event on description field
+        document.getElementById('description').addEventListener('input', validateDescription);
+    
+        // Other validation functions and event listeners for other fields...
+    
+        // Function to validate the entire form before submission
+        function validateForm() {
+            return validateDescription(); // Add other validation function calls if needed
+        }
+    </script>
+    
+    <script>
+        // Function to validate price
+        function validatePrice() {
+            const priceInput = document.getElementById('price');
+            const priceError = document.getElementById('price-error');
+            const priceValue = parseFloat(priceInput.value.trim());
+    
+            // Check if price is empty
+            if (priceValue === '' || isNaN(priceValue)) {
+                priceError.textContent = 'Price is required';
+                return false;
+            }
+    
+            // Check if price is a positive number
+            if (priceValue <= 0) {
+                priceError.textContent = 'Price must be a positive number';
+                return false;
+            }
+    
+            // If all conditions pass, clear error message
+            priceError.textContent = '';
+            return true;
+        }
+    
+        // Add event listener for input event on price field
+        document.getElementById('price').addEventListener('input', validatePrice);
+    
+       
+
+    // Function to validate year
+    function validateYear() {
+        const yearInput = document.getElementById('year');
+        const yearError = document.getElementById('year-error');
+        const yearValue = yearInput.value.trim();
+
+        // Check if year is empty
+        if (yearValue === '') {
+            yearError.textContent = 'Year is required';
+            return false;
+        }
+
+        // Check if year is a valid number with 4 digits
+        const yearRegex = /^\d{4}$/;
+        if (!yearRegex.test(yearValue)) {
+            yearError.textContent = 'Year should be a number with 4 digits';
+            return false;
+        }
+
+        // Convert year to a number
+        const year = parseInt(yearValue);
+
+        // Check if year is after 2024
+        if (year > 2024) {
+            yearError.textContent = 'Year cannot be after 2024';
+            return false;
+        }
+
+        // If all conditions pass, clear error message
+        yearError.textContent = '';
+        return true;
+    }
+
+    // Add event listener for input event on year field
+    document.getElementById('year').addEventListener('input', validateYear);
+
+    // Form submission event listener
+    document.getElementById('myForm').addEventListener('submit', function(event) {
+        // Prevent form submission if validation fails
+        if (!validateYear()) {
+            event.preventDefault();
+        }
+    });
+</script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const stockInput = document.getElementById("stock");
+            const stockError = document.getElementById("stock-error");
+        
+            stockInput.addEventListener("input", function() {
+                const stockValue = parseFloat(stockInput.value);
+        
+                if (isNaN(stockValue) || stockValue < 0) {
+                    stockError.textContent = "Stock must be a non-negative number.";
+                    stockInput.setCustomValidity("Stock must be a non-negative number.");
+                } else {
+                    stockError.textContent = "";
+                    stockInput.setCustomValidity("");
+                }
+            });
+        });
+        </script>
+        <script>
+            // Function to validate image file format
+            function validateImage() {
+                const imageInput = document.getElementById('image');
+                const imageError = document.getElementById('image-error');
+                const allowedExtensions = ['jpg', 'jpeg', 'png', 'gif']; // Define the allowed image extensions
+        
+                // Get the file name and split it to get the extension
+                const fileName = imageInput.value.trim();
+                const fileExtension = fileName.split('.').pop().toLowerCase();
+        
+                // Check if the file extension is in the allowed list
+                if (!allowedExtensions.includes(fileExtension)) {
+                    imageError.textContent = 'Unsupported file format. Please upload an image (jpg, jpeg, png, gif).';
+                    return false;
+                }
+        
+                // If all conditions pass, clear error message
+                imageError.textContent = '';
+                return true;
+            }
+        
+            // Add event listener for change event on image file input
+            document.getElementById('image').addEventListener('change', validateImage);
+        
+            // Function to validate the entire form before submission
+            function validateForm() {
+                return validateImage(); // Add other validation function calls if needed
+            }
+        </script>
+        
+
+</body>
+
+</html>

@@ -5,7 +5,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, shrink-to-fit=no, user-scalable=no">
-        <title>index
+        <title>ecommerce
             </title>
 
         <link rel="shortcut icon" href="{% static "images/fav.jpg" %}" rel="stylesheet"/>
@@ -110,44 +110,33 @@
 .selected {
     color: #FFD700; 
 } 
-
-.testimonial-section {
-    background-color: rgba(0, 0, 0, 0.7); 
-    color: #fff; /* White text */
-    padding: 50px 0; 
+.btn-primary {
+    background-color: #0056b3; /* Primary button color */
+    color: white; /* Text color */
+    border: none; /* Remove border */
+    border-radius: 5px; /* Add rounded corners */
+    padding: 10px; /* Padding around the text */
+    font-size: 14px; /* Font size */
+    width: 200px; /* Fixed width */
+    cursor: pointer; /* Cursor style */
+    transition: background-color 0.3s ease; /* Smooth transition */
 }
 
-.testimonial-carousel {
-    display: flex;
-    flex-direction: row;
-    overflow-x: auto;
-    margin: -15px;
+.btn-primary:hover {
+    background-color: #003366; /* Darker color on hover */
+}
+.banner-container {
+    background-image: url('{% static "/images/ecom7.AVIF" %}'); /* Replace "new_background_image.jpg" with the path to your new background image */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    min-height: 100vh;
 }
 
-.testimonial-carousel > div {
-    margin: 0 15px;
-}
-
-.testimonial-carousel .bg-light {
-    background-color: rgba(255, 255, 255, 0.9); 
-    color: #000; 
-}
-.existing-review {
-    border: 1px solid #ccc;
-    padding: 10px;
-    margin-bottom: 10px;
-}
-
-.rating {
-    color: #f8d400; 
-}
 </style>
-    
-    </head>
-    
-    <body>
-
-        <!--########################## Header CSS ####################-->
+</head>
+<body>
+<!--########################## Header CSS ####################-->
         <div class="header-container">
             <div class="header-top">
                 <div class="container">
@@ -252,22 +241,29 @@
                         
                         <div class="carousel-inner">
                             <div class="carousel-item active">
-                                <span>Device Revive</span>
-                                <h2>WE DO ALL! </h2>
-                                <p>Revive. Repair. Thrive</p>
+                                <span>Exchange of Second Hand Products</span>
+                                <h2>Discover, Trade, and Explore!</h2>
+                                <p>Trade in your pre-loved items for something new!</p>
                             </div>
                             <div class="carousel-item">
-                                <span>Device Revive</span>
-                                <h2>Your Trusted Tech Partner.</h2>
-                                
+                                <span>Exchange of Second Hand Products</span>
+                                <h2>Find Your Next Gadget Adventure</h2>
+                                <p>Explore our curated selection of second-hand products.</p>
                             </div>
                             <div class="carousel-item">
-                                <span>Device Revive</span>
-                                <h2>Empowering Your Digital World</h2>
-                                
+                                <span>Exchange of Second Hand Products</span>
+                                <h2>Upgrade Your Tech, Upgrade Your Life</h2>
+                                <p>Upgrade to the latest gadgets without breaking the bank.</p>
                             </div>
-                            
                         </div>
+                        <br>
+                        <div class="d-flex justify-content-center"> <!-- Centered container -->
+                            <div class="btn-container">
+                                <button class="btn btn-primary btn-lg" onclick="window.location.href='selling'">Sell Products</button>
+                                <button class="btn btn-primary btn-lg" onclick="window.location.href='display_products'">Buy Products</button>
+                            </div>
+                       </div><br>
+                       <button class="btn btn-primary btn-lg" onclick="window.location.href='selling_details'">Your Product Details</button>
                         <a
                             class="carousel-control-prev"
                             href="#carouselExampleControls"
@@ -297,101 +293,29 @@
             <div class="container">
                 <div class="row key-row">
                     <div class="col-md-4 key-col">
-                        <h2>20 Years Experience</h2>
-                        <p>At Device Revive, we take pride in our two decades of dedicated service in the world of laptop and desktop repairs. With 20 years of invaluable experience under our belt, we have established ourselves as a trusted and reliable name in the industry.
+                        <h2>Quality Selection</h2>
+                        <p>At Device Revive, we curate a high-quality selection of second-hand products, ensuring that each item meets our standards of functionality and reliability. Our rigorous inspection process guarantees that you'll find top-notch products at competitive prices.
                         </p>
-                        <a href=""></a>
+                        
                     </div>
                     <div class="col-md-4 key-col">
-                        <h2>Advanced Technology</h2>
-                        <p>At Device Revive, we are committed to staying at the forefront of technology to provide you with the most advanced and efficient laptop and desktop repair services. We believe that investing in cutting-edge technology is key to delivering superior results and exceeding your expectations.
+                        <h2>Trade-In Convenience</h2>
+                        <p>Trade in your pre-loved items hassle-free with Device Revive. Our streamlined trade-in process makes it easy for you to exchange your old gadgets for something new. Simply bring in your device, and we'll offer you a fair price based on its condition.
                         </p>
-                        <a href=""></a>
+                        
                     </div>
                     <div class="col-md-4 no-br key-col">
-                        <h2>24 x 7 Support</h2>
-                        <p>At Device Revive, our dedication to your satisfaction extends beyond regular business hours. We understand that laptop and desktop issues don't always conform to a 9-to-5 schedule, which is why we offer round-the-clock, 24/7 support to ensure you receive the assistance you need precisely when you need it.
+                        <h2>Customer Satisfaction</h2>
+                        <p>At Device Revive, your satisfaction is our priority. We strive to provide a seamless and satisfying experience for every customer, whether you're buying, selling, or trading. Our friendly and knowledgeable staff are here to assist you every step of the way.
                         </p>
-                        <a href=""></a>
+                       
                     </div>
                 </div>
             </div>
         </div>
+        
 
-         <!-- Testimonial Start -->
-         <div class="testimonial-section">
-            <div class="container p-0 pt-5">
-                <div class="d-flex flex-column text-center mb-5">
-                    <h4 class="text-secondary mb-3">Testimonial</h4>
-                    <h1 class="display-4 m-0">Our Client <span class="text-primary">Says</span></h1>
-                </div>
-            <div class="owl-carousel testimonial-carousel">
-                <div class="bg-light mx-3 p-4">
-                    <div class="d-flex align-items-end mb-3 mt-n4 ml-n4">
-                        <!--<img class="img-fluid" src="" style="width: 80px; height: 80px;" alt="">-->
-                        <div class="ml-3">
-                            <h5>Aneesh</h5>
-                            <i>Web Developer</i>
-                        </div>
-                    </div>
-                    <p class="m-0">Device Revive provided excellent service and fixed my laptop quickly. I highly recommend their professional team!</p>
-                </div>
-                <div class="bg-light mx-3 p-4">
-                    <div class="d-flex align-items-end mb-3 mt-n4 ml-n4">
-                       <!-- <img class="img-fluid" src="" style="width: 80px; height: 80px;" alt="">-->
-                        <div class="ml-3">
-                            <h5>Ajesh</h5>
-                            <i>IT Manager</i>
-                        </div>
-                    </div>
-                    <p class="m-0">I had a great experience with Device Revive's team. They were fast and efficient in resolving my desktop issues.</p>
-                </div>
-                <div class="bg-light mx-3 p-4">
-                    <div class="d-flex align-items-end mb-3 mt-n4 ml-n4">
-                        <!--<img class="img-fluid" src="" style="width: 80px; height: 80px;" alt="">-->
-                        <div class="ml-3">
-                            <h5>Anagha</h5>
-                            <i>Graphic Designer</i>
-                        </div>
-                    </div>
-                    <p class="m-0">I'm impressed with Device Revive's expertise in software installation. They solved my software issues in no time.</p>
-                </div>
-                <div class="bg-light mx-3 p-4">
-                    <div class="d-flex align-items-end mb-3 mt-n4 ml-n4">
-                       <!--<img class="img-fluid" src="" style="width: 80px; height: 80px;" alt="">-->
-                        <div class="ml-3">
-                            <h5>Anju</h5>
-                            <i>Marketing Manager</i>
-                        </div>
-                    </div>
-                    <p class="m-0">Device Revive provided excellent customer support 24/7. They ensured my computer networking issues were resolved promptly.</p>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Testimonial End -->
-    <br>
-    <br>
-    
-    <center>
-       <h2>REVIEWS AND RATINGS</h2>
-<div class="existing-reviews">
-    {% for review in reviews %}
-        <div class="existing-review">
-            <h5>{{ review.user.username }}</h5>
-            <div class="rating">
-                {% for _ in "12345"|slice:review.rating %}
-                    <span class="star selected">&#9733;</span>
-                {% endfor %}
-            </div>
-            <p>{{ review.comment }}</p>
-            <p class="text-muted">Created at: {{ review.created_at|date:"F j, Y" }}</p>
-        </div>
-    {% endfor %}
-</div>
-</form>
-
-</center>
+       
 <br>
         
  <!--########################## Footer CSS ####################-->

@@ -560,8 +560,9 @@ background-color: #d63737;
             cursor: pointer;
         }
         
-        /* Add more CSS styles as needed for styling and layout adjustments */
-        /* CSS to make the description input field same size as the service name input field */
+        .error-message {
+            color: red;
+        }
 
     </style>
     
@@ -582,16 +583,7 @@ background-color: #d63737;
                     alt="menu-icon">
             </div>
     
-            <div class="searchbar">
-                <input type="text"
-                    placeholder="Search">
-                <div class="searchbtn">
-                <img src="{% static '/images/search.jpg' %}" 
-    
-                        class="icn srchicn"
-                        alt="search-icon">
-                </div>
-            </div>
+            
     
             <div class="message">
                 <div class="circle"></div>
@@ -607,7 +599,8 @@ background-color: #d63737;
                     </a>
                     <div class="dropdown-menu" aria-labelledby="userProfileDropdown">
                         
-                        <a class="dropdown-item" href="logout">Logout</a>
+                        <a class="dropdown-item" href="{% url 'dashboard' %}">Profile</a>
+                        <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
                     </div>
                 </div>
     
@@ -655,23 +648,16 @@ background-color: #d63737;
                     </div>
                 </a>
 
+                <a href="{% url 'admin_booking' %}">
                     <div class="nav-option option3">
                         <img src=
 "https://media.geeksforgeeks.org/wp-content/uploads/20221210183320/5.png"
                             class="nav-img"
                             alt="report">
-                        <h3> Appointment requests</h3>
+                        <h3> Booking Requests</h3>
                     </div>
-    <br><br>
-                        <div class="nav-option option6">
-                            <img src=
-    "https://media.geeksforgeeks.org/wp-content/uploads/20221210183320/4.png"
-                                class="nav-img"
-                                alt="settings">
-                            <h3> Settings</h3>
-                        </div>
-    
-                        
+                </a>
+                       
     
                     </div>
                 </nav>
@@ -744,27 +730,31 @@ background-color: #d63737;
                 <div class="report-body">
                     
                     <!-- edit_service.html -->
-              <form method="post" action="">
-                {% csrf_token %}
-                <div class="form-field">
-                   <label for="name">Service Name:</label>
-                   {{ form.name }}
-                </div>
-
-               <div class="form-field">
-                  <label for="description">Description:</label>
-                  {{ form.description }}
-               </div>
-
-              <div class="form-field">
-                <label for="price">Price:</label>
-                {{ form.price }}
-             </div>
-
-            <div class="form-field">
-                <button type="submit">Update</button>
-            </div>
-          </form>
+                    <form method="post" action="">
+                        {% csrf_token %}
+                        <div class="form-field">
+                            <label for="name">Service Name:</label>
+                            {{ form.name }}
+                            <div id="name-error" class="error-message"></div>
+                        </div>
+                    
+                        <div class="form-field">
+                            <label for="description">Description:</label>
+                            {{ form.description }}
+                            <div id="description-error" class="error-message"></div>
+                        </div>
+                    
+                        <div class="form-field">
+                            <label for="price">Price:</label>
+                            {{ form.price }}
+                            <div id="price-error" class="error-message"></div>
+                        </div>
+                    
+                        <div class="form-field">
+                            <button type="submit">Update</button>
+                        </div>
+                    </form>
+                    
 
                 </div>
             </div>
@@ -795,6 +785,75 @@ background-color: #d63737;
                 }
             }
         </script>
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                const nameInput = document.getElementById("id_name");  // Corrected ID
+                const descriptionInput = document.getElementById("id_description");  // Corrected ID
+                const priceInput = document.getElementById("id_price");  // Corrected ID
+                const form = document.querySelector("form");
         
+                nameInput.addEventListener("input", function () {
+                    validateName(nameInput.value);
+                });
+        
+                descriptionInput.addEventListener("input", function () {
+                    validateDescription(descriptionInput.value);
+                });
+        
+                priceInput.addEventListener("input", function () {
+                    validatePrice(priceInput.value);
+                });
+        
+                function validateName(name) {
+                    const errorDiv = document.getElementById("name-error");
+                    const regex = /^[a-zA-Z\s]+$/;
+        
+                    if (name.trim().length < 5) {
+                        errorDiv.textContent = "Service name must contain at least 5 characters.";
+                    } else if (!regex.test(name)) {
+                        errorDiv.textContent = "Service name must contain only letters and spaces.";
+                    } else {
+                        errorDiv.textContent = "";
+                    }
+                }
+        
+                function validateDescription(description) {
+                    const errorDiv = document.getElementById("description-error");
+                    const words = description.trim().split(/\s+/);
+                    const startsWithLetterRegex = /^[a-zA-Z]/;
+        
+                    if (words.length < 5 || !startsWithLetterRegex.test(words[0])) {
+                        errorDiv.textContent = "Description must contain at least 5 words, and it should start with a letter.";
+                    } else {
+                        errorDiv.textContent = "";
+                    }
+                }
+        
+                function validatePrice(price) {
+                    const parsedPrice = parseFloat(price);
+                    const errorDiv = document.getElementById("price-error");
+        
+                    if (isNaN(parsedPrice) || parsedPrice < 0) {
+                        errorDiv.textContent = "Please enter a valid positive price.";
+                    } else {
+                        errorDiv.textContent = "";
+                    }
+                }
+        
+                form.addEventListener("submit", function (event) {
+                    validateName(nameInput.value);
+                    validateDescription(descriptionInput.value);
+                    validatePrice(priceInput.value);
+        
+                    const errorDivs = document.querySelectorAll(".error-message");
+                    for (const errorDiv of errorDivs) {
+                        if (errorDiv.textContent !== "") {
+                            event.preventDefault();
+                            break;
+                        }
+                    }
+                });
+            });
+        </script>
     </body>
     </html>

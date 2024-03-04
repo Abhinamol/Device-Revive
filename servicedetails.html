@@ -678,17 +678,7 @@ background-color: #d63737;
                     
             </div>
     
-            <div class="searchbar">
-                <input type="text"
-                    placeholder="Search">
-                <div class="searchbtn">
-                <img src="{% static '/images/search.jpg' %}" 
-    
-                        class="icn srchicn"
-                        alt="search-icon">
-                </div>
-            </div>
-    
+        
            
                 <div class="dropdown">
                     <button class="btn btn-secondary dropdown-toggle" type="button" id="userProfileDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -743,26 +733,28 @@ background-color: #d63737;
                                 alt="blog">
                             <h3> Services</h3>
                         </div>
-                    </div>
-                </a>
-
+                  
+                </a><br>
+                <a href="{% url 'product_details' %}">
                     <div class="nav-option option3">
                         <img src=
 "https://media.geeksforgeeks.org/wp-content/uploads/20221210183320/5.png"
                             class="nav-img"
                             alt="report">
-                        <h3> Appointment requests</h3>
+                        <h3> Products</h3>
                     </div>
-    <br>
-                        <div class="nav-option option6">
-                            <img src=
-    "https://media.geeksforgeeks.org/wp-content/uploads/20221210183320/4.png"
-                                class="nav-img"
-                                alt="settings">
-                            <h3> Settings</h3>
-                        </div>
-    
-                        
+                </a>
+<br><br>
+                <a href="{% url 'admin_booking' %}">
+                    <div class="nav-option option3">
+                        <img src=
+"https://media.geeksforgeeks.org/wp-content/uploads/20221210183320/5.png"
+                            class="nav-img"
+                            alt="report">
+                        <h3> Booking Requests</h3>
+                    </div>
+                </a>
+            
     
                     </div>
                 </nav>
@@ -786,7 +778,7 @@ background-color: #d63737;
     
                     <div class="box box1">
                         <div class="text">
-                            <h2 class="topic-heading">09</h2>
+                            <h2 class="topic-heading">10</h2>
                             <h2 class="topic">Registered Users</h2>
                         </div>
     
@@ -795,7 +787,7 @@ background-color: #d63737;
     
                     <div class="box box2">
                         <div class="text">
-                            <h2 class="topic-heading">150</h2>
+                            <h2 class="topic-heading">5</h2>
                             <h2 class="topic">Reviews</h2>
                         </div>
     
@@ -838,7 +830,7 @@ background-color: #d63737;
             <div class="service">
                 <h2>{{ service.name }}</h2>
                 <p>{{ service.description }}</p>
-                <p class="price">${{ service.price }}</p>
+                <p class="price">Rs.{{ service.price }}</p>
                 <form method="post" action="{% url 'delete_service' service.id %}">
                     {% csrf_token %}
                     

@@ -1,0 +1,639 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, shrink-to-fit=no, user-scalable=no">
+        <title>Display Products</title>
+
+        <link rel="shortcut icon" href="{% static "images/fav.jpg" %}" rel="stylesheet"/>
+        <link rel="stylesheet" href="{% static "css/bootstrap.min.css" %}" rel="stylesheet"/>
+        <link rel="stylesheet" href="{% static "css/fontawsom-all.min.css" %}" rel="stylesheet"/>
+        <link rel="stylesheet" href="{% static "css/animate.css" %}" rel="stylesheet"/>
+        <link rel="stylesheet" type="text/css" href="{% static "/css/style.css"%}" rel="stylesheet"/>
+        <style>
+                    body {
+                        font-family: Arial, Helvetica, sans-serif;
+                        background-color: #f2f2f2;
+                    }
+            
+                    .login-container {
+                        width: 300px;
+                        margin: 0 auto;
+                        padding: 10px;
+                        background-color: black;
+                        background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent gray background color */
+                        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                        border-radius: 5px;
+                    }
+                    
+                    .login-container h2 {
+                        text-align: center;
+                    }
+            
+                    .login-form {
+                        display: flex;
+                        flex-direction: column;
+                    }
+            
+                    .form-group {
+                        margin-bottom: 15px;
+                    }
+            
+                    .form-group label {
+                        font-weight: bold;
+                    }
+            
+                    .form-group input {
+                        padding: 10px;
+                        border: 1px solid #ccc;
+                        border-radius: 3px;
+                        font-size: 16px;
+                    }
+            
+                    .form-group input[type="submit"] {
+                        background-color: black;
+                        color: #fff;
+                        cursor: pointer;
+                    }
+            
+                    .form-group input[type="submit"]:hover {
+                        background-color: #0056b3;
+                    }
+                    .error-box {
+                        background-color: #f8d7da;
+                        border: 1px solid #f5c6cb;
+                        color: #721c24;
+                        padding: 10px;
+                        margin-bottom: 10px;
+                    }
+                    .banner-container {
+                        background-image: url('{% static '/images/ecom7.AVIF' %}');
+                        background-size: cover;
+                        background-position: center center;
+                        background-repeat: no-repeat;
+                        min-height: 100vh;
+                       }
+                       
+                    
+
+                    .header-container {
+                        background-color: black; /* Set the background color to black */
+                    }
+
+                    .header-container {
+                        background-color: rgba(0, 0, 0, 0.5); /* Set the background color to black with 80% opacity */
+                    }
+                    
+
+                    /* login required */
+
+                    .login-required-message {
+                       display: none;
+                       justify-content: center;
+                       align-items: center;
+                       position: fixed;
+                       top: 0;
+                       left: 0;
+                       width: 100%;
+                       height: 100%;
+                       background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
+                       z-index: 9999; /* Ensure it's above other elements */
+                   }
+               
+                   .login-required-box {
+                       background-color: #fff; /* White background for the box */
+                       padding: 20px;
+                       border-radius: 5px;
+                       text-align: center;
+                   }
+               
+                   .login-required-message p {
+                       margin: 0;
+                   }
+               
+                   .ok-button {
+                       background-color: #2a5945;
+                       color: #fff;
+                       padding: 10px 20px;
+                       border-radius: 5px;
+                       cursor: pointer;
+                   }
+               
+                   .product-container {
+                    display: grid;
+                    grid-template-columns: repeat(3, 1fr);
+                    gap: 20px;
+                }
+                .product-details {
+                    border: 1px solid #ccc;
+                    padding: 20px;
+                }
+              
+                
+                .exchange-button {
+                    background-color: #4CAF50;
+                    border: none;
+                    color: white;
+                    padding: 10px 20px;
+                    text-align: center;
+                    text-decoration: none;
+                    display: inline-block;
+                    font-size: 16px;
+                    margin-top: 10px;
+                    cursor: pointer;
+                }
+                .exchange-button:hover {
+                    background-color: #45a049;
+                }
+                /* Style for user icon */
+                .user-icon {
+                    width: 45px;
+                    height: 45px;
+                    margin-right: 10px;
+                    border-radius: 50%;
+                }
+            
+                /* Style for the user profile dropdown menu */
+                .dropdown-menu {
+                    background-color: #333;
+                    color: #fff;
+                }
+            
+                .dropdown-item {
+                    color: #fff;
+                }
+                .dropdown .btn-secondary {
+                background-color: #25554e; 
+                color: #fff; 
+            }
+            .selected {
+                color: #FFD700; 
+            }  
+            .login-required-box {
+                background-color: #fff; 
+                padding: 20px; 
+                border-radius: 10px;
+                text-align: center;
+                font-size: 14px;
+                width: 200px; 
+                position: fixed;
+                top: 50%; 
+                left: 50%; 
+                transform: translate(-50%, -50%); 
+            }
+            .product-details {
+                border: 1px solid #ccc;
+                padding: 20px;
+                background-color: #fff; 
+                color: #333; 
+            }
+            .product-image {
+                width: 250px; 
+                height: 150px; 
+                object-fit: cover; 
+                margin-bottom: 10px;
+            }
+            /* Search form container */
+.search-form {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* Search input */
+.search-input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 300px; /* Adjust width as needed */
+    font-size: 16px;
+    margin-right: 10px;
+}
+
+/* Search button */
+.search-button {
+    padding: 10px 20px;
+    border: none;
+    background-color: #007bff; /* Change to desired color */
+    color: #fff;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.search-button:hover {
+    background-color: #0056b3; /* Change to desired color on hover */
+}
+/* Style for the add to cart button */
+.add-to-cart-button {
+    background-color: #007bff; /* Blue */
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin-top: 10px;
+    cursor: pointer;
+    border-radius: 5px; /* Rounded corners */
+}
+
+.add-to-cart-button:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+}
+/* Style for the cart icon and text */
+.cart-icon {
+    color: black; /* Change color as needed */
+    margin-left: 10px; /* Adjust spacing as needed */
+    text-decoration: none; /* Remove underline */
+    font-size: 16px; /* Adjust size as needed */
+}
+
+.cart-icon:hover {
+    color: black; /* Change color on hover */
+}
+
+/* Style for the "View Cart" text */
+.view-cart {
+    color: black; /* Change color as needed */
+}
+
+.out-of-stock-text {
+    color: red;
+    font-weight: bold;
+}
+.product-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 5px;
+    justify-content: space-around; /* Align items horizontally */
+}
+
+.centered {
+    display: flex;
+    justify-content: center; /* Center items horizontally */
+    align-items: center; /* Center items vertically */
+    min-height: 50vh; /* Set minimum height to viewport height */
+}
+
+.no-products-message {
+    text-align: center;
+}
+
+#paymentButton {
+    background-color: #4CAF50; /* Green background */
+    color: white; /* White text color */
+    padding: 10px 20px; /* Padding */
+    text-align: center; /* Center text */
+    text-decoration: none; /* Remove underline */
+    display: inline-block; /* Display as block element */
+    border-radius: 5px; /* Rounded corners */
+    border: none; /* Remove border */
+    cursor: pointer; /* Add cursor pointer */
+}
+
+#paymentButton:hover {
+    background-color: #45a049; /* Darker green background on hover */
+}   
+/* CSS for alignment */
+        .address-selection,
+        .new-address-fields {
+            margin-bottom: 10px;
+        }
+
+        .new-address-fields label,
+        .new-address-fields input {
+            display: block;
+            margin-bottom: 5px;
+        }        
+            
+                      
+                
+        </style>
+    </head>
+         <body>
+        
+
+        <!--########################## Header CSS ####################-->
+        <div class="header-container">
+            <div class="header-top">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-7 col-md-12 left-item">
+                            <ul>
+                                <li>
+                                    <i class="fas fa-envelope-square"></i>
+                                    devicerevive@gmail.com
+                                    </li>
+                                <li class="d-none d-sm-block">
+                                    <i class="fas fa-phone-square"></i>
+                                    9567854321
+                                    </li>
+                            </ul>
+                        </div>
+                       
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="login-required-message">
+                <div class="login-required-box">
+                    <p>Login Required</p>
+                    <button class="ok-button">OK</button>
+                </div>
+            </div>
+
+
+            <nav id="menu-jk" class="container-fluid  no-padding">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-1 col-sm-1 logo">
+                            <img class="log" src="{% static '/images/mylogo.png' %}"  alt="">
+                            <img class="log-gray" src="" alt="">
+                            <a data-toggle="collapse" data-target="#nav-head" href="#nav-head">
+                                <i class="fas d-block d-md-none small-menu fa-bars"></i>
+                            </a>
+                        </div>
+                        <div id="nav-head" class="col-md-9 nav-div d-none d-md-block">
+                            <ul>
+                                <li>
+                                    <a class="js-scroll-trigger" href="{% url 'index' %}">HOME</a>
+                                </li>
+                                <li>
+                                    <a class="js-scroll-trigger" href="{% url 'services' %}">SERVICES
+                                    </a>
+                                </li>
+                                
+                    
+                                <li>
+                                    <a class="js-scroll-trigger" href="{% url 'ecommerce' %}">PRODUCTS</a>
+                                </li>
+                                <li>
+                                    <a class="js-scroll-trigger" href="{% if user.is_authenticated %}{% url 'booking' %}{% else %}#login-required{% endif %}">
+                                        BOOKING
+                                    </a></li>
+                                    <li>
+                                        <a class="js-scroll-trigger" href="{% url 'about' %}">ABOUT</a>
+                                    </li>
+                                <li>
+                                    <a class="js-scroll-trigger" href="{% url 'contact' %}">CONTACT US</a>
+                                </li>
+                               <li>
+                                <div class="dropdown">
+                                    <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="adminDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        {% if user.is_authenticated %}
+                                            <img src="{% static '/images/admin.jpg' %}" alt="Admin Icon" class="user-icon">
+                                            {{ user.username }}
+                                        {% else %}
+                                            Login/Sign Up
+                                        {% endif %}
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="adminDropdown">
+                                        {% if user.is_authenticated %}
+                                            <a class="dropdown-item" href="{% url 'myprofile' %}">Profile</a>
+                                            <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
+                                        {% else %}
+                                            <a class="dropdown-item" href="{% url 'login' %}">Login</a>
+                                            <a class="dropdown-item" href="{% url 'signup' %}">Sign Up</a>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                               </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+        
+
+        <!--########################## Slider CSS ####################-->
+       
+        <div id="home" class="banner-container no-padding">
+            <div class="container">
+                <br><br><br><br><br><br><br><br>
+                <div class="container">
+                   
+                    {% if error %}
+                        <p class="error">{{ error }}</p>
+                    {% else %}
+                        <div class="product-details">
+        
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="product-info">
+                                            <h2>Product Details</h2>
+                                            <div class="product-image">
+                                                <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                                            </div>
+                                            <h4>{{ product.name }}</h4>
+                                            <p><strong>Brand:</strong> {{ product.brand }}</p>
+                                            <p><strong>Model:</strong> {{ product.model }}</p>
+                                            <p><strong>Description:</strong> {{ product.description }}</p>
+                                            <p><strong>Condition:</strong> {{ product.get_condition_display }}</p>
+                                            <p><strong>Year:</strong> {{ product.year }}</p>
+                                            <p><strong>Seller Price:</strong> Rs.{{ product.price }}</p>
+                                            <p><strong>Platform Fee:</strong> Rs.150</p>
+                                            <p><strong>Total Price:</strong> Rs.<span id="totalPrice">{{ product.price|add:150 }}</span></p>
+                                              <input type="hidden" id="totalPriceInput" value="{{ product.price|add:150 }}">
+                                            </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="user-details">
+                                            <h2>Shipping Address</h2>
+                                            <p><strong>Full Name:</strong> {{ user_details.full_name }}</p>
+                                            <p><strong>Email:</strong> {{ user_details.email }}</p>
+                                            <p><strong>Phone:</strong> {{ user_details.phone }}</p>
+                                            <p><strong>Address:</strong> {{ user_details.address.home_address }}, {{ user_details.address.city }}, {{ user_details.address.pincode }}</p>
+                                        </div>
+                                        <div class="address-selection">
+                                            <label for="addressType">Select Address Type:</label>
+                                            <select id="addressType" onchange="toggleAddressFields()">
+                                                <option value="current">Current Address</option>
+                                                <option value="new">Add New Address</option>
+                                            </select>
+                                        </div>
+                                        <div class="new-address-fields" style="display: none;">
+                                            <label for="homeAddress">Home Address:</label>
+                                            <input type="text" id="homeAddress" name="homeAddress">
+                                           
+                                            <label for="city">City:</label>
+                                            <input type="text" id="city" name="city">
+                                           
+                                            <label for="pincode">Pincode:</label>
+                                            <input type="text" id="pincode" name="pincode">
+                                            <!-- New phone number field -->
+                                           <label for="phoneNumber">Phone Number:</label>
+                                           <input type="text" id="phoneNumber" name="phoneNumber">
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <center>
+                                    <button id="paymentButton" onclick="proceedToPayment()">Proceed to Payment</button>
+                                </center>
+                            </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+<br>
+<!--########################## Footer CSS ####################-->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3 about">
+                <h2>About Us</h2>
+                <p>At Device Revive, we are passionate about technology and dedicated to providing top-notch laptop and desktop services. With 20 years of experience in the industry, we have earned a reputation for excellence and reliability.
+                </p>
+
+                <div class="foot-address">
+                    <div class="icon">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <div class="addet">
+                        Kottayam
+                    </div>
+                </div>
+                <div class="foot-address">
+                    <div class="icon">
+                        <i class="far fa-envelope-open"></i>
+                    </div>
+                    <div class="addet">
+                        devicerevive.com
+                        <br>
+                        devicerevive@gmail.com
+                    </div>
+                </div>
+                <div class="foot-address">
+                    <div class="icon">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <div class="addet">
+                        9567854321
+                        <br>
+                        8078046110
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-3 glink">
+                <ul>
+                    <li>
+                        <a href="index">
+                            <i class="fas fa-angle-double-right"></i>Home</a>
+                    </li>
+                    <li>
+                        <a href="about">
+                            <i class="fas fa-angle-double-right"></i>About Us</a>
+                    </li>
+                    <li>
+                        <a href="services">
+                            <i class="fas fa-angle-double-right"></i>Services</a>
+                    </li>
+                    
+                    
+                    <li>
+                        <a href="contact">
+                            <i class="fas fa-angle-double-right"></i>Contact Us</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-3 tags">
+                <h2>Our Services</h2>
+                <ul>
+                    <li>Desktop Service</li>
+                    <li>Laptop Service</li>
+                    <li>Data Recovery</li>
+                    <li>Software Installation</li>
+                    <li>Motherboard Service</li>
+                    <li>Computer Networking</li>
+                    
+                </ul>
+            </div>
+        </div>
+    </div>
+</footer>
+</body>
+<script src="{% static '/js/jquery-3.2.1.min.js' %}"></script>
+<script src="{% static '/js/popper.min.js' %}"></script>
+<script src="{% static '/js/bootstrap.min.js' %}"></script>
+<script src="{% static '/plugins/scroll-fixed/jquery-scrolltofixed-min.js' %}"></script>
+<script src="{% static '/js/script.js' %}"></script>
+<script>
+    function toggleAddressFields() {
+        var addressType = document.getElementById("addressType").value;
+        var newAddressFields = document.querySelector(".new-address-fields");
+    
+        if (addressType === "new") {
+            newAddressFields.style.display = "block";
+        } else {
+            newAddressFields.style.display = "none";
+        }
+    }
+</script>
+<script>
+    function toggleAddressFields() {
+        var addressType = document.getElementById("addressType").value;
+        var newAddressFields = document.querySelector(".new-address-fields");
+    
+        if (addressType === "new") {
+            newAddressFields.style.display = "block";
+        } else {
+            newAddressFields.style.display = "none";
+        }
+    }
+</script>
+                           
+<script>
+    function confirmBooking() {
+        // Add your confirmation logic here
+        // For example, you can send a request to your server to save the booking and handle the payment method
+        alert("Booking confirmed!"); // Replace this with your actual confirmation process
+    }
+</script> 
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var app = {
+            proceedToPayment: function () {
+               
+                var totalCost = document.getElementById('totalPriceInput').value;
+
+
+                var amount = parseFloat(totalCost) * 100;
+                
+                var options = {
+                    "key": "rzp_test_M6dbYT1aGAl9FR",
+                    "amount": amount,
+                    "currency": "INR",
+                    "name": "Laptop/Desktop service center website",
+                    "description": "Service Booking",
+                    "order_id": "{{ order_id }}",
+                    "callback_url": "{{ callback_url }}",
+                    "prefill": {
+                        "name": "CUSTOMER_NAME",
+                        "email": "CUSTOMER_EMAIL",
+                        "contact": "CUSTOMER_PHONE_NUMBER"
+                    },
+                };
+
+                var rzp1 = new Razorpay(options);
+                rzp1.open();
+            }
+        };
+
+        // You can trigger the payment function when needed, for example on a button click
+        var paymentButton = document.getElementById('paymentButton'); // Update the ID if needed
+        paymentButton.addEventListener('click', function () {
+            app.proceedToPayment();
+        });
+    });
+</script>
+
+</html>
