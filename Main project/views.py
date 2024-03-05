@@ -1185,7 +1185,9 @@ def deliveryboyprofile(request):
     return render(request, 'deliveryboyprofile.html', context)
 
 
+
 @login_required(login_url='login')
+@never_cache
 def deliveryboy_update(request):
     # Assuming each delivery boy has a corresponding User object
     user = request.user
@@ -1197,9 +1199,10 @@ def deliveryboy_update(request):
         phone_number = request.POST.get('phone_number')
         username = request.POST.get('userName')
         street = request.POST.get('street')
-        city = request.POST.get('ciTy')
-        pincode = request.POST.get('zIp')
-        
+        city = request.POST.get('city')
+        pincode = request.POST.get('pincode')  # Retrieve pincode from form data
+
+
         # Get or create the Address object
         address, created = Address.objects.get_or_create(home_address=street, city=city, pincode=pincode)
         
@@ -1211,7 +1214,7 @@ def deliveryboy_update(request):
         deliveryboy.address = address
         deliveryboy.save()
         
-        return redirect('deliveryboy_profile')  # Redirect to a success page or profile page
+        return redirect('deliveryboyprofile')  # Redirect to a success page or profile page
     
     context = {
         'deliveryboy': deliveryboy
