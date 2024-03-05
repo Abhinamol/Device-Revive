@@ -773,8 +773,8 @@ background-color: #d63737;
                             <label for="full_name">Full Name:</label>
                             <input type="text" name="full_name" id="full_name" value="">
                             <span id="full_name_error" class="error-message"></span>
-                            
                         </div>
+                        
                     
                         <div class="form-field">
                             <label for="email">Email:</label>
@@ -820,6 +820,159 @@ background-color: #d63737;
         <script src="{% static '/assets/js/bootstrap.bundle.min.js' %}"></script>
         <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script> 
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.bundle.min.js"></script>
+     
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                const fullNameInput = document.getElementById("full_name");
+                const fullNameError = document.getElementById("full_name_error");
+        
+                fullNameInput.addEventListener("input", function () {
+                    const fullNameValue = fullNameInput.value.trim();
+                    const fullNameRegex = /^[A-Za-z][A-Za-z\s]*$/;
+        
+                    // Check if the full name contains at least 3 letters
+                    if (fullNameValue.length < 3) {
+                        fullNameError.textContent = "Full name should contain at least 3 letters";
+                        fullNameInput.classList.add("is-invalid");
+                    } else {
+                        // Check if the full name matches the regex pattern
+                        if (fullNameRegex.test(fullNameValue)) {
+                            fullNameError.textContent = ""; // Clear error message
+                            fullNameInput.classList.remove("is-invalid");
+                        } else {
+                            fullNameError.textContent = "Invalid full name";
+                            fullNameInput.classList.add("is-invalid");
+                        }
+                    }
+                });
+            });
+
+            document.addEventListener("DOMContentLoaded", function () {
+                const usernameInput = document.getElementById("username");
+                const usernameError = document.getElementById("username_error");
+        
+                usernameInput.addEventListener("input", function () {
+                    const usernameValue = usernameInput.value.trim();
+                    const usernameRegex = /^[a-zA-Z0-9]+$/;
+        
+                    if (usernameRegex.test(usernameValue)) {
+                        // Perform AJAX request to check if username already exists on the server
+                        checkUsernameAvailability(usernameValue);
+                    } else {
+                        usernameError.textContent = "Invalid characters in username";
+                    }
+                });
+        
+                function checkUsernameAvailability(username) {
+                    // AJAX request to check if the username already exists
+                    fetch("/check_username_availability/", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/x-www-form-urlencoded",
+                            "X-CSRFToken": "{{ csrf_token }}",  // Add the CSRF token
+                        },
+                        body: `username=${username}`,
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.usernameExists) {
+                            usernameError.textContent = "This username already exists";
+                        } else {
+                            usernameError.textContent = "";
+                        }
+                    })
+                    .catch(error => {
+                        console.error("Error checking username availability:", error);
+                    });
+                }
+            });
+
+
+            
+            
+        </script>
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                const emailInput = document.getElementById("email");
+                const emailError = document.getElementById("email_error");
+                const emailAvailability = document.getElementById("email-availability");
+    
+                emailInput.addEventListener("input", function () {
+                    validateEmailRealTime(emailInput.value.trim());
+                    checkEmailAvailability(emailInput.value.trim());
+                });
+                function validateEmailRealTime(email) {
+                    const emailError = document.getElementById("email_error");
+                
+                    // Check if the email input is not empty
+                    if (email.trim() === "") {
+                        emailError.textContent = "Email is required";
+                        return;
+                    }
+                
+                    // Updated regular expression pattern to allow emails like "abhinamolv2024a@mca.ajce.in"
+                    const emailPattern = /^[a-zA-Z][a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+                
+                    if (!emailPattern.test(email)) {
+                        emailError.textContent = "Invalid email format";
+                    } else if (!/^[a-zA-Z0-9._%+-]+@(gmail|mca|ajce|yahoo|amaljyothi|ac)\.[a-z.]{2,}$/i.test(email)) {
+                        emailError.textContent = "Email domain not supported";
+                    } else if ((email.match(/\./g) || []).length > 3) {
+                        emailError.textContent = "Invalid email format";
+                    } else if (email.length > 320) {
+                        emailError.textContent = "Email is too long";
+                    } else {
+                        emailError.textContent = "";
+                    }
+                }
+                
+    
+                function checkEmailAvailability(email) {
+                    // Check if the email input is not empty
+                    if (email.trim() === "") {
+                        emailAvailability.textContent = ""; // Clear the message if the email is empty
+                        return;
+                    }
+    
+                    // Send an AJAX request to check email availability
+                    fetch(`/check_email_availability/?email=${encodeURIComponent(email)}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.available) {
+                                emailAvailability.textContent = ""; // Email is available
+                            } else {
+                                emailAvailability.textContent = "This email already exists."; // Email is not available
+                            }
+                        })
+                        .catch(error => {
+                            console.error("Error checking email availability:", error);
+                        });
+                }
+            });
+        </script>
+        <script>
+            function validatePasswordRealTime(password) {
+                const passwordError = document.getElementById("password_error");
+            
+                // Check if the password input is not empty
+                if (password.trim() === "") {
+                    passwordError.textContent = "Password is required";
+                    return;
+                }
+            
+                // Strong password pattern: At least one uppercase letter, one lowercase letter, one digit, one special character, no spaces
+                const strongPasswordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/;
+            
+                if (!strongPasswordPattern.test(password)) {
+                    passwordError.textContent = "Use a strong password with at least one uppercase letter, one lowercase letter, one digit, and one special character. No spaces allowed.";
+                } else {
+                    passwordError.textContent = "";
+                }
+            }
+            </script>
+    
+          
+        
 
  </body>
  </html>

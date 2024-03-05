@@ -523,25 +523,25 @@ background-color: #d63737;
                         
                         <div>
 
-                        <a href="{% url 'staff_services' %}">
-                        <div class="nav-option option5">
-                            <img src=
-    "https://media.geeksforgeeks.org/wp-content/uploads/20221210183323/10.png"
-                                class="nav-img"
-                                alt="blog">
-                            <h3> Services</h3>
-                        </div>
-                    <br>
-
-                    <a href="{% url 'booking_details' %}">
-                    <div class="nav-option option3">
-                        <img src=
-"https://media.geeksforgeeks.org/wp-content/uploads/20221210183320/5.png"
-                            class="nav-img"
-                            alt="report">
-                        <h3> Booking Requests</h3>
-                    </div>
-    <br><br>
+                            <a href="{% url 'staff_services' %}">
+                                <div class="nav-option option5">
+                                    <img src=
+            "https://media.geeksforgeeks.org/wp-content/uploads/20221210183323/10.png"
+                                        class="nav-img"
+                                        alt="blog">
+                                    <h3> Products for pick-up</h3>
+                                </div>
+                            <br><br>
+        
+                            <a href="{% url 'booking_details' %}">
+                            <div class="nav-option option3">
+                                <img src=
+        "https://media.geeksforgeeks.org/wp-content/uploads/20221210183320/5.png"
+                                    class="nav-img"
+                                    alt="report">
+                                <h3> Product to be delivered</h3>
+                            </div>
+            <br><br>
     
                     </div>
                 </nav>
@@ -569,7 +569,7 @@ background-color: #d63737;
                         <h1 class="recent-Articles">Personal Details</h1>
                         <a></a>
                     </div>
-                    <form method="post" action="{% url 'staff_profile' %}">
+                    <form method="post">
                         {% csrf_token %}
                         <div class="container">
                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
@@ -609,15 +609,17 @@ background-color: #d63737;
                                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                     <div class="form-group">
                                         <label for="ciTy">City</label>
-                                        <input type="text" class="form-control" id="ciTy" value="{% if deliveryboy.address %}{{ deliveryboy.address.city }}{% endif %}">
+                                        <input type="text" class="form-control" id="ciTy" name="city" value="{% if deliveryboy.address %}{{ deliveryboy.address.city }}{% endif %}">
                                     </div>
                                 </div>
+                                
                                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                     <div class="form-group">
                                         <label for="zIp">Zip Code</label>
-                                        <input type="text" class="form-control" id="zIp" value="{% if deliveryboy.address %}{{ deliveryboy.address.pincode }}{% endif %}">
+                                        <input type="text" class="form-control" id="zIp" name="pincode" value="{% if deliveryboy.address %}{{ deliveryboy.address.pincode }}{% endif %}">
                                     </div>
                                 </div>
+                                
                             </div>
                         </div>
                         <center>
