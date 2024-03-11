@@ -5,7 +5,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, shrink-to-fit=no, user-scalable=no">
-        <title>cart
+        <title>wishlist
             </title>
 
         <link rel="shortcut icon" href="{% static "images/fav.jpg" %}" rel="stylesheet"/>
@@ -137,39 +137,71 @@
     color: #000; /* White text color for better contrast */
     height: 100%; /* Ensure all containers have equal height */
   }
-  
-  .product-container {
-    display: flex; /* Use flexbox */
-    flex-direction: column; /* Align items vertically */
-  }
-  
-  .product-details {
-    flex-grow: 1; /* Allow the details to expand to fill the container */
-    padding: 10px; /* Add padding to the details */
-  }
-  
-  .product-image {
-    width: 90%; /* Make the image fill the width of the container */
-    height: auto; /* Preserve the aspect ratio */
-  }
-  .product-divider {
-    border-top: 1px solid #ccc; /* Change color and style as needed */
-    margin-top: 20px; /* Adjust spacing between products */
-    margin-bottom: 20px; /* Adjust spacing between products */
-}
-.out-of-stock-text {
-    color: red;
-    font-weight: bold;
+  /* Add this CSS to your existing styles */
+  .card {
+    height: 100%; /* Ensure all cards have the same height */
 }
 
+.product-image {
+    width: 100%; /* Make the image fill the entire card */
+    height: 200px; /* Set the desired height for the image */
+    object-fit: cover; /* Maintain aspect ratio */
+}
 
-   
+/* Style for the "Add to Cart" button */
+#add-to-cart-form .add-to-cart-button {
+    background-color: #2a5945;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#add-to-cart-form .add-to-cart-button:hover {
+    background-color: green;
+}
+/* Style for the "Remove from Wishlist" button */
+.remove-from-wishlist-button {
+    background-color: #FF5733; /* Button background color */
+    color: #FFFFFF; /* Text color */
+    padding: 10px 20px; /* Padding around the text */
+    border: none; /* Remove button border */
+    border-radius: 5px; /* Add rounded corners */
+    cursor: pointer; /* Cursor style on hover */
+    transition: background-color 0.3s ease; /* Smooth transition */
+}
+
+.remove-from-wishlist-button:hover {
+    background-color: red; /* Darker color on hover */
+}
 
 
 
+  
 </style>
 </head>
 <body>
+  <!-- Modal for displaying messages -->
+<div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="messageModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="messageModalLabel">Message</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p id="messageText"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>  
 <!--########################## Header CSS ####################-->
         <div class="header-container">
             <div class="header-top">
@@ -264,49 +296,49 @@
             </nav>
         </div>
      
-      
-<!--########################## Slider CSS ####################-->
+ <!--########################## Slider CSS ####################-->
 <div id="home" class="banner-container no-padding">
+    <br><br><br><br><br><br><br><br>
     <div class="container">
-        
-        <div class="row mx-auto"></div>
-        <div class="slider-det">
-            <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
-                <div class="product-container bg-black">
-                    {% if products_in_cart %}
-                        <!-- If there are items in the cart, display them -->
-                        {% for product_item in products_in_cart %}
-                            <div class="row product-row">
-                                <div class="col-md-4">
-                                    <img src="{{ product_item.image.url }}" alt="{{ product_item.name }}" class="product-image">
-                                </div>
-                                <div class="col-md-8">
-                                    <div class="product-details">
-                                        <h3>{{ product_item.name }}</h3>
-                                        <p>Price: {{ product_item.price }}</p>
-                                        <a href="{% url 'buynow' product_id=product_item.id %}" class="btn btn-success">Buy Now</a>
+        <div class="row justify-content-center"> <!-- Center the columns -->
+            <div class="col-md-10"> <!-- Set the column width -->
+              <center>  <h1 style="color: white;">My Wishlist</h1>
+                <a href="{% url 'cart' %}" class="cart-icon" style="margin-right: 10px; color: white;">
+                    <i class="fas fa-shopping-cart"></i> View Cart
+                </a>
+                
+              </center>
 
-
-                                          <form action="{% url 'remove_from_cart' product_item.id %}" method="post">
-                                                {% csrf_token %}
-                                                <button type="submit" class="btn btn-danger">Remove from Cart</button>
-                                            </form>
-                                       
-                                    </div>
+                <div class="row">
+                    {% for product in products_in_wishlist %}
+                        <div class="col-md-4 mb-4"> <!-- Add margin-bottom for spacing -->
+                            <div class="card h-100"> <!-- Set card height to ensure uniformity -->
+                                <img src="{{ product.image.url }}" class="card-img-top product-image" alt="{{ product.name }}">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ product.name }}</h5>
+                                    <p class="card-text">Price: {{ product.price }}</p><br>
+                                    <form id="add-to-cart-form" action="{% url 'add_to_cart' product.id %}" method="post">
+                                        {% csrf_token %}
+                                    <center> <button type="submit" class="add-to-cart-button">Add to Cart</button></center>
+                                    </form>
+                                   
+                                    <form id="remove-from-wishlist-form-{{ product.id }}" action="{% url 'remove_from_wishlist' product.id %}" method="post">
+                                        {% csrf_token %}
+                                       <center> <button type="submit" class="remove-from-wishlist-button">Remove from Wishlist</button></center>
+                                    </form>
+                                    
+                                
                                 </div>
                             </div>
-                            <!-- Add a separating line between each product -->
-                            <hr class="product-divider">
-                        {% endfor %}
-                    {% else %}
-                        <!-- If the cart is empty, display a message -->
-                        <p class="empty-cart-message">No items in your cart.</p>
-                    {% endif %}
+                        </div>
+                    {% endfor %}
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+
 
      
       
@@ -388,12 +420,35 @@
         </footer>
     </div>
     </body>
-    <script src="{% static '/js/jquery-3.2.1.min.js' %}"></script>
-    <script src="{% static '/js/popper.min.js' %}"></script>
-    <script src="{% static '/js/bootstrap.min.js' %}"></script>
-    <script src="{% static '/plugins/scroll-fixed/jquery-scrolltofixed-min.js' %}"></script>
-    <script src="{% static '/js/script.js' %}"></script>
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <!-- Include jQuery only once -->
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script src="{% static '/js/popper.min.js' %}"></script>
+<script src="{% static '/js/bootstrap.min.js' %}"></script>
+<script src="{% static '/plugins/scroll-fixed/jquery-scrolltofixed-min.js' %}"></script>
+<script src="{% static '/js/script.js' %}"></script>
+<script>
+    $(document).ready(function () {
+        function showMessage(message) {
+            $("#messageText").text(message);
+            $("#messageModal").modal('show');
+        }
+        $("#add-to-cart-form .add-to-cart-button").click(function (e) {
+            e.preventDefault(); // Prevent default form submission
+            var form = $(this).closest('form');
+            $.ajax({
+                type: "POST",
+                url: form.attr('action'),
+                data: form.serialize(),
+                success: function (response) {
+                    showMessage(response.message); // Display message in a modal
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    showMessage("An error occurred while adding the product to the cart.");
+                }
+            });
+        });
+    });
+</script>
   
     
 <script>
@@ -413,7 +468,7 @@
     });
 </script>
 
-    
+</script>
         
 
 </html>

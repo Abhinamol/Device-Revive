@@ -355,14 +355,18 @@
     <div class="report-body">
         <form id="product-form" method="post" action="{% url 'add_second_hand_product' %}" enctype="multipart/form-data">
             {% csrf_token %}
-            <div class="form-group">
-                <label for="category">Category:</label>
-                <select id="category" name="category" required>
-                    {% for category in categories %}
-                        <option value="{{ category.id }}">{{ category.name }}</option>
-                    {% endfor %}
-                </select>
-            </div>
+            <select id="category" name="category" required>
+                <option value="" selected disabled>Select a category</option>
+                {% for category in categories %}
+                    <option value="{{ category.id }}">{{ category.name }}</option>
+                {% endfor %}
+            </select>
+            
+            
+            
+            
+            
+     
             <div class="form-group">
                 <label for="brand">Brand:</label>
                 <input type="text" id="brand" name="brand" value="{{ product.brand }}" required>
