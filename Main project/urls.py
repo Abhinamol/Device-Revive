@@ -13,6 +13,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from .views import productview
 from .views import add_deliveryboy
+from .views import add_to_wishlist, wishlist_view
 
 urlpatterns = [
     path('',views.index,name="index"),
@@ -75,7 +76,7 @@ urlpatterns = [
     path('staff/update/', staff_update, name='staff_update'),
     path('check_service_name/', check_service_name, name='check_service_name'),
     path('review/',views.Review_rate,name="review"),
-    path('edit_product/<int:product_id>/', views.edit_product, name='edit_product'),
+   
     path('delete_product/<int:product_id>/', views.delete_product, name='delete_product'),
     path('exchange/<int:product_id>/', views.exchange, name='exchange'),
     path('add_to_cart/<int:product_id>/', views.add_to_cart, name='add_to_cart'),
@@ -86,13 +87,18 @@ urlpatterns = [
     path('selling/', views.selling, name='selling'),
     path('selling_details/', views.selling_details, name='selling_details'),
     path('product_approve/', views.product_approve, name='product_approve'),
-    path('add_category/', views.add_category, name='add_category'),
-    path('categorylist/', views.categorylist, name='categorylist'),
     path('buynow/<int:product_id>/', views.buynow, name='buynow'),
     path('add_deliveryboy/', views.add_deliveryboy, name='add_deliveryboy'),
     path('deliveryboy/', views.deliveryboy, name='deliveryboy'),
     path('deliveryboyprofile/', views.deliveryboyprofile, name='deliveryboyprofile'),
     path('deliveryboy_update/', views.deliveryboy_update, name='deliveryboy_update'),
+    path('add-to-wishlist/<int:product_id>/', add_to_wishlist, name='add_to_wishlist'),
+    path('wishlist/', wishlist_view, name='wishlist'),
+    path('remove_from_wishlist/<int:product_id>/', views.remove_from_wishlist, name='remove_from_wishlist'),
+    path('add_category/', views.add_category, name='add_category'),
+    path('categorylist/', views.category_list_view, name='categorylist'),
+    path('pickup/', views.pickup, name='pickup'),
+    path('fulldetails/<int:product_id>/', views.fulldetails, name='fulldetails'),
     
    
 

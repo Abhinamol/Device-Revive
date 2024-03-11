@@ -35,11 +35,13 @@ from django.utils.html import strip_tags
 from .models import SecondHandProduct, Cart, CartItem
 from django.db.models import Q
 from .models import ProductExchange 
-from .models import Category
 import json
 from .models import Deliveryboy
 from django.core.mail import send_mail
 from django.conf import settings
+from .models import Wishlist, WishlistItem
+from .models import Category
+from django.http import HttpResponseBadRequest
 
 
 
@@ -839,15 +841,12 @@ def admin_booking(request):
     return render(request, 'admin_booking.html', context)
 
     
-
 @never_cache
 @login_required(login_url='login')
 def add_second_hand_product(request):
-    categories = Category.objects.all()
-    print(categories)
+    categories = Category.objects.all()  # Fetch all categories from the database
     
     if request.method == 'POST':
-        name = request.POST.get('name')
         brand = request.POST.get('brand')
         model = request.POST.get('model')
         description = request.POST.get('description')
@@ -855,14 +854,11 @@ def add_second_hand_product(request):
         year = request.POST.get('year')
         price = request.POST.get('price')
         image = request.FILES.get('image')
-        category_id = request.POST.get('category')
-
-        user_details = Userdetails.objects.get(username=request.user.username)
-        category = Category.objects.get(id=category_id)
-
+        added_by = request.user.userdetails
+        
+        # Create the SecondHandProduct object
         SecondHandProduct.objects.create(
-            added_by=user_details,
-            name=name,
+            added_by=added_by,
             brand=brand,
             model=model,
             description=description,
@@ -870,14 +866,11 @@ def add_second_hand_product(request):
             year=year,
             price=price,
             image=image,
-            category=category
         )
-
-        return redirect('selling_details')  # Redirect to any page you desire after successful form submission
-
+        
+        return redirect('selling_details')  # Redirect to a different page after successful form submission
+    
     return render(request, 'selling.html', {'categories': categories})
-
-
 @never_cache 
 @login_required(login_url='login')
 def product_details(request):
@@ -919,44 +912,6 @@ def staff_product(request):
     return render(request, 'staff_product.html', {'products': products})
 
 
-@never_cache 
-@login_required(login_url='login')
-def edit_product(request, product_id):
-    product = SecondHandProduct.objects.get(id=product_id)
-    if request.method == 'POST':
-        # Retrieve form data from the request
-        name = request.POST.get('name')
-        brand = request.POST.get('brand')
-        model = request.POST.get('model')
-        description = request.POST.get('description')
-        condition = request.POST.get('condition')
-        year = request.POST.get('year')
-        price = request.POST.get('price')
-        is_available = request.POST.get('is_available')
-        stock = request.POST.get('stock')  # Retrieve the stock value
-        
-        # Update the product object with new data
-        product.name = name
-        product.brand = brand
-        product.model = model
-        product.description = description
-        product.condition = condition
-        product.year = year
-        product.price = price
-        product.stock = stock  # Update the stock field
-        
-        # Set the is_available field based on the checkbox value
-        if is_available == 'on':
-            product.is_available = True
-        else:
-            product.is_available = False
-        
-        # Save the updated product
-        product.save()
-        
-        return redirect('product_details')  # Redirect to the product details page
-    
-    return render(request, 'edit_product.html', {'product': product})
 
 
 
@@ -1112,27 +1067,6 @@ def buynow(request, product_id):
 
 
 
-@login_required(login_url='login')
-@never_cache
-def add_category(request):
-    if request.method == 'POST':
-        name = request.POST.get('name')  # Get the value of the 'name' input from the form
-        if name:
-            category = Category(name=name)
-            category.save()
-            return redirect('categorylist') # Return a success message or redirect to a success URL
-        else:
-            return HttpResponse('Please provide a category name')  # Handle validation errors
-    return render(request, 'add_category.html')
-
-
-
-@login_required(login_url='login')
-@never_cache
-def categorylist(request):
-    categories = Category.objects.all()
-    return render(request, 'categorylist.html', {'categories': categories})
-
 
 def add_deliveryboy(request):
     if request.method == 'POST':
@@ -1221,3 +1155,99 @@ def deliveryboy_update(request):
     }
     
     return render(request, 'deliveryboy_update.html', context)
+
+
+@never_cache
+@login_required(login_url='login')
+def add_to_wishlist(request, product_id):
+    try:
+        # Get the product
+        product = SecondHandProduct.objects.get(pk=product_id)
+        
+        # Get or create the user's wishlist
+        wishlist, created = Wishlist.objects.get_or_create(user=request.user)
+
+        # Add product to wishlist
+        wishlist_item, item_created = WishlistItem.objects.get_or_create(product=product, wishlist=wishlist)
+
+        if not item_created:
+            return JsonResponse({'success': False, 'message': 'Product is already in the wishlist.'})
+
+        return JsonResponse({'success': True, 'message': 'Product successfully added to the wishlist.'})
+    except SecondHandProduct.DoesNotExist:
+        return JsonResponse({'success': False, 'message': 'Product not found.'})
+
+
+
+@never_cache
+@login_required(login_url='login')
+def wishlist_view(request):
+    try:
+        # Get the user's wishlist
+        user_wishlist = Wishlist.objects.get(user=request.user)
+        # Retrieve products in the wishlist
+        products_in_wishlist = user_wishlist.products.all()
+        return render(request, 'wishlist.html', {'products_in_wishlist': products_in_wishlist})
+    except Wishlist.DoesNotExist:
+        # If the wishlist does not exist for the user
+        return render(request, 'wishlist.html', {'products_in_wishlist': None})
+
+
+
+def remove_from_wishlist(request, product_id):
+    if request.method == "POST":
+        product = SecondHandProduct.objects.get(pk=product_id)
+        user_wishlist = Wishlist.objects.get(user=request.user)
+        wishlist_item = WishlistItem.objects.get(product=product, wishlist=user_wishlist)
+        wishlist_item.delete()
+        return redirect('wishlist')  # Redirect back to the wishlist page after removal
+    return redirect('wishlist')  # Redirect back to the wishlist page if not a POST request
+
+
+@login_required(login_url='login')
+def add_category(request):
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        if name:
+            Category.objects.create(name=name)
+            return redirect('categorylist')  # Replace 'success_page' with the URL name of the page you want to redirect to after successful form submission
+    return render(request, 'add_category.html')
+
+
+@login_required(login_url='login')
+def category_list_view(request):
+    categories = Category.objects.all()
+    return render(request, 'categorylist.html', {'categories': categories})
+
+
+@never_cache
+@login_required(login_url='login')
+def pickup(request):
+    products = SecondHandProduct.objects.filter(is_picked_up=False)
+    context = {
+        'products': products,
+    }
+    return render(request, 'pickup.html', context)
+
+
+@never_cache
+@login_required(login_url='login')
+def fulldetails(request, product_id):
+    product = SecondHandProduct.objects.get(id=product_id)
+    
+    if request.method == 'POST':
+        is_picked_up = request.POST.get('picked_up')
+        
+        if is_picked_up == 'on':
+            product.is_picked_up = True
+        else:
+            product.is_picked_up = False
+        
+        product.save()
+        return redirect('fulldetails', product_id=product_id)
+    
+    context = {
+        'product': product,
+    }
+    
+    return render(request, 'fulldetails.html', context)
