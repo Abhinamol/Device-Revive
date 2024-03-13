@@ -840,7 +840,6 @@ def admin_booking(request):
     context = {'bookings': bookings}
     return render(request, 'admin_booking.html', context)
 
-    
 @never_cache
 @login_required(login_url='login')
 def add_second_hand_product(request):
@@ -854,10 +853,11 @@ def add_second_hand_product(request):
         year = request.POST.get('year')
         price = request.POST.get('price')
         image = request.FILES.get('image')
+        category_id = request.POST.get('category')  # Get selected category ID
         added_by = request.user.userdetails
         
         # Create the SecondHandProduct object
-        SecondHandProduct.objects.create(
+        product = SecondHandProduct.objects.create(
             added_by=added_by,
             brand=brand,
             model=model,
@@ -868,9 +868,19 @@ def add_second_hand_product(request):
             image=image,
         )
         
+        # Associate the selected category with the product
+        if category_id:
+            category = Category.objects.get(pk=category_id)
+            product.category = category
+            product.save()
+        
         return redirect('selling_details')  # Redirect to a different page after successful form submission
     
-    return render(request, 'selling.html', {'categories': categories})
+    context = {
+        'categories': categories,  # Passing categories as context variable
+    }
+    return render(request, 'selling.html', context)
+
 @never_cache 
 @login_required(login_url='login')
 def product_details(request):
