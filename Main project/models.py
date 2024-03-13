@@ -114,7 +114,7 @@ class SecondHandProduct(models.Model):
     
     
     def __str__(self):
-        return self.name
+        return f"{self.brand} - {self.model}"
 
 
 
@@ -142,7 +142,7 @@ class CartItem(models.Model):
     quantity = models.PositiveIntegerField(default=1)
 
     def __str__(self):
-        return f"{self.quantity} of {self.product.name} in {self.cart.user.username}'s cart"
+        return f"{self.quantity} of {self.product.category} in {self.cart.user.username}'s cart"
 
 
 
@@ -160,7 +160,7 @@ class Purchase(models.Model):
     purchase_date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.user.username} bought {self.product.name} on {self.purchase_date}"
+        return f"{self.user.username} bought {self.product.category} on {self.purchase_date}"
 
 
 class Deliveryboy(models.Model):
@@ -185,4 +185,4 @@ class WishlistItem(models.Model):
     wishlist = models.ForeignKey(Wishlist, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"{self.product.name} in {self.wishlist.user.username}'s wishlist"
+        return f"{self.product.category} in {self.wishlist.user.username}'s wishlist"

@@ -840,11 +840,10 @@ def admin_booking(request):
     context = {'bookings': bookings}
     return render(request, 'admin_booking.html', context)
 
+    
 @never_cache
 @login_required(login_url='login')
 def add_second_hand_product(request):
-    categories = Category.objects.all()  # Fetch all categories from the database
-    
     if request.method == 'POST':
         brand = request.POST.get('brand')
         model = request.POST.get('model')
@@ -853,9 +852,9 @@ def add_second_hand_product(request):
         year = request.POST.get('year')
         price = request.POST.get('price')
         image = request.FILES.get('image')
-        category_id = request.POST.get('category')  # Get selected category ID
-        added_by = request.user.userdetails
-        
+        added_by = Userdetails.objects.get(username=request.user.username)
+        category_id = request.POST.get('category')  # Retrieve the selected category ID from the form data
+
         # Create the SecondHandProduct object
         product = SecondHandProduct.objects.create(
             added_by=added_by,
@@ -866,20 +865,14 @@ def add_second_hand_product(request):
             year=year,
             price=price,
             image=image,
+            category_id=category_id  # Assign the selected category ID to the category field
         )
-        
-        # Associate the selected category with the product
-        if category_id:
-            category = Category.objects.get(pk=category_id)
-            product.category = category
-            product.save()
-        
+
         return redirect('selling_details')  # Redirect to a different page after successful form submission
-    
-    context = {
-        'categories': categories,  # Passing categories as context variable
-    }
+
     return render(request, 'selling.html', context)
+
+
 
 @never_cache 
 @login_required(login_url='login')
@@ -933,7 +926,8 @@ def ecommerce(request):
 @login_required(login_url='login')
 @never_cache
 def selling(request):
-    return render(request,'selling.html')
+    categories = Category.objects.all()
+    return render(request, 'selling.html', {'categories': categories})
 
 
 
