@@ -292,15 +292,7 @@
     margin-top: 10px; /* Add space above the button */
 }
 
-
-
-
-
-
-  
-                      
-                
-        </style>
+ </style>
     </head>
          <body>
         
@@ -442,7 +434,7 @@
                         {% for product in products %}
                         <div class="product-details">
                             <img src="{{ product.image.url }}" alt="{{ product.name }}" class="product-image">
-                            <h2>{{ product.name }}</h2>
+                            <h2>{{ product.category }}</h2>
                             <p>Brand: {{ product.brand }}</p>
                             <p>Model: {{ product.model }}</p>
                             <p>Description: {{ product.description }}</p>
@@ -454,12 +446,11 @@
                         {% endfor %}
                     </div>
                 </center>
-                </div>
-               
+              </div>
             </div>
-            <br><br>
-        </div>
-    </div>
+         <br><br>
+     </div>
+ </div>
 
         
     <div class="login-required-message">
