@@ -1217,7 +1217,7 @@ def add_deliveryboy(request):
         deliveryboy = Deliveryboy.objects.create(user=user, full_name=full_name, email=email, username=username, password=password)
 
         send_mail(
-            'Welcome to Your Site',
+            'Welcome to Device Revive',
             f'Dear {full_name},\n\nYou have been added as a delivery boy. Your username is {username} and password is {password}. '
              f'Please log in with these credentials..'
               f'Remember to update your profile and change the temporary password provided.\n\n' \
