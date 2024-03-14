@@ -34,7 +34,6 @@ from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 from .models import SecondHandProduct, Cart, CartItem
 from django.db.models import Q
-from .models import ProductExchange 
 import json
 from .models import Deliveryboy
 from django.core.mail import send_mail
@@ -257,21 +256,28 @@ def staff_services(request):
 
 
  
-@never_cache  
+@never_cache
 @login_required(login_url='login')
-def bookingconfirmation(request):
-    
-    
-    booking = Booking.objects.latest('id')
+def bookingconfirmation(request, userid, bookingid):
+    try:
+        booking = Booking.objects.get(userdetails__id=userid, id=bookingid)
+    except Booking.DoesNotExist:
+        return HttpResponse("Booking does not exist for this user or it has already been verified")
 
-    # Pass the relevant details to the template
+    # Calculate the payment amount (total_cost * 100)
+    payment_amount = booking.total_service_cost * 100
+
     context = {
         'selected_services': booking.selected_services.all(),
         'total_cost': booking.total_service_cost,
         'selected_date': booking.preferred_date,
         'selected_time': booking.preferred_time,
+        'userid': userid,
+        'bookingid': bookingid,
+        'payment_amount': payment_amount  # Pass the payment amount to the context
     }
     return render(request, 'bookingconfirmation.html', context)
+
 
 
 @never_cache
@@ -550,8 +556,8 @@ def staff_update(request):
 
 
 
+
 @never_cache
-   
 @login_required(login_url='login')
 def booknow(request):
     total_cost = 0
@@ -599,7 +605,7 @@ def booknow(request):
             # Handle IntegrityError, for example, log an error or return an error response
             pass
 
-        return redirect('bookingconfirmation')  # Redirect to a success page
+        return redirect('bookingconfirmation', userid=user_details.id, bookingid=booking_instance.id)
 
     # Provide choices for laptop brands
     laptop_brand_choices = [
@@ -667,6 +673,8 @@ def booking_details(request):
     context = {'bookings': bookings}
     return render(request, 'booking_details.html', context)
 
+
+
 @login_required(login_url='login')
 def confirm_booking(request):
     if request.method == 'POST':
@@ -719,50 +727,78 @@ def Review_rate(request):
 
 
 @login_required
-def payment(request, booking_id):
-    booking = get_object_or_404(Booking, id=booking_id)
+def payment(request, booking_id=None):
+    if booking_id:
+        booking = get_object_or_404(Booking, id=booking_id)
 
-    if booking.payment_set.exists():
-        messages.error(request, "Payment for this appointment is already complete.")
-        return redirect("index")
-
-    try:
-        order_id = generate_order(booking.total_service_cost)
-        if order_id:
-            booking.razorpay_order_id = order_id
-            booking.save()
-
-            # Get the actual payment ID from Razorpay API response
-            # IMPORTANT: Replace "get_this_from_razorpay_response" with the actual payment ID from Razorpay.
-            actual_payment_id = "razorpay_payment_id"  # Replace with the actual payment ID
-
-            # Now, you can set the razorpay_payment_id for the booking
-            booking.razorpay_payment_id = actual_payment_id
-            booking.save()
-
-            context = {
-                "booking": booking,
-                "razorpay_key_id": settings.RAZORPAY_KEY_ID,
-                "order_id": order_id,
-                "callback_url": request.build_absolute_uri(reverse('verify_payment')),
-            }
-            return render(request, "verify_payment.html", context)
-        else:
-            messages.error(request, "Error generating order.")
+        if booking.payment_set.exists():
+            messages.error(request, "Payment for this appointment is already complete.")
             return redirect("index")
 
-    except Exception as e:
-        messages.error(request, f"Error generating order: {str(e)}")
-        return redirect("booknow", booking_id=booking_id)
+        try:
+            order_id = generate_order(booking.total_service_cost)
+            if order_id:
+                booking.razorpay_order_id = order_id
+                booking.save()
 
+                # Get the actual payment ID from Razorpay API response
+                # IMPORTANT: Replace "get_this_from_razorpay_response" with the actual payment ID from Razorpay.
+                actual_payment_id = "razorpay_payment_id"  # Replace with the actual payment ID
 
+                # Now, you can set the razorpay_payment_id for the booking
+                booking.razorpay_payment_id = actual_payment_id
+                booking.save()
+
+                context = {
+                    "booking": booking,
+                    "razorpay_key_id": settings.RAZORPAY_KEY_ID,
+                    "order_id": order_id,
+                    "callback_url": request.build_absolute_uri(reverse('verify_payment')),
+                }
+                return render(request, "verify_payment.html", context)
+            else:
+                messages.error(request, "Error generating order.")
+                return redirect("index")
+
+        except Exception as e:
+            messages.error(request, f"Error generating order: {str(e)}")
+            return redirect("booknow", booking_id=booking_id)
+
+    else:
+        try:
+            # Fetch the user's cart
+            user_cart = Cart.objects.get(user=request.user)
+            
+            # Calculate the total amount from the cart items
+            total_amount = 0
+            cart_items = CartItem.objects.filter(cart=user_cart)
+            for cart_item in cart_items:
+                total_amount += cart_item.product.price * cart_item.quantity
+
+            # Generate order for cart total amount
+            order_id = generate_order(total_amount)
+            if order_id:
+                context = {
+                    "cart_items": cart_items,
+                    "total_amount": total_amount,
+                    "razorpay_key_id": settings.RAZORPAY_KEY_ID,
+                    "order_id": order_id,
+                    "callback_url": request.build_absolute_uri(reverse('verify_payment')),
+                }
+                return render(request, "verify_payment.html", context)
+            else:
+                messages.error(request, "Error generating order.")
+                return redirect("index")
+
+        except Cart.DoesNotExist:
+            messages.error(request, "Cart not found for this user.")
+            return redirect("index")
 
 
 @csrf_exempt
 def verify_payment(request):
     if request.method == "POST":
-        raw_data = request.body.decode('utf-8')
-        print(f"Raw Request Body: {raw_data}")
+
 
         try:
             data = json.loads(raw_data)
@@ -809,6 +845,86 @@ def verify_payment(request):
             return HttpResponse(status=500)
 
     return HttpResponse("Invalid request method.")
+
+
+@login_required
+def payment_success(request):
+    if request.method == 'POST':
+        # Get the data from the POST request
+        userid = request.POST.get('userid')
+        bookingid = request.POST.get('bookingid')
+        cartid = request.POST.get('cartid')
+
+        # Initialize objects for booking and cart
+        booking = None
+        cart = None
+
+        # Handle the case of a booking
+        if bookingid:
+            try:
+                # Fetch the booking associated with the provided booking ID
+                booking = Booking.objects.get(id=bookingid)
+            except Booking.DoesNotExist:
+                return HttpResponse("Booking does not exist or it has already been verified")
+
+        # Handle the case of a cart
+        if cartid:
+            try:
+                # Fetch the cart associated with the provided cart ID
+                cart = Cart.objects.get(id=cartid)
+            except Cart.DoesNotExist:
+                return HttpResponse("Cart does not exist")
+
+        # Ensure either booking or cart exists
+        if not (booking or cart):
+            return HttpResponse("Booking or Cart ID is missing")
+
+        try:
+            if booking:
+                # Fetch the Userdetails object for a booking
+                userdetails = Userdetails.objects.get(id=userid)
+
+                # Create a Payment object for booking
+                payment = Payment.objects.create(
+                    user=userdetails,
+                    booking=booking,
+                    amount=booking.total_service_cost,
+                    status=True
+                )
+
+                # Update the booking details after successful payment
+                booking.is_verified = True
+                booking.save()
+
+            elif cart:
+                # Fetch the Userdetails object for a cart
+                userdetails = Userdetails.objects.get(id=userid)
+
+                # Calculate the total amount of cart items
+                total_amount = 0
+                cart_items = CartItem.objects.filter(cart=cart)
+                for cart_item in cart_items:
+                    total_amount += cart_item.product.price * cart_item.quantity
+
+                # Create a Payment object for cart
+                payment = Payment.objects.create(
+                    user=userdetails,
+                    amount=total_amount,
+                    status=True
+                )
+
+                # Clear the cart after successful payment
+                cart.products.clear()
+
+            messages.success(request, 'Payment successful!')
+            return render(request, 'index.html')
+
+        except Userdetails.DoesNotExist:
+            return HttpResponse("Userdetails not found")
+
+    else:
+        return render(request, 'index.html')
+
 
 
 @never_cache 
@@ -1006,13 +1122,15 @@ def exchange(request, product_id):
     return render(request, 'exchange.html', {'product': product})
 
 
-
 @never_cache
 @login_required(login_url='login')
 def add_to_cart(request, product_id):
     try:
         # Get the product
         product = SecondHandProduct.objects.get(pk=product_id)
+        
+        # Calculate the payment amount
+        payment_amount = product.price * 100
         
         # Get or create the user's cart
         cart, created = Cart.objects.get_or_create(user=request.user)
@@ -1026,7 +1144,7 @@ def add_to_cart(request, product_id):
             cart_item.save()
             return JsonResponse({'success': False, 'message': 'Product is already in the cart.'})
 
-        return JsonResponse({'success': True, 'message': 'Product successfully added to the cart.'})
+        return JsonResponse({'success': True, 'message': 'Product successfully added to the cart.', 'payment_amount': payment_amount})
     except SecondHandProduct.DoesNotExist:
         return JsonResponse({'success': False, 'message': 'Product not found.'})
 
@@ -1038,10 +1156,16 @@ def cart_view(request):
         user_cart = Cart.objects.get(user=request.user)
         # Retrieve products in the cart
         products_in_cart = user_cart.products.all()
-        return render(request, 'cart.html', {'products_in_cart': products_in_cart})
+        
+        # Calculate total payment amount for all items in the cart
+        payment_amount = sum(item.price * 100 for item in products_in_cart)
+
+        
+        return render(request, 'cart.html', {'products_in_cart': products_in_cart, 'payment_amount': payment_amount})
     except Cart.DoesNotExist:
         # If the cart does not exist for the user
         return render(request, 'cart.html', {'products_in_cart': None})
+
 
 
 
@@ -1061,13 +1185,20 @@ def buynow(request, product_id):
         # Get the product details
         product = get_object_or_404(SecondHandProduct, pk=product_id)
         
+        # Get or create the user's cart
+        cart, created = Cart.objects.get_or_create(user=request.user)
+        cart_id = cart.id
+        
+        # Calculate the payment amount (amount * 100)
+        payment_amount = product.price * 100
+        
         # Get the user details of the logged-in user
         user_details = Userdetails.objects.get(username=request.user.username)
         
-        # Pass the product and user details to the template
-        return render(request, 'buynow.html', {'product': product, 'user_details': user_details})
+        # Pass the product, payment amount, and cart ID to the template
+        return render(request, 'buynow.html', {'product': product, 'payment_amount': payment_amount, 'cart_id': cart_id, 'user_details': user_details})
     except SecondHandProduct.DoesNotExist:
-        return render(request, 'buynow.html', {'error': 'Product not found.'})
+        return JsonResponse({'error': 'Product not found.'}, status=404)
 
 
 

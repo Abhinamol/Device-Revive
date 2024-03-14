@@ -2,6 +2,8 @@ from django.db import models
 from django.contrib.auth.models import User 
 
 
+
+
 # Create your models here.
 
 class Address(models.Model):
@@ -65,14 +67,17 @@ class Booking(models.Model):
 
 
 class Payment(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    booking = models.ForeignKey(Booking, on_delete=models.CASCADE)  # Change here
+    user = models.ForeignKey(Userdetails, on_delete=models.CASCADE)
+    booking = models.ForeignKey(Booking, on_delete=models.CASCADE, blank=True, null=True)  # Change here
     payment_date = models.DateTimeField(auto_now_add=True)
     amount = models.DecimalField(max_digits=10, decimal_places=2)
     status = models.BooleanField(default=False)
-    razorpay_payment_id = models.CharField(max_length=100, null=True, blank=True)
-    razorpay_signature = models.CharField(max_length=200, null=True, blank=True)
+    product = models.ForeignKey('SecondHandProduct', on_delete=models.CASCADE, blank=True, null=True)  # Updated field
 
+    def __str__(self):
+        return f"Payment for {self.user.username} on {self.payment_date}"
+    
+    
 
 
 
@@ -118,14 +123,7 @@ class SecondHandProduct(models.Model):
 
 
 
-class ProductExchange(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    product = models.ForeignKey(SecondHandProduct, on_delete=models.CASCADE)
-    exchange_date = models.DateTimeField(auto_now_add=True)
-    additional_notes = models.TextField(blank=True)
 
-    def __str__(self):
-        return f"{self.user.username} exchanged {self.product.name} on {self.exchange_date}"
 
 
 
