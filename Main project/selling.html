@@ -184,64 +184,77 @@
                 transform: translate(-50%, -50%); 
             }
 
-.report-container {
-    background-color: #fff; /* White background */
-    border-radius: 10px;
-    padding: 20px;
-    margin: auto; /* Center horizontally */
-    margin-top: 50px; /* Adjust as needed for vertical centering */
-    max-width: 500px; /* Adjust width as needed */
-}
-
-/* Alignment for form fields */
-.form-group {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 20px;
-}
-
-.form-group label {
-    font-weight: bold;
-    margin-bottom: 5px;
-}
-
-.form-group input[type="text"],
-.form-group input[type="number"],
-.form-group select,
-.form-group textarea {
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 3px;
-    font-size: 16px;
-    margin-top: 5px;
-}
-
-.form-group textarea {
-    height: 100px; /* Adjust height as needed */
-}
-
-/* CSS for submit button */
-.form-submit-button {
-    background-color: #4CAF50;
-    border: none;
-    color: white;
-    padding: 10px 20px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin-top: 10px;
-    cursor: pointer;
-    border-radius: 3px;
-}
-
-.form-submit-button:hover {
-    background-color: #45a049;
-}
-
-.error-message {
-    color: red;
-}
+            .report-container {
+                background: linear-gradient(to bottom, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.5) 100%), url('{% static '/images/ecom7.AVIF' %}');
+                background-size: cover;
+                background-position: center center;
+                background-repeat: no-repeat;
+                min-height: 100vh;
+            }
+            
+            .form-group {
+                display: flex;
+                flex-direction: column;
+                margin-bottom: 20px;
+            }
+            
+            .form-group label {
+                font-weight: bold;
+                margin-bottom: 5px;
+            }
+            
+            .form-group input[type="text"],
+            .form-group input[type="number"],
+            .form-group select,
+            .form-group textarea {
+                padding: 10px;
+                border: 1px solid #ccc;
+                border-radius: 3px;
+                font-size: 16px;
+                margin-top: 5px;
+                width: 100%; /* Reduce the width to 80% of the container */
+            }
+            
+            
+            .form-group textarea {
+                height: 100px; /* Adjust height as needed */
+            }
+            
+            /* CSS for submit button */
+            .form-submit-button {
+                background-color: #4CAF50;
+                border: none;
+                color: white;
+                padding: 10px 20px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 16px;
+                margin-top: 10px;
+                cursor: pointer;
+                border-radius: 3px;
+                width: 20%; /* Make the button fill the container */
+            }
+            
+            .form-submit-button:hover {
+                background-color: #45a049;
+            }
+            
+            .error-message {
+                color: red;
+            }
+            .form-container {
+                width: 80%; /* Adjust width as needed */
+                margin: 0 auto; /* Center the container horizontally */
+                background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white background */
+                padding: 20px; /* Add padding for spacing */
+                border-radius: 10px; /* Add border radius for rounded corners */
+            }
+            h3, label {
+                color: white; /* Set the color to white */
+            }
+            
+            
  </style>
     </head>
          <body>
@@ -516,47 +529,7 @@
 <script src="{% static '/plugins/scroll-fixed/jquery-scrolltofixed-min.js' %}"></script>
 <script src="{% static '/js/script.js' %}"></script>
 
-<script>
-    // Function to validate product name
-    function validateName() {
-        const nameInput = document.getElementById('name');
-        const nameError = document.getElementById('name-error');
-        const nameValue = nameInput.value.trim();
 
-        // Check if name contains only letters
-        const lettersOnlyRegex = /^[a-zA-Z ]*$/;
-        if (!lettersOnlyRegex.test(nameValue)) {
-            nameError.textContent = 'Name should contain only letters';
-            return false;
-        }
-
-        // Check if name contains at least 3 characters
-        if (nameValue.replace(/\s+/g, '').length < 3) {
-            nameError.textContent = 'Name should contain at least 3 non-space characters';
-            return false;
-        }
-
-        // Check if name starts with a space after typing
-        if (nameValue.charAt(0) === ' ' && nameValue.length > 1) {
-            nameError.textContent = 'Name should not start with a space';
-            return false;
-        }
-
-        // If all conditions pass, clear error message
-        nameError.textContent = '';
-        return true;
-    }
-
-    // Add event listener for input event on name field
-    document.getElementById('name').addEventListener('input', validateName);
-
-    // Other validation functions and event listeners for other fields...
-
-    // Function to validate the entire form before submission
-    function validateForm() {
-        return validateName(); // Add other validation function calls if needed
-    }
-</script>
 <script>
     // Function to validate brand name
     function validateBrand() {
@@ -673,38 +646,38 @@
     
        
 
-    // Function to validate year
-    function validateYear() {
-        const yearInput = document.getElementById('year');
-        const yearError = document.getElementById('year-error');
-        const yearValue = yearInput.value.trim();
+// Function to validate year
+function validateYear() {
+    const yearInput = document.getElementById('year');
+    const yearError = document.getElementById('year-error');
+    const yearValue = yearInput.value.trim();
 
-        // Check if year is empty
-        if (yearValue === '') {
-            yearError.textContent = 'Year is required';
-            return false;
-        }
-
-        // Check if year is a valid number with 4 digits
-        const yearRegex = /^\d{4}$/;
-        if (!yearRegex.test(yearValue)) {
-            yearError.textContent = 'Year should be a number with 4 digits';
-            return false;
-        }
-
-        // Convert year to a number
-        const year = parseInt(yearValue);
-
-        // Check if year is after 2024
-        if (year > 2024) {
-            yearError.textContent = 'Year cannot be after 2024';
-            return false;
-        }
-
-        // If all conditions pass, clear error message
-        yearError.textContent = '';
-        return true;
+    // Check if year is empty
+    if (yearValue === '') {
+        yearError.textContent = 'Year is required';
+        return false;
     }
+
+    // Check if year is a valid number with 4 digits
+    const yearRegex = /^\d{4}$/;
+    if (!yearRegex.test(yearValue)) {
+        yearError.textContent = 'Year should be a number with 4 digits';
+        return false;
+    }
+
+    // Convert year to a number
+    const year = parseInt(yearValue);
+
+    // Check if year is after 2024 or before 2021
+    if (year > 2024 || year < 2021) {
+        yearError.textContent = 'Year should be between 2021 and 2024';
+        return false;
+    }
+
+    // If all conditions pass, clear error message
+    yearError.textContent = '';
+    return true;
+}
 
     // Add event listener for input event on year field
     document.getElementById('year').addEventListener('input', validateYear);
