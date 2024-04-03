@@ -100,6 +100,23 @@ urlpatterns = [
     path('categorylist/', views.category_list_view, name='categorylist'),
     path('pickup/', views.pickup, name='pickup'),
     path('fulldetails/<int:product_id>/', views.fulldetails, name='fulldetails'),
+    path('product/<int:product_id>/edit/', views.edit_product, name='edit_product'),
+    path('product/<int:product_id>/update/', views.update_second_hand_product, name='update_second_hand_product'),
+    path('save-new-address/', views.save_new_address, name='save_new_address'),
+    path('delivery_details/', views.delivery_details, name='delivery_details'),
+    path('view_order_details/<int:order_id>/', views.view_order_details, name='view_order_details'),
+    path('update_delivery_status/<int:order_id>/', views.update_delivery_status, name='update_delivery_status'),
+    path('my_order/', views.my_order, name='my_order'),
+    path('otp_verification/<int:order_id>/', views.otp_verification, name='otp_verification'),
+    path('delivery_success/', views.delivery_success, name='delivery_success'),
+    path('apply-leave/',views.apply_leave, name='apply_leave'),
+    path('leave-status/', views.leave_status, name='leave_status'),
+    path('leave_applications/', views.leave_applications, name='leave_applications'),
+    path('approve_leave/<int:leave_application_id>/', views.approve_leave, name='approve_leave'),
+    
+
+
+    
     
    
 

@@ -27,7 +27,6 @@ from django.http import Http404
 from .models import Review 
 from django.contrib.auth import get_user_model
 from django.http import HttpResponseForbidden
-from .models import Review
 from .razorpay import generate_order
 from django.http import HttpResponse
 from django.template.loader import render_to_string
@@ -39,8 +38,13 @@ from .models import Deliveryboy
 from django.core.mail import send_mail
 from django.conf import settings
 from .models import Wishlist, WishlistItem
-from .models import Category
+from .models import Category,Order
 from django.http import HttpResponseBadRequest
+import random
+from django.db.models import Count
+from .models import LeaveApplication
+from django.core.exceptions import ObjectDoesNotExist
+
 
 
 
@@ -472,7 +476,7 @@ def add_staff(request):
         user.save()
 
         send_mail(
-            'Welcome to Your Site',
+            'Welcome to Device Revive',
             f'Dear {full_name},\n\nYou have been added as a staff member. Your username is {username} and password is {password}. '
              f'Please log in with these credentials..'
               f'Remember to update your profile and change the temporary password provided.\n\n' \
@@ -505,10 +509,14 @@ def staffs(request):
 
 
 def delete_staff(request, staff_id):
-    staff = get_object_or_404(Technician, id=staff_id)
-    staff.delete()
+    if request.method == 'POST':
+        # Get the technician object
+        technician = Technician.objects.get(pk=staff_id)
+        # Update the is_available status
+        technician.is_available = not technician.is_available
+        technician.save()
+    # Redirect back to the staff details page
     return redirect('staffs')
-
 
 
 @csrf_exempt
@@ -999,7 +1007,7 @@ def product_details(request):
     # Pass the products to the template
     return render(request, 'product_details.html', {'products': products})
 
-@never_cache 
+@never_cache
 def display_products(request):
     # Filter products where action is approved
     products = SecondHandProduct.objects.all()
@@ -1017,6 +1025,9 @@ def display_products(request):
     query = request.GET.get('q')
     if query:
         products = products.filter(name__icontains=query)
+
+    # Exclude products that are associated with orders
+    products = products.exclude(order__isnull=False)
 
     return render(request, 'display_products.html', {'products': products})
 
@@ -1130,7 +1141,11 @@ def add_to_cart(request, product_id):
         product = SecondHandProduct.objects.get(pk=product_id)
         
         # Calculate the payment amount
-        payment_amount = product.price * 100
+        # Calculate the payment amount (amount * 100) and add 150 to it
+        # Calculate the payment amount by adding 150 to the product price
+        payment_amount = (product.price + 150) * 100
+
+
         
         # Get or create the user's cart
         cart, created = Cart.objects.get_or_create(user=request.user)
@@ -1178,27 +1193,6 @@ def remove_from_cart(request, product_id):
 
 
 
-@never_cache
-@login_required(login_url='login')
-def buynow(request, product_id):
-    try:
-        # Get the product details
-        product = get_object_or_404(SecondHandProduct, pk=product_id)
-        
-        # Get or create the user's cart
-        cart, created = Cart.objects.get_or_create(user=request.user)
-        cart_id = cart.id
-        
-        # Calculate the payment amount (amount * 100)
-        payment_amount = product.price * 100
-        
-        # Get the user details of the logged-in user
-        user_details = Userdetails.objects.get(username=request.user.username)
-        
-        # Pass the product, payment amount, and cart ID to the template
-        return render(request, 'buynow.html', {'product': product, 'payment_amount': payment_amount, 'cart_id': cart_id, 'user_details': user_details})
-    except SecondHandProduct.DoesNotExist:
-        return JsonResponse({'error': 'Product not found.'}, status=404)
 
 
 
@@ -1322,6 +1316,10 @@ def wishlist_view(request):
         user_wishlist = Wishlist.objects.get(user=request.user)
         # Retrieve products in the wishlist
         products_in_wishlist = user_wishlist.products.all()
+        
+        # Exclude products that are associated with orders
+        products_in_wishlist = products_in_wishlist.exclude(order__isnull=False)
+        
         return render(request, 'wishlist.html', {'products_in_wishlist': products_in_wishlist})
     except Wishlist.DoesNotExist:
         # If the wishlist does not exist for the user
@@ -1386,3 +1384,260 @@ def fulldetails(request, product_id):
     }
     
     return render(request, 'fulldetails.html', context)
+
+
+
+
+def edit_product(request, product_id):
+    product = get_object_or_404(SecondHandProduct, id=product_id)
+    categories = Category.objects.all()  # Assuming you have imported the Category model
+    return render(request, 'edit_product.html', {'product': product, 'categories': categories})
+
+
+
+def update_second_hand_product(request, product_id):
+    product = get_object_or_404(SecondHandProduct, id=product_id)
+    
+    if request.method == 'POST':
+        # Retrieve the category object based on the submitted category ID
+        category_id = request.POST.get('category')
+        category = get_object_or_404(Category, id=category_id)
+        
+        # Update the product details
+        product.category = category
+        product.brand = request.POST.get('brand')
+        product.model = request.POST.get('model')
+        product.description = request.POST.get('description')
+        product.condition = request.POST.get('condition')
+        product.year = request.POST.get('year')
+        product.price = request.POST.get('price')
+        
+        if 'image' in request.FILES:
+            product.image = request.FILES['image']
+        
+        product.save()
+        
+        return redirect('selling_details') 
+    
+@login_required
+def save_new_address(request):
+    if request.method == 'POST':
+        home_address = request.POST.get('homeAddress')
+        city = request.POST.get('city')
+        pincode = request.POST.get('pincode')
+        product_id = request.POST.get('product_id')  # Assuming you have product_id in your form
+        
+        # Retrieve the logged-in user
+        user_details = Userdetails.objects.get(username=request.user.username)
+        
+        # Create a new Address object and save it
+        new_address = Address.objects.create(home_address=home_address, city=city, pincode=pincode)
+        
+        # Update the address field of the Userdetails model for the logged-in user
+        user_details.address = new_address
+        user_details.save()
+        
+        # Assuming you want to redirect to 'buynow' with the retrieved product_id
+        return redirect('buynow', product_id=product_id)  # Redirect to buynow with product_id
+    else:
+        return redirect('error_url')
+
+
+def delivery_details(request):
+    # Exclude orders with delivery status 'Delivered'
+    orders = Order.objects.exclude(delivery_status='DEL').select_related('cart', 'user', 'product')
+    return render(request, 'delivery_details.html', {'orders': orders})
+
+
+
+
+def view_order_details(request, order_id):
+    try:
+        order = Order.objects.get(pk=order_id)
+        return render(request, 'view_order_details.html', {'order': order})
+    except Order.DoesNotExist:
+        return render(request, 'view_order_details.html', {'error_message': 'Order does not exist.'})
+
+@never_cache
+@login_required(login_url='login')
+def buynow(request, product_id):
+    try:
+        # Get the product details
+        product = get_object_or_404(SecondHandProduct, pk=product_id)
+        
+        # Get or create the user's cart
+        cart, created = Cart.objects.get_or_create(user=request.user)
+        cart_id = cart.id
+        
+        # Calculate the payment amount (amount * 100)
+        payment_amount = product.price * 100
+        total_amount = payment_amount/100
+        
+        # Get the user details of the logged-in user
+        user_details = Userdetails.objects.get(username=request.user.username)
+        
+        # Create the order with user, product, and cart information
+        order = Order.objects.create(cart=cart, user=user_details, product=product, total_amount=total_amount)
+
+        # Pass the product, payment amount, and cart ID to the template
+        return render(request, 'buynow.html', {'product': product, 'payment_amount': payment_amount, 'total_amount': total_amount,'cart_id': cart_id, 'user_details': user_details})
+    except SecondHandProduct.DoesNotExist:
+        return JsonResponse({'error': 'Product not found.'}, status=404)
+
+
+
+
+
+@login_required(login_url='login')
+def my_order(request):
+    # Get the currently logged-in user
+    current_user = request.user
+
+    try:
+        # Retrieve the Userdetails instance associated with the current user
+        user_details = Userdetails.objects.get(username=current_user.username)
+
+        # Filter orders based on the retrieved Userdetails instance
+        user_orders = Order.objects.filter(user=user_details)
+
+        # Pass the filtered orders to the template
+        return render(request, 'my_order.html', {'user_orders': user_orders})
+
+    except Userdetails.DoesNotExist:
+        # Handle the case where Userdetails instance does not exist for the current user
+        # You can redirect the user to a page indicating that they need to set up their details
+        return HttpResponse("Userdetails not found for this user.")
+
+
+def update_delivery_status(request, order_id):
+    order = get_object_or_404(Order, pk=order_id)
+
+    if request.method == 'POST':
+        status = request.POST.get('delivery_status')
+
+        if status == 'delivered':
+            # Generate OTP
+            otp = ''.join([str(random.randint(0, 9)) for _ in range(6)])
+
+            # Send OTP to the buyer's email
+            send_mail(
+                'OTP for Delivery Status Verification',
+                f'Your OTP for verifying delivery status is: {otp}',
+                settings.EMAIL_HOST_USER,  # Sender's email
+                [order.user.email],  # Buyer's email
+                fail_silently=False,
+            )
+
+            # Store OTP in session
+            request.session['delivery_status_otp'] = otp
+
+            # Redirect to OTP verification page
+            return redirect('otp_verification', order_id=order_id)
+        else:
+            order.delivery_status = status
+            order.save()
+            return redirect('delivery_details')
+    else:
+        pass
+
+def otp_verification(request, order_id):
+    order = get_object_or_404(Order, pk=order_id)
+
+    # Retrieve the OTP from session
+    otp_from_session = request.session.get('delivery_status_otp')
+
+    if request.method == 'POST':
+        # Get the submitted OTP
+        submitted_otp = request.POST.get('otp')
+
+        # Verify the submitted OTP
+        if submitted_otp == otp_from_session:
+            # OTP is verified, update the delivery status
+            order.delivery_status = 'Delivered'  # Marking the order as delivered
+            order.save()
+
+            # Clear OTP from session
+            del request.session['delivery_status_otp']
+
+            # Redirect to delivery details page
+            return redirect('delivery_success')
+        else:
+            # OTP is incorrect, render the OTP verification page with error message
+            return render(request, 'otp_verification.html', {'error_message': 'Incorrect OTP'})
+
+    else:
+        # Render the OTP verification page
+        return render(request, 'otp_verification.html', {'order': order})
+
+
+
+def delivery_success(request):
+    
+    return render(request, 'delivery_success.html')
+
+@login_required
+def apply_leave(request):
+    if request.method == 'POST':
+        start_date = request.POST.get('start_date')
+        end_date = request.POST.get('end_date')
+        number_of_days = request.POST.get('number_of_days')
+        reason = request.POST.get('reason')
+        
+        if start_date and end_date and number_of_days and reason:
+            # Assuming request.user is a Technician instance
+            if request.user.technician.is_available:  # Assuming technician is related name in the Technician model
+                LeaveApplication.objects.create(
+                    staff=request.user.technician,  # Assuming technician is related name in the LeaveApplication model
+                    start_date=start_date,
+                    end_date=end_date,
+                    number_of_days=number_of_days,
+                    reason=reason
+                )
+                messages.success(request, 'Leave application submitted successfully!')
+                return redirect('leave_applications')  # Redirect to home page or wherever you want
+            else:
+                messages.error(request, 'You are not available to apply for leave.')
+        else:
+            messages.error(request, 'Please fill in all the fields.')
+    
+    return render(request, 'apply_leave.html')
+
+@login_required
+def leave_status(request):
+    try:
+        # Check if the logged-in user has a related Technician object
+        technician = request.user.technician
+        # Retrieve the leave applications for the logged-in staff member
+        staff_leave_applications = LeaveApplication.objects.filter(staff=technician)
+        return render(request, 'leave_status.html', {'leave_applications': staff_leave_applications})
+    except ObjectDoesNotExist:
+        # Handle the case where the user doesn't have a related Technician object
+        error_message = "User has no associated Technician object."
+        return render(request, 'apply_leave.html', {'error_message': error_message})
+
+
+def leave_applications(request):
+    leave_requests = LeaveApplication.objects.select_related('staff').all()
+    return render(request, 'leave_applications.html', {'leave_requests': leave_requests})
+
+def approve_leave(request, leave_application_id):
+    # Fetch the leave application object from the database
+    leave_application = get_object_or_404(LeaveApplication, pk=leave_application_id)
+
+    if request.method == 'POST':
+        # Process form submission for approving leave
+        leave_application.status = 'Approved'
+        leave_application.save()
+
+        # Send a simple email notification to the staff
+        subject = 'Leave Application Approved'
+        message = 'Your leave application has been approved.'
+        from_email = 'device_revive@email.com'  # Update with your email
+        to_email = leave_application.staff.email
+        send_mail(subject, message, from_email, [to_email])
+
+        # Redirect to a success page or any other appropriate page
+        return redirect('leave_applications')  # Change 'success_page' to the name of your success page URL pattern
+
+    # If the request method is not POST, render the template with the leave application object
+    return render(request, 'leave_applications.html', {'leave_application': leave_application})

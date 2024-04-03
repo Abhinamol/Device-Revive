@@ -10,6 +10,7 @@ class Address(models.Model):
     home_address = models.CharField(max_length=255)
     city = models.CharField(max_length=100)
     pincode = models.CharField(max_length=10)
+    
 
 class Userdetails(models.Model):
     full_name = models.CharField(max_length=50)
@@ -44,6 +45,7 @@ class Technician(models.Model):
     password = models.CharField(max_length=100)
     is_staff = models.BooleanField(default=True)  # Add the is_staff field
     address = models.OneToOneField(Address, on_delete=models.CASCADE, null=True, blank=True)
+    is_available = models.BooleanField(default=True) 
 
     def __str__(self):
         return self.username
@@ -105,6 +107,8 @@ class SecondHandProduct(models.Model):
         ('pending', 'Approval Pending'),
         ('approved', 'Approved'),
     )
+    
+
     brand = models.CharField(max_length=100)
     model = models.CharField(max_length=100)
     description = models.TextField()
@@ -115,8 +119,6 @@ class SecondHandProduct(models.Model):
     added_by = models.ForeignKey(Userdetails, on_delete=models.CASCADE, blank=True, null=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE,  blank=True, null=True)
     is_picked_up = models.BooleanField(default=False)
-    
-    
     
     def __str__(self):
         return f"{self.brand} - {self.model}"
@@ -144,21 +146,7 @@ class CartItem(models.Model):
 
 
 
-class Purchase(models.Model):
-    PAYMENT_STATUS_CHOICES = (
-        ('pending', 'Pending'),
-        ('completed', 'Completed'),
-        ('cancelled', 'Cancelled')
-    )
 
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    product = models.ForeignKey(SecondHandProduct, on_delete=models.CASCADE)
-    total_amount = models.DecimalField(max_digits=10, decimal_places=2)
-    payment_status = models.CharField(max_length=20, choices=PAYMENT_STATUS_CHOICES, default='pending')
-    purchase_date = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return f"{self.user.username} bought {self.product.category} on {self.purchase_date}"
 
 
 class Deliveryboy(models.Model):
@@ -184,3 +172,32 @@ class WishlistItem(models.Model):
 
     def __str__(self):
         return f"{self.product.category} in {self.wishlist.user.username}'s wishlist"
+
+
+class Order(models.Model):
+    DELIVERY_STATUS_CHOICES = [
+        ('Shipped', 'Shipped'),
+        ('Out_for_delivery', 'Out for Delivery'),
+        ('Delivered', 'Delivered'),
+    ]
+
+    cart = models.ForeignKey('Cart', on_delete=models.CASCADE)
+    user = models.ForeignKey(Userdetails, on_delete=models.CASCADE)
+    product = models.ForeignKey(SecondHandProduct, on_delete=models.CASCADE)
+    total_amount = models.DecimalField(max_digits=10, decimal_places=2)
+    delivery_status = models.CharField(max_length=20, choices=DELIVERY_STATUS_CHOICES, default='SH')
+
+    def __str__(self):
+        return f"Order ID: {self.id}"
+
+
+class LeaveApplication(models.Model):
+    staff = models.ForeignKey(Technician, on_delete=models.CASCADE)
+    start_date = models.DateField()
+    end_date = models.DateField()
+    number_of_days = models.PositiveIntegerField()
+    reason = models.TextField()
+    status = models.CharField(max_length=20, choices=[('Pending', 'Pending'), ('Approved', 'Approved')], default='Pending')
+
+    def __str__(self):
+        return f"Leave Application for {self.staff.full_name}"
