@@ -460,17 +460,18 @@
                                             </select>
                                         </div>
                                         <div class="new-address-fields" style="display: none;">
-                                            <label for="homeAddress">Home Address:</label>
-                                            <input type="text" id="homeAddress" name="homeAddress">
-                                           
-                                            <label for="city">City:</label>
-                                            <input type="text" id="city" name="city">
-                                           
-                                            <label for="pincode">Pincode:</label>
-                                            <input type="text" id="pincode" name="pincode">
-                                            <!-- New phone number field -->
-                                           <label for="phoneNumber">Phone Number:</label>
-                                           <input type="text" id="phoneNumber" name="phoneNumber">
+                                            <form id="newAddressForm" method="POST" action="{% url 'save_new_address' %}">
+                                                {% csrf_token %}
+                                                <input type="hidden" name="product_id" value="{{ product.id }}">
+                                                <label for="homeAddress">Home Address:</label>
+                                                <input type="text" id="homeAddress" name="homeAddress" required> <!-- Add required attribute for validation -->
+                                                <label for="city">City:</label>
+                                                <input type="text" id="city" name="city" required> <!-- Add required attribute for validation -->
+                                                <label for="pincode">Pincode:</label>
+                                                <input type="text" id="pincode" name="pincode" required> <!-- Add required attribute for validation -->
+                                                <!-- Include other necessary fields if any -->
+                                                <button type="submit">Save Address</button>
+                                            </form>
                                         </div>
                                     </div>
                                 </div>
@@ -481,6 +482,7 @@
                                         alert("Booking confirmed!"); // Replace this with your actual confirmation process
                                     }
                                 </script> 
+                                <center>
                                 <form action="{% url 'payment_success' %}" method="POST">
                                     {% csrf_token %}
                                     <input type="hidden" name="userid" value="{{ user_details.id }}">
@@ -501,6 +503,7 @@
                                     </script>
                                     
                                 </form>
+                            </center>
                                 
                             
                             </div>

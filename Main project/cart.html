@@ -282,11 +282,11 @@
                                 </div>
                                 <div class="col-md-8">
                                     <div class="product-details">
-                                        <h3>{{ product_item.name }}</h3>
+                                        <h3>{{ product_item.category }}</h3>
                                         <p>Price: {{ product_item.price }}</p>
-                                        <a href="{% url 'buynow' product_id=product_item.id %}" class="btn btn-success">Buy Now</a>
-
-
+                                        <form action="{% url 'buynow' product_item.id %}" method="get">
+                                            <button type="submit" class="btn btn-success">Buy Now</button>
+                                        </form>
                                           <form action="{% url 'remove_from_cart' product_item.id %}" method="post">
                                                 {% csrf_token %}
                                                 <button type="submit" class="btn btn-danger">Remove from Cart</button>
@@ -303,14 +303,14 @@
                         <p class="empty-cart-message">No items in your cart.</p>
                     {% endif %}
                 </div>
+               
+            </div>
+                
             </div>
         </div>
     </div>
 </div>
-
-     
-      
- <!--########################## Footer CSS ####################-->
+<!--########################## Footer CSS ####################-->
         <footer>
             <div class="container">
                 <div class="row">

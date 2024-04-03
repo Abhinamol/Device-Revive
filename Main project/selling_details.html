@@ -291,6 +291,26 @@
 .product-details button {
     margin-top: 10px; /* Add space above the button */
 }
+/* Style for the edit button */
+.edit-button {
+    background-color: #ffc107; /* Yellow */
+    border: none;
+    color: black;
+    padding: 8px 16px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    margin-top: 10px;
+    cursor: pointer;
+    border-radius: 5px; /* Rounded corners */
+    transition: background-color 0.3s; /* Smooth transition for hover effect */
+}
+
+.edit-button:hover {
+    background-color: #ffca28; /* Darker yellow on hover */
+}
+
 
  </style>
     </head>
@@ -411,7 +431,8 @@
                             <p>Condition: {{ product.get_condition_display }}</p>
                             <p>Year: {{ product.year }}</p>
                             <p>Price: {{ product.price }}</p>
-                           
+                            <button class="edit-button" onclick="redirectToEdit('{{ product.id }}')">Edit</button>
+
                         </div>
                         {% endfor %}
                     </div>
@@ -538,6 +559,13 @@
         });
     });
 </script>
+<script>
+    function redirectToEdit(productId) {
+        // Redirect to the edit page with the product ID in the URL
+        window.location.href = `/product/${productId}/edit/`;
+    }
+</script>
+
 
 </body>
 

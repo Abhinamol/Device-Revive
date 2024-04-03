@@ -261,43 +261,66 @@
     color: black; /* Change color as needed */
 }
 
-.product-details {
-    border: 1px solid #ccc;
-    padding: 20px;
-    background-color: #fff;
-    color: #333;
-    margin: auto;
+.out-of-stock-text {
+    color: red;
+    font-weight: bold;
+}
+.product-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 5px;
+    justify-content: space-around; /* Align items horizontally */
+}
+
+.centered {
     display: flex;
-    flex-direction: column;
-    align-items: center; /* Center items horizontally */
-    justify-content: center; /* Center items vertically */
-    max-width: 500px; /* Adjust max-width as needed */
-    margin-top: 10px; /* Add top margin for spacing */
+    justify-content: center; /* Center items horizontally */
+    align-items: center; /* Center items vertically */
+    min-height: 50vh; /* Set minimum height to viewport height */
 }
 
-.product-details img {
-    max-width: 100%; /* Ensure the image fits within the container */
-    margin-bottom: 10px; /* Add some space below the image */
+.no-products-message {
+    text-align: center;
 }
 
-.product-details h2 {
-    text-align: center; /* Center the heading */
+#paymentButton {
+    background-color: #4CAF50; /* Green background */
+    color: white; /* White text color */
+    padding: 10px 20px; /* Padding */
+    text-align: center; /* Center text */
+    text-decoration: none; /* Remove underline */
+    display: inline-block; /* Display as block element */
+    border-radius: 5px; /* Rounded corners */
+    border: none; /* Remove border */
+    cursor: pointer; /* Add cursor pointer */
 }
 
-.product-details p {
-    text-align: center; /* Center paragraphs */
-}
+#paymentButton:hover {
+    background-color: #45a049; /* Darker green background on hover */
+}   
+/* CSS for alignment */
+        .address-selection,
+        .new-address-fields {
+            margin-bottom: 10px;
+        }
 
-.product-details button {
-    margin-top: 10px; /* Add space above the button */
-}
-
-
-
-
-
-
-  
+        .new-address-fields label,
+        .new-address-fields input {
+            display: block;
+            margin-bottom: 5px;
+        }  
+        .order-details-container {
+            background-color: #fff;
+            border: 1px solid #ccc;
+            margin-bottom: 20px;
+            padding: 20px;
+        }
+        
+        .order-details {
+            /* Add any additional styling for the order details */
+        }
+              
+            
                       
                 
         </style>
@@ -322,37 +345,7 @@
                                     </li>
                             </ul>
                         </div>
-                        <div class="col-lg-5 d-none d-lg-block right-item">
-                            <ul>
-                                <li>
-                                    <a>
-                                        <i class="fab fa-github" style="color: white;"></i>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="">
-                                        <i class="fab fa-linkedin-in" style="color: white;"></i>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="">
-                                        <i class="fab fa-pinterest-p" style="color: white;"></i>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="">
-                                        <i class="fab fa-twitter" style="color: white;"></i>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="">
-                                        <i class="fab fa-facebook-f" style="color: white;"></i>
-                                    </a>
-                                </li>
-                               
-                                
-                            </ul>
-                        </div>
+                       
                     </div>
 
                 </div>
@@ -388,7 +381,7 @@
                                 
                     
                                 <li>
-                                    <a class="js-scroll-trigger" href="{% url 'display_products' %}">PRODUCTS</a>
+                                    <a class="js-scroll-trigger" href="{% url 'ecommerce' %}">PRODUCTS</a>
                                 </li>
                                 <li>
                                     <a class="js-scroll-trigger" href="{% if user.is_authenticated %}{% url 'booking' %}{% else %}#login-required{% endif %}">
@@ -430,60 +423,51 @@
         
 
         <!--########################## Slider CSS ####################-->
-  
-        <div class="main-container">
-            <div id="home" class="banner-container no-padding">
-                   <!-- Modal for displaying messages -->
-<div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="messageModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="messageModalLabel">Message</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <p id="messageText"></p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
+       
+        <div id="home" class="banner-container no-padding">
+            <div class="container">
+                <br><br><br><br><br><br><br><br>
                 <div class="container">
-                    <br><br><br><br><br><br><br><br><br>
-                    <div class="row mx-auto">
-                        <div class="col-md-12">
-                            <!-- Image container -->
-                            <div class="product-details">
-                                <img src="{{ product.image.url }}" alt="{{ product.name }}" class="product-image">
-                                <h2>{{ product.category }}</h2>
-                                <p>Brand: {{ product.brand }}</p>
-                                <p>Model: {{ product.model }}</p>
-                                <p>Description: {{ product.description }}</p>
-                                <p>Condition: {{ product.condition }}</p>
-                                <p>Year: {{ product.year }}</p>
-                                <p>Price: Rs.{{ product.price }}</p>
-                                <form id="add-to-cart-form" action="{% url 'add_to_cart' product.id %}" method="post">
-                                    {% csrf_token %}
-                                    <button type="submit" class="add-to-cart-button">Add to Cart</button>
-                                </form>
+                    <center ><h1 style="color: white;">My Orders</h1></center>
+                    <div class="order-details-container">
+                        <div class="order-details">
+                           
+                            <div class="product-container">
+                                {% for order in user_orders %}
+                                    <div class="product-details">
+                                        <img src="{{ order.product.image.url }}" alt="{{ order.product.name }}" class="product-image">
+                                        <ul>
+                                            <li>Product Name: {{ order.product.category }}</li>
+                                            <li>Product Brand: {{ order.product.brand }}</li>
+                                            <li>Total Amount: {{ order.total_amount }}</li>
+                                            <!-- Add other product details here -->
+                                        </ul>
+                                        <!-- Delivery status bar -->
+                                        <div class="delivery-status-bar">
+                                            <div class="progress">
+                                                {% if order.delivery_status == 'SH' %}
+                                                    <div class="progress-bar bg-primary" role="progressbar" style="width: 33%;" aria-valuenow="33" aria-valuemin="0" aria-valuemax="100">Shipped</div>
+                                                {% elif order.delivery_status == 'out_for_delivery' %}
+                                                    <div class="progress-bar bg-warning" role="progressbar" style="width: 66%;" aria-valuenow="66" aria-valuemin="0" aria-valuemax="100">Out for Delivery</div>
+                                                {% elif order.delivery_status == 'delivered' %}
+                                                    <div class="progress-bar bg-success" role="progressbar" style="width: 100%;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">Delivered</div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
                             </div>
                         </div>
                     </div>
+                    
+                    
+                    </div>
+                    
                 </div>
             </div>
         </div>
-        
-    <div class="login-required-message">
-        <div class="login-required-box">
-            <p>Login Required</p>
-            <button class="ok-button">OK</button>
-        </div>
-    </div>
 
+<br>
 <!--########################## Footer CSS ####################-->
 <footer>
     <div class="container">
@@ -560,41 +544,14 @@
         </div>
     </div>
 </footer>
-</body>
+
 <script src="{% static '/js/jquery-3.2.1.min.js' %}"></script>
 <script src="{% static '/js/popper.min.js' %}"></script>
 <script src="{% static '/js/bootstrap.min.js' %}"></script>
 <script src="{% static '/plugins/scroll-fixed/jquery-scrolltofixed-min.js' %}"></script>
 <script src="{% static '/js/script.js' %}"></script>
-<script src="{% static '/js/jquery-3.2.1.min.js' %}"></script>
-<script src="{% static '/js/jquery-3.2.1.min.js' %}"></script>
-<script>
-    $(document).ready(function () {
-        // AJAX for adding product to cart
-        $("#add-to-cart-form").submit(function (e) {
-            e.preventDefault(); // Prevent default form submission
-            var form = $(this);
-            $.ajax({
-                type: form.attr('method'),
-                url: form.attr('action'),
-                data: form.serialize(),
-                success: function (response) {
-                    if (response.success) {
-                        // Show success message or perform any other action
-                        alert(response.message);
-                    } else {
-                        // Show error message or handle error
-                        alert(response.message);
-                    }
-                },
-                error: function (xhr, textStatus, errorThrown) {
-                    // Handle error
-                    alert("An error occurred while adding the product to the cart.");
-                }
-            });
-        });
-    });
-</script>
+
+                           
 
 </body>
 

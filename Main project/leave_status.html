@@ -10,7 +10,7 @@
 	<meta name="viewport"
 		content="width=device-width, 
 				initial-scale=2.0">
-	<title>Admin Dashboard</title>
+	<title>Staffs page</title>
 	<link rel="stylesheet" href="{% static 'style.css' %}">
 
 	<link rel="stylesheet"
@@ -424,6 +424,9 @@ transition: background-color 0.3s;
 background-color: #76c676;
 }
 
+.btn-delete {
+background-color: #f44336;
+}
 
 .btn-edit:hover {
 background-color: #5aaf5a;
@@ -455,30 +458,30 @@ background-color: #d63737;
         color: #fff; /* Text color */
     }
 
-    /* Style for the "Enable" button */
-.btn-delete {
-    padding: 5px 10px;
-    margin-right: 5px;
-    border: none;
-    border-radius: 3px;
-    cursor: pointer;
-    font-size: 14px;
-    background-color:#f44336; /* Red color */
-    color: #fff; /* Text color */
-}
-
-/* Style for the "Disable" button */
-.btn-inactive {
-    padding: 5px 10px;
-    margin-right: 5px;
-    border: none;
-    border-radius: 3px;
-    cursor: pointer;
-    font-size: 14px;
-    background-color:  #4caf50; /* Green color */
-    color: #fff; /* Text color */
-}
-
+    /* Style for the "Active" button */
+    .btn-delete {
+        padding: 5px 10px;
+        margin-right: 5px;
+        border: none;
+        border-radius: 3px;
+        cursor: pointer;
+        font-size: 14px;
+        background-color: #4caf50; /* Green color */
+        color: #fff; /* Text color */
+    }
+    
+    /* Style for the "Inactive" button */
+    .btn-inactive {
+        padding: 5px 10px;
+        margin-right: 5px;
+        border: none;
+        border-radius: 3px;
+        cursor: pointer;
+        font-size: 14px;
+        background-color: #f44336; /* Red color */
+        color: #fff; /* Text color */
+    }
+    <style>
         .form-container {
             max-width: 600px;
             margin: 0 auto;
@@ -557,59 +560,206 @@ background-color: #d63737;
             cursor: pointer;
         }
         
-        /* Style for the Edit button */
-        .edit-staff-button {
-            background-color: #4e74c0; /* Blue background color */
-            color: #fff; /* White text color */
-            border: none;
-            padding: 5px 10px;
-            margin-right: 5px; /* Add space between Edit and Delete buttons */
-            cursor: pointer;
-            font-size: 14px;
-            border-radius: 5px;
-            transition: background-color 0.3s;
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
-    
-        .edit-staff-button:hover {
-            background-color: #325a9a; /* Darker blue on hover */
-        }
-    
-        /* Style for the Delete button */
-        .delete-staff-button {
-            background-color: #ff5757; /* Red background color */
-            color: #fff; /* White text color */
-            border: none;
-            padding: 5px 10px;
-            cursor: pointer;
-            font-size: 14px;
-            border-radius: 5px;
-            transition: background-color 0.3s;
-        }
-    
-        .delete-staff-button:hover {
-            background-color: #ff0000; /* Darker red on hover */
-        }
-    
-        /* Style for the "Add More Staffs" button */
-    .add-service-button {
-        display: inline-block;
-        padding: 10px 20px;
-        background-color: #25554e;
-        color: #fff;
-        text-decoration: none; /* Remove underline for the link */
-        border-radius: 5px;
-        font-size: 16px;
-        transition: background-color 0.3s;
-    }
-    
-    .add-service-button:hover {
-        background-color: #325a9a; /* Darker green on hover */
-    }
-    
-       
 
-    </style>
+        .service {
+            margin: 20px 0;
+            border: 1px solid #ccc;
+            padding: 10px;
+        }
+
+        .service h2 {
+            color: #0b834b;
+        }
+
+        .service p {
+            margin: 10px 0;
+        }
+
+        .service .price {
+            font-weight: bold;
+            color: #0b834b;
+        }
+
+        .add-service-button {
+            background-color: #25554e; /* Green background color */
+            color: #fff; /* White text color */
+            border: none;
+            padding: 10px 20px;
+            margin-top: 20px;
+            cursor: pointer;
+            font-size: 16px; /* Increase the font size */
+            border-radius: 5px; /* Rounded corners */
+            transition: background-color 0.3s; /* Smooth background color transition */
+        }
+        
+        .add-service-button:hover {
+            background-color: #25554e; /* Darker green on hover */
+        }
+        
+
+        
+        /* Style for user icon */
+        .user-icon {
+            width: 45px;
+            height: 45px;
+            margin-right: 10px;
+            border-radius: 50%;
+        }
+
+        /* Style for the user profile dropdown menu */
+        .dropdown-menu {
+            background-color: #333;
+            color: #fff;
+        }
+
+        .dropdown-item {
+            color: #fff;
+        }
+        .dropdown .btn-secondary {
+        background-color: #25554e; /* Blue background color */
+        color: #fff; /* Text color */
+    }
+   
     
+/* Style for the report-container */
+.report-container {
+    min-height: 300px;
+    max-width: 1200px;
+    margin: 70px auto 0px auto;
+    background-color: #ffffff;
+    border-radius: 30px;
+    box-shadow: 3px 3px 10px rgb(188, 188, 188);
+    padding: 0px 20px 20px 20px;
+    overflow: hidden; /* Add overflow property to hide horizontal overflow */
+}
+
+/* Style for the table */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(65, 117, 109, 0.1);
+    table-layout: fixed; /* Fix the table layout */
+}
+
+/* Style the table header */
+th {
+    background-color: #0c3e3e;
+    color: #fff;
+    font-weight: bold;
+    padding: 10px;
+    text-align: left;
+}
+
+/* Style the table rows */
+tr {
+    transition: background-color 0.3s;
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+/* Style the table cells (columns) */
+th, td {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    text-align: left;
+    word-wrap: break-word; /* Allow word wrapping in cells */
+    max-width: 150px; /* Set a maximum width for each cell */
+    overflow: hidden;
+    text-overflow: ellipsis; /* Add ellipsis (...) for text overflow */
+}
+
+/* Extend the Action header cell */
+th.action-header {
+    width: 100px;
+}
+
+/* Style the action buttons in the table */
+.btn-edit, .btn-delete {
+    padding: 5px 9px;
+    margin-right: 5px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 12px;
+    color: #fff;
+    transition: background-color 0.3s;
+}
+
+/* ... (your existing styles) ... */
+
+/* Style for the "Verify" button */
+.verify-button {
+    padding: 5px 10px;
+    margin-right: 5px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 14px;
+    background-color: #f44336; /* Red color */
+    color: #fff; /* Text color */
+    transition: background-color 0.3s;
+}
+
+.verified-text {
+    padding: 5px 10px;
+    margin-right: 5px;
+    border: none;
+    border-radius: 3px;
+    font-size: 10px;
+    font-weight: bold; /* Make the text bold */
+    color: #006400; /* Dark green color */
+}
+.report-container {
+    min-height: 300px;
+    max-width: 1400px; /* Increase max-width for the container */
+    margin: 20px auto 0px auto;
+    background-color: #ffffff;
+    border-radius: 30px;
+    box-shadow: 3px 3px 10px rgb(188, 188, 188);
+    padding: 0px 20px 20px 20px;
+    overflow: hidden;
+}
+
+table {
+    width: 100%; /* Use 100% width for the table */
+    border-collapse: collapse;
+    margin-top: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(65, 117, 109, 0.1);
+    table-layout: fixed;
+}
+
+
+.main {
+    height: calc(100vh - 20px); /* Adjust the height calculation */
+    width: 100%;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    padding: 40px 30px 30px 30px;
+}
+
+.status-pending {
+    color: red;
+}
+
+.status-approved {
+    color: green;
+}
+
+
     </style>
     </head>
     
@@ -621,21 +771,21 @@ background-color: #d63737;
             <div class="logosec">
                 <div class="logo">DEVICE REVIVE</div>
                 
+                    
             </div>
-    
-            <div class="message">
-                
+           
                 <div class="dropdown">
                     <button class="btn btn-secondary dropdown-toggle" type="button" id="userProfileDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <img src="{% static '/images/admin.jpg' %}" alt="User Icon" class="user-icon">
                         {{ user.username }}
                     </button>
                     <div class="dropdown-menu" aria-labelledby="userProfileDropdown">
-                        <a class="dropdown-item" href="{% url 'dashboard' %}">Profile</a>
+                        <a class="dropdown-item" href="{% url 'staff_update' %}">Profile</a>
                         <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
                     </div>
                 </div>
             </div>
+    
         </header>
     
         <div class="main-container">
@@ -645,52 +795,34 @@ background-color: #d63737;
                         <div class="nav-option option1">
                             <img src=
     >
-                            <h3> Dashboard</h3>
+                            <h3> Staff Profile</h3>
                         </div>
-    
-                        <a href="{% url 'userdetailss' %}">
-                            <div class="option2 nav-option">
-                                <img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210183322/9.png"
-                                    class="nav-img"
-                                    alt="">
-                                <h3> Registered Users</h3>
-                            </div>
-                        </a>
-                        
-                        
-                        <a href="{% url 'staffs' %}">
-                        <div class="nav-option option4">
-                            <img src=
-    "https://media.geeksforgeeks.org/wp-content/uploads/20221210183321/6.png"
-                                class="nav-img"
-                                alt="institution">
-                            <h3> Staffs</h3>
-                        </div>
+                        <div></div>
+                    
                         <div>
                         </a>
 
-                        <a href="{% url 'servicedetails' %}">
+                        <a href="{% url 'staff_services' %}">
                         <div class="nav-option option5">
                             <img src=
     "https://media.geeksforgeeks.org/wp-content/uploads/20221210183323/10.png"
                                 class="nav-img"
                                 alt="blog">
                             <h3> Services</h3>
-                        </div>     
-                </a>
-                <br>
-                <a href="{% url 'product_details' %}">
-                    <div class="nav-option option5">
-                        <img src=
-"https://media.geeksforgeeks.org/wp-content/uploads/20221210183323/10.png"
-                            class="nav-img"
-                            alt="blog">
-                        <h3>Products</h3>
-                    </div>
-               
-            </a>
-<br><br>
-                <a href="{% url 'admin_booking' %}">
+                        </div>
+                     </a>
+                     <br>
+                     <a href="{% url 'staff_product' %}">
+                        <div class="nav-option option5">
+                            <img src=
+    "https://media.geeksforgeeks.org/wp-content/uploads/20221210183323/10.png"
+                                class="nav-img"
+                                alt="blog">
+                            <h3>Products</h3>
+                        </div>
+                     </a>
+<br>
+                     <a href="{% url 'booking_details' %}">
                     <div class="nav-option option3">
                         <img src=
 "https://media.geeksforgeeks.org/wp-content/uploads/20221210183320/5.png"
@@ -699,8 +831,18 @@ background-color: #d63737;
                         <h3> Booking Requests</h3>
                     </div>
                 </a>
-            
+                <a href="{% url 'apply_leave' %}">
+                    <div class="nav-option option5">
+                        <img src=
+"https://media.geeksforgeeks.org/wp-content/uploads/20221210183323/10.png"
+                            class="nav-img"
+                            alt="blog">
+                        <h3> Apply Leave</h3>
                     </div>
+                 </a>
+    
+                    </div>
+                </div>
                 </nav>
             </div>
             <div class="main">
@@ -718,189 +860,48 @@ background-color: #d63737;
                     </div>
                 </div>
     
-              <div class="main">
-              <div class="container">
-                <h2>Staff Details</h2>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Technician Id</th>
-                            <th>Full Name</th>
-                            <th>Email Address</th>
-                            <th>Phone Number</th>
-                            <th>Username</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for staff in staff_data %}
-                        <tr>
-                            <td>{{ staff.id }}</td>
-                            <td>{{ staff.full_name }}</td>
-                            <td>{{ staff.email }}</td>
-                            <td>{{ staff.phone_number }}</td>
-                            <td>{{ staff.username }}</td>
-                            <td>
-                                <form action="{% url 'delete_staff' staff.id %}" method="post">
-                                    {% csrf_token %}
-                                    <input type="hidden" name="staff_id" value="{{ staff.id }}">
-                                    <button type="submit" class="{% if staff.is_available %}btn-delete{% else %}btn-inactive{% endif %}">
-                                        {% if staff.is_available %}
-                                            Disable
-                                        {% else %}
-                                            Enable
-                                        {% endif %}
-                                    </button>
-                                </form>
-                                
-                            </td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+                <div class="box-container"> </div>
+    
+              <br><br>
+    
+            <div class="report-container form-container">
+                <center> <h1>Leave Application Status</h1></center>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Number of Days</th>
+                <th>Reason</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for application in leave_applications %}
+            <tr>
+                <td>{{ application.start_date }}</td>
+                <td>{{ application.end_date }}</td>
+                <td>{{ application.number_of_days }}</td>
+                <td>{{ application.reason }}</td>
+                <td class="{% if application.status == 'Pending' %}status-pending{% elif application.status == 'Approved' %}status-approved{% endif %}">
+                    {{ application.status }}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+                
             </div>
+        <script src="{% static '/assets/js/jquery-3.5.1.min.js'%}"></script>
+
+        <script src="{% static '/assets/js/bootstrap.bundle.min.js'%}"></script>
     
-            <center><a class="add-service-button" href="{% url 'add_staff' %}">Add More Staffs</a></center>
-        </div>
-    <!--<div class="container">
-        <div class="staff-card">
-            <h2 class="staff-name">John Doe</h2>
-            <p class="staff-details">
-                <strong>Address:</strong> 123 Main Street, City, State, Zip Code<br>
-                <strong>Phone Number:</strong> (123) 456-7890<br>
-                <strong>Email:</strong> john.doe@example.com<br><br>
-                <button class="edit-staff-button" onclick="editStaff(this)">Edit</button>
-    <button class="delete-staff-button" onclick="deleteStaff(this)">Delete</button>
-            </p>
-        </div>
-
-        <div class="staff-card">
-            <h2 class="staff-name">Jane Smith</h2>
-            <p class="staff-details">
-                <strong>Address:</strong> 456 Elm Avenue, City, State, Zip Code<br>
-                <strong>Phone Number:</strong> (987) 654-3210<br>
-                <strong>Email:</strong> jane.smith@example.com<br><br>
-                <button class="edit-staff-button" onclick="editStaff(this)">Edit</button>
-    <button class="delete-staff-button" onclick="deleteStaff(this)">Delete</button>
-            </p>
-        </div>
-
-        <div class="staff-card">
-            <h2 class="staff-name">Michael Johnson</h2>
-            <p class="staff-details">
-                <strong>Address:</strong> 789 Oak Lane, City, State, Zip Code<br>
-                <strong>Phone Number:</strong> (555) 123-4567<br>
-                <strong>Email:</strong> michael.johnson@example.com<br><br>
-                <button class="edit-staff-button" onclick="editStaff(this)">Edit</button>
-    <button class="delete-staff-button" onclick="deleteStaff(this)">Delete</button>
-            </p>
-        </div>
-
-        <div class="staff-card">
-            <h2 class "staff-name">Sarah Davis</h2>
-            <p class="staff-details">
-                <strong>Address:</strong> 321 Pine Street, City, State, Zip Code<br>
-                <strong>Phone Number:</strong> (777) 888-9999<br>
-                <strong>Email:</strong> sarah.davis@example.com<br><br>
-                <button class="edit-staff-button" onclick="editStaff(this)">Edit</button>
-    <button class="delete-staff-button" onclick="deleteStaff(this)">Delete</button>
-            </p>
-        </div>
-
-        <div class="staff-card">
-            <h2 class="staff-name">Robert Wilson</h2>
-            <p class="staff-details">
-                <strong>Address:</strong> 567 Maple Avenue, City, State, Zip Code<br>
-                <strong>Phone Number:</strong> (111) 222-3333<br>
-                <strong>Email:</strong> robert.wilson@example.com<br><br>
-                <button class="edit-staff-button" onclick="editStaff(this)">Edit</button>
-    <button class="delete-staff-button" onclick="deleteStaff(this)">Delete</button>
-            </p>
-        </div>
-        
-        <a class="add-service-button" href="{% url 'add_staff' %}">Add More Staffs</a>
-
-
-
-    </div>
-    <script>
-        // JavaScript function to edit a staff member
-        function editStaff(button) {
-            const staffCard = button.parentElement;
-            const staffName = staffCard.querySelector(".staff-name");
-            const staffDetails = staffCard.querySelector(".staff-details");
+        <script src="{% static '/assets/vendor/owl-carousel/js/owl.carousel.min.js'%}"></script>
     
-            const newName = prompt("Enter the updated staff name:", staffName.textContent);
-            if (newName !== null) {
-                staffName.textContent = newName;
-            }
+        <script src="{% static '/assets/vendor/wow/wow.min.js'%}"></script>
     
-            // You can implement similar logic to edit other staff details (address, phone, email).
-        }
-    
-        // JavaScript function to delete a staff member
-        function deleteStaff(button) {
-            const staffCard = button.parentElement;
-            const container = staffCard.parentElement;
-            
-            const confirmDelete = confirm("Are you sure you want to delete this staff member?");
-            
-            if (confirmDelete) {
-                container.removeChild(staffCard);
-            }
-        }
-    </script>-->
-    <script src="{% static '/assets/js/jquery-3.5.1.min.js'%}"></script>
-
-    <script src="{% static '/assets/js/bootstrap.bundle.min.js'%}"></script>
-
-    <script src="{% static '/assets/vendor/owl-carousel/js/owl.carousel.min.js'%}"></script>
-
-    <script src="{% static '/assets/vendor/wow/wow.min.js'%}"></script>
-
-    <script src="{% static '/assets/js/theme.js'%}"></script>
-    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script> 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.bundle.min.js"></script>
-
-    
-    
-  <!-- Add this script block at the end of your HTML template -->
-
-<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-
-<script>
-    // JavaScript function to delete a staff member
-    function deleteStaff(staffId) {
-        const confirmDelete = confirm("Are you sure you want to delete this staff member?");
-        
-        if (confirmDelete) {
-            // Get the CSRF token from the cookie
-            const csrftoken = document.cookie.match(/csrftoken=(\w+)/)[1];
-
-            // Make an AJAX request to delete the staff member
-            $.ajax({
-                url: `/delete_staff/${staffId}/`,  // Update the URL based on your Django URL pattern
-                type: 'DELETE',
-                headers: {
-                    'X-CSRFToken': csrftoken
-                },
-                success: function (response) {
-                    // Handle the success response
-                    console.log(response);
-                    
-                    // Remove the staff row from the table on success
-                    $(`[data-staff-id="${staffId}"]`).closest('tr').remove();
-                },
-                error: function (error) {
-                    // Handle the error response
-                    console.error(error);
-                }
-            });
-        }
-    }
-</script>
-
-
-    
+        <script src="{% static '/assets/js/theme.js'%}"></script>
+        <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script> 
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

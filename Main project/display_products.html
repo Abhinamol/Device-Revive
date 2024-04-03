@@ -301,6 +301,22 @@
     background-color: #303F9F; /* Darker indigo on hover */
 }
 
+.product-view-button {
+    background-color: #4CAF50; /* Green background color */
+    color: #ffffff; /* White text color */
+    border: none; /* No border */
+    padding: 10px 20px; /* Padding */
+    text-align: center; /* Center text */
+    text-decoration: none; /* No underline */
+    display: inline-block; /* Display as inline-block */
+    font-size: 16px; /* Font size */
+    cursor: pointer; /* Cursor style */
+    border-radius: 5px; /* Rounded corners */
+}
+
+.product-view-button:hover {
+    background-color: green; /* Darker green on hover */
+}
 
             
             
@@ -455,8 +471,12 @@
                                 <a href="{% url 'productview' product_id=product.id %}">
                                     <img src="{{ product.image.url }}" alt="{{ product.name }}" class="product-image">
                                 </a>
-                                <h2>{{ product.name }}</h2>
+                                <h2>{{ product.category }}</h2>
                                 <p>Price: {{ product.price }}</p>
+                                <form id="product-view-form" action="{% url 'productview' product.id %}" method="post">
+                                    {% csrf_token %}
+                                    <button type="submit" class="product-view-button">View Full Details</button>
+                                </form>
                                 
                                 <!-- Inside the product-details div -->
                                 <form id="add-to-cart-form" action="{% url 'add_to_cart' product.id %}" method="post">

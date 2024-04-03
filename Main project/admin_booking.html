@@ -653,47 +653,7 @@ background-color: #d63737;
                     </div>
                 </div>
     
-                <div class="box-container">
-    
-                    <div class="box box1">
-                        <div class="text">
-                            <h2 class="topic-heading">10</h2>
-                            <h2 class="topic">Registered Users</h2>
-                        </div>
-    
-                        <img src="">
-                    </div>
-    
-                    <div class="box box2">
-                        <div class="text">
-                            <h2 class="topic-heading">5</h2>
-                            <h2 class="topic">Reviews</h2>
-                        </div>
-    
-                        <img src=
-    >
-                    </div>
-    
-                    <div class="box box3">
-                        <div class="text">
-                            <h2 class="topic-heading">4.9</h2>
-                            <h2 class="topic">Ratings</h2>
-                        </div>
-    
-                        <img src=
-    >
-                    </div>
-    
-                    <div class="box box4">
-                        <div class="text">
-                            <h2 class="topic-heading">14</h2>
-                            <h2 class="topic">Certified Technicians</h2>
-                        </div>
-    
-                        <img src=
-    >
-                    </div>
-                </div>
+               
     
               
                 <div class="report-container form-container">
@@ -716,7 +676,7 @@ background-color: #d63737;
                     <th>Preferred Time</th>
                     <th>Selected Services</th>
                     <th>Total Service Cost</th>
-                    <th>Action</th> <!-- New column for Action buttons -->
+                    
                 </tr>
             </thead>
             <tbody>
@@ -735,17 +695,7 @@ background-color: #d63737;
                             {% endfor %}
                         </td>
                         <td>{{ booking.total_service_cost }}</td>
-                        <td>
-                            {% if booking.is_verified %}
-                                <span class="verified-text">Verified</span>
-                            {% else %}
-                                <form method="post" action="{% url 'confirm_booking' %}">
-                                    {% csrf_token %}
-                                    <input type="hidden" name="booking_id" value="{{ booking.id }}">
-                                    <button type="submit" class="btn btn-success verify-button">Verify</button>
-                                </form>
-                            {% endif %}
-                        </td>
+                       
                         
                     </tr>
                 {% endfor %}

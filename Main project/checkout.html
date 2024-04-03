@@ -261,43 +261,55 @@
     color: black; /* Change color as needed */
 }
 
-.product-details {
-    border: 1px solid #ccc;
-    padding: 20px;
-    background-color: #fff;
-    color: #333;
-    margin: auto;
+.out-of-stock-text {
+    color: red;
+    font-weight: bold;
+}
+.product-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 5px;
+    justify-content: space-around; /* Align items horizontally */
+}
+
+.centered {
     display: flex;
-    flex-direction: column;
-    align-items: center; /* Center items horizontally */
-    justify-content: center; /* Center items vertically */
-    max-width: 500px; /* Adjust max-width as needed */
-    margin-top: 10px; /* Add top margin for spacing */
+    justify-content: center; /* Center items horizontally */
+    align-items: center; /* Center items vertically */
+    min-height: 50vh; /* Set minimum height to viewport height */
 }
 
-.product-details img {
-    max-width: 100%; /* Ensure the image fits within the container */
-    margin-bottom: 10px; /* Add some space below the image */
+.no-products-message {
+    text-align: center;
 }
 
-.product-details h2 {
-    text-align: center; /* Center the heading */
+#paymentButton {
+    background-color: #4CAF50; /* Green background */
+    color: white; /* White text color */
+    padding: 10px 20px; /* Padding */
+    text-align: center; /* Center text */
+    text-decoration: none; /* Remove underline */
+    display: inline-block; /* Display as block element */
+    border-radius: 5px; /* Rounded corners */
+    border: none; /* Remove border */
+    cursor: pointer; /* Add cursor pointer */
 }
 
-.product-details p {
-    text-align: center; /* Center paragraphs */
-}
+#paymentButton:hover {
+    background-color: #45a049; /* Darker green background on hover */
+}   
+/* CSS for alignment */
+        .address-selection,
+        .new-address-fields {
+            margin-bottom: 10px;
+        }
 
-.product-details button {
-    margin-top: 10px; /* Add space above the button */
-}
-
-
-
-
-
-
-  
+        .new-address-fields label,
+        .new-address-fields input {
+            display: block;
+            margin-bottom: 5px;
+        }        
+            
                       
                 
         </style>
@@ -322,37 +334,7 @@
                                     </li>
                             </ul>
                         </div>
-                        <div class="col-lg-5 d-none d-lg-block right-item">
-                            <ul>
-                                <li>
-                                    <a>
-                                        <i class="fab fa-github" style="color: white;"></i>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="">
-                                        <i class="fab fa-linkedin-in" style="color: white;"></i>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="">
-                                        <i class="fab fa-pinterest-p" style="color: white;"></i>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="">
-                                        <i class="fab fa-twitter" style="color: white;"></i>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="">
-                                        <i class="fab fa-facebook-f" style="color: white;"></i>
-                                    </a>
-                                </li>
-                               
-                                
-                            </ul>
-                        </div>
+                       
                     </div>
 
                 </div>
@@ -388,7 +370,7 @@
                                 
                     
                                 <li>
-                                    <a class="js-scroll-trigger" href="{% url 'display_products' %}">PRODUCTS</a>
+                                    <a class="js-scroll-trigger" href="{% url 'ecommerce' %}">PRODUCTS</a>
                                 </li>
                                 <li>
                                     <a class="js-scroll-trigger" href="{% if user.is_authenticated %}{% url 'booking' %}{% else %}#login-required{% endif %}">
@@ -430,60 +412,73 @@
         
 
         <!--########################## Slider CSS ####################-->
-  
-        <div class="main-container">
-            <div id="home" class="banner-container no-padding">
-                   <!-- Modal for displaying messages -->
-<div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="messageModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="messageModalLabel">Message</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <p id="messageText"></p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
+       
+        <div id="home" class="banner-container no-padding">
+            <div class="container">
+                <br><br><br><br><br><br><br><br>
                 <div class="container">
-                    <br><br><br><br><br><br><br><br><br>
-                    <div class="row mx-auto">
-                        <div class="col-md-12">
-                            <!-- Image container -->
-                            <div class="product-details">
-                                <img src="{{ product.image.url }}" alt="{{ product.name }}" class="product-image">
-                                <h2>{{ product.category }}</h2>
-                                <p>Brand: {{ product.brand }}</p>
-                                <p>Model: {{ product.model }}</p>
-                                <p>Description: {{ product.description }}</p>
-                                <p>Condition: {{ product.condition }}</p>
-                                <p>Year: {{ product.year }}</p>
-                                <p>Price: Rs.{{ product.price }}</p>
-                                <form id="add-to-cart-form" action="{% url 'add_to_cart' product.id %}" method="post">
+                   
+                    {% if error %}
+                        <p class="error">{{ error }}</p>
+                    {% else %}
+                        <div class="product-details">
+        
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="product-info">
+                                            <h2>Product Details</h2>
+                                            <div class="product-image">
+                                                <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                                            </div>
+                                            <h4>{{ product.category }}</h4>
+                                            <p><strong>Brand:</strong> {{ product.brand }}</p>
+                                            <p><strong>Model:</strong> {{ product.model }}</p>
+                                           
+                                           
+                                            <p><strong>Total Price:</strong> Rs.<span id="totalPrice">{{ product.price|add:150 }}</span></p>
+                                              <input type="hidden" id="totalPriceInput" value="{{ product.price|add:150 }}">
+                                            </div>
+                                    </div>
+                                    
+                                </div>
+                                <script>
+                                    function confirmBooking() {
+                                        // Add your confirmation logic here
+                                        // For example, you can send a request to your server to save the booking and handle the payment method
+                                        alert("Booking confirmed!"); // Replace this with your actual confirmation process
+                                    }
+                                </script> 
+                                <center>
+                                <form action="{% url 'payment_success' %}" method="POST">
                                     {% csrf_token %}
-                                    <button type="submit" class="add-to-cart-button">Add to Cart</button>
+                                    <input type="hidden" name="userid" value="{{ user_details.id }}">
+                                    <input type="hidden" name="cartid" value="{{ cart_id }}">
+                                    <script src="https://checkout.razorpay.com/v1/checkout.js"
+                                    data-key="rzp_test_bWe8tmmP1WXOe7"
+                                    data-amount="{{payment_amount}}"
+                                    data-currency="INR"
+                                    data-order_id="{{ payment.id }}"
+                                    data-buttontext="Pay with Razorpay"
+                                    data-name="Multiservice provider"
+                                    data-description="An efficient and reliable service provider"
+                                    data-image="https://img.freepik.com/free-vector/payment-background-design_1223-72.jpg"
+                                    data-prefill.name="Abhinamol V"
+                                    data-prefill.email="abhinamolv2024a@mca.ajce.in"
+                                    data-theme.color="#F37254"
+                                    id="razorpay-button">
+                                    </script>
+                                    
                                 </form>
+                            </center>
+                                
+                            
                             </div>
-                        </div>
-                    </div>
+                    {% endif %}
                 </div>
             </div>
         </div>
-        
-    <div class="login-required-message">
-        <div class="login-required-box">
-            <p>Login Required</p>
-            <button class="ok-button">OK</button>
-        </div>
-    </div>
-
+<br>
 <!--########################## Footer CSS ####################-->
 <footer>
     <div class="container">
@@ -560,41 +555,12 @@
         </div>
     </div>
 </footer>
-</body>
+
 <script src="{% static '/js/jquery-3.2.1.min.js' %}"></script>
 <script src="{% static '/js/popper.min.js' %}"></script>
 <script src="{% static '/js/bootstrap.min.js' %}"></script>
 <script src="{% static '/plugins/scroll-fixed/jquery-scrolltofixed-min.js' %}"></script>
 <script src="{% static '/js/script.js' %}"></script>
-<script src="{% static '/js/jquery-3.2.1.min.js' %}"></script>
-<script src="{% static '/js/jquery-3.2.1.min.js' %}"></script>
-<script>
-    $(document).ready(function () {
-        // AJAX for adding product to cart
-        $("#add-to-cart-form").submit(function (e) {
-            e.preventDefault(); // Prevent default form submission
-            var form = $(this);
-            $.ajax({
-                type: form.attr('method'),
-                url: form.attr('action'),
-                data: form.serialize(),
-                success: function (response) {
-                    if (response.success) {
-                        // Show success message or perform any other action
-                        alert(response.message);
-                    } else {
-                        // Show error message or handle error
-                        alert(response.message);
-                    }
-                },
-                error: function (xhr, textStatus, errorThrown) {
-                    // Handle error
-                    alert("An error occurred while adding the product to the cart.");
-                }
-            });
-        });
-    });
-</script>
 
 </body>
 

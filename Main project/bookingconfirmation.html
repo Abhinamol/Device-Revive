@@ -340,11 +340,11 @@ button {
                                     </a>
                                     <div class="dropdown-menu" aria-labelledby="adminDropdown">
                                         {% if user.is_authenticated %}
-                                            <a class="dropdown-item" href="myprofile">Profile</a>
-                                            <a class="dropdown-item" href="logout">Logout</a>
+                                            <a class="dropdown-item" href="{% url 'myprofile' %}">Profile</a>
+                                            <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
                                         {% else %}
-                                            <a class="dropdown-item" href="login">Login</a>
-                                            <a class="dropdown-item" href="signup">Sign Up</a>
+                                            <a class="dropdown-item" href="{% url 'login' %}">Login</a>
+                                            <a class="dropdown-item" href="{% url 'signup' %}">Sign Up</a>
                                         {% endif %}
                                     </div>
                                 </div>

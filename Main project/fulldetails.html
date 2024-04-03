@@ -566,7 +566,7 @@ background-color: #d63737;
                         </div>
                     <br><br>
 
-                    <a href="{% url 'booking_details' %}">
+                    <a href="">
                     <div class="nav-option option3">
                         <img src=
 "https://media.geeksforgeeks.org/wp-content/uploads/20221210183320/5.png"
@@ -607,9 +607,7 @@ background-color: #d63737;
                             <div class="product-details">
                                <h3>{{ product.category }} </h3>
                                 <p>{{ product.brand }} - {{ product.model }}</p>
-                                <p><strong>Description:</strong> {{ product.description }}</p>
-                                <p><strong>Condition:</strong> {{ product.condition }}</p>
-                                <p><strong>Year:</strong> {{ product.year }}</p>
+                    
                                 <p><strong>Price:</strong> Rs.{{ product.price }}</p>
                                 <img src="{{ product.image.url }}" alt="Product Image">
                             </div>
