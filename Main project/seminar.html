@@ -1,0 +1,456 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, shrink-to-fit=no, user-scalable=no">
+        <title>index
+            </title>
+
+        <link rel="shortcut icon" href="{% static "images/fav.jpg" %}" rel="stylesheet"/>
+        <link rel="stylesheet" href="{% static "css/bootstrap.min.css" %}" rel="stylesheet"/>
+        <link rel="stylesheet" href="{% static "css/fontawsom-all.min.css" %}" rel="stylesheet"/>
+        <link rel="stylesheet" href="{% static "css/animate.css" %}" rel="stylesheet"/>
+        <link rel="stylesheet" type="text/css" href="{% static "/css/style.css"%}" rel="stylesheet"/>
+
+        <style>
+            .custom-button {
+                background-color: #FF5733;
+                color: #FFFFFF;
+                font-size: 25px;
+                /* Add any other styles you want here */
+            }
+
+            /* Add this CSS to your existing styles */
+            .nav-div ul {
+              list-style: none;
+               padding: 0;
+              margin: 0;
+             display: flex; /* Make the list items display in a row */
+            align-items: center; /* Vertically center items */
+           }
+
+         .nav-div ul li {
+            margin-right: 10px; /* Add spacing between list items */
+          }
+
+          .nav-div ul li:last-child {
+          margin-right: 0; /* Remove margin from the last list item */
+          }
+
+         /* Style for the login/signup button */
+        .nav-div ul li:last-child a {
+       background-color: #2a5945;
+       color: #FFFFFF;
+       font-size: 15px;
+       padding: 10px 20px; /* Adjust padding as needed */
+       border-radius: 5px; /* Add rounded corners */
+       text-decoration: none;
+      }
+
+      .nav-div ul li:last-child a:hover {
+    background-color: #FF4500; /* Change color on hover */
+     }
+     /* login required */
+
+     .login-required-message {
+        display: none;
+        justify-content: center;
+        align-items: center;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
+        z-index: 9999; /* Ensure it's above other elements */
+    }
+
+    .login-required-box {
+        background-color: #fff; /* White background for the box */
+        padding: 20px;
+        border-radius: 5px;
+        text-align: center;
+    }
+
+    .login-required-message p {
+        margin: 0;
+    }
+
+    .ok-button {
+        background-color: #2a5945;
+        color: #fff;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    /* Style for user icon */
+    .user-icon {
+        width: 45px;
+        height: 45px;
+        margin-right: 10px;
+        border-radius: 50%;
+    }
+
+    /* Style for the user profile dropdown menu */
+    .dropdown-menu {
+        background-color: #333;
+        color: #fff;
+    }
+
+    .dropdown-item {
+        color: #fff;
+    }
+    .dropdown .btn-secondary {
+    background-color: #25554e; 
+    color: #fff; 
+}
+.container.text-center form {
+    width: 50%;
+    max-width: 100px; /* Adjust the maximum width as needed */
+    margin: 0 auto; /* Center the form horizontally */
+}
+
+.container.text-center form .form-group {
+    margin-bottom: 15px;
+}
+
+.container.text-center form label {
+    display: block;
+    font-weight: bold;
+}
+
+.container.text-center form input[type="text"] {
+    width: 50%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.container.text-center form button {
+    width: 50%;
+    padding: 10px;
+    background-color: #2a5945;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.container.text-center form button:hover {
+    background-color: #FF4500;
+}
+
+    .error-popup {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: #fff;
+        border: 1px solid #ccc;
+        padding: 20px;
+        z-index: 9999;
+        display: none;
+    }
+
+    .error-content {
+        text-align: center;
+    }
+
+    #close-error-btn {
+        margin-top: 10px;
+        padding: 5px 10px;
+        background-color: #2a5945;
+        color: #fff;
+        border: none;
+        cursor: pointer;
+    }
+
+
+
+
+</style>
+    
+    </head>
+    
+    <body > 
+
+        <!--########################## Header CSS ####################-->
+        <div class="header-container">
+            <div class="header-top">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-7 col-md-12 left-item">
+                            <ul>
+                                <li>
+                                    <i class="fas fa-envelope-square"></i>
+                                    devicerevive@gmail.com
+                                    </li>
+                                <li class="d-none d-sm-block">
+                                    <i class="fas fa-phone-square"></i>
+                                    7736279659
+                                    </li>
+                            </ul>
+                        </div>
+                        
+                    </div>
+
+                </div>
+            </div>
+           
+            <div class="login-required-message">
+                <div class="login-required-box">
+                    <p>Login Required</p>
+                    <button class="ok-button">OK</button>
+                </div>
+            </div>
+
+            <nav id="menu-jk" class="container-fluid  no-padding">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-1 col-sm-1 logo">
+                            <img class="log" src="{% static '/images/mylogo.png' %}"  alt="">
+                            <img class="log-gray" src="" alt="">
+                            <a data-toggle="collapse" data-target="#nav-head" href="#nav-head">
+                                <i class="fas d-block d-md-none small-menu fa-bars"></i>
+                            </a>
+                        </div>
+                        <div id="nav-head" class="col-md-9 nav-div d-none d-md-block">
+                            <ul>
+                                <li>
+                                    <a class="js-scroll-trigger" href="{% url 'index' %}">HOME</a>
+                                </li>
+                                <li>
+                                    <a class="js-scroll-trigger" href="{% url 'services' %}">SERVICES</a>
+                                </li>
+                                <li>
+                                    <a class="js-scroll-trigger" href="{% if user.is_authenticated %}{% url 'booking' %}{% else %}#login-required{% endif %}">
+                                        BOOKING
+                                    </a>
+
+                                </li>
+                                
+                                <li>
+                                    <a class="js-scroll-trigger" href="{% url 'ecommerce' %}">PRODUCTS</a>
+                                </li>
+                                <li>
+                                    <a class="js-scroll-trigger" href="{% url 'about' %}">ABOUT</a>
+                                </li>
+                                
+
+                                <li>
+                                    <a class="js-scroll-trigger" href="{% url 'contact' %}">CONTACT</a>
+                                </li>
+                                <div class="dropdown">
+                                    <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="adminDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        {% if user.is_authenticated %}
+                                            <img src="{% static '/images/admin.jpg' %}" alt="Admin Icon" class="user-icon">
+                                            {{ user.username }}
+                                        {% else %}
+                                            Login/Sign Up
+                                        {% endif %}
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="adminDropdown">
+                                        {% if user.is_authenticated %}
+                                            <a class="dropdown-item" href="{% url 'myprofile' %}">Profile</a>
+                                            <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
+                                        {% else %}
+                                            <a class="dropdown-item" href="{% url 'login' %}">Login</a>
+                                            <a class="dropdown-item" href="{% url 'signup' %}">Sign Up</a>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                
+                                
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+       
+      
+       <!--########################## Slider CSS ####################-->
+<div id="home" class="banner-container no-padding">
+    <div class="container">
+        <div class="row mx-auto"></div>
+        <div class="slider-det">
+            <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+                <div class="Prediction-container">
+                    <div id="error-message" class="alert alert-danger" style="display: none;"></div>
+                    
+                        <h2>Unveil Your Laptop's Secrets</h2>
+                        <form id="prediction-form" method="post" action="{% url 'predict_price' %}">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label for="manufacturer">Manufacturer:</label>
+                                <input type="text" class="form-control" id="manufacturer" name="manufacturer" placeholder="Manufacturer">
+                            </div>
+                            <div class="form-group">
+                                <label for="model_name">Model Name:</label>
+                                <input type="text" class="form-control" id="model_name" name="model_name" placeholder="Model Name">
+                            </div>
+                            <button type="submit" class="btn btn-primary">Reveal Details</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+                    
+
+    
+
+       
+ <!--########################## Footer CSS ####################-->
+        <footer>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-3 about">
+                        <h2>About Us</h2>
+                        <p>At Device Revive, we are passionate about technology and dedicated to providing top-notch laptop and desktop services. With 20 years of experience in the industry, we have earned a reputation for excellence and reliability.
+                        </p>
+
+                        <div class="foot-address">
+                            <div class="icon">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div class="addet">
+                                Kottayam
+                            </div>
+                        </div>
+                        <div class="foot-address">
+                            <div class="icon">
+                                <i class="far fa-envelope-open"></i>
+                            </div>
+                            <div class="addet">
+                                devicerevive.com
+                                <br>
+                                devicerevive@gmail.com
+                            </div>
+                        </div>
+                        <div class="foot-address">
+                            <div class="icon">
+                                <i class="fas fa-mobile-alt"></i>
+                            </div>
+                            <div class="addet">
+                                7736279659
+                                <br>
+                                8078046110
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-3 glink">
+                        <ul>
+                            <li>
+                                <a href="index">
+                                    <i class="fas fa-angle-double-right"></i>Home</a>
+                            </li>
+                            <li>
+                                <a href="about">
+                                    <i class="fas fa-angle-double-right"></i>About Us</a>
+                            </li>
+                            <li>
+                                <a href="services">
+                                    <i class="fas fa-angle-double-right"></i>Services</a>
+                            </li>
+                            
+                            
+                            <li>
+                                <a href="contact">
+                                    <i class="fas fa-angle-double-right"></i>Contact Us</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-md-3 tags">
+                        <h2>Our Services</h2>
+                        <ul>
+                            <li>Desktop Service</li>
+                            <li>Laptop Service</li>
+                            <li>Data Recovery</li>
+                            <li>Software Installation</li>
+                            <li>Motherboard Service</li>
+                            <li>Computer Networking</li>
+                            
+                        </ul>
+                    </div> 
+                </div>
+            </div>
+        </footer>
+    </div>
+   
+    <div id="error-popup" class="error-popup" style="display: none;">
+        <div class="error-content">
+            <span id="error-message"></span>
+            <button id="close-error-btn">Close</button>
+        </div>
+    </div>
+
+    <!-- Your JavaScript libraries -->
+    <script src="{% static '/plugins/scroll-fixed/jquery-scrolltofixed-min.js' %}"></script>
+    <script src="{% static '/js/jquery-3.6.4.min.js' %}"></script>
+    <script src="{% static '/js/popper.min.js' %}"></script>
+    <script src="{% static '/js/bootstrap.min.js' %}"></script>
+
+    <script>
+        $(document).ready(function() {
+            $("#prediction-form").submit(function(event) {
+                event.preventDefault(); // Prevent form submission
+    
+                var manufacturer = $("#manufacturer").val().trim();
+                var model_name = $("#model_name").val().trim();
+    
+                if (manufacturer === "" || model_name === "") {
+                    alert("Please provide both manufacturer and model name.");
+                } else {
+                    $.post("{% url 'predict_price' %}", {
+                        manufacturer: manufacturer,
+                        model_name: model_name
+                    }).done(function(response) {
+                        // Handle successful response
+                        window.location.href = "/prediction_result/";
+                    }).fail(function(xhr) {
+                        var errorMessage = xhr.responseJSON.error;
+                        showErrorAlert(errorMessage); // Show the error as an alert
+                    });
+                }
+            });
+    
+            function showErrorAlert(message) {
+                alert(message); // Show the error message as an alert
+                window.location.href = "/seminar/"; // Redirect to the seminar page
+            }
+        });
+    </script>
+    <script>
+        // JavaScript to handle error popup
+        document.addEventListener('DOMContentLoaded', function () {
+            // Get the error message from the hidden input field
+            var errorMessage = document.getElementById('error-message').innerText;
+            
+            if (errorMessage) {
+                // Display the error popup
+                var errorPopup = document.getElementById('error-popup');
+                errorPopup.style.display = 'block';
+
+                // Set the error message text
+                var errorMessageSpan = document.getElementById('error-message');
+                errorMessageSpan.innerText = errorMessage;
+            }
+
+            // Close the error popup when the close button is clicked
+            var closeErrorBtn = document.getElementById('close-error-btn');
+            closeErrorBtn.addEventListener('click', function () {
+                errorPopup.style.display = 'none';
+            });
+        });
+    </script>
+    
+</body>
+</html>

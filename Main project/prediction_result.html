@@ -1,0 +1,392 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, shrink-to-fit=no, user-scalable=no">
+        <title>Prediction
+            </title>
+
+        <link rel="shortcut icon" href="{% static "images/fav.jpg" %}" rel="stylesheet"/>
+        <link rel="stylesheet" href="{% static "css/bootstrap.min.css" %}" rel="stylesheet"/>
+        <link rel="stylesheet" href="{% static "css/fontawsom-all.min.css" %}" rel="stylesheet"/>
+        <link rel="stylesheet" href="{% static "css/animate.css" %}" rel="stylesheet"/>
+        <link rel="stylesheet" type="text/css" href="{% static "/css/style.css"%}" rel="stylesheet"/>
+
+        <style>
+            .custom-button {
+                background-color: #FF5733;
+                color: #FFFFFF;
+                font-size: 25px;
+                /* Add any other styles you want here */
+            }
+
+            /* Add this CSS to your existing styles */
+            .nav-div ul {
+              list-style: none;
+               padding: 0;
+              margin: 0;
+             display: flex; /* Make the list items display in a row */
+            align-items: center; /* Vertically center items */
+           }
+
+         .nav-div ul li {
+            margin-right: 10px; /* Add spacing between list items */
+          }
+
+          .nav-div ul li:last-child {
+          margin-right: 0; /* Remove margin from the last list item */
+          }
+
+         /* Style for the login/signup button */
+        .nav-div ul li:last-child a {
+       background-color: #2a5945;
+       color: #FFFFFF;
+       font-size: 15px;
+       padding: 10px 20px; /* Adjust padding as needed */
+       border-radius: 5px; /* Add rounded corners */
+       text-decoration: none;
+      }
+
+      .nav-div ul li:last-child a:hover {
+    background-color: #FF4500; /* Change color on hover */
+     }
+     /* login required */
+
+     .login-required-message {
+        display: none;
+        justify-content: center;
+        align-items: center;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
+        z-index: 9999; /* Ensure it's above other elements */
+    }
+
+    .login-required-box {
+        background-color: #fff; /* White background for the box */
+        padding: 20px;
+        border-radius: 5px;
+        text-align: center;
+    }
+
+    .login-required-message p {
+        margin: 0;
+    }
+
+    .ok-button {
+        background-color: #2a5945;
+        color: #fff;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    /* Style for user icon */
+    .user-icon {
+        width: 45px;
+        height: 45px;
+        margin-right: 10px;
+        border-radius: 50%;
+    }
+
+    /* Style for the user profile dropdown menu */
+    .dropdown-menu {
+        background-color: #333;
+        color: #fff;
+    }
+
+    .dropdown-item {
+        color: #fff;
+    }
+    .dropdown .btn-secondary {
+    background-color: #25554e; 
+    color: #fff; 
+}
+
+h1, h2 {
+    text-align: center;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+th {
+    background-color: #fff;
+    color: #000; /* Set the text color to white */
+
+}
+.banner-container {
+    background-image: url('{% static '/images/head_bg.jpg' %}');
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    min-height: 100vh;
+   }
+   
+
+
+</style>
+    
+    </head>
+    
+    <body > 
+
+        <!--########################## Header CSS ####################-->
+        <div class="header-container">
+            <div class="header-top">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-7 col-md-12 left-item">
+                            <ul>
+                                <li>
+                                    <i class="fas fa-envelope-square"></i>
+                                    devicerevive@gmail.com
+                                    </li>
+                                <li class="d-none d-sm-block">
+                                    <i class="fas fa-phone-square"></i>
+                                    7736279659
+                                    </li>
+                            </ul>
+                        </div>
+                        
+                    </div>
+
+                </div>
+            </div>
+           
+            <div class="login-required-message">
+                <div class="login-required-box">
+                    <p>Login Required</p>
+                    <button class="ok-button">OK</button>
+                </div>
+            </div>
+
+            <nav id="menu-jk" class="container-fluid  no-padding">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-1 col-sm-1 logo">
+                            <img class="log" src="{% static '/images/mylogo.png' %}"  alt="">
+                            <img class="log-gray" src="" alt="">
+                            <a data-toggle="collapse" data-target="#nav-head" href="#nav-head">
+                                <i class="fas d-block d-md-none small-menu fa-bars"></i>
+                            </a>
+                        </div>
+                        <div id="nav-head" class="col-md-9 nav-div d-none d-md-block">
+                            <ul>
+                                <li>
+                                    <a class="js-scroll-trigger" href="{% url 'index' %}">HOME</a>
+                                </li>
+                                <li>
+                                    <a class="js-scroll-trigger" href="{% url 'services' %}">SERVICES</a>
+                                </li>
+                                <li>
+                                    <a class="js-scroll-trigger" href="{% if user.is_authenticated %}{% url 'booking' %}{% else %}#login-required{% endif %}">
+                                        BOOKING
+                                    </a>
+
+                                </li>
+                                
+                                <li>
+                                    <a class="js-scroll-trigger" href="{% url 'ecommerce' %}">PRODUCTS</a>
+                                </li>
+                                <li>
+                                    <a class="js-scroll-trigger" href="{% url 'about' %}">ABOUT</a>
+                                </li>
+                                
+
+                                <li>
+                                    <a class="js-scroll-trigger" href="{% url 'contact' %}">CONTACT</a>
+                                </li>
+                                <div class="dropdown">
+                                    <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="adminDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        {% if user.is_authenticated %}
+                                            <img src="{% static '/images/admin.jpg' %}" alt="Admin Icon" class="user-icon">
+                                            {{ user.username }}
+                                        {% else %}
+                                            Login/Sign Up
+                                        {% endif %}
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="adminDropdown">
+                                        {% if user.is_authenticated %}
+                                            <a class="dropdown-item" href="{% url 'myprofile' %}">Profile</a>
+                                            <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
+                                        {% else %}
+                                            <a class="dropdown-item" href="{% url 'login' %}">Login</a>
+                                            <a class="dropdown-item" href="{% url 'signup' %}">Sign Up</a>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                
+                                
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+     
+      
+       <!--########################## Slider CSS ####################-->
+<div id="home" class="banner-container no-padding">
+    <div class="container">
+        <div class="row mx-auto"></div>
+        <div class="slider-det">
+            <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+                <div class="container">
+                  
+                    <h2>Laptop Details</h2>
+                    <table style="margin-top: 10px;"> 
+                        <tr>
+                            <th>Attribute</th>
+                            <th>Value</th>
+                        </tr>
+                        <tr>
+                            <td>Manufacturer</td>
+                            <td>{{ details.Manufacturer }}</td>
+                        </tr>
+                       
+                        
+                        <tr>
+                            <td>Category</td>
+                            <td>{{ details.Details.Category }}</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Screen</td>
+                            <td>{{ details.Details.Screen }}</td>
+                        </tr>
+                        <tr>
+                            <td>CPU</td>
+                            <td>{{ details.Details.CPU }}</td>
+                        </tr>
+                        <tr>
+                            <td>RAM</td>
+                            <td>{{ details.Details.RAM }}</td>
+                        </tr>
+                       
+                        <tr>
+                            <td>GPU</td>
+                            <td>{{ details.Details.GPU }}</td>
+                        </tr>
+                      
+                        <tr>
+                            <td>Weight</td>
+                            <td>{{ details.Details.Weight }}</td>
+                        </tr>
+                       
+                        
+                    </table>
+                </div><br>
+                <button onclick="window.location.href='{% url 'seminar' %}'" class="btn btn-primary">Back to Prediction</button>
+
+
+            </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+                    
+
+    
+
+       
+ <!--########################## Footer CSS ####################-->
+        <footer>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-3 about">
+                        <h2>About Us</h2>
+                        <p>At Device Revive, we are passionate about technology and dedicated to providing top-notch laptop and desktop services. With 20 years of experience in the industry, we have earned a reputation for excellence and reliability.
+                        </p>
+
+                        <div class="foot-address">
+                            <div class="icon">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div class="addet">
+                                Kottayam
+                            </div>
+                        </div>
+                        <div class="foot-address">
+                            <div class="icon">
+                                <i class="far fa-envelope-open"></i>
+                            </div>
+                            <div class="addet">
+                                devicerevive.com
+                                <br>
+                                devicerevive@gmail.com
+                            </div>
+                        </div>
+                        <div class="foot-address">
+                            <div class="icon">
+                                <i class="fas fa-mobile-alt"></i>
+                            </div>
+                            <div class="addet">
+                                7736279659
+                                <br>
+                                8078046110
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-3 glink">
+                        <ul>
+                            <li>
+                                <a href="index">
+                                    <i class="fas fa-angle-double-right"></i>Home</a>
+                            </li>
+                            <li>
+                                <a href="about">
+                                    <i class="fas fa-angle-double-right"></i>About Us</a>
+                            </li>
+                            <li>
+                                <a href="services">
+                                    <i class="fas fa-angle-double-right"></i>Services</a>
+                            </li>
+                            
+                            
+                            <li>
+                                <a href="contact">
+                                    <i class="fas fa-angle-double-right"></i>Contact Us</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-md-3 tags">
+                        <h2>Our Services</h2>
+                        <ul>
+                            <li>Desktop Service</li>
+                            <li>Laptop Service</li>
+                            <li>Data Recovery</li>
+                            <li>Software Installation</li>
+                            <li>Motherboard Service</li>
+                            <li>Computer Networking</li>
+                            
+                        </ul>
+                    </div> 
+                </div>
+            </div>
+        </footer>
+    </div>
+    </body>
+    <script src="{% static '/js/jquery-3.2.1.min.js' %}"></script>
+    <script src="{% static '/js/popper.min.js' %}"></script>
+    <script src="{% static '/js/bootstrap.min.js' %}"></script>
+    <script src="{% static '/plugins/scroll-fixed/jquery-scrolltofixed-min.js' %}"></script>
+    <script src="{% static '/js/script.js' %}"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    
+</html>

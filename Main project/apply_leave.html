@@ -10,9 +10,9 @@
 	<meta name="viewport"
 		content="width=device-width, 
 				initial-scale=2.0">
-	<title>Staffs page</title>
-	<link rel="stylesheet" href="{% static 'style.css' %}">
-
+	<title>Deliveryboy Profile</title>
+	<link rel="stylesheet"
+		href="style.css">
 	<link rel="stylesheet"
 		href="responsive.css">
     <link rel="shortcut icon" href="{% static "images/fav.jpg" %}" rel="stylesheet"/>
@@ -481,278 +481,6 @@ background-color: #d63737;
         background-color: #f44336; /* Red color */
         color: #fff; /* Text color */
     }
-    <style>
-        .form-container {
-            max-width: 600px;
-            margin: 0 auto;
-        }
-    
-        .form-group {
-            margin-bottom: 20px;
-        }
-    
-        label {
-            display: block;
-            font-weight: bold;
-        }
-    
-        input[type="text"],
-        input[type="number"],
-        input[type="checkbox"] {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 3px;
-            font-size: 16px;
-        }
-    
-        input[type="checkbox"] {
-            width: auto;
-        }
-    
-        .availability-checkbox label {
-            display: inline;
-        }
-    
-        .form-submit-button {
-            background-color: #007BFF;
-            color: #fff;
-            border: none;
-            border-radius: 3px;
-            padding: 10px 20px;
-            cursor: pointer;
-            font-size: 18px;
-            transition: background-color 0.3s;
-        }
-    
-        .form-submit-button:hover {
-            background-color: #0056b3;
-        }
-
-        .form-container {
-            width: 80%; /* Adjust the width as needed */
-            margin: 0 auto; /* Center the form on the page */
-        }
-        
-        .form-field {
-            margin-bottom: 20px; /* Adds space between form fields */
-        }
-        
-        label {
-            display: block; /* Display labels on separate lines */
-            font-weight: bold;
-        }
-        
-        input[type="text"],
-        textarea {
-            width: 100%; /* Make text input and textarea fields wider */
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-        
-        button {
-            background-color: #007BFF;
-            color: #fff;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #fff;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .service {
-            margin: 20px 0;
-            border: 1px solid #ccc;
-            padding: 10px;
-        }
-
-        .service h2 {
-            color: #0b834b;
-        }
-
-        .service p {
-            margin: 10px 0;
-        }
-
-        .service .price {
-            font-weight: bold;
-            color: #0b834b;
-        }
-
-        .add-service-button {
-            background-color: #25554e; /* Green background color */
-            color: #fff; /* White text color */
-            border: none;
-            padding: 10px 20px;
-            margin-top: 20px;
-            cursor: pointer;
-            font-size: 16px; /* Increase the font size */
-            border-radius: 5px; /* Rounded corners */
-            transition: background-color 0.3s; /* Smooth background color transition */
-        }
-        
-        .add-service-button:hover {
-            background-color: #25554e; /* Darker green on hover */
-        }
-        
-
-        
-        /* Style for user icon */
-        .user-icon {
-            width: 45px;
-            height: 45px;
-            margin-right: 10px;
-            border-radius: 50%;
-        }
-
-        /* Style for the user profile dropdown menu */
-        .dropdown-menu {
-            background-color: #333;
-            color: #fff;
-        }
-
-        .dropdown-item {
-            color: #fff;
-        }
-        .dropdown .btn-secondary {
-        background-color: #25554e; /* Blue background color */
-        color: #fff; /* Text color */
-    }
-   
-    
-/* Style for the report-container */
-.report-container {
-    min-height: 300px;
-    max-width: 1200px;
-    margin: 70px auto 0px auto;
-    background-color: #ffffff;
-    border-radius: 30px;
-    box-shadow: 3px 3px 10px rgb(188, 188, 188);
-    padding: 0px 20px 20px 20px;
-    overflow: hidden; /* Add overflow property to hide horizontal overflow */
-}
-
-/* Style for the table */
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(65, 117, 109, 0.1);
-    table-layout: fixed; /* Fix the table layout */
-}
-
-/* Style the table header */
-th {
-    background-color: #0c3e3e;
-    color: #fff;
-    font-weight: bold;
-    padding: 10px;
-    text-align: left;
-}
-
-/* Style the table rows */
-tr {
-    transition: background-color 0.3s;
-}
-
-tr:nth-child(even) {
-    background-color: #f2f2f2;
-}
-
-/* Style the table cells (columns) */
-th, td {
-    padding: 10px;
-    border-bottom: 1px solid #ddd;
-    text-align: left;
-    word-wrap: break-word; /* Allow word wrapping in cells */
-    max-width: 150px; /* Set a maximum width for each cell */
-    overflow: hidden;
-    text-overflow: ellipsis; /* Add ellipsis (...) for text overflow */
-}
-
-/* Extend the Action header cell */
-th.action-header {
-    width: 100px;
-}
-
-/* Style the action buttons in the table */
-.btn-edit, .btn-delete {
-    padding: 5px 9px;
-    margin-right: 5px;
-    border: none;
-    border-radius: 3px;
-    cursor: pointer;
-    font-size: 12px;
-    color: #fff;
-    transition: background-color 0.3s;
-}
-
-/* ... (your existing styles) ... */
-
-/* Style for the "Verify" button */
-.verify-button {
-    padding: 5px 10px;
-    margin-right: 5px;
-    border: none;
-    border-radius: 3px;
-    cursor: pointer;
-    font-size: 14px;
-    background-color: #f44336; /* Red color */
-    color: #fff; /* Text color */
-    transition: background-color 0.3s;
-}
-
-.verified-text {
-    padding: 5px 10px;
-    margin-right: 5px;
-    border: none;
-    border-radius: 3px;
-    font-size: 10px;
-    font-weight: bold; /* Make the text bold */
-    color: #006400; /* Dark green color */
-}
-.report-container {
-    min-height: 300px;
-    max-width: 1400px; /* Increase max-width for the container */
-    margin: 20px auto 0px auto;
-    background-color: #ffffff;
-    border-radius: 30px;
-    box-shadow: 3px 3px 10px rgb(188, 188, 188);
-    padding: 0px 20px 20px 20px;
-    overflow: hidden;
-}
-
-table {
-    width: 100%; /* Use 100% width for the table */
-    border-collapse: collapse;
-    margin-top: 20px;
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(65, 117, 109, 0.1);
-    table-layout: fixed;
-}
-
-
-.main {
-    height: calc(100vh - 20px); /* Adjust the height calculation */
-    width: 100%;
-    overflow-y: scroll;
-    overflow-x: hidden;
-    padding: 40px 30px 30px 30px;
-}
-
-    </style>
-    
     </style>
     </head>
     
@@ -764,20 +492,21 @@ table {
             <div class="logosec">
                 <div class="logo">DEVICE REVIVE</div>
                 
-                    
             </div>
-           
+    
+            <div class="message">
+                
                 <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" id="userProfileDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+
+                    <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="userProfileDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <img src="{% static '/images/admin.jpg' %}" alt="User Icon" class="user-icon">
                         {{ user.username }}
-                    </button>
+                    </a>
                     <div class="dropdown-menu" aria-labelledby="userProfileDropdown">
-                        <a class="dropdown-item" href="{% url 'staff_update' %}">Profile</a>
+                        
                         <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
                     </div>
                 </div>
-            </div>
     
         </header>
     
@@ -788,54 +517,50 @@ table {
                         <div class="nav-option option1">
                             <img src=
     >
-                            <h3> Staff Profile</h3>
+                            <h3>Staff Page</h3>
                         </div>
-                        <div></div>
-                    
+    
+                        
                         <div>
-                        </a>
 
-                        <a href="{% url 'staff_services' %}">
+                        <a href="{% url 'pickup' %}">
                         <div class="nav-option option5">
-                            <img src=
-    "https://media.geeksforgeeks.org/wp-content/uploads/20221210183323/10.png"
+                            <img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210183323/10.png"
                                 class="nav-img"
                                 alt="blog">
-                            <h3> Services</h3>
+                            <h3> Products for pick-up</h3>
                         </div>
-                     </a>
-                     <br>
-                     <a href="{% url 'staff_product' %}">
-                        <div class="nav-option option5">
-                            <img src=
-    "https://media.geeksforgeeks.org/wp-content/uploads/20221210183323/10.png"
-                                class="nav-img"
-                                alt="blog">
-                            <h3>Products</h3>
-                        </div>
-                     </a>
-<br>
-                     <a href="{% url 'booking_details' %}">
+                    <br><br>
+
+                    <a href="{% url 'delivery_details' %}">
                     <div class="nav-option option3">
                         <img src=
 "https://media.geeksforgeeks.org/wp-content/uploads/20221210183320/5.png"
                             class="nav-img"
                             alt="report">
-                        <h3> Booking Requests</h3>
-                    </div>
-                </a>
-                <a href="{% url 'apply_leave' %}">
-                    <div class="nav-option option5">
-                        <img src=
-"https://media.geeksforgeeks.org/wp-content/uploads/20221210183323/10.png"
-                            class="nav-img"
-                            alt="blog">
-                        <h3> Apply Leave</h3>
-                    </div>
-                 </a>
+                        <h3> Product to be delivered</h3>
+                    </div><br><br>
+                    <a href="{% url 'apply_leave' %}">
+                        <div class="nav-option option5">
+                            <img src=
+    "https://media.geeksforgeeks.org/wp-content/uploads/20221210183323/10.png"
+                                class="nav-img"
+                                alt="blog">
+                            <h3> Apply Leave</h3>
+                        </div>
+                     </a><br><br>
+                     <a href="{% url 'leave_status' %}">
+                        <div class="nav-option option5">
+                            <img src=
+    "https://media.geeksforgeeks.org/wp-content/uploads/20221210183323/10.png"
+                                class="nav-img"
+                                alt="blog">
+                            <h3> Leave Application</h3>
+                        </div>
+                     </a>
+    <br><br>
     
                     </div>
-                </div>
                 </nav>
             </div>
             <div class="main">
@@ -853,41 +578,121 @@ table {
                     </div>
                 </div>
     
-                <div class="box-container"> </div>
+                <div class="box-container">
+                </div>
     
-              <br>
-    
-            <div class="report-container form-container">
-                <form method="POST">
-                    {% csrf_token %}
-                    <label for="start_date">Start Date:</label>
-                    <input type="date" id="start_date" name="start_date" required>
-                    <br>
-                    <label for="end_date">End Date:</label>
-                    <input type="date" id="end_date" name="end_date" required>
-                    <br>
-                    <label for="number_of_days">Number of Days:</label>
-                    <input type="number" id="number_of_days" name="number_of_days" required>
-                    <br>
-                    <label for="reason">Reason:</label>
-                    <textarea id="reason" name="reason" required></textarea>
-                    <br>
+                <div class="report-container">
+                    <div class="report-header">
+                        <h1 class="recent-Articles">Apply Leave</h1>
+                        <a></a>
+                    </div>
+                    {% if messages %}
+                    <div class="messages">
+                        {% for message in messages %}
+                            <div class="alert alert-{{ message.tags }}">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                    <form method="POST">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="max_leaves">Maximum Leaves Allowed:</label>
+                            <input type="text" id="max_leaves" name="max_leaves" class="form-control" value="{{ max_leaves_allowed }}" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="remaining_leaves">Remaining Leaves:</label>
+                            <input type="text" id="remaining_leaves" name="remaining_leaves" class="form-control" value="{{ remaining_leaves }}" readonly>
+                        </div>
+                        {% if remaining_leaves > 0 %}
+                        <div class="form-group">
+                            <label for="start_date">Start Date:</label>
+                            <input type="date" id="start_date" name="start_date" class="form-control" required onkeydown="return false">
+                        </div>
+                        <div class="form-group">
+                            <label for="end_date">End Date:</label>
+                            <input type="date" id="end_date" name="end_date" class="form-control" required onkeydown="return false">
+                        </div>
+                        <div class="form-group" >
+                            <label for="number_of_days">Number of Days:</label>
+                            <input type="number" id="number_of_days" name="number_of_days" class="form-control" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="reason">Reason:</label>
+                            <textarea id="reason" name="reason" class="form-control" required></textarea>
+                        </div>
+                       <center> <button type="submit" class="btn btn-primary">Apply Leave</button></center>
+                        {% endif %}
+                    </form>
                     
-                    <br>
-                    <button type="submit">Apply Leave</button>
-                </form>
-                
+                    
+                    </div>
+                    </div>
+                </div>
             </div>
-        <script src="{% static '/assets/js/jquery-3.5.1.min.js'%}"></script>
-
-        <script src="{% static '/assets/js/bootstrap.bundle.min.js'%}"></script>
+        </div>
     
-        <script src="{% static '/assets/vendor/owl-carousel/js/owl.carousel.min.js'%}"></script>
+        <script src="./index.js"></script>
+        <script src="{% static '/js/jquery-3.2.1.min.js' %}"></script>
+    <script src="{% static '/js/popper.min.js' %}"></script>
+    <script src="{% static '/js/bootstrap.min.js' %}"></script>
+    <script src="{% static '/plugins/scroll-fixed/jquery-scrolltofixed-min.js' %}"></script>
+    <script src="{% static '/js/script.js' %}"></script>
+    <script>
+        // Get today's date and calculate the date 5 days from now
+        var today = new Date();
+        var fiveDaysFromNow = new Date();
+        fiveDaysFromNow.setDate(today.getDate() + 5);
     
-        <script src="{% static '/assets/vendor/wow/wow.min.js'%}"></script>
+        // Convert dates to string in yyyy-mm-dd format
+        var minStartDate = today.toISOString().split('T')[0];
+        var maxEndDate = fiveDaysFromNow.toISOString().split('T')[0];
     
-        <script src="{% static '/assets/js/theme.js'%}"></script>
-        <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script> 
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+        // Set min and max attributes for start and end date inputs
+        document.getElementById('start_date').setAttribute('min', minStartDate);
+        document.getElementById('start_date').setAttribute('max', maxEndDate);
+        document.getElementById('end_date').setAttribute('min', minStartDate);
+        document.getElementById('end_date').setAttribute('max', maxEndDate);
+    
+      
+            function setEndDateRange() {
+                console.log("Start Date Changed");
+        
+                var startDate = new Date(document.getElementById('start_date').value);
+                console.log("Start Date:", startDate);
+        
+                var endDateInput = document.getElementById('end_date');
+                var maxEndDate = new Date(startDate);
+                maxEndDate.setDate(maxEndDate.getDate() + 4);
+                var formattedMaxEndDate = maxEndDate.toISOString().split('T')[0];
+                endDateInput.setAttribute('max', formattedMaxEndDate);
+        
+                if (endDateInput.value) {
+                    var numberOfDays = Math.ceil((maxEndDate - startDate) / (1000 * 60 * 60 * 24)) + 1;
+                    document.getElementById('number_of_days').value = numberOfDays;
+                }
+            }
+          
+                // Function to calculate the number of days between two dates
+                function calculateNumberOfDays() {
+                    // Get the start date and end date input values
+                    var startDate = new Date(document.getElementById('start_date').value);
+                    var endDate = new Date(document.getElementById('end_date').value);
+                
+                    // Calculate the time difference in milliseconds
+                    var timeDiff = Math.abs(endDate.getTime() - startDate.getTime());
+                
+                    // Calculate the number of days
+                    var numberOfDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+                
+                    // Display the number of days in the 'number_of_days' input field
+                    document.getElementById('number_of_days').value = numberOfDays;
+                }
+                
+                // Call the function when the 'end_date' input value changes
+                document.getElementById('end_date').addEventListener('change', calculateNumberOfDays);
+                </script>
+    
+    </body>
+    </html>
