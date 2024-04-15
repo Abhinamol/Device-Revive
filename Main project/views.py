@@ -43,7 +43,10 @@ from django.http import HttpResponseBadRequest
 import random
 from django.db.models import Count
 from .models import LeaveApplication
-from django.core.exceptions import ObjectDoesNotExist
+from datetime import datetime
+from django.db.models import Sum
+
+
 
 
 
@@ -268,7 +271,7 @@ def bookingconfirmation(request, userid, bookingid):
     except Booking.DoesNotExist:
         return HttpResponse("Booking does not exist for this user or it has already been verified")
 
-    # Calculate the payment amount (total_cost * 100)
+    
     payment_amount = booking.total_service_cost * 100
 
     context = {
@@ -278,7 +281,7 @@ def bookingconfirmation(request, userid, bookingid):
         'selected_time': booking.preferred_time,
         'userid': userid,
         'bookingid': bookingid,
-        'payment_amount': payment_amount  # Pass the payment amount to the context
+        'payment_amount': payment_amount  
     }
     return render(request, 'bookingconfirmation.html', context)
 
@@ -476,7 +479,7 @@ def add_staff(request):
         user.save()
 
         send_mail(
-            'Welcome to Device Revive',
+            'Welcome to Your Site',
             f'Dear {full_name},\n\nYou have been added as a staff member. Your username is {username} and password is {password}. '
              f'Please log in with these credentials..'
               f'Remember to update your profile and change the temporary password provided.\n\n' \
@@ -1387,14 +1390,16 @@ def fulldetails(request, product_id):
 
 
 
-
+@never_cache
+@login_required(login_url='login')
 def edit_product(request, product_id):
     product = get_object_or_404(SecondHandProduct, id=product_id)
     categories = Category.objects.all()  # Assuming you have imported the Category model
     return render(request, 'edit_product.html', {'product': product, 'categories': categories})
 
 
-
+@never_cache
+@login_required(login_url='login')
 def update_second_hand_product(request, product_id):
     product = get_object_or_404(SecondHandProduct, id=product_id)
     
@@ -1419,7 +1424,8 @@ def update_second_hand_product(request, product_id):
         
         return redirect('selling_details') 
     
-@login_required
+@never_cache
+@login_required(login_url='login')
 def save_new_address(request):
     if request.method == 'POST':
         home_address = request.POST.get('homeAddress')
@@ -1442,7 +1448,8 @@ def save_new_address(request):
     else:
         return redirect('error_url')
 
-
+@never_cache
+@login_required(login_url='login')
 def delivery_details(request):
     # Exclude orders with delivery status 'Delivered'
     orders = Order.objects.exclude(delivery_status='DEL').select_related('cart', 'user', 'product')
@@ -1450,7 +1457,8 @@ def delivery_details(request):
 
 
 
-
+@never_cache
+@login_required(login_url='login')
 def view_order_details(request, order_id):
     try:
         order = Order.objects.get(pk=order_id)
@@ -1488,6 +1496,7 @@ def buynow(request, product_id):
 
 
 
+@never_cache
 @login_required(login_url='login')
 def my_order(request):
     # Get the currently logged-in user
@@ -1509,6 +1518,8 @@ def my_order(request):
         return HttpResponse("Userdetails not found for this user.")
 
 
+@never_cache
+@login_required(login_url='login')
 def update_delivery_status(request, order_id):
     order = get_object_or_404(Order, pk=order_id)
 
@@ -1540,6 +1551,9 @@ def update_delivery_status(request, order_id):
     else:
         pass
 
+
+@never_cache
+@login_required(login_url='login')
 def otp_verification(request, order_id):
     order = get_object_or_404(Order, pk=order_id)
 
@@ -1570,74 +1584,271 @@ def otp_verification(request, order_id):
         return render(request, 'otp_verification.html', {'order': order})
 
 
-
+@never_cache
+@login_required(login_url='login')
 def delivery_success(request):
     
     return render(request, 'delivery_success.html')
 
-@login_required
+
+@never_cache
+@login_required(login_url='login')
 def apply_leave(request):
+    # Initialize total_leaves_taken
+    total_leaves_taken = 0
+    remaining_leaves = 0
+
     if request.method == 'POST':
         start_date = request.POST.get('start_date')
         end_date = request.POST.get('end_date')
         number_of_days = request.POST.get('number_of_days')
         reason = request.POST.get('reason')
-        
         if start_date and end_date and number_of_days and reason:
-            # Assuming request.user is a Technician instance
-            if request.user.technician.is_available:  # Assuming technician is related name in the Technician model
-                LeaveApplication.objects.create(
-                    staff=request.user.technician,  # Assuming technician is related name in the LeaveApplication model
-                    start_date=start_date,
-                    end_date=end_date,
-                    number_of_days=number_of_days,
-                    reason=reason
-                )
-                messages.success(request, 'Leave application submitted successfully!')
-                return redirect('leave_applications')  # Redirect to home page or wherever you want
+            # Get the current year
+            current_year = datetime.now().year
+            # Calculate total leaves taken by the delivery boy in the current year
+            total_leaves_taken = LeaveApplication.objects.filter(
+                staff=request.user.deliveryboy,
+                start_date__year=current_year
+            ).aggregate(total_leaves=Sum('number_of_days'))['total_leaves'] or 0
+            # Calculate maximum leaves allowed
+            max_leaves_allowed = 20
+            # Calculate remaining leaves
+            remaining_leaves = max_leaves_allowed - total_leaves_taken
+            # Check if the total leaves taken plus the requested leaves exceed the maximum allowed
+            if total_leaves_taken + int(number_of_days) <= max_leaves_allowed:
+                if request.user.deliveryboy:  
+                    LeaveApplication.objects.create(
+                        staff=request.user.deliveryboy,
+                        start_date=start_date,
+                        end_date=end_date,
+                        number_of_days=number_of_days,
+                        reason=reason
+                    )
+                    messages.success(request, 'Leave application submitted successfully!')
+                    return redirect('leave_status')
+                else:
+                    messages.error(request, 'You are not a delivery boy.')
             else:
-                messages.error(request, 'You are not available to apply for leave.')
+                messages.error(request, 'Exceeds maximum leaves allowed for the year.')
         else:
-            messages.error(request, 'Please fill in all the fields.')
-    
-    return render(request, 'apply_leave.html')
+            messages.error(request, 'Please fill in all the fields')
 
-@login_required
+    # Calculate remaining leaves
+    total_leaves_taken = LeaveApplication.objects.filter(
+        staff=request.user.deliveryboy,
+        start_date__year=datetime.now().year
+    ).aggregate(total_leaves=Sum('number_of_days'))['total_leaves'] or 0
+
+    max_leaves_allowed = 20
+    remaining_leaves = max_leaves_allowed - total_leaves_taken
+    remaining_leaves = max(0, remaining_leaves)
+
+    return render(request, 'apply_leave.html', {'max_leaves_allowed': max_leaves_allowed, 'remaining_leaves': remaining_leaves})
+
+@never_cache
+@login_required(login_url='login')
 def leave_status(request):
     try:
-        # Check if the logged-in user has a related Technician object
-        technician = request.user.technician
-        # Retrieve the leave applications for the logged-in staff member
-        staff_leave_applications = LeaveApplication.objects.filter(staff=technician)
+        deliveryboy = request.user.deliveryboy
+        staff_leave_applications = LeaveApplication.objects.filter(staff=deliveryboy)
         return render(request, 'leave_status.html', {'leave_applications': staff_leave_applications})
     except ObjectDoesNotExist:
-        # Handle the case where the user doesn't have a related Technician object
-        error_message = "User has no associated Technician object."
+        error_message = "User has no associated Deliveryboy object."
         return render(request, 'apply_leave.html', {'error_message': error_message})
 
-
+@never_cache
+@login_required(login_url='login')
 def leave_applications(request):
     leave_requests = LeaveApplication.objects.select_related('staff').all()
     return render(request, 'leave_applications.html', {'leave_requests': leave_requests})
 
+@never_cache
+@login_required(login_url='login')
 def approve_leave(request, leave_application_id):
-    # Fetch the leave application object from the database
     leave_application = get_object_or_404(LeaveApplication, pk=leave_application_id)
 
     if request.method == 'POST':
-        # Process form submission for approving leave
         leave_application.status = 'Approved'
         leave_application.save()
 
-        # Send a simple email notification to the staff
+        # Subtract approved leave days from total leaves taken
+        total_leaves_taken = LeaveApplication.objects.filter(
+            staff=leave_application.staff,
+            start_date__year=datetime.now().year,
+            status='Approved'
+        ).aggregate(total_leaves=Sum('number_of_days'))['total_leaves'] or 0
+
+        # Update remaining leaves for the delivery boy
+        max_leaves_allowed = 20
+        remaining_leaves = max_leaves_allowed - total_leaves_taken
+
         subject = 'Leave Application Approved'
         message = 'Your leave application has been approved.'
-        from_email = 'device_revive@email.com'  # Update with your email
+        from_email = 'device_revive@email.com'  
         to_email = leave_application.staff.email
         send_mail(subject, message, from_email, [to_email])
 
-        # Redirect to a success page or any other appropriate page
-        return redirect('leave_applications')  # Change 'success_page' to the name of your success page URL pattern
+        return redirect('leave_applications')
 
-    # If the request method is not POST, render the template with the leave application object
     return render(request, 'leave_applications.html', {'leave_application': leave_application})
+
+
+
+
+    #chatgpt nrs
+    # chatapp/views.py
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from django.shortcuts import render
+from transformers import GPT2LMHeadModel, GPT2Tokenizer
+
+model_name = "gpt2"
+tokenizer = GPT2Tokenizer.from_pretrained(model_name)
+model = GPT2LMHeadModel.from_pretrained(model_name)
+
+
+
+@never_cache
+@login_required(login_url='login')
+@csrf_exempt
+def chatgpt(request):
+    return render(request, 'chatgpt.html')
+
+# @csrf_exempt
+# def generate_response(request):
+#     if request.method == 'POST':
+#         user_input = request.POST.get('user_input')
+#         response = generate_gpt2_response(user_input)
+#         return JsonResponse({'response': response})
+#     else:
+#         return JsonResponse({'error': 'Invalid request method'})
+
+def generate_response(request):
+    if request.method == 'POST':
+
+        user_input = request.POST.get('user_input').lower()
+        if 'slow' in user_input:
+            response_data = {'response': "Slow performance can be due to various reasons. You can try the following:\n\n- Close unused programs and browser tabs.\n- Delete temporary files and clear cache.\n- Disable startup programs.\n- Increase RAM or upgrade to an SSD."}
+        elif 'internet connectivity' in user_input:
+            response_data = {'response': "If you're experiencing internet connectivity issues:\n\n- Restart your router and modem.\n- Check if other devices can connect to the same network.\n- Update network drivers.\n- Reset TCP/IP stack or renew IP address."}
+        elif 'overheating' in user_input:
+            response_data = {'response': "If your laptop/computer is overheating:\n\n- Ensure proper ventilation and avoid blocking air vents.\n- Clean dust from fans and heat sinks.\n- Use a laptop cooling pad.\n- Avoid using the device on soft surfaces like beds or sofas."}
+        elif 'frozen' in user_input:
+            response_data = {'response': "If your laptop/computer is frozen:\n\n- Press Ctrl + Alt + Delete to open Task Manager.\n- End unresponsive tasks or processes.\n- Restart your device if necessary.\n- Check for updates and install them."}
+        elif 'turn on' in user_input:
+            response_data = {'response': "If your laptop/computer won't turn on:\n\n- Check power connections and try a different outlet.\n- Remove the battery (if removable) and reinsert it.\n- Press and hold the power button for 10-15 seconds.\n- Test with a different power adapter or charger."}
+        elif 'error messages' in user_input:
+            response_data = {'response': "If your laptop/computer is showing strange error messages:\n\n- Note down the error message and search online for solutions.\n- Update device drivers and system software.\n- Run a malware scan using antivirus software.\n- If the issue persists, consider seeking professional help."}
+        # Add more questions and answers related to computer/laptop issues here
+        elif 'battery life' in user_input:
+            response_data = {'response': "To improve battery life:\n\n- Lower screen brightness.\n- Disable background processes and apps.\n- Use battery saver mode.\n- Avoid extreme temperatures."}
+        elif 'storage space' in user_input:
+            response_data = {'response': "If you're running out of storage space:\n\n- Delete unnecessary files and programs.\n- Move files to external storage or cloud storage.\n- Use disk cleanup tools.\n- Consider upgrading to a larger hard drive or SSD."}
+        elif 'blue screen' in user_input:
+            response_data = {'response': "If you're encountering blue screen errors:\n\n- Update device drivers.\n- Scan for malware.\n- Check for hardware issues such as faulty RAM or hard drive.\n- Restore system to a previous state using System Restore (Windows) or Time Machine (Mac)."}
+
+        else:
+            response_data = {'response': "Sorry, I couldn't understand. Please rephrase your question."}
+            # response = generate_gpt2_response(user_input)
+            # response_data = {'response': response}
+
+        return JsonResponse(response_data)
+    else:
+        return JsonResponse({'error': 'Invalid request method'})
+
+
+def generate_gpt2_response(user_input, max_length=100):
+    input_ids = tokenizer.encode(user_input, return_tensors="pt")
+    output = model.generate(input_ids, max_length=max_length, num_beams=5, no_repeat_ngram_size=2, top_k=50, top_p=0.95)
+    response = tokenizer.decode(output[0], skip_special_tokens=True)
+    return response
+
+
+
+from django.shortcuts import render
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import LabelEncoder
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.metrics import mean_squared_error
+
+# Load the dataset
+data = pd.read_csv("templates/laptops.csv", encoding='latin1')
+data.dropna(inplace=True)
+
+# Preprocess: Replace commas with periods in the 'Price (Euros)' column
+data['Price (Euros)'] = data['Price (Euros)'].str.replace(',', '.').astype(float)
+
+# Encode categorical variables
+label_encoder_manufacturer = LabelEncoder()
+label_encoder_model = LabelEncoder()
+data['Manufacturer'] = label_encoder_manufacturer.fit_transform(data['Manufacturer'])
+data['Model Name'] = label_encoder_model.fit_transform(data['Model Name'])
+
+# Feature selection
+X = data[['Manufacturer', 'Model Name']]
+y = data['Price (Euros)']
+
+# Split the dataset into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Train the Random Forest model
+rf_model = RandomForestRegressor(n_estimators=100, random_state=42)
+rf_model.fit(X_train, y_train)
+
+
+
+@never_cache
+@login_required(login_url='login')
+@csrf_exempt
+def predict_price(request):
+    if request.method == 'POST':
+        try:
+            manufacturer = request.POST.get('manufacturer')
+            model_name = request.POST.get('model_name')
+            # Encode manufacturer and model name
+            manufacturer_encoded = label_encoder_manufacturer.transform([manufacturer])[0]
+            model_name_encoded = label_encoder_model.transform([model_name])[0]
+            # Predict the price using the trained Random Forest model
+            predicted_price = rf_model.predict([[manufacturer_encoded, model_name_encoded]])[0]
+            # Find details of the laptop
+            details = data[(data['Manufacturer'] == manufacturer_encoded) & (data['Model Name'] == model_name_encoded)].iloc[0]
+            # Prepare the response
+            response_data = {
+                'predicted_price': predicted_price,
+                'details': {
+                    'Manufacturer': manufacturer,
+                    'Model Name': model_name,
+                    'Details': details.to_dict()
+                }
+            }
+            # Pass the response data to the prediction_result.html template
+            return render(request, 'prediction_result.html', response_data)
+        except ValueError as e:
+            error_message = "An error occurred while processing the request: " + str(e)
+            return render(request, 'seminar.html', {'error_message': error_message})  # Render seminar.html with error message
+        except IndexError as e:
+            error_message = "An error occurred while processing the request: " + str(e)
+            return render(request, 'seminar.html', {'error_message': error_message})  # Render seminar.html with error message
+    else:
+        return render(request, 'seminar.html')
+
+
+
+@never_cache
+@login_required(login_url='login')
+def seminar(request):
+    error_message = '{"error": "An error occurred while processing the request: single positional indexer is out-of-bounds"}'
+    return render(request, 'seminar.html', {'error_message': error_message})
+
+
+
+@never_cache
+@login_required(login_url='login')
+def prediction_result(request):
+    # You can pass any necessary context data here if needed
+    return render(request, 'prediction_result.html')
+

@@ -11,5 +11,4 @@ admin.site.register(models.Booking)
 admin.site.register(models.SecondHandProduct)
 admin.site.register(models.Payment)
 admin.site.register(models.Order)
-admin.site.register(models.Technician)
 

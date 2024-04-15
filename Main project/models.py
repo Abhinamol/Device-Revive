@@ -192,7 +192,7 @@ class Order(models.Model):
 
 
 class LeaveApplication(models.Model):
-    staff = models.ForeignKey(Technician, on_delete=models.CASCADE)
+    staff = models.ForeignKey(Deliveryboy, on_delete=models.CASCADE)
     start_date = models.DateField()
     end_date = models.DateField()
     number_of_days = models.PositiveIntegerField()
