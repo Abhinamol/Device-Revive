@@ -13,6 +13,16 @@
         <link rel="stylesheet" href="{% static "css/fontawsom-all.min.css" %}" rel="stylesheet"/>
         <link rel="stylesheet" href="{% static "css/animate.css" %}" rel="stylesheet"/>
         <link rel="stylesheet" type="text/css" href="{% static "/css/style.css"%}" rel="stylesheet"/>
+      
+    <title>Upload Laptop Image</title>
+    <!-- Include jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <!-- Include required JavaScript files -->
+    <script src="{% static 'js/jquery-scrolltofixed-min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <!-- Include required CSS files -->
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 
         <style>
             .custom-button {
@@ -134,9 +144,21 @@ th {
     min-height: 100vh;
    }
    
+   .custom-file-input {
+    height: auto;
+}
 
+.custom-file-label {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    height: 40px;
+    width: auto;
+
+}
 
 </style>
+<link rel="stylesheet" href="{% static 'fonts/GlacialIndifference-Regular.css' %}">
     
     </head>
     
@@ -238,65 +260,46 @@ th {
      
       
        <!--########################## Slider CSS ####################-->
-<div id="home" class="banner-container no-padding">
-    <div class="container">
-        <div class="row mx-auto"></div>
-        <div class="slider-det">
-            <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
-                <div class="container">
-                  
-                    <h2>Laptop Details</h2>
-                    <table style="margin-top: 10px;"> 
-                        <tr>
-                            <th>Attribute</th>
-                            <th>Value</th>
-                        </tr>
-                        <tr>
-                            <td>Manufacturer</td>
-                            <td>{{ details.Manufacturer }}</td>
-                        </tr>
-                       
+       <div id="home" class="banner-container no-padding">
+        <div class="container">
+            <div class="row mx-auto"></div>
+            <div class="slider-det">
+                <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+                    <div class="Prediction-container">
+                        <div id="error-message" class="alert alert-danger" style="display: none;"></div>
                         
-                        <tr>
-                            <td>Category</td>
-                            <td>{{ details.Details.Category }}</td>
-                        </tr>
-                        
-                        <tr>
-                            <td>Screen</td>
-                            <td>{{ details.Details.Screen }}</td>
-                        </tr>
-                        <tr>
-                            <td>CPU</td>
-                            <td>{{ details.Details.CPU }}</td>
-                        </tr>
-                        <tr>
-                            <td>RAM</td>
-                            <td>{{ details.Details.RAM }}</td>
-                        </tr>
-                       
-                        <tr>
-                            <td>GPU</td>
-                            <td>{{ details.Details.GPU }}</td>
-                        </tr>
-                      
-                        <tr>
-                            <td>Weight</td>
-                            <td>{{ details.Details.Weight }}</td>
-                        </tr>
-                       
-                        
-                    </table>
-                </div><br>
-                <button onclick="window.location.href='{% url 'seminar' %}'" class="btn btn-primary">Back to Prediction</button>
-
-
-            </div>
+                        <h2>Unveil Your Laptop's Secrets</h2>
+                        <form id="prediction-form" method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="container"> <!-- Assuming this section is within a container -->
+                                <div class="row justify-content-center">
+                                    <div class="col-md-6">
+                                        <div class="text-center">
+                                            <label for="image" class="d-block">Upload Image:</label>
+                                            <div class="custom-file">
+                                                <input type="file" class="custom-file-input" id="image" name="image" onchange="updateFileName()">
+                                                <label class="custom-file-label" for="image" id="image-label">Choose file</label>
+                                            </div>
+                            
+                                        </div>
+                                        <div class="text-center mt-3">
+                                            <button type="submit" class="btn btn-primary">Upload</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <h2>Model Name: <span id="model-name"></span></h2>
+                            <img id="uploaded-image" src="" alt="Uploaded Laptop Image">
+                           
+                        </form>
+                        <div id="model-details"></div> <!-- Placeholder for displaying model name -->
+                        <div id="predicted-details"></div> <!-- Placeholder for displaying predicted details -->
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
                     
 
     
@@ -387,6 +390,97 @@ th {
     <script src="{% static '/js/script.js' %}"></script>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Your JavaScript code -->
+    <script>
+        $(document).ready(function() {
+            // Add your JavaScript code here
+            // For example, handle form submission and display model name
+            $('#prediction-form').submit(function(event) {
+                event.preventDefault(); // Prevent default form submission
+
+                var formData = new FormData($(this)[0]);
+
+                $.ajax({
+                    url: '/upload_image/', // Specify the URL to handle image upload
+                    type: 'POST',
+                    data: formData,
+                    async: false,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    success: function(response) {
+                        // Display the model name in the model-details div
+                        $('#model-name').text(response.model_name);
+                        // Display the uploaded image
+                        $('#uploaded-image').attr('src', 'data:image/jpeg;base64,' + response.encoded_image);
+                    },
+                    error: function(xhr, status, error) {
+                        // Display error message if image upload fails
+                        $('#error-message').text('Error: ' + error).show();
+                    }
+                });
+
+                return false;
+            });
+        });
+    </script>
+    <script>
+        function updateFileName() {
+    var input = document.getElementById('image');
+    var label = document.getElementById('image-label');
+    var fileName = input.files[0].name;
+    label.innerText = fileName;
+}
+
+    </script>
+    <script>
+$(document).ready(function() {
+    // Function to predict details
+    function predictDetails(modelName) {
+        $.ajax({
+            url: '/predict_details/',
+            type: 'POST',
+            headers: {'X-CSRFToken': '{{ csrf_token }}'}, // Include CSRF token
+            data: {model_name: modelName},
+            success: function(response) {
+                if (response.success) {
+                    // Remove the model name and predicted price from the response
+                    delete response.details['Model Name'];
+                    delete response.details['Predicted Price'];
+                    
+                    var detailsHtml = '<h3>Details:</h3><ul>';
+                    for (var key in response.details) {
+                        detailsHtml += '<li>' + key + ': ' + response.details[key] + '</li>';
+                    }
+                    detailsHtml += '</ul>';
+                    $('#predicted-details').html(detailsHtml);
+                } else {
+                    if (response.error && response.error.includes("unseen labels")) {
+                        $('#predicted-details').html('<p> Details are unavailable</p>');
+                    } else {
+                        $('#predicted-details').html('<p>Error: ' + response.error + '</p>');
+                    }
+                }
+            },
+            error: function(xhr, status, error) {
+                $('#predicted-details').html('<p>Error: ' + error + '</p>');
+            }
+        });
+    }
+
+    // Handle form submission
+    $('#prediction-form').submit(function(event) {
+        event.preventDefault();
+        var modelName = $('#model-name').text();
+        if (modelName) {
+            predictDetails(modelName);
+        } else {
+            $('#predicted-details').html('<p>Model name not found</p>');
+        }
+    });
+});
+
+    </script>
 
     
 </html>

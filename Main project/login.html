@@ -174,7 +174,7 @@
                         <div id="nav-head" class="col-md-9 nav-div d-none d-md-block">
                             <ul>
                                 <li>
-                                    <a class="js-scroll-trigger" href="index">HOME</a>
+                                    <a id="homeLink" class="js-scroll-trigger" href="{% if user.is_authenticated %}userprofile{% else %}index{% endif %}">HOME</a>
                                 </li>
                                 <li>
                                     <a class="js-scroll-trigger" href="services">SERVICES

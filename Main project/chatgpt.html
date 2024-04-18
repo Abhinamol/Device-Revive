@@ -236,7 +236,9 @@
         <div class="dropdown">
             <button class="dropbtn">☰</button>
             <div class="dropdown-content">
-                <a href="{% url 'index' %}">HOME</a>
+             
+                    <a id="homeLink" class="js-scroll-trigger" href="{% if user.is_authenticated %}userprofile{% else %}index{% endif %}">HOME</a>
+                
                 <a href="{% url 'services' %}">SERVICES</a>
                 <a href="{% url 'ecommerce' %}">PRODUCTS</a>
                 <a href="{% if user.is_authenticated %}{% url 'booking' %}{% else %}#login-required{% endif %}">BOOKING</a>

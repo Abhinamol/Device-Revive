@@ -1,20 +1,33 @@
 {% load static %}
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Laptop Image</title>
+    <!-- Include jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <!-- Include required JavaScript files -->
+    <script src="{% static 'js/jquery-scrolltofixed-min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <!-- Include required CSS files -->
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <!-- Include font CSS file -->
+    <style>
+        .custom-file-input {
+    height: auto;
+}
 
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, shrink-to-fit=no, user-scalable=no">
-        <title>index
-            </title>
+.custom-file-label {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    height: 40px;
+    width: auto;
 
-        <link rel="shortcut icon" href="{% static "images/fav.jpg" %}" rel="stylesheet"/>
-        <link rel="stylesheet" href="{% static "css/bootstrap.min.css" %}" rel="stylesheet"/>
-        <link rel="stylesheet" href="{% static "css/fontawsom-all.min.css" %}" rel="stylesheet"/>
-        <link rel="stylesheet" href="{% static "css/animate.css" %}" rel="stylesheet"/>
-        <link rel="stylesheet" type="text/css" href="{% static "/css/style.css"%}" rel="stylesheet"/>
+}
 
-        <style>
             .custom-button {
                 background-color: #FF5733;
                 color: #FFFFFF;
@@ -107,175 +120,143 @@
     background-color: #25554e; 
     color: #fff; 
 }
-.container.text-center form {
-    width: 50%;
-    max-width: 100px; /* Adjust the maximum width as needed */
-    margin: 0 auto; /* Center the form horizontally */
+
+h1, h2 {
+    text-align: center;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+th {
+    background-color: #fff;
+    color: #000; /* Set the text color to white */
+
 }
 
-.container.text-center form .form-group {
-    margin-bottom: 15px;
+
+.custom-file-label {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    height: 40px;
+    width: auto;
+
+}
+.banner-container {
+    background-image: url('{% static '/images/head_bg.jpg' %}');
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    min-height: 100vh;
 }
 
-.container.text-center form label {
-    display: block;
-    font-weight: bold;
-}
 
-.container.text-center form input[type="text"] {
-    width: 50%;
-    padding: 10px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-.container.text-center form button {
-    width: 50%;
-    padding: 10px;
-    background-color: #2a5945;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    font-size: 16px;
-    cursor: pointer;
-}
-
-.container.text-center form button:hover {
-    background-color: #FF4500;
-}
-
-    .error-popup {
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        background-color: #fff;
-        border: 1px solid #ccc;
-        padding: 20px;
-        z-index: 9999;
-        display: none;
-    }
-
-    .error-content {
-        text-align: center;
-    }
-
-    #close-error-btn {
-        margin-top: 10px;
-        padding: 5px 10px;
-        background-color: #2a5945;
-        color: #fff;
-        border: none;
-        cursor: pointer;
-    }
-
-
-
-
-</style>
-    
-    </head>
-    
-    <body > 
-
-        <!--########################## Header CSS ####################-->
-        <div class="header-container">
-            <div class="header-top">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-lg-7 col-md-12 left-item">
-                            <ul>
-                                <li>
-                                    <i class="fas fa-envelope-square"></i>
-                                    devicerevive@gmail.com
-                                    </li>
-                                <li class="d-none d-sm-block">
-                                    <i class="fas fa-phone-square"></i>
-                                    7736279659
-                                    </li>
-                            </ul>
+ </style>
+<link rel="stylesheet" href="{% static 'fonts/GlacialIndifference-Regular.css' %}">
+</head>
+<body>
+            <!--########################## Header CSS ####################-->
+            <div class="header-container">
+                <div class="header-top">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-7 col-md-12 left-item">
+                                <ul>
+                                    <li>
+                                        <i class="fas fa-envelope-square"></i>
+                                        devicerevive@gmail.com
+                                        </li>
+                                    <li class="d-none d-sm-block">
+                                        <i class="fas fa-phone-square"></i>
+                                        7736279659
+                                        </li>
+                                </ul>
+                            </div>
+                            
                         </div>
-                        
+    
                     </div>
-
                 </div>
-            </div>
-           
-            <div class="login-required-message">
-                <div class="login-required-box">
-                    <p>Login Required</p>
-                    <button class="ok-button">OK</button>
+               
+                <div class="login-required-message">
+                    <div class="login-required-box">
+                        <p>Login Required</p>
+                        <button class="ok-button">OK</button>
+                    </div>
                 </div>
-            </div>
-
-            <nav id="menu-jk" class="container-fluid  no-padding">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-1 col-sm-1 logo">
-                            <img class="log" src="{% static '/images/mylogo.png' %}"  alt="">
-                            <img class="log-gray" src="" alt="">
-                            <a data-toggle="collapse" data-target="#nav-head" href="#nav-head">
-                                <i class="fas d-block d-md-none small-menu fa-bars"></i>
-                            </a>
-                        </div>
-                        <div id="nav-head" class="col-md-9 nav-div d-none d-md-block">
-                            <ul>
-                                <li>
-                                    <a class="js-scroll-trigger" href="{% url 'index' %}">HOME</a>
-                                </li>
-                                <li>
-                                    <a class="js-scroll-trigger" href="{% url 'services' %}">SERVICES</a>
-                                </li>
-                                <li>
-                                    <a class="js-scroll-trigger" href="{% if user.is_authenticated %}{% url 'booking' %}{% else %}#login-required{% endif %}">
-                                        BOOKING
-                                    </a>
-
-                                </li>
-                                
-                                <li>
-                                    <a class="js-scroll-trigger" href="{% url 'ecommerce' %}">PRODUCTS</a>
-                                </li>
-                                <li>
-                                    <a class="js-scroll-trigger" href="{% url 'about' %}">ABOUT</a>
-                                </li>
-                                
-
-                                <li>
-                                    <a class="js-scroll-trigger" href="{% url 'contact' %}">CONTACT</a>
-                                </li>
-                                <div class="dropdown">
-                                    <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="adminDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        {% if user.is_authenticated %}
-                                            <img src="{% static '/images/admin.jpg' %}" alt="Admin Icon" class="user-icon">
-                                            {{ user.username }}
-                                        {% else %}
-                                            Login/Sign Up
-                                        {% endif %}
-                                    </a>
-                                    <div class="dropdown-menu" aria-labelledby="adminDropdown">
-                                        {% if user.is_authenticated %}
-                                            <a class="dropdown-item" href="{% url 'myprofile' %}">Profile</a>
-                                            <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
-                                        {% else %}
-                                            <a class="dropdown-item" href="{% url 'login' %}">Login</a>
-                                            <a class="dropdown-item" href="{% url 'signup' %}">Sign Up</a>
-                                        {% endif %}
+    
+                <nav id="menu-jk" class="container-fluid  no-padding">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-1 col-sm-1 logo">
+                                <img class="log" src="{% static '/images/mylogo.png' %}"  alt="">
+                                <img class="log-gray" src="" alt="">
+                                <a data-toggle="collapse" data-target="#nav-head" href="#nav-head">
+                                    <i class="fas d-block d-md-none small-menu fa-bars"></i>
+                                </a>
+                            </div>
+                            <div id="nav-head" class="col-md-9 nav-div d-none d-md-block">
+                                <ul>
+                                    <li>
+                                        <a id="homeLink" class="js-scroll-trigger" href="{% if user.is_authenticated %}userprofile{% else %}index{% endif %}">HOME</a>
+                                    </li>
+                                    <li>
+                                        <a class="js-scroll-trigger" href="{% url 'services' %}">SERVICES</a>
+                                    </li>
+                                    <li>
+                                        <a class="js-scroll-trigger" href="{% if user.is_authenticated %}{% url 'booking' %}{% else %}#login-required{% endif %}">
+                                            BOOKING
+                                        </a>
+    
+                                    </li>
+                                    
+                                    <li>
+                                        <a class="js-scroll-trigger" href="{% url 'ecommerce' %}">PRODUCTS</a>
+                                    </li>
+                                    <li>
+                                        <a class="js-scroll-trigger" href="{% url 'about' %}">ABOUT</a>
+                                    </li>
+                                    
+    
+                                    <li>
+                                        <a class="js-scroll-trigger" href="{% url 'contact' %}">CONTACT</a>
+                                    </li>
+                                    <div class="dropdown">
+                                        <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="adminDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            {% if user.is_authenticated %}
+                                                <img src="{% static '/images/admin.jpg' %}" alt="Admin Icon" class="user-icon">
+                                                {{ user.username }}
+                                            {% else %}
+                                                Login/Sign Up
+                                            {% endif %}
+                                        </a>
+                                        <div class="dropdown-menu" aria-labelledby="adminDropdown">
+                                            {% if user.is_authenticated %}
+                                                <a class="dropdown-item" href="{% url 'myprofile' %}">Profile</a>
+                                                <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
+                                            {% else %}
+                                                <a class="dropdown-item" href="{% url 'login' %}">Login</a>
+                                                <a class="dropdown-item" href="{% url 'signup' %}">Sign Up</a>
+                                            {% endif %}
+                                        </div>
                                     </div>
-                                </div>
-                                
-                                
-                            </ul>
+                                    
+                                    
+                                </ul>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </nav>
-        </div>
-       
-      
-       <!--########################## Slider CSS ####################-->
-<div id="home" class="banner-container no-padding">
+                </nav>
+            </div>
+         
+    <div id="home" class="banner-container no-padding">
     <div class="container">
         <div class="row mx-auto"></div>
         <div class="slider-det">
@@ -283,174 +264,216 @@
                 <div class="Prediction-container">
                     <div id="error-message" class="alert alert-danger" style="display: none;"></div>
                     
-                        <h2>Unveil Your Laptop's Secrets</h2>
-                        <form id="prediction-form" method="post" action="{% url 'predict_price' %}">
-                            {% csrf_token %}
-                            <div class="form-group">
-                                <label for="manufacturer">Manufacturer:</label>
-                                <input type="text" class="form-control" id="manufacturer" name="manufacturer" placeholder="Manufacturer">
+                    <h2>Unveil Your Laptop's Secrets</h2>
+                    <form id="prediction-form" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="container"> <!-- Assuming this section is within a container -->
+                            <div class="row justify-content-center">
+                                <div class="col-md-6">
+                                    <div class="text-center">
+                                        <label for="image" class="d-block">Upload Image:</label>
+                                        <div class="custom-file">
+                                            <input type="file" class="custom-file-input" id="image" name="image" onchange="updateFileName()">
+                                            <label class="custom-file-label" for="image" id="image-label">Choose file</label>
+                                        </div>
+                        
+                                    </div>
+                                    <div class="text-center mt-3">
+                                        <button type="submit" class="btn btn-primary">Upload</button>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <label for="model_name">Model Name:</label>
-                                <input type="text" class="form-control" id="model_name" name="model_name" placeholder="Model Name">
-                            </div>
-                            <button type="submit" class="btn btn-primary">Reveal Details</button>
-                        </form>
-                    </div>
+                        </div>
+                        
+                        <h2>Model Name: <span id="model-name"></span></h2>
+                        <img id="uploaded-image" src="" alt="Uploaded Laptop Image">
+                       
+                    </form>
+                    <div id="model-details"></div> <!-- Placeholder for displaying model name -->
+                    <div id="predicted-details"></div> <!-- Placeholder for displaying predicted details -->
                 </div>
             </div>
         </div>
     </div>
 </div>
-                    
-
     
-
-       
  <!--########################## Footer CSS ####################-->
-        <footer>
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-3 about">
-                        <h2>About Us</h2>
-                        <p>At Device Revive, we are passionate about technology and dedicated to providing top-notch laptop and desktop services. With 20 years of experience in the industry, we have earned a reputation for excellence and reliability.
-                        </p>
+ <footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3 about">
+                <h2>About Us</h2>
+                <p>At Device Revive, we are passionate about technology and dedicated to providing top-notch laptop and desktop services. With 20 years of experience in the industry, we have earned a reputation for excellence and reliability.
+                </p>
 
-                        <div class="foot-address">
-                            <div class="icon">
-                                <i class="fas fa-map-marker-alt"></i>
-                            </div>
-                            <div class="addet">
-                                Kottayam
-                            </div>
-                        </div>
-                        <div class="foot-address">
-                            <div class="icon">
-                                <i class="far fa-envelope-open"></i>
-                            </div>
-                            <div class="addet">
-                                devicerevive.com
-                                <br>
-                                devicerevive@gmail.com
-                            </div>
-                        </div>
-                        <div class="foot-address">
-                            <div class="icon">
-                                <i class="fas fa-mobile-alt"></i>
-                            </div>
-                            <div class="addet">
-                                7736279659
-                                <br>
-                                8078046110
-                            </div>
-                        </div>
+                <div class="foot-address">
+                    <div class="icon">
+                        <i class="fas fa-map-marker-alt"></i>
                     </div>
-                    
-                    <div class="col-md-3 glink">
-                        <ul>
-                            <li>
-                                <a href="index">
-                                    <i class="fas fa-angle-double-right"></i>Home</a>
-                            </li>
-                            <li>
-                                <a href="about">
-                                    <i class="fas fa-angle-double-right"></i>About Us</a>
-                            </li>
-                            <li>
-                                <a href="services">
-                                    <i class="fas fa-angle-double-right"></i>Services</a>
-                            </li>
-                            
-                            
-                            <li>
-                                <a href="contact">
-                                    <i class="fas fa-angle-double-right"></i>Contact Us</a>
-                            </li>
-                        </ul>
+                    <div class="addet">
+                        Kottayam
                     </div>
-                    <div class="col-md-3 tags">
-                        <h2>Our Services</h2>
-                        <ul>
-                            <li>Desktop Service</li>
-                            <li>Laptop Service</li>
-                            <li>Data Recovery</li>
-                            <li>Software Installation</li>
-                            <li>Motherboard Service</li>
-                            <li>Computer Networking</li>
-                            
-                        </ul>
-                    </div> 
+                </div>
+                <div class="foot-address">
+                    <div class="icon">
+                        <i class="far fa-envelope-open"></i>
+                    </div>
+                    <div class="addet">
+                        devicerevive.com
+                        <br>
+                        devicerevive@gmail.com
+                    </div>
+                </div>
+                <div class="foot-address">
+                    <div class="icon">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <div class="addet">
+                        7736279659
+                        <br>
+                        8078046110
+                    </div>
                 </div>
             </div>
-        </footer>
-    </div>
-   
-    <div id="error-popup" class="error-popup" style="display: none;">
-        <div class="error-content">
-            <span id="error-message"></span>
-            <button id="close-error-btn">Close</button>
+            
+            <div class="col-md-3 glink">
+                <ul>
+                    <li>
+                        <a href="index">
+                            <i class="fas fa-angle-double-right"></i>Home</a>
+                    </li>
+                    <li>
+                        <a href="about">
+                            <i class="fas fa-angle-double-right"></i>About Us</a>
+                    </li>
+                    <li>
+                        <a href="services">
+                            <i class="fas fa-angle-double-right"></i>Services</a>
+                    </li>
+                    
+                    
+                    <li>
+                        <a href="contact">
+                            <i class="fas fa-angle-double-right"></i>Contact Us</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-3 tags">
+                <h2>Our Services</h2>
+                <ul>
+                    <li>Desktop Service</li>
+                    <li>Laptop Service</li>
+                    <li>Data Recovery</li>
+                    <li>Software Installation</li>
+                    <li>Motherboard Service</li>
+                    <li>Computer Networking</li>
+                    
+                </ul>
+            </div> 
         </div>
     </div>
+</footer>
+</div>
+</body>
+<script src="{% static '/js/jquery-3.2.1.min.js' %}"></script>
+<script src="{% static '/js/popper.min.js' %}"></script>
+<script src="{% static '/js/bootstrap.min.js' %}"></script>
+<script src="{% static '/plugins/scroll-fixed/jquery-scrolltofixed-min.js' %}"></script>
+<script src="{% static '/js/script.js' %}"></script>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- Your JavaScript code -->
 
-    <!-- Your JavaScript libraries -->
-    <script src="{% static '/plugins/scroll-fixed/jquery-scrolltofixed-min.js' %}"></script>
-    <script src="{% static '/js/jquery-3.6.4.min.js' %}"></script>
-    <script src="{% static '/js/popper.min.js' %}"></script>
-    <script src="{% static '/js/bootstrap.min.js' %}"></script>
-
+    <!-- Your JavaScript code -->
     <script>
         $(document).ready(function() {
-            $("#prediction-form").submit(function(event) {
-                event.preventDefault(); // Prevent form submission
-    
-                var manufacturer = $("#manufacturer").val().trim();
-                var model_name = $("#model_name").val().trim();
-    
-                if (manufacturer === "" || model_name === "") {
-                    alert("Please provide both manufacturer and model name.");
-                } else {
-                    $.post("{% url 'predict_price' %}", {
-                        manufacturer: manufacturer,
-                        model_name: model_name
-                    }).done(function(response) {
-                        // Handle successful response
-                        window.location.href = "/prediction_result/";
-                    }).fail(function(xhr) {
-                        var errorMessage = xhr.responseJSON.error;
-                        showErrorAlert(errorMessage); // Show the error as an alert
-                    });
-                }
+            // Add your JavaScript code here
+            // For example, handle form submission and display model name
+            $('#prediction-form').submit(function(event) {
+                event.preventDefault(); // Prevent default form submission
+
+                var formData = new FormData($(this)[0]);
+
+                $.ajax({
+                    url: '/upload_image/', // Specify the URL to handle image upload
+                    type: 'POST',
+                    data: formData,
+                    async: false,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    success: function(response) {
+                        // Display the model name in the model-details div
+                        $('#model-name').text(response.model_name);
+                        // Display the uploaded image
+                        $('#uploaded-image').attr('src', 'data:image/jpeg;base64,' + response.encoded_image);
+                    },
+                    error: function(xhr, status, error) {
+                        // Display error message if image upload fails
+                        $('#error-message').text('Error: ' + error).show();
+                    }
+                });
+
+                return false;
             });
-    
-            function showErrorAlert(message) {
-                alert(message); // Show the error message as an alert
-                window.location.href = "/seminar/"; // Redirect to the seminar page
-            }
         });
     </script>
     <script>
-        // JavaScript to handle error popup
-        document.addEventListener('DOMContentLoaded', function () {
-            // Get the error message from the hidden input field
-            var errorMessage = document.getElementById('error-message').innerText;
-            
-            if (errorMessage) {
-                // Display the error popup
-                var errorPopup = document.getElementById('error-popup');
-                errorPopup.style.display = 'block';
+        function updateFileName() {
+    var input = document.getElementById('image');
+    var label = document.getElementById('image-label');
+    var fileName = input.files[0].name;
+    label.innerText = fileName;
+}
 
-                // Set the error message text
-                var errorMessageSpan = document.getElementById('error-message');
-                errorMessageSpan.innerText = errorMessage;
-            }
-
-            // Close the error popup when the close button is clicked
-            var closeErrorBtn = document.getElementById('close-error-btn');
-            closeErrorBtn.addEventListener('click', function () {
-                errorPopup.style.display = 'none';
-            });
-        });
     </script>
-    
+    <script>
+$(document).ready(function() {
+    // Function to predict details
+    function predictDetails(modelName) {
+        $.ajax({
+            url: '/predict_details/',
+            type: 'POST',
+            headers: {'X-CSRFToken': '{{ csrf_token }}'}, // Include CSRF token
+            data: {model_name: modelName},
+            success: function(response) {
+                if (response.success) {
+                    // Remove the model name and predicted price from the response
+                    delete response.details['Model Name'];
+                    delete response.details['Predicted Price'];
+                    
+                    var detailsHtml = '<h3>Details:</h3><ul>';
+                    for (var key in response.details) {
+                        detailsHtml += '<li>' + key + ': ' + response.details[key] + '</li>';
+                    }
+                    detailsHtml += '</ul>';
+                    $('#predicted-details').html(detailsHtml);
+                } else {
+                    if (response.error && response.error.includes("unseen labels")) {
+                        $('#predicted-details').html('<p> Details are unavailable</p>');
+                    } else {
+                        $('#predicted-details').html('<p>Error: ' + response.error + '</p>');
+                    }
+                }
+            },
+            error: function(xhr, status, error) {
+                $('#predicted-details').html('<p>Error: ' + error + '</p>');
+            }
+        });
+    }
+
+    // Handle form submission
+    $('#prediction-form').submit(function(event) {
+        event.preventDefault();
+        var modelName = $('#model-name').text();
+        if (modelName) {
+            predictDetails(modelName);
+        } else {
+            $('#predicted-details').html('<p>Model name not found</p>');
+        }
+    });
+});
+
+    </script>
 </body>
 </html>
