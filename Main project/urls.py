@@ -116,9 +116,10 @@ urlpatterns = [
     path('chatgpt/', views.chatgpt, name='chatgpt'),
     path('generate-response/', views.generate_response, name='generate_response'),
     path('seminar/', views.seminar, name='seminar'),
-    path('predict_price/', views.predict_price, name='predict_price'),
-    path('prediction_result/', views.prediction_result, name='prediction_result'),
-    
+    # path('predict_price/', views.predict_price, name='predict_price'),
+    # path('prediction_result/', views.prediction_result, name='prediction_result'),
+    path('upload_image/', views.upload_image, name='upload_image'),
+    path('predict_details/', views.predict_details, name='predict_details'), 
 
 
     

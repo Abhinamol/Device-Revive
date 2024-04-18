@@ -1452,9 +1452,8 @@ def save_new_address(request):
 @login_required(login_url='login')
 def delivery_details(request):
     # Exclude orders with delivery status 'Delivered'
-    orders = Order.objects.exclude(delivery_status='DEL').select_related('cart', 'user', 'product')
+    orders = Order.objects.exclude(delivery_status='Delivered').select_related('cart', 'user', 'product')
     return render(request, 'delivery_details.html', {'orders': orders})
-
 
 
 @never_cache
@@ -1715,14 +1714,14 @@ model = GPT2LMHeadModel.from_pretrained(model_name)
 def chatgpt(request):
     return render(request, 'chatgpt.html')
 
-# @csrf_exempt
-# def generate_response(request):
-#     if request.method == 'POST':
-#         user_input = request.POST.get('user_input')
-#         response = generate_gpt2_response(user_input)
-#         return JsonResponse({'response': response})
-#     else:
-#         return JsonResponse({'error': 'Invalid request method'})
+@csrf_exempt
+def generate_response(request):
+    if request.method == 'POST':
+        user_input = request.POST.get('user_input')
+        response = generate_gpt2_response(user_input)
+        return JsonResponse({'response': response})
+    else:
+        return JsonResponse({'error': 'Invalid request method'})
 
 def generate_response(request):
     if request.method == 'POST':
@@ -1747,7 +1746,8 @@ def generate_response(request):
             response_data = {'response': "If you're running out of storage space:\n\n- Delete unnecessary files and programs.\n- Move files to external storage or cloud storage.\n- Use disk cleanup tools.\n- Consider upgrading to a larger hard drive or SSD."}
         elif 'blue screen' in user_input:
             response_data = {'response': "If you're encountering blue screen errors:\n\n- Update device drivers.\n- Scan for malware.\n- Check for hardware issues such as faulty RAM or hard drive.\n- Restore system to a previous state using System Restore (Windows) or Time Machine (Mac)."}
-
+        elif 'hi' in user_input:
+            response_data={'response':"hello"}
         else:
             response_data = {'response': "Sorry, I couldn't understand. Please rephrase your question."}
             # response = generate_gpt2_response(user_input)
@@ -1766,75 +1766,75 @@ def generate_gpt2_response(user_input, max_length=100):
 
 
 
-from django.shortcuts import render
-from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
-import pandas as pd
-from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import LabelEncoder
-from sklearn.ensemble import RandomForestRegressor
-from sklearn.metrics import mean_squared_error
+# from django.shortcuts import render
+# from django.http import JsonResponse
+# from django.views.decorators.csrf import csrf_exempt
+# import pandas as pd
+# from sklearn.model_selection import train_test_split
+# from sklearn.preprocessing import LabelEncoder
+# from sklearn.ensemble import RandomForestRegressor
+# from sklearn.metrics import mean_squared_error
 
-# Load the dataset
-data = pd.read_csv("templates/laptops.csv", encoding='latin1')
-data.dropna(inplace=True)
+# # Load the dataset
+# data = pd.read_csv("templates/laptops.csv", encoding='latin1')
+# data.dropna(inplace=True)
 
-# Preprocess: Replace commas with periods in the 'Price (Euros)' column
-data['Price (Euros)'] = data['Price (Euros)'].str.replace(',', '.').astype(float)
+# # Preprocess: Replace commas with periods in the 'Price (Euros)' column
+# data['Price (Euros)'] = data['Price (Euros)'].str.replace(',', '.').astype(float)
 
-# Encode categorical variables
-label_encoder_manufacturer = LabelEncoder()
-label_encoder_model = LabelEncoder()
-data['Manufacturer'] = label_encoder_manufacturer.fit_transform(data['Manufacturer'])
-data['Model Name'] = label_encoder_model.fit_transform(data['Model Name'])
+# # Encode categorical variables
+# label_encoder_manufacturer = LabelEncoder()
+# label_encoder_model = LabelEncoder()
+# data['Manufacturer'] = label_encoder_manufacturer.fit_transform(data['Manufacturer'])
+# data['Model Name'] = label_encoder_model.fit_transform(data['Model Name'])
 
-# Feature selection
-X = data[['Manufacturer', 'Model Name']]
-y = data['Price (Euros)']
+# # Feature selection
+# X = data[['Manufacturer', 'Model Name']]
+# y = data['Price (Euros)']
 
-# Split the dataset into training and testing sets
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+# # Split the dataset into training and testing sets
+# X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-# Train the Random Forest model
-rf_model = RandomForestRegressor(n_estimators=100, random_state=42)
-rf_model.fit(X_train, y_train)
+# # Train the Random Forest model
+# rf_model = RandomForestRegressor(n_estimators=100, random_state=42)
+# rf_model.fit(X_train, y_train)
 
 
 
-@never_cache
-@login_required(login_url='login')
-@csrf_exempt
-def predict_price(request):
-    if request.method == 'POST':
-        try:
-            manufacturer = request.POST.get('manufacturer')
-            model_name = request.POST.get('model_name')
-            # Encode manufacturer and model name
-            manufacturer_encoded = label_encoder_manufacturer.transform([manufacturer])[0]
-            model_name_encoded = label_encoder_model.transform([model_name])[0]
-            # Predict the price using the trained Random Forest model
-            predicted_price = rf_model.predict([[manufacturer_encoded, model_name_encoded]])[0]
-            # Find details of the laptop
-            details = data[(data['Manufacturer'] == manufacturer_encoded) & (data['Model Name'] == model_name_encoded)].iloc[0]
-            # Prepare the response
-            response_data = {
-                'predicted_price': predicted_price,
-                'details': {
-                    'Manufacturer': manufacturer,
-                    'Model Name': model_name,
-                    'Details': details.to_dict()
-                }
-            }
-            # Pass the response data to the prediction_result.html template
-            return render(request, 'prediction_result.html', response_data)
-        except ValueError as e:
-            error_message = "An error occurred while processing the request: " + str(e)
-            return render(request, 'seminar.html', {'error_message': error_message})  # Render seminar.html with error message
-        except IndexError as e:
-            error_message = "An error occurred while processing the request: " + str(e)
-            return render(request, 'seminar.html', {'error_message': error_message})  # Render seminar.html with error message
-    else:
-        return render(request, 'seminar.html')
+# @never_cache
+# @login_required(login_url='login')
+# @csrf_exempt
+# def predict_price(request):
+#     if request.method == 'POST':
+#         try:
+#             manufacturer = request.POST.get('manufacturer')
+#             model_name = request.POST.get('model_name')
+#             # Encode manufacturer and model name
+#             manufacturer_encoded = label_encoder_manufacturer.transform([manufacturer])[0]
+#             model_name_encoded = label_encoder_model.transform([model_name])[0]
+#             # Predict the price using the trained Random Forest model
+#             predicted_price = rf_model.predict([[manufacturer_encoded, model_name_encoded]])[0]
+#             # Find details of the laptop
+#             details = data[(data['Manufacturer'] == manufacturer_encoded) & (data['Model Name'] == model_name_encoded)].iloc[0]
+#             # Prepare the response
+#             response_data = {
+#                 'predicted_price': predicted_price,
+#                 'details': {
+#                     'Manufacturer': manufacturer,
+#                     'Model Name': model_name,
+#                     'Details': details.to_dict()
+#                 }
+#             }
+#             # Pass the response data to the prediction_result.html template
+#             return render(request, 'prediction_result.html', response_data)
+#         except ValueError as e:
+#             error_message = "An error occurred while processing the request: " + str(e)
+#             return render(request, 'seminar.html', {'error_message': error_message})  # Render seminar.html with error message
+#         except IndexError as e:
+#             error_message = "An error occurred while processing the request: " + str(e)
+#             return render(request, 'seminar.html', {'error_message': error_message})  # Render seminar.html with error message
+#     else:
+#         return render(request, 'seminar.html')
 
 
 
@@ -1852,3 +1852,116 @@ def prediction_result(request):
     # You can pass any necessary context data here if needed
     return render(request, 'prediction_result.html')
 
+
+
+
+import base64
+from django.shortcuts import render
+from django.http import JsonResponse
+import google.generativeai as genai
+
+# Configure GenAI
+genai.configure(api_key="AIzaSyA7DEI4vUWqZiOiv7V3WbWLIokWlA7jT0I")
+
+# Set up the model and safety settings
+generation_config = {
+    "temperature": 0.4,
+    "top_p": 1,
+    "top_k": 32,
+    "max_output_tokens": 4096,
+}
+
+safety_settings = [
+    {
+        "category": "HARM_CATEGORY_HARASSMENT",
+        "threshold": "BLOCK_MEDIUM_AND_ABOVE"
+    },
+    {
+        "category": "HARM_CATEGORY_HATE_SPEECH",
+        "threshold": "BLOCK_MEDIUM_AND_ABOVE"
+    },
+    {
+        "category": "HARM_CATEGORY_SEXUALLY_EXPLICIT",
+        "threshold": "BLOCK_MEDIUM_AND_ABOVE"
+    },
+    {
+        "category": "HARM_CATEGORY_DANGEROUS_CONTENT",
+        "threshold": "BLOCK_MEDIUM_AND_ABOVE"
+    },
+]
+
+model = genai.GenerativeModel(model_name="gemini-1.0-pro-vision-latest",
+                              generation_config=generation_config,
+                              safety_settings=safety_settings)
+
+from django.shortcuts import render
+from django.http import JsonResponse
+import pandas as pd
+from sklearn.preprocessing import LabelEncoder
+from sklearn.ensemble import RandomForestRegressor
+import numpy as np
+
+# Load the dataset
+data = pd.read_csv("static/laptops.csv", encoding='latin1')
+
+# Remove rows with NaN values in the target variable and rename the column
+data.dropna(subset=['Price (Euros)'], inplace=True)
+data['Price (Euros)'] = data['Price (Euros)'].str.replace(',', '.').astype(float)
+data.rename(columns={'Price (Euros)': 'Price'}, inplace=True)
+
+# Encode categorical variables
+label_encoder_model = LabelEncoder()
+data['Model Name'] = label_encoder_model.fit_transform(data['Model Name'])
+
+# Fill NaN values in the DataFrame with an empty string
+data.fillna('', inplace=True)
+
+# Features and target variable
+X = data[['Model Name']]
+y = data['Price']
+
+# Train the model
+rf_model = RandomForestRegressor(n_estimators=100, random_state=42)
+rf_model.fit(X, y)
+
+def predict_details(request):
+    if request.method == 'POST' and 'model_name' in request.POST:
+        model_name = request.POST['model_name']
+        try:
+            # Transform model name using the same label encoder
+            model_name_encoded = label_encoder_model.transform([model_name])[0]
+            # Predict laptop details
+            predicted_price = rf_model.predict([[model_name_encoded]])[0]
+            details = data[data['Model Name'] == model_name_encoded].iloc[0].to_dict()
+            details['Predicted Price'] = predicted_price
+            return JsonResponse({'success': True, 'details': details})
+        except Exception as e:
+            return JsonResponse({'success': False, 'error': str(e)})
+    else:
+        return JsonResponse({'success': False, 'error': 'Model name not provided'})
+
+
+
+def upload_image(request):
+    if request.method == 'POST' and request.FILES['image']:
+        image_file = request.FILES['image']
+        image_bytes = image_file.read()
+
+        # Generate prompt parts
+        image_part = {
+            "mime_type": "image/jpeg",
+            "data": image_bytes
+        }
+        prompt_parts = [image_part, "what is model name this laptop?\n"]
+
+        # Generate response from model
+        response = model.generate_content(prompt_parts)
+        model_name = response.text.strip()
+
+        # Encode the image bytes to base64
+        encoded_image = base64.b64encode(image_bytes).decode('utf-8')
+
+        # Pass the model name and encoded image in the JSON response
+        return JsonResponse({'model_name': model_name, 'encoded_image': encoded_image})
+    else:
+        return JsonResponse({'error': 'Image file not found or invalid'})
